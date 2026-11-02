@@ -1,0 +1,78 @@
+/* FastKiwi: brand colours and the extra blocks used on the home page (on top of style.css) */
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f5f9ef;
+  --border: #e2ead8;
+  --brand: #4c9a1e;
+  --brand-2: #0d9488;
+  --brand-text: #2f6f10;
+  --accent-text: #0f766e;
+  --code-bg: #eef4e6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c130a;
+    --bg-soft: #111a0e;
+    --surface: #152011;
+    --text: #e8f1dc;
+    --muted: #a6b799;
+    --border: #26361f;
+    --brand: #8cc63f;
+    --brand-2: #2dd4bf;
+    --brand-text: #a9dc6a;
+    --accent-text: #5eead4;
+    --code-bg: #1a2715;
+  }
+}
+.btn-primary { background: linear-gradient(135deg, #4c9a1e, #0d9488); box-shadow: 0 6px 18px rgb(76 154 30 / .28); }
+@media (prefers-color-scheme: dark) { .btn-primary { color: #0c130a; background: linear-gradient(135deg, #8cc63f, #2dd4bf); } }
+.btn-sm { min-height: 40px; padding: .45rem 1rem; font-size: .95rem; border-radius: 10px; }
+.muted { color: var(--muted); }
+
+/* hero: row of app icons under the buttons */
+.app-strip { display: flex; flex-wrap: wrap; gap: .6rem; list-style: none; padding: 0; margin: 1.4rem 0 0; }
+.app-strip a { display: inline-flex; align-items: center; gap: .55rem; padding: .35rem .9rem .35rem .45rem; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text); text-decoration: none; font-weight: 700; font-size: .95rem; box-shadow: var(--shadow); }
+[dir="rtl"] .app-strip a { padding: .35rem .45rem .35rem .9rem; }
+.app-strip a:hover { border-color: var(--brand); }
+.app-strip img { width: 32px; height: 32px; border-radius: 8px; }
+
+/* app cards */
+.grid.apps { grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); }
+.card.app { display: flex; flex-direction: column; gap: .2rem; padding: 1.5rem; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+.card.app:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--brand) 45%, var(--border)); }
+@media (prefers-reduced-motion: reduce) { .card.app, .card.app:hover { transition: none; transform: none; } }
+.app-icon { width: 64px; height: 64px; border-radius: 16px; margin-bottom: .6rem; box-shadow: 0 4px 14px rgb(0 0 0 / .12); }
+.card.app h3 { flex-wrap: wrap; gap: .2rem .5rem; margin-bottom: .3rem; }
+.card.app h3 .sub { color: var(--muted); font-weight: 400; font-size: .95rem; }
+.card.app > p { flex: 1; }
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 1rem; }
+.tags span { font-size: .8rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; background: color-mix(in srgb, var(--brand) 13%, transparent); color: var(--brand-text); }
+.app-cta { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* per-app showcase rows */
+.app-label { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--accent-text); margin-bottom: .6rem; }
+.app-label img { width: 28px; height: 28px; border-radius: 7px; }
+@media (min-width: 920px) { .split.rev > figure { order: -1; } }
+.split .cta { margin-bottom: 0; }
+
+/* closing call to action */
+.final img { width: 64px; height: 64px; margin-bottom: .5rem; }
+
+/* review fixes: contrast, phone layout, polish */
+:root { --text: #14200f; --muted: #4a5a42; }
+@media (prefers-color-scheme: dark) { :root { --text: #e8f1dc; --muted: #a6b799; } }
+.btn-primary { background: linear-gradient(135deg, #3a7d14, #0f766e); }
+@media (prefers-color-scheme: dark) { .btn-primary { background: linear-gradient(135deg, #8cc63f, #2dd4bf); } }
+.btn-ghost { border-color: color-mix(in srgb, var(--brand) 25%, var(--border)); }
+.skip { background: var(--text); color: var(--bg); }
+.hero { background:
+  radial-gradient(700px 380px at 85% 0%, color-mix(in srgb, var(--brand) 14%, transparent), transparent 70%),
+  radial-gradient(600px 360px at 10% 70%, color-mix(in srgb, var(--brand-2) 12%, transparent), transparent 70%); }
+.hero h1 { text-wrap: balance; }
+.app-icon { box-shadow: 0 0 0 1px var(--border), 0 6px 18px rgb(76 154 30 / .18); }
+.faq details[open] { border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); }
+.faq summary::after { color: var(--brand-text); }
+@media (max-width: 520px) {
+  .app-strip { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .app-strip a, [dir="rtl"] .app-strip a { flex-direction: column; justify-content: center; padding: .5rem; font-size: .85rem; text-align: center; }
+}
