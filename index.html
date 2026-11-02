@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FastKiwi | برامج ويندوز مجانية تعمل بلا إنترنت وتدعم العربية</title>
+<meta name="description" content="FastKiwi: برامج ويندوز مجانية ومفتوحة المصدر، تعمل بلا إنترنت، وتبقي بياناتك على جهازك، وتدعم العربية دعماً حقيقياً. InstaFind للبحث السريع، وذكرني للمهام والتذكيرات، والذكاء المحلي.">
+<link rel="canonical" href="https://fastkiwi.app/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#3f7d1f">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/plex-arabic-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/plex-arabic-arabic-700.woff2" as="font" type="font/woff2" crossorigin>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FastKiwi">
+<meta property="og:title" content="FastKiwi: برامج ويندوز مجانية بالعربي">
+<meta property="og:description" content="برامج مجانية ومفتوحة المصدر، تعمل بلا إنترنت وتبقي بياناتك على جهازك.">
+<meta property="og:url" content="https://fastkiwi.app/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"FastKiwi","alternateName":"فاست كيوي","url":"https://fastkiwi.app/","logo":"https://fastkiwi.app/img/logo.svg","sameAs":["https://github.com/sarmadiq9090-coder"]}
+</script>
+<style>
+@font-face{font-family:"Plex Arabic";font-weight:400;font-display:swap;src:url(fonts/plex-arabic-arabic-400.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+200C-200E,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:"Plex Arabic";font-weight:700;font-display:swap;src:url(fonts/plex-arabic-arabic-700.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+200C-200E,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:"Plex Arabic";font-weight:400;font-display:swap;src:url(fonts/plex-arabic-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+2122}
+@font-face{font-family:"Plex Arabic";font-weight:700;font-display:swap;src:url(fonts/plex-arabic-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+2122}
+:root{color-scheme:light dark;--bg:#f8fbf2;--surface:#fff;--text:#17200f;--muted:#4f5b45;--border:#e1ead3;--brand:#3f7d1f;--brand-soft:#eef6dd;--leaf:#3f7d3a;--shadow:0 1px 2px rgb(23 32 15/.06),0 10px 30px rgb(23 32 15/.07);--font:"Plex Arabic","Segoe UI",Tahoma,system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0f140b;--surface:#18200f;--text:#eaf2dc;--muted:#a9b79a;--border:#2a3520;--brand:#9fd356;--brand-soft:#1f2a14;--leaf:#7cc46d;--shadow:0 1px 2px rgb(0 0 0/.3),0 10px 30px rgb(0 0 0/.3)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 1.0625rem/1.75 var(--font)}
+a{color:var(--brand)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header{padding:20px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.25rem;text-decoration:none;color:var(--text)}
+.brand img{width:40px;height:40px}
+.brand span.en{color:var(--muted);font-weight:400;font-size:1rem}
+.hero{padding:48px 0 40px;text-align:center}
+.hero img{width:96px;height:96px}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.3;margin:16px 0 12px}
+.hero p{color:var(--muted);max-width:640px;margin:0 auto;font-size:1.15rem}
+.hero p.en{direction:ltr;font-size:1rem;margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;padding:24px 0 48px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.card .icon{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:32px;background:var(--brand-soft)}
+.card .icon img{width:56px;height:56px;border-radius:14px}
+.card h2{margin:14px 0 4px;font-size:1.3rem}
+.card .sub{color:var(--muted);font-size:.95rem;direction:ltr;text-align:right}
+.card p{margin:10px 0 18px;flex:1}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;padding:9px 18px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.95rem}
+.btn.primary{background:var(--brand);color:#fff}
+@media (prefers-color-scheme:dark){.btn.primary{color:#0f140b}}
+.btn.ghost{border:1px solid var(--border);color:var(--text)}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:8px 0 48px}
+.principles div{background:var(--brand-soft);border-radius:14px;padding:18px}
+.principles b{display:block;margin-bottom:4px}
+h3{font-size:1.4rem;text-align:center;margin:8px 0 20px}
+footer{border-top:1px solid var(--border);padding:24px 0;color:var(--muted);font-size:.9rem;text-align:center}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/"><img src="img/logo.svg" alt="">FastKiwi <span class="en">فاست كيوي</span></a></div></header>
+<main class="wrap">
+  <section class="hero">
+    <img src="img/logo.svg" alt="شعار FastKiwi">
+    <h1>برامج ويندوز خفيفة وسريعة تفهم العربية</h1>
+    <p>برامج مجانية ومفتوحة المصدر تعمل بلا إنترنت، وبلا حساب، وتبقي بياناتك على جهازك.</p>
+    <p class="en">Fast, light, free Windows apps that work offline and treat Arabic as a first-class language.</p>
+  </section>
+
+  <section class="grid" aria-label="البرامج">
+    <article class="card">
+      <div class="icon"><img src="img/instafind.svg" alt=""></div>
+      <h2>InstaFind — بحث سريع</h2>
+      <div class="sub">Instant file search for Windows</div>
+      <p>ابحث عن أي ملف أثناء الكتابة، بالعربية أو الإنكليزية، وحتى داخل ملفات PDF وWord. «احمد» تجد «أحمد».</p>
+      <div class="btns"><a class="btn primary" href="/instafind/">صفحة البرنامج</a><a class="btn ghost" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest">تنزيل</a></div>
+    </article>
+    <article class="card">
+      <div class="icon"><img src="img/remember-me.png" alt=""></div>
+      <h2>Remember Me — ذكرني</h2>
+      <div class="sub">Tasks, notes &amp; reminders</div>
+      <p>مهام وملاحظات وتذكيرات تبقى ظاهرة حتى تتعامل معها، مع تكرار مرن و12 لغة وثيمات ونسخ احتياطي موثوق.</p>
+      <div class="btns"><a class="btn primary" href="/remember-me/">صفحة البرنامج</a><a class="btn ghost" href="https://github.com/sarmadiq9090-coder/Remember-Me/releases/latest">تنزيل</a></div>
+    </article>
+    <article class="card">
+      <div class="icon" aria-hidden="true">🤖</div>
+      <h2>Local AI Chat — الذكاء المحلي</h2>
+      <div class="sub">Offline AI chat with Ollama</div>
+      <p>محادثة وبرمجة مع نماذج الذكاء الاصطناعي المحلية بلا إنترنت، مع مساعدين يجيبون من ملفاتك فقط.</p>
+      <div class="btns"><a class="btn primary" href="/local-ai-chat/">صفحة البرنامج</a><a class="btn ghost" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases">تنزيل</a></div>
+    </article>
+  </section>
+
+  <h3>مبادئنا</h3>
+  <section class="principles">
+    <div><b>بلا إنترنت أولاً</b>لا حساب ولا خوادم، وبياناتك تبقى على جهازك.</div>
+    <div><b>العربية أولاً</b>اتجاه صحيح من اليمين لليسار، وبحث يفهم الهمزات والتاء المربوطة.</div>
+    <div><b>مجاني ومفتوح المصدر</b>كل الكود منشور على GitHub ويمكن لأي أحد مراجعته.</div>
+    <div><b>تحديث آمن</b>البرامج تتحدث وحدها، وكل إصدار يُختبر آلياً قبل نشره.</div>
+  </section>
+</main>
+<footer><div class="wrap">© 2026 FastKiwi · <a href="https://github.com/sarmadiq9090-coder">GitHub</a></div></footer>
+</body>
+</html>
