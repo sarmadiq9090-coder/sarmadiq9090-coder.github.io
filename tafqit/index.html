@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تفقيط مفتوح — كتابة المبالغ بالحروف العربية</title>
+  <meta name="description" content="أداة حرة مفتوحة المصدر تكتب الأرقام والمبالغ بالحروف العربية للشيكات والفواتير والسندات. تعمل في المتصفح ودون اتصال.">
+  <meta name="theme-color" content="#0e6a5a" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#191f27" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://fastkiwi.app/tafqit/">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="assets/single.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./">
+        <img src="icon.svg" alt="" width="38" height="38">
+        <span>
+          <span class="brand-name">تفقيط مفتوح</span>
+          <span class="brand-sub">الأرقام بالحروف العربية</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="التنقل الرئيسي">
+        <ul>
+          <li><a href="./" aria-current="page">تفقيط رقم</a></li>
+          <li><a href="bulk.html">تفقيط متعدد</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container" tabindex="-1">
+    <div class="page-intro">
+      <h1>اكتب المبلغ رقماً، واحصل عليه كتابةً</h1>
+      <p>نص عربي سليم جاهز للشيكات والفواتير وسندات القبض والصرف. التحويل يجري داخل متصفحك، فلا يغادر أي رقم جهازك.</p>
+    </div>
+
+    <form class="card" id="options" autocomplete="off" onsubmit="return false">
+      <div class="form-grid">
+        <div class="field">
+          <label for="number">الرقم</label>
+          <input type="text" id="number" class="input-number" inputmode="decimal" dir="ltr"
+                 placeholder="0.00" spellcheck="false" aria-describedby="number-hint">
+          <p class="hint" id="number-hint">تُقبل الأرقام العربية (١٢٣) والإنجليزية (123)، وفواصل الآلاف، والفاصلة العشرية «.» أو «٫».</p>
+        </div>
+
+        <div class="field" data-option>
+          <label for="unit">الوحدة</label>
+          <select id="unit" name="unit">
+            <option value="SAR">ريال سعودي (SAR)</option>
+          </select>
+          <p class="hint">العملات والأوزان والأطوال وغيرها، أو بدون وحدة.</p>
+        </div>
+
+        <fieldset class="field" data-option>
+          <legend>صيغة المئة</legend>
+          <div class="segmented">
+            <label><input type="radio" name="hundreds" value="مائة" checked><span>مائة <small>ثلاثمائة</small></span></label>
+            <label><input type="radio" name="hundreds" value="مئة"><span>مئة <small>ثلاثمئة</small></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field" data-option>
+          <legend>عند زيادة الخانات العشرية</legend>
+          <div class="segmented">
+            <label><input type="radio" name="decimals" value="round" checked><span>تقريب <small>10.125 ← 10.13</small></span></label>
+            <label><input type="radio" name="decimals" value="error"><span>إظهار خطأ <small>للتدقيق</small></span></label>
+          </div>
+        </fieldset>
+
+        <div class="field" data-option>
+          <label for="prefix">نص قبل المبلغ</label>
+          <input type="text" id="prefix" placeholder="مثل: فقط">
+        </div>
+        <div class="field" data-option>
+          <label for="suffix">نص بعد المبلغ</label>
+          <input type="text" id="suffix" placeholder="مثل: لا غير">
+        </div>
+
+        <div class="chips span-all">
+          <span class="hint">صيغ جاهزة:</span>
+          <button type="button" class="btn btn-chip" data-preset="only">فقط … لا غير</button>
+          <button type="button" class="btn btn-chip" data-preset="none">بلا إضافات</button>
+        </div>
+      </div>
+    </form>
+
+    <section class="card cheque" aria-labelledby="result-title">
+      <div class="cheque-head">
+        <h2 id="result-title">المبلغ كتابةً</h2>
+        <span class="cheque-amount" id="cleaned-box" hidden>الرقم المعتمد: <span dir="ltr" id="cleaned"></span></span>
+      </div>
+      <div class="cheque-body">
+        <p id="result" class="result-text is-empty" aria-live="polite" aria-atomic="true">جارٍ تحميل الوحدات…</p>
+        <div class="cheque-foot">
+          <span class="status" id="copy-status" role="status" aria-live="polite"></span>
+          <button type="button" class="btn btn-primary" id="copy" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+            <span data-label>نسخ النص</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <ul class="features">
+      <li>
+        <h3><span class="dot" aria-hidden="true"></span>مطابق لقواعد العدد</h3>
+        <p>تذكير العدد وتأنيثه، والتمييز مفرداً أو جمعاً، والمثنى والإضافة، والعطف بالواو.</p>
+      </li>
+      <li>
+        <h3><span class="dot" aria-hidden="true"></span>أكثر من مئة وحدة</h3>
+        <p>عملات عربية وعالمية مع أجزائها كالهللة والفلس والقرش، إضافة إلى وحدات القياس.</p>
+      </li>
+      <li>
+        <h3><span class="dot" aria-hidden="true"></span>يعمل دون إنترنت</h3>
+        <p>بعد أول زيارة تُحفظ الأداة في المتصفح، ويمكن تثبيتها على الهاتف أو الحاسوب.</p>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>مشروع مفتوح المصدر برخصة MIT · الشيفرة على <a href="https://github.com/sarmadiq9090-coder/tafket" rel="noopener">GitHub</a> · من برامج <a href="https://fastkiwi.app/ar/">FastKiwi</a></p>
+      <p class="offline-badge" data-offline-badge>يعمل دون اتصال بعد أول زيارة</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -22,6 +22,7 @@
 
 /* app cards */
 .grid.apps { grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); }
+@media (min-width: 700px) { .grid.apps { grid-template-columns: repeat(2, 1fr); } }
 .card.app { display: flex; flex-direction: column; gap: .2rem; padding: 1.5rem; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
 .card.app:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--brand) 45%, var(--border)); }
 @media (prefers-reduced-motion: reduce) { .card.app, .card.app:hover { transition: none; transform: none; } }
@@ -55,7 +56,7 @@
 .faq details[open] { border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); }
 .faq summary::after { color: var(--brand-text); }
 @media (max-width: 520px) {
-  .app-strip { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .app-strip { display: grid; grid-template-columns: repeat(2, 1fr); }
   .app-strip a, [dir="rtl"] .app-strip a { flex-direction: column; justify-content: center; padding: .5rem; font-size: .85rem; text-align: center; }
 }
 

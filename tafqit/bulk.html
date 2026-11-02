@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تفقيط متعدد — تفقيط مفتوح</title>
+  <meta name="description" content="حوّل قائمة كاملة من الأرقام إلى نصوص عربية دفعة واحدة، مع استيراد CSV وتصدير النتائج.">
+  <meta name="theme-color" content="#0e6a5a" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#191f27" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://fastkiwi.app/tafqit/bulk.html">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="assets/bulk.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./">
+        <img src="icon.svg" alt="" width="38" height="38">
+        <span>
+          <span class="brand-name">تفقيط مفتوح</span>
+          <span class="brand-sub">الأرقام بالحروف العربية</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="التنقل الرئيسي">
+        <ul>
+          <li><a href="./">تفقيط رقم</a></li>
+          <li><a href="bulk.html" aria-current="page">تفقيط متعدد</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container" tabindex="-1">
+    <div class="page-intro">
+      <h1>قائمة أرقام كاملة في خطوة واحدة</h1>
+      <p>الصق عموداً من الأرقام، رقماً في كل سطر، أو استورد ملف CSV. يظهر كل رقم مع نصه في جدول جاهز للنسخ أو التصدير، ولا حدّ لعدد الأسطر.</p>
+    </div>
+
+    <form class="card" id="options" autocomplete="off" onsubmit="return false">
+      <div class="stack">
+        <div class="field">
+          <label for="numbers">الأرقام (رقم في كل سطر)</label>
+          <textarea id="numbers" dir="ltr" spellcheck="false" inputmode="decimal"
+                    placeholder="1250.75&#10;٣٠٠٠&#10;15,000" aria-describedby="numbers-meta"></textarea>
+          <div class="textarea-meta">
+            <p class="hint" id="numbers-meta"><span id="line-count">0</span> سطر غير فارغ · تُتجاهل الأسطر الفارغة</p>
+            <div class="actions">
+              <span class="btn btn-secondary file-btn">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L7 8m5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+                <span aria-hidden="true">استيراد CSV</span>
+                <input type="file" id="csv-file" accept=".csv,.txt,text/csv,text/plain" aria-label="استيراد ملف CSV أو نصي">
+              </span>
+              <button type="button" class="btn btn-secondary" id="sample">مثال</button>
+              <button type="button" class="btn btn-secondary" id="clear">مسح</button>
+            </div>
+          </div>
+          <p class="hint" id="import-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field" data-option>
+            <label for="unit">الوحدة</label>
+            <select id="unit" name="unit">
+              <option value="SAR">ريال سعودي (SAR)</option>
+            </select>
+          </div>
+
+          <fieldset class="field" data-option>
+            <legend>صيغة المئة</legend>
+            <div class="segmented">
+              <label><input type="radio" name="hundreds" value="مائة" checked><span>مائة <small>ثلاثمائة</small></span></label>
+              <label><input type="radio" name="hundreds" value="مئة"><span>مئة <small>ثلاثمئة</small></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field" data-option>
+            <legend>عند زيادة الخانات العشرية</legend>
+            <div class="segmented">
+              <label><input type="radio" name="decimals" value="round" checked><span>تقريب <small>10.125 ← 10.13</small></span></label>
+              <label><input type="radio" name="decimals" value="error"><span>إظهار خطأ <small>للتدقيق</small></span></label>
+            </div>
+          </fieldset>
+
+          <div class="field" data-option>
+            <label for="prefix">نص قبل المبلغ</label>
+            <input type="text" id="prefix" placeholder="مثل: فقط">
+          </div>
+          <div class="field" data-option>
+            <label for="suffix">نص بعد المبلغ</label>
+            <input type="text" id="suffix" placeholder="مثل: لا غير">
+          </div>
+
+          <div class="chips span-all">
+            <span class="hint">صيغ جاهزة:</span>
+            <button type="button" class="btn btn-chip" data-preset="only">فقط … لا غير</button>
+            <button type="button" class="btn btn-chip" data-preset="none">بلا إضافات</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <section class="card" aria-labelledby="results-title">
+      <div class="summary">
+        <div>
+          <h2 id="results-title" class="visually-hidden">النتائج</h2>
+          <ul class="counts" id="counts" aria-live="polite">
+            <li>المجموع: <b id="count-all">0</b></li>
+            <li class="c-ok">سليم: <b id="count-ok">0</b></li>
+            <li class="c-err">أخطاء: <b id="count-err">0</b></li>
+          </ul>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="copy-all" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+            <span data-label>نسخ كل النتائج</span>
+          </button>
+          <button type="button" class="btn btn-secondary" id="export" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+            تصدير CSV
+          </button>
+        </div>
+      </div>
+      <p class="status" id="copy-status" role="status" aria-live="polite"></p>
+
+      <div class="table-wrap" tabindex="0" aria-label="جدول النتائج">
+        <table class="results" id="results">
+          <thead>
+            <tr>
+              <th scope="col" class="c-idx">#</th>
+              <th scope="col" class="c-in">المدخل</th>
+              <th scope="col" class="c-clean">بعد التنقية</th>
+              <th scope="col" class="c-text">النص</th>
+            </tr>
+          </thead>
+          <tbody id="rows">
+            <tr class="empty-row"><td colspan="4">جارٍ تحميل الوحدات…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="render-note" id="render-note" aria-hidden="true"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>مشروع مفتوح المصدر برخصة MIT · الشيفرة على <a href="https://github.com/sarmadiq9090-coder/tafket" rel="noopener">GitHub</a> · من برامج <a href="https://fastkiwi.app/ar/">FastKiwi</a></p>
+      <p class="offline-badge" data-offline-badge>يعمل دون اتصال بعد أول زيارة</p>
+    </div>
+  </footer>
+</body>
+</html>
