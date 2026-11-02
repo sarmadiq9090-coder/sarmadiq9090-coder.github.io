@@ -40,7 +40,7 @@
       <p>نص عربي سليم جاهز للشيكات والفواتير وسندات القبض والصرف. التحويل يجري داخل متصفحك، فلا يغادر أي رقم جهازك.</p>
     </div>
 
-    <form class="card" id="options" autocomplete="off" onsubmit="return false">
+    <form class="card" id="entry" autocomplete="off" onsubmit="return false">
       <div class="form-grid">
         <div class="field">
           <label for="number">الرقم</label>
@@ -57,6 +57,29 @@
           <p class="hint">العملات والأوزان والأطوال وغيرها، أو بدون وحدة.</p>
         </div>
 
+      </div>
+    </form>
+
+    <section class="card cheque" aria-labelledby="result-title">
+      <div class="cheque-head">
+        <h2 id="result-title">المبلغ كتابةً</h2>
+        <span class="cheque-amount" id="cleaned-box" hidden>الرقم المعتمد: <span dir="ltr" id="cleaned"></span></span>
+      </div>
+      <div class="cheque-body">
+        <p id="result" class="result-text is-empty" aria-live="polite" aria-atomic="true">جارٍ تحميل الوحدات…</p>
+        <div class="cheque-foot">
+          <span class="status" id="copy-status" role="status" aria-live="polite"></span>
+          <button type="button" class="btn btn-primary" id="copy" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+            <span data-label>نسخ النص</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <form class="card" id="options" autocomplete="off" onsubmit="return false" aria-labelledby="options-title">
+      <h2 class="card-title" id="options-title">خيارات الصياغة</h2>
+      <div class="form-grid form-grid-2">
         <fieldset class="field" data-option>
           <legend>صيغة المئة</legend>
           <div class="segmented">
@@ -89,23 +112,6 @@
         </div>
       </div>
     </form>
-
-    <section class="card cheque" aria-labelledby="result-title">
-      <div class="cheque-head">
-        <h2 id="result-title">المبلغ كتابةً</h2>
-        <span class="cheque-amount" id="cleaned-box" hidden>الرقم المعتمد: <span dir="ltr" id="cleaned"></span></span>
-      </div>
-      <div class="cheque-body">
-        <p id="result" class="result-text is-empty" aria-live="polite" aria-atomic="true">جارٍ تحميل الوحدات…</p>
-        <div class="cheque-foot">
-          <span class="status" id="copy-status" role="status" aria-live="polite"></span>
-          <button type="button" class="btn btn-primary" id="copy" disabled>
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
-            <span data-label>نسخ النص</span>
-          </button>
-        </div>
-      </div>
-    </section>
 
     <ul class="features">
       <li>

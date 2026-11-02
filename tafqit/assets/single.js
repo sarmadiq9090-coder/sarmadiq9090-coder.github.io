@@ -54,7 +54,7 @@ function render() {
   }
 }
 
-const options = bindOptions($("options"), engine, initial, render);
+const options = bindOptions($("main"), engine, initial, render);
 numberEl.addEventListener("input", render);
 
 copyBtn.addEventListener("click", async () => {

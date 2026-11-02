@@ -54,6 +54,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
@@ -184,7 +186,7 @@ main { flex: 1; padding-block: 28px 40px; }
   box-shadow: var(--shadow);
   padding: 20px;
 }
-.card + .card, .card + .stack, .stack + .card { margin-top: 18px; }
+.card + .card, .card + .stack, .stack + .card, .card + .features { margin-top: 18px; }
 @media (max-width: 480px) { .card { padding: 16px; } }
 
 .stack > * + * { margin-top: 18px; }
@@ -197,6 +199,7 @@ main { flex: 1; padding-block: 28px 40px; }
   gap: 16px 18px;
 }
 .form-grid .span-all { grid-column: 1 / -1; }
+.form-grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
 
 .field { display: grid; gap: 6px; align-content: start; min-width: 0; }
 .field > label, .field-label, fieldset > legend {
@@ -248,7 +251,7 @@ textarea {
 
 /* Segmented choice (radio) */
 .segmented {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   gap: 4px;
   padding: 4px;
@@ -256,7 +259,7 @@ textarea {
   border-radius: var(--radius-sm);
   background: var(--surface-2);
 }
-.segmented label { position: relative; cursor: pointer; }
+.segmented label { position: relative; flex: 1 1 0; min-width: max-content; cursor: pointer; }
 .segmented input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
 .segmented span {
   display: block;
@@ -394,7 +397,10 @@ textarea {
   gap: 10px;
   margin-top: 14px;
 }
-.status { font-size: 0.9rem; color: var(--muted); min-height: 1.4em; }
+.status { margin: 0; font-size: 0.9rem; color: var(--muted); min-height: 1.4em; }
+.summary + .status:empty { display: none; }
+.summary + .status { margin: -4px 0 12px; }
+.card-title { margin: 0 0 14px; font-size: 1.05rem; }
 .status.is-ok { color: var(--ok); }
 
 /* ---------- Feature list ---------- */
@@ -585,7 +591,9 @@ textarea {
 .params { width: 100%; border-collapse: collapse; font-size: 0.93rem; margin: 6px 0 12px; }
 .params th, .params td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: start; vertical-align: top; }
 .params th { color: var(--muted); font-size: 0.85rem; background: var(--surface-2); }
-.params td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.params td:first-child { width: 4.5rem; font-variant-numeric: tabular-nums; }
+.params td:nth-child(2) { white-space: nowrap; font-weight: 600; }
+.prose code.formula { padding: 14px 16px; border-radius: var(--radius-sm); background: var(--accent-soft); font-size: 1rem; }
 
 .download {
   display: flex;
@@ -633,4 +641,9 @@ textarea {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
+}
+
+@media (max-width: 640px) {
+  .params td:first-child, .params th:first-child { width: 2.2rem; padding-inline: 6px; }
+  .params td:nth-child(2) { white-space: normal; width: 6.5rem; }
 }
