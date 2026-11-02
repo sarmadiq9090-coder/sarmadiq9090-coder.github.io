@@ -12,6 +12,9 @@
 <meta name="theme-color" content="#3f8a1c">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
 <link rel="preload" href="../fonts/plex-arabic-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/plex-arabic-arabic-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../style.css">
@@ -22,18 +25,23 @@
 <meta property="og:title" content="FastKiwi: برامج ويندوز خفيفة وسريعة تفهم العربية">
 <meta property="og:description" content="برامج مجانية ومفتوحة المصدر تعمل بلا إنترنت وتبقي بياناتك على جهازك.">
 <meta property="og:url" content="https://fastkiwi.app/ar/">
-<meta property="og:image" content="https://fastkiwi.app/img/instafind-ar.png">
+<meta property="og:image" content="https://fastkiwi.app/img/social-ar.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FastKiwi">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"FastKiwi","alternateName":"فاست كيوي","url":"https://fastkiwi.app/","logo":"https://fastkiwi.app/img/logo.svg","sameAs":["https://github.com/sarmadiq9090-coder"]}
+{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://fastkiwi.app/#org", "name": "FastKiwi", "alternateName": "فاست كيوي", "url": "https://fastkiwi.app/", "logo": "https://fastkiwi.app/img/icon-512.png", "sameAs": ["https://github.com/sarmadiq9090-coder"]}, {"@type": "WebSite", "@id": "https://fastkiwi.app/#site", "name": "FastKiwi", "url": "https://fastkiwi.app/", "inLanguage": ["en", "ar"], "publisher": {"@id": "https://fastkiwi.app/#org"}, "description": "برامج ويندوز مجانية ومفتوحة المصدر، سريعة وخفيفة وتعمل بلا إنترنت وتدعم العربية."}, {"@type": "ItemList", "name": "FastKiwi apps", "itemListElement": [{"@type": "ListItem", "position": 1, "item": {"@type": "SoftwareApplication", "name": "InstaFind (بحث سريع)", "operatingSystem": "Windows 10, Windows 11", "applicationCategory": "UtilitiesApplication", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest", "url": "https://fastkiwi.app/arabic-file-search/", "publisher": {"@id": "https://fastkiwi.app/#org"}}}, {"@type": "ListItem", "position": 2, "item": {"@type": "SoftwareApplication", "name": "ذكرني (Remember Me)", "operatingSystem": "Windows 10, Windows 11", "applicationCategory": "ProductivityApplication", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/sarmadiq9090-coder/Remember-Me/releases/latest", "url": "https://fastkiwi.app/Remember-Me/", "publisher": {"@id": "https://fastkiwi.app/#org"}}}, {"@type": "ListItem", "position": 3, "item": {"@type": "SoftwareApplication", "name": "Lemon", "operatingSystem": "Windows 10, Windows 11", "applicationCategory": "DeveloperApplication", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest", "url": "https://github.com/sarmadiq9090-coder/local-ai-chat", "publisher": {"@id": "https://fastkiwi.app/#org"}}}]}]}
 </script>
+<meta name="twitter:image" content="https://fastkiwi.app/img/social-ar.png">
 </head>
 <body>
 <a class="skip" href="#main">تخطَّ إلى المحتوى</a>
 
+<div class="news" data-news hidden><div class="wrap"><span><b>جديد:</b> صدر InstaFind <span data-news-ver></span>.</span> <a data-news-link href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest">ما الجديد →</a></div></div>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="./" aria-label="FastKiwi، الصفحة الرئيسية">
+    <a class="brand" href="./">
       <img src="../img/logo.svg" width="34" height="34" alt="">
       <span>FastKiwi <small>فاست كيوي</small></span>
     </a>
@@ -66,14 +74,21 @@
       </div>
       <ul class="app-strip" aria-label="البرامج">
         <li><a href="#instafind"><img src="../img/instafind.svg" width="40" height="40" alt="">InstaFind</a></li>
-        <li><a href="#remember-me"><img src="../img/remember-me.png" width="40" height="40" alt="">ذكرني</a></li>
-        <li><a href="#lemon"><img src="../img/lemon.png" width="40" height="40" alt="">Lemon</a></li>
+        <li><a href="#remember-me"><img src="../img/remember-me.webp" width="40" height="40" alt="">ذكرني</a></li>
+        <li><a href="#lemon"><img src="../img/lemon.webp" width="40" height="40" alt="">Lemon</a></li>
       </ul>
     </div>
     <figure class="shot">
-      <picture><source srcset="../img/instafind-ar.png" media="(prefers-reduced-motion: reduce)"><img src="../img/instafind-demo-ar.gif" width="800" height="501" alt="InstaFind على ويندوز: «احمد» تجد «أحمد»، والكتابة بلوحة المفاتيح الخطأ تجد «التقرير»"></picture>
+      <video class="demo" autoplay muted loop playsinline preload="auto" width="800" height="501" poster="../img/instafind-ar.png" aria-label="InstaFind على ويندوز: «احمد» تجد «أحمد»، والكتابة بلوحة المفاتيح الخطأ تجد «التقرير»"><source src="../img/instafind-demo-ar.mp4" type="video/mp4"><img src="../img/instafind-ar.png" width="800" height="501" alt="InstaFind على ويندوز: «احمد» تجد «أحمد»، والكتابة بلوحة المفاتيح الخطأ تجد «التقرير»"></video>
       <figcaption>InstaFind على ويندوز: نتائج أثناء الكتابة، و«احمد» تجد «أحمد».</figcaption>
     </figure>
+  </div>
+</section>
+
+<section class="trust" aria-label="FastKiwi بالأرقام">
+  <div class="wrap">
+    <ul class="badges"><li>مجاني دائماً</li><li>بلا إعلانات</li><li>بلا حساب</li><li>يعمل بلا إنترنت</li><li>مفتوح المصدر (MIT)</li><li>عربي وإنكليزي</li></ul>
+    <ul class="stats"><li data-stat="stars" hidden><b data-n>–</b> نجمة على GitHub</li><li data-stat="downloads" hidden><b data-n>–</b> تنزيل</li><li data-stat="releases" hidden><b data-n>–</b> إصدار</li><li><b>ويندوز 10 و11</b> x64 · ARM64 · x86</li></ul>
   </div>
 </section>
 
@@ -93,9 +108,10 @@
           <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe">تنزيل</a>
           <a class="btn btn-ghost btn-sm" href="../arabic-file-search/">صفحة البرنامج</a>
         </div>
+        <p class="rel" data-repo="arabic-file-search"></p>
       </article>
       <article class="card app">
-        <img class="app-icon" src="../img/remember-me.png" width="64" height="64" alt="">
+        <img class="app-icon" src="../img/remember-me.webp" width="64" height="64" alt="">
         <h3>ذكرني <span class="sub">Remember Me</span></h3>
         <p>مهام وملاحظات وتذكيرات تبقى ظاهرة على الشاشة حتى تتعامل معها، مع تكرار مرن ونسخ احتياطي موثوق.</p>
         <div class="tags"><span>12 لغة</span><span>6 ثيمات</span><span>تذكير لا يُنسى</span></div>
@@ -103,9 +119,10 @@
           <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/Remember-Me/releases/latest">تنزيل</a>
           <a class="btn btn-ghost btn-sm" href="../Remember-Me/ar/">صفحة البرنامج</a>
         </div>
+        <p class="rel" data-repo="Remember-Me"></p>
       </article>
       <article class="card app">
-        <img class="app-icon" src="../img/lemon.png" width="64" height="64" alt="">
+        <img class="app-icon" src="../img/lemon.webp" width="64" height="64" alt="">
         <h3>Lemon <span class="sub">الذكاء المحلي</span></h3>
         <p>محادثة وبرمجة مع نماذج الذكاء الاصطناعي على جهازك عبر Ollama، بلا إنترنت، مع مساعدين يجيبون من ملفاتك فقط.</p>
         <div class="tags"><span>Ollama</span><span>بلا إنترنت</span><span>معاينة الكود</span></div>
@@ -113,6 +130,7 @@
           <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest">تنزيل</a>
           <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat">صفحة البرنامج</a>
         </div>
+        <p class="rel" data-repo="local-ai-chat"></p>
       </article>
     </div>
   </div>
@@ -129,12 +147,13 @@
         <li><strong>البحث داخل المستندات:</strong> PDF وWord وExcel والصور والملفات المضغوطة، مع مقتطف من النص.</li>
         <li><strong>أسرع من بحث ويندوز:</strong> ثانية واحدة مقابل 96 ثانية في اختبارنا على ويندوز.</li>
       </ul>
+      <p class="hotkey">اضغط <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> من أي مكان لفتح نافذة البحث.</p>
       <div class="cta">
         <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           تنزيل InstaFind
         </a>
-        <a class="btn btn-ghost" href="../arabic-file-search/">اعرف أكثر</a>
+        <a class="btn btn-ghost" href="../arabic-file-search/">المزيد عن InstaFind</a>
       </div>
     </div>
     <figure class="shot">
@@ -144,10 +163,23 @@
   </div>
 </section>
 
+<section id="compare" aria-labelledby="compare-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="compare-title">InstaFind مقارنة بغيره</h2>
+      <p>نظرة سريعة ومنصفة على أشهر طرق البحث عن الملفات في ويندوز.</p>
+    </div>
+    <div class="table-wrap" tabindex="0" role="region" aria-labelledby="compare-title">
+      <table class="cmp"><thead><tr><th scope="col"></th><th scope="col">InstaFind</th><th scope="col">Everything</th><th scope="col">Listary</th><th scope="col">بحث ويندوز</th></tr></thead><tbody><tr><th scope="row">السعر</th><td>مجاني</td><td>مجاني</td><td>مجاني، والنسخة Pro مدفوعة</td><td>مدمج</td></tr><tr><th scope="row">مفتوح المصدر</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم · MIT</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td></tr><tr><th scope="row">يفهم اختلاف الإملاء العربي (أحمد = احمد)</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td></tr><tr><th scope="row">البحث داخل ملفات PDF وWord</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-part"><span aria-hidden="true">≈</span> بطيء، بأمر خاص</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td></tr><tr><th scope="row">نتائج فورية في كل الأقراص</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-no"><span aria-hidden="true">✕</span> لا · المجلدات المفهرسة فقط</td></tr></tbody></table>
+    </div>
+    <p class="note">حسب المواقع الرسمية لكل برنامج، نوفمبر 2026. هل هناك معلومة قديمة؟ <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new">أخبرنا</a>.</p>
+  </div>
+</section>
+
 <section id="remember-me" aria-labelledby="remember-title">
   <div class="wrap split rev">
     <div>
-      <p class="app-label"><img src="../img/remember-me.png" width="28" height="28" alt="">ذكرني · Remember Me</p>
+      <p class="app-label"><img src="../img/remember-me.webp" width="28" height="28" alt="">ذكرني · Remember Me</p>
       <h2 id="remember-title">تذكيرات لا تختفي حتى تنجزها</h2>
       <p class="muted">تطبيق مهام وملاحظات وتذكيرات لويندوز، تبقى نافذة التذكير ظاهرة حتى تتعامل معها، فلا يضيع موعد بين الإشعارات.</p>
       <ul class="checks">
@@ -160,7 +192,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           تنزيل ذكرني
         </a>
-        <a class="btn btn-ghost" href="../Remember-Me/ar/">اعرف أكثر</a>
+        <a class="btn btn-ghost" href="../Remember-Me/ar/">المزيد عن ذكرني</a>
       </div>
     </div>
     <figure class="shot">
@@ -173,7 +205,7 @@
 <section id="lemon" class="soft" aria-labelledby="lemon-title">
   <div class="wrap split">
     <div>
-      <p class="app-label"><img src="../img/lemon.png" width="28" height="28" alt="">Lemon · الذكاء المحلي</p>
+      <p class="app-label"><img src="../img/lemon.webp" width="28" height="28" alt="">Lemon · الذكاء المحلي</p>
       <h2 id="lemon-title">ذكاء اصطناعي على جهازك، بلا إنترنت</h2>
       <p class="muted">واجهة مثل ChatGPT لنماذج Ollama المحلية. محادثاتك وملفاتك لا تغادر جهازك أبداً.</p>
       <ul class="checks">
@@ -186,7 +218,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           تنزيل Lemon
         </a>
-        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder/local-ai-chat">اعرف أكثر</a>
+        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder/local-ai-chat">المزيد عن Lemon</a>
       </div>
     </div>
     <figure class="shot">
@@ -231,6 +263,21 @@
   </div>
 </section>
 
+<section id="community" aria-labelledby="community-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="community-title">شارك معنا</h2>
+      <p>FastKiwi يُبنى بشكل مفتوح، وكل بلاغ أو فكرة تجعل البرامج أفضل.</p>
+    </div>
+    <div class="grid com-grid">
+      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.9 1.9M16 2l-1.9 1.9M9 7.1V6a3 3 0 0 1 6 0v1.1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6zM12 20v-9M6 13H2M22 13h-4M3 21l3.5-2.5M21 21l-3.5-2.5M3 5l3.5 2.5M21 5l-3.5 2.5"/></svg></span><h3>بلّغ عن مشكلة</h3><p>شيء لا يعمل؟ افتح Issue بالعربية أو الإنكليزية.</p><span class="go">افتح بلاغاً →</span></a>
+      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></span><h3>اقترح ميزة</h3><p>أخبرنا بما يسهّل يومك.</p><span class="go">أرسل فكرتك →</span></a>
+      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span><h3>أضف نجمة</h3><p>النجمة على GitHub تساعد الآخرين على اكتشاف البرامج.</p><span class="go">نجمة لـ InstaFind →</span></a>
+      <a class="card com" href="https://github.com/sarmadiq9090-coder"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span><h3>ساهم</h3><p>الكود والترجمة والاختبار، كلها مرحب بها.</p><span class="go">شاهد الكود →</span></a>
+    </div>
+  </div>
+</section>
+
 <section id="faq" class="soft" aria-labelledby="faq-title">
   <div class="wrap faq">
     <h2 id="faq-title">أسئلة شائعة</h2>
@@ -263,9 +310,12 @@
       <a href="../Remember-Me/ar/">ذكرني</a>
       <a href="https://github.com/sarmadiq9090-coder/local-ai-chat">Lemon</a>
       <a href="https://github.com/sarmadiq9090-coder">GitHub</a>
+      <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new">بلّغ عن مشكلة</a>
+      <a href="privacy/">الخصوصية</a>
       <a href="../" hreflang="en" lang="en">English</a>
     </nav>
   </div>
 </footer>
+<script src="../site.js" defer></script>
 </body>
 </html>

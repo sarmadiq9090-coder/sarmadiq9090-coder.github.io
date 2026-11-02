@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://fastkiwi.app/</loc></url>
-  <url><loc>https://fastkiwi.app/ar/</loc></url>
-  <url><loc>https://fastkiwi.app/arabic-file-search/</loc></url>
-  <url><loc>https://fastkiwi.app/arabic-file-search/en/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://fastkiwi.app/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/"/></url>
+  <url><loc>https://fastkiwi.app/ar/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/"/></url>
+  <url><loc>https://fastkiwi.app/arabic-file-search/en/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/arabic-file-search/en/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/arabic-file-search/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/arabic-file-search/en/"/></url>
+  <url><loc>https://fastkiwi.app/arabic-file-search/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/arabic-file-search/en/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/arabic-file-search/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/arabic-file-search/en/"/></url>
+  <url><loc>https://fastkiwi.app/Remember-Me/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/Remember-Me/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/Remember-Me/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/Remember-Me/"/></url>
+  <url><loc>https://fastkiwi.app/Remember-Me/ar/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/Remember-Me/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/Remember-Me/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/Remember-Me/"/></url>
+  <url><loc>https://fastkiwi.app/privacy/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/privacy/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/privacy/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/privacy/"/></url>
+  <url><loc>https://fastkiwi.app/ar/privacy/</loc><lastmod>2026-11-02</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://fastkiwi.app/privacy/"/><xhtml:link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/privacy/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/privacy/"/></url>
 </urlset>
