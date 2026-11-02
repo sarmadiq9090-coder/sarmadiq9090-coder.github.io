@@ -6,7 +6,7 @@
 - [InstaFind](https://fastkiwi.app/arabic-file-search/en/): instant file search for Windows that understands Arabic spelling, searches inside PDF/Word/Excel, opens with Ctrl+Alt+F. Arabic page: https://fastkiwi.app/arabic-file-search/
 - [Remember Me](https://fastkiwi.app/Remember-Me/): tasks, notes and reminders that stay on screen until handled; 12 languages.
 - [Lemon](https://github.com/sarmadiq9090-coder/local-ai-chat): offline ChatGPT-style app for local Ollama models.
-- [Tafqit](https://fastkiwi.app/tafqit/): free web tool that writes numbers and amounts in correct Arabic words (tafqit) for cheques and invoices; 100+ currencies and units, bulk/CSV mode, works offline.
+- [Tafqit](https://fastkiwi.app/tafqit/): free web tool that writes numbers and amounts in correct Arabic words (tafqit) for cheques and invoices; 100+ currencies and units, bulk/CSV mode, works offline, plus a free offline Excel function (=TAFQIT).
 
 ## Links
 - Source code: https://github.com/sarmadiq9090-coder

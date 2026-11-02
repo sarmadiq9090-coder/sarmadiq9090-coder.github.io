@@ -1,14 +1,22 @@
 // Service worker: makes the whole site work offline.
 // VERSION and ASSETS are filled in by scripts/build-site.mjs; a new VERSION replaces the old cache.
-const VERSION = "1bd17ad9b4984f35";
+const VERSION = "e8a2d38d9f9b0860";
 const ASSETS = [
   "./",
+  "Tafqit.bas",
   "assets/app.js",
   "assets/bulk.js",
   "assets/single.js",
   "assets/style.css",
   "bulk.html",
+  "excel.html",
+  "fonts/OFL.txt",
+  "fonts/plex-arabic-arabic-400.woff2",
+  "fonts/plex-arabic-arabic-700.woff2",
+  "fonts/plex-arabic-latin-400.woff2",
+  "fonts/plex-arabic-latin-700.woff2",
   "icon.svg",
+  "img/fastkiwi.svg",
   "index.html",
   "lib/catalog.js",
   "lib/csv.js",
