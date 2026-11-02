@@ -9,23 +9,7 @@
   --accent-text: #0f766e;
   --code-bg: #eef4e6;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0c130a;
-    --bg-soft: #111a0e;
-    --surface: #152011;
-    --text: #e8f1dc;
-    --muted: #a6b799;
-    --border: #26361f;
-    --brand: #8cc63f;
-    --brand-2: #2dd4bf;
-    --brand-text: #a9dc6a;
-    --accent-text: #5eead4;
-    --code-bg: #1a2715;
-  }
-}
 .btn-primary { background: linear-gradient(135deg, #4c9a1e, #0d9488); box-shadow: 0 6px 18px rgb(76 154 30 / .28); }
-@media (prefers-color-scheme: dark) { .btn-primary { color: #0c130a; background: linear-gradient(135deg, #8cc63f, #2dd4bf); } }
 .btn-sm { min-height: 40px; padding: .45rem 1rem; font-size: .95rem; border-radius: 10px; }
 .muted { color: var(--muted); }
 
@@ -60,9 +44,7 @@
 
 /* review fixes: contrast, phone layout, polish */
 :root { --text: #14200f; --muted: #4a5a42; }
-@media (prefers-color-scheme: dark) { :root { --text: #e8f1dc; --muted: #a6b799; } }
 .btn-primary { background: linear-gradient(135deg, #3a7d14, #0f766e); }
-@media (prefers-color-scheme: dark) { .btn-primary { background: linear-gradient(135deg, #8cc63f, #2dd4bf); } }
 .btn-ghost { border-color: color-mix(in srgb, var(--brand) 25%, var(--border)); }
 .skip { background: var(--text); color: var(--bg); }
 .hero { background:
@@ -75,4 +57,14 @@
 @media (max-width: 520px) {
   .app-strip { display: grid; grid-template-columns: repeat(3, 1fr); }
   .app-strip a, [dir="rtl"] .app-strip a { flex-direction: column; justify-content: center; padding: .5rem; font-size: .85rem; text-align: center; }
+}
+
+/* always the light look (the user prefers it over the dark-mode greens) */
+:root { color-scheme: light; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#ffffff; --bg-soft:#f5f9ef; --surface:#ffffff; --text:#14200f; --muted:#4a5a42; --border:#e2ead8;
+    --brand:#4c9a1e; --brand-2:#0d9488; --brand-text:#2f6f10; --accent-text:#0f766e; --code-bg:#eef4e6;
+    --shadow: 0 1px 2px rgb(15 23 42 / .06), 0 8px 24px rgb(15 23 42 / .06); }
+  .btn-primary { color:#fff; background: linear-gradient(135deg, #3a7d14, #0f766e); }
+  .badge.soon { color: inherit; }
 }
