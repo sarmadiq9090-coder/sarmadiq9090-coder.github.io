@@ -1,0 +1,15 @@
+{
+  "name": "تفقيط مفتوح",
+  "short_name": "تفقيط",
+  "description": "كتابة الأرقام والمبالغ بالحروف العربية للشيكات والفواتير، دون اتصال.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f3ec",
+  "theme_color": "#0e6a5a",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

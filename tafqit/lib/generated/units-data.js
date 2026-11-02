@@ -1,0 +1,2028 @@
+const data = {
+    "schemaVersion": 1,
+    "units": [
+        {
+            "id": "none",
+            "category": "none",
+            "label": "بدون وحدة",
+            "aliases": [
+                "بدون",
+                "none"
+            ],
+            "forms": null
+        },
+        {
+            "id": "SAR",
+            "category": "currency-arab",
+            "label": "ريال سعودي",
+            "code": "SAR",
+            "aliases": [
+                "ريال سعودي"
+            ],
+            "forms": {
+                "singular": "ريال سعودي",
+                "dual": "ريالان سعوديان",
+                "plural": "ريالات سعودية",
+                "accusative": "ريالاً سعودياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "هللة",
+                "dual": "هللتان",
+                "plural": "هللات",
+                "accusative": "هللة",
+                "gender": "f",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "AED",
+            "category": "currency-arab",
+            "label": "درهم إماراتي",
+            "code": "AED",
+            "aliases": [
+                "درهم إماراتي",
+                "د.إ"
+            ],
+            "forms": {
+                "singular": "درهم إماراتي",
+                "dual": "درهمان إماراتيان",
+                "plural": "دراهم إماراتية",
+                "accusative": "درهماً إماراتياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "فلس",
+                "dual": "فلسان",
+                "plural": "فلوس",
+                "accusative": "فلساً",
+                "gender": "m",
+                "ratio": 100
+            },
+            "note": "R8: plural of فلس"
+        },
+        {
+            "id": "QAR",
+            "category": "currency-arab",
+            "label": "ريال قطري",
+            "code": "QAR",
+            "aliases": [
+                "ريال قطري",
+                "ر.ق"
+            ],
+            "forms": {
+                "singular": "ريال قطري",
+                "dual": "ريالان قطريان",
+                "plural": "ريالات قطرية",
+                "accusative": "ريالاً قطرياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "درهم",
+                "dual": "درهمان",
+                "plural": "دراهم",
+                "accusative": "درهماً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "KWD",
+            "category": "currency-arab",
+            "label": "دينار كويتي",
+            "code": "KWD",
+            "aliases": [
+                "دينار كويتي"
+            ],
+            "forms": {
+                "singular": "دينار كويتي",
+                "dual": "ديناران كويتيان",
+                "plural": "دنانير كويتية",
+                "accusative": "ديناراً كويتياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "فلس",
+                "dual": "فلسان",
+                "plural": "فلوس",
+                "accusative": "فلساً",
+                "gender": "m",
+                "ratio": 1000
+            },
+            "note": "R8: plural of فلس"
+        },
+        {
+            "id": "BHD",
+            "category": "currency-arab",
+            "label": "دينار بحريني",
+            "code": "BHD",
+            "aliases": [
+                "دينار بحريني"
+            ],
+            "forms": {
+                "singular": "دينار بحريني",
+                "dual": "ديناران بحرينيان",
+                "plural": "دنانير بحرينية",
+                "accusative": "ديناراً بحرينياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "فلس",
+                "dual": "فلسان",
+                "plural": "فلوس",
+                "accusative": "فلساً",
+                "gender": "m",
+                "ratio": 1000
+            },
+            "note": "R8: plural of فلس"
+        },
+        {
+            "id": "OMR",
+            "category": "currency-arab",
+            "label": "ريال عماني",
+            "code": "OMR",
+            "aliases": [
+                "ريال عماني"
+            ],
+            "forms": {
+                "singular": "ريال عماني",
+                "dual": "ريالان عمانيان",
+                "plural": "ريالات عمانية",
+                "accusative": "ريالاً عمانياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "بيسة",
+                "dual": "بيستان",
+                "plural": "بيسات",
+                "accusative": "بيسة",
+                "gender": "f",
+                "ratio": 1000
+            }
+        },
+        {
+            "id": "IQD",
+            "category": "currency-arab",
+            "label": "دينار عراقي",
+            "code": "IQD",
+            "aliases": [
+                "دينار عراقي"
+            ],
+            "forms": {
+                "singular": "دينار عراقي",
+                "dual": "ديناران عراقيان",
+                "plural": "دنانير عراقية",
+                "accusative": "ديناراً عراقياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "فلس",
+                "dual": "فلسان",
+                "plural": "فلوس",
+                "accusative": "فلساً",
+                "gender": "m",
+                "ratio": 1000
+            },
+            "note": "R8: plural of فلس"
+        },
+        {
+            "id": "JOD",
+            "category": "currency-arab",
+            "label": "دينار أردني",
+            "code": "JOD",
+            "aliases": [
+                "دينار أردني"
+            ],
+            "forms": {
+                "singular": "دينار أردني",
+                "dual": "ديناران أردنيان",
+                "plural": "دنانير أردنية",
+                "accusative": "ديناراً أردنياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "فلس",
+                "dual": "فلسان",
+                "plural": "فلوس",
+                "accusative": "فلساً",
+                "gender": "m",
+                "ratio": 1000
+            },
+            "note": "R8: plural of فلس. R13: subunit choice (فلس/1000 vs قرش/100)"
+        },
+        {
+            "id": "EGP",
+            "category": "currency-arab",
+            "label": "جنيه مصري",
+            "code": "EGP",
+            "aliases": [
+                "جنيه مصري",
+                "ج.م"
+            ],
+            "forms": {
+                "singular": "جنيه مصري",
+                "dual": "جنيهان مصريان",
+                "plural": "جنيهات مصرية",
+                "accusative": "جنيهاً مصرياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "قرش",
+                "dual": "قرشان",
+                "plural": "قروش",
+                "accusative": "قرشاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "SDG",
+            "category": "currency-arab",
+            "label": "جنيه سوداني",
+            "code": "SDG",
+            "aliases": [
+                "جنيه سوداني",
+                "ج.س"
+            ],
+            "forms": {
+                "singular": "جنيه سوداني",
+                "dual": "جنيهان سودانيان",
+                "plural": "جنيهات سودانية",
+                "accusative": "جنيهاً سودانياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "قرش",
+                "dual": "قرشان",
+                "plural": "قروش",
+                "accusative": "قرشاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "SYP",
+            "category": "currency-arab",
+            "label": "ليرة سورية",
+            "code": "SYP",
+            "aliases": [
+                "ليرة سورية",
+                "ل.س"
+            ],
+            "forms": {
+                "singular": "ليرة سورية",
+                "dual": "ليرتان سوريتان",
+                "plural": "ليرات سورية",
+                "accusative": "ليرة سورية",
+                "gender": "f"
+            },
+            "subunit": {
+                "singular": "قرش",
+                "dual": "قرشان",
+                "plural": "قروش",
+                "accusative": "قرشاً",
+                "gender": "m",
+                "ratio": 100
+            },
+            "note": "NEW: قرش is the legal subunit but no longer used in practice. A redenomination of the Syrian pound was announced in 2025; verify code and subunit"
+        },
+        {
+            "id": "LBP",
+            "category": "currency-arab",
+            "label": "ليرة لبنانية",
+            "code": "LBP",
+            "aliases": [
+                "ليرة لبنانية",
+                "ل.ل"
+            ],
+            "forms": {
+                "singular": "ليرة لبنانية",
+                "dual": "ليرتان لبنانيتان",
+                "plural": "ليرات لبنانية",
+                "accusative": "ليرة لبنانية",
+                "gender": "f"
+            },
+            "subunit": {
+                "singular": "قرش",
+                "dual": "قرشان",
+                "plural": "قروش",
+                "accusative": "قرشاً",
+                "gender": "m",
+                "ratio": 100
+            },
+            "note": "NEW: قرش is the legal subunit but no longer used in practice"
+        },
+        {
+            "id": "YER",
+            "category": "currency-arab",
+            "label": "ريال يمني",
+            "code": "YER",
+            "aliases": [
+                "ريال يمني",
+                "ر.ي"
+            ],
+            "forms": {
+                "singular": "ريال يمني",
+                "dual": "ريالان يمنيان",
+                "plural": "ريالات يمنية",
+                "accusative": "ريالاً يمنياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "فلس",
+                "dual": "فلسان",
+                "plural": "فلوس",
+                "accusative": "فلساً",
+                "gender": "m",
+                "ratio": 100
+            },
+            "note": "R8: plural of فلس"
+        },
+        {
+            "id": "LYD",
+            "category": "currency-arab",
+            "label": "دينار ليبي",
+            "code": "LYD",
+            "aliases": [
+                "دينار ليبي",
+                "د.ل"
+            ],
+            "forms": {
+                "singular": "دينار ليبي",
+                "dual": "ديناران ليبيان",
+                "plural": "دنانير ليبية",
+                "accusative": "ديناراً ليبياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "درهم",
+                "dual": "درهمان",
+                "plural": "دراهم",
+                "accusative": "درهماً",
+                "gender": "m",
+                "ratio": 1000
+            }
+        },
+        {
+            "id": "TND",
+            "category": "currency-arab",
+            "label": "دينار تونسي",
+            "code": "TND",
+            "aliases": [
+                "دينار تونسي",
+                "د.ت"
+            ],
+            "forms": {
+                "singular": "دينار تونسي",
+                "dual": "ديناران تونسيان",
+                "plural": "دنانير تونسية",
+                "accusative": "ديناراً تونسياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "مليم",
+                "dual": "مليمان",
+                "plural": "مليمات",
+                "accusative": "مليماً",
+                "gender": "m",
+                "ratio": 1000
+            }
+        },
+        {
+            "id": "DZD",
+            "category": "currency-arab",
+            "label": "دينار جزائري",
+            "code": "DZD",
+            "aliases": [
+                "دينار جزائري",
+                "د.ج"
+            ],
+            "forms": {
+                "singular": "دينار جزائري",
+                "dual": "ديناران جزائريان",
+                "plural": "دنانير جزائرية",
+                "accusative": "ديناراً جزائرياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنتيم",
+                "dual": "سنتيمان",
+                "plural": "سنتيمات",
+                "accusative": "سنتيماً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "MAD",
+            "category": "currency-arab",
+            "label": "درهم مغربي",
+            "code": "MAD",
+            "aliases": [
+                "درهم مغربي",
+                "د.م"
+            ],
+            "forms": {
+                "singular": "درهم مغربي",
+                "dual": "درهمان مغربيان",
+                "plural": "دراهم مغربية",
+                "accusative": "درهماً مغربياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنتيم",
+                "dual": "سنتيمان",
+                "plural": "سنتيمات",
+                "accusative": "سنتيماً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "MRU",
+            "category": "currency-arab",
+            "label": "أوقية موريتانية",
+            "code": "MRU",
+            "aliases": [
+                "أوقية موريتانية"
+            ],
+            "forms": {
+                "singular": "أوقية موريتانية",
+                "dual": "أوقيتان موريتانيتان",
+                "plural": "أوقيات موريتانية",
+                "accusative": "أوقية موريتانية",
+                "gender": "f"
+            },
+            "note": "No subunit: the khoums (خمس) is 1/5 of an ouguiya, not a power of ten. NEW: plural أوقيات (sound plural); the broken plural أواق (أواقٍ) is also classical"
+        },
+        {
+            "id": "SOS",
+            "category": "currency-arab",
+            "label": "شلن صومالي",
+            "code": "SOS",
+            "aliases": [
+                "شلن صومالي"
+            ],
+            "forms": {
+                "singular": "شلن صومالي",
+                "dual": "شلنان صوماليان",
+                "plural": "شلنات صومالية",
+                "accusative": "شلناً صومالياً",
+                "gender": "m"
+            },
+            "note": "NEW: no subunit; the cent (senti, ISO minor unit 2) is nominal and unused"
+        },
+        {
+            "id": "DJF",
+            "category": "currency-arab",
+            "label": "فرنك جيبوتي",
+            "code": "DJF",
+            "aliases": [
+                "فرنك جيبوتي"
+            ],
+            "forms": {
+                "singular": "فرنك جيبوتي",
+                "dual": "فرنكان جيبوتيان",
+                "plural": "فرنكات جيبوتية",
+                "accusative": "فرنكاً جيبوتياً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "KMF",
+            "category": "currency-arab",
+            "label": "فرنك قمري",
+            "code": "KMF",
+            "aliases": [
+                "فرنك قمري"
+            ],
+            "forms": {
+                "singular": "فرنك قمري",
+                "dual": "فرنكان قمريان",
+                "plural": "فرنكات قمرية",
+                "accusative": "فرنكاً قمرياً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "USD",
+            "category": "currency-world",
+            "label": "دولار أمريكي",
+            "code": "USD",
+            "aliases": [
+                "دولار أمريكي",
+                "دولار أميركي",
+                "دولار امريكي",
+                "$"
+            ],
+            "forms": {
+                "singular": "دولار أمريكي",
+                "dual": "دولاران أمريكيان",
+                "plural": "دولارات أمريكية",
+                "accusative": "دولاراً أمريكياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنت",
+                "dual": "سنتان",
+                "plural": "سنتات",
+                "accusative": "سنتاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "EUR",
+            "category": "currency-world",
+            "label": "يورو أوروبي",
+            "code": "EUR",
+            "aliases": [
+                "يورو أوروبي",
+                "€"
+            ],
+            "forms": {
+                "singular": "يورو",
+                "dual": "يوروان",
+                "plural": "يورو",
+                "accusative": "يورو",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنت",
+                "dual": "سنتان",
+                "plural": "سنتات",
+                "accusative": "سنتاً",
+                "gender": "m",
+                "ratio": 100
+            },
+            "note": "R9: يورو is invariable (ثلاثة يورو، عشرون يورو), ends in a vowel so the accusative takes no alif-tanween; dual يوروان. Label differs from the generic euro only for the dropdown; output forms carry no adjective"
+        },
+        {
+            "id": "GBP",
+            "category": "currency-world",
+            "label": "جنيه إسترليني",
+            "code": "GBP",
+            "aliases": [
+                "جنيه إسترليني",
+                "جنيه استرليني",
+                "£"
+            ],
+            "forms": {
+                "singular": "جنيه إسترليني",
+                "dual": "جنيهان إسترلينيان",
+                "plural": "جنيهات إسترلينية",
+                "accusative": "جنيهاً إسترلينياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "بنس",
+                "dual": "بنسان",
+                "plural": "بنسات",
+                "accusative": "بنساً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "JPY",
+            "category": "currency-world",
+            "label": "ين ياباني",
+            "code": "JPY",
+            "aliases": [
+                "ين ياباني"
+            ],
+            "forms": {
+                "singular": "ين ياباني",
+                "dual": "ينان يابانيان",
+                "plural": "ينات يابانية",
+                "accusative": "يناً يابانياً",
+                "gender": "m"
+            },
+            "note": "R9: plural ينات by the consonant-final convention; invariable ين (ثلاثة ين) is also common"
+        },
+        {
+            "id": "CNY",
+            "category": "currency-world",
+            "label": "يوان صيني",
+            "code": "CNY",
+            "aliases": [
+                "يوان صيني",
+                "رنمينبي"
+            ],
+            "forms": {
+                "singular": "يوان صيني",
+                "dual": "يوانان صينيان",
+                "plural": "يوانات صينية",
+                "accusative": "يواناً صينياً",
+                "gender": "m"
+            },
+            "note": "NEW: no subunit — fen (1/100) has no settled Arabic form"
+        },
+        {
+            "id": "CHF",
+            "category": "currency-world",
+            "label": "فرنك سويسري",
+            "code": "CHF",
+            "aliases": [
+                "فرنك سويسري"
+            ],
+            "forms": {
+                "singular": "فرنك سويسري",
+                "dual": "فرنكان سويسريان",
+                "plural": "فرنكات سويسرية",
+                "accusative": "فرنكاً سويسرياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنتيم",
+                "dual": "سنتيمان",
+                "plural": "سنتيمات",
+                "accusative": "سنتيماً",
+                "gender": "m",
+                "ratio": 100
+            },
+            "note": "NEW: Rappen/centime rendered سنتيم"
+        },
+        {
+            "id": "CAD",
+            "category": "currency-world",
+            "label": "دولار كندي",
+            "code": "CAD",
+            "aliases": [
+                "دولار كندي"
+            ],
+            "forms": {
+                "singular": "دولار كندي",
+                "dual": "دولاران كنديان",
+                "plural": "دولارات كندية",
+                "accusative": "دولاراً كندياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنت",
+                "dual": "سنتان",
+                "plural": "سنتات",
+                "accusative": "سنتاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "AUD",
+            "category": "currency-world",
+            "label": "دولار أسترالي",
+            "code": "AUD",
+            "aliases": [
+                "دولار أسترالي",
+                "دولار استرالي"
+            ],
+            "forms": {
+                "singular": "دولار أسترالي",
+                "dual": "دولاران أستراليان",
+                "plural": "دولارات أسترالية",
+                "accusative": "دولاراً أسترالياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنت",
+                "dual": "سنتان",
+                "plural": "سنتات",
+                "accusative": "سنتاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "SGD",
+            "category": "currency-world",
+            "label": "دولار سنغافوري",
+            "code": "SGD",
+            "aliases": [
+                "دولار سنغافوري"
+            ],
+            "forms": {
+                "singular": "دولار سنغافوري",
+                "dual": "دولاران سنغافوريان",
+                "plural": "دولارات سنغافورية",
+                "accusative": "دولاراً سنغافورياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنت",
+                "dual": "سنتان",
+                "plural": "سنتات",
+                "accusative": "سنتاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "INR",
+            "category": "currency-world",
+            "label": "روبية هندية",
+            "code": "INR",
+            "aliases": [
+                "روبية هندية"
+            ],
+            "forms": {
+                "singular": "روبية هندية",
+                "dual": "روبيتان هنديتان",
+                "plural": "روبيات هندية",
+                "accusative": "روبية هندية",
+                "gender": "f"
+            },
+            "subunit": {
+                "singular": "بيسة",
+                "dual": "بيستان",
+                "plural": "بيسات",
+                "accusative": "بيسة",
+                "gender": "f",
+                "ratio": 100
+            },
+            "note": "NEW: paisa rendered بيسة (as the Omani baisa)"
+        },
+        {
+            "id": "PKR",
+            "category": "currency-world",
+            "label": "روبية باكستانية",
+            "code": "PKR",
+            "aliases": [
+                "روبية باكستانية"
+            ],
+            "forms": {
+                "singular": "روبية باكستانية",
+                "dual": "روبيتان باكستانيتان",
+                "plural": "روبيات باكستانية",
+                "accusative": "روبية باكستانية",
+                "gender": "f"
+            },
+            "note": "NEW: no subunit — the paisa is no longer legal tender"
+        },
+        {
+            "id": "TRY",
+            "category": "currency-world",
+            "label": "ليرة تركية",
+            "code": "TRY",
+            "aliases": [
+                "ليرة تركية"
+            ],
+            "forms": {
+                "singular": "ليرة تركية",
+                "dual": "ليرتان تركيتان",
+                "plural": "ليرات تركية",
+                "accusative": "ليرة تركية",
+                "gender": "f"
+            },
+            "subunit": {
+                "singular": "قرش",
+                "dual": "قرشان",
+                "plural": "قروش",
+                "accusative": "قرشاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "RUB",
+            "category": "currency-world",
+            "label": "روبل روسي",
+            "code": "RUB",
+            "aliases": [
+                "روبل روسي"
+            ],
+            "forms": {
+                "singular": "روبل روسي",
+                "dual": "روبلان روسيان",
+                "plural": "روبلات روسية",
+                "accusative": "روبلاً روسياً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "كوبيك",
+                "dual": "كوبيكان",
+                "plural": "كوبيكات",
+                "accusative": "كوبيكاً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "IRR",
+            "category": "currency-world",
+            "label": "ريال إيراني",
+            "code": "IRR",
+            "aliases": [
+                "ريال إيراني"
+            ],
+            "forms": {
+                "singular": "ريال إيراني",
+                "dual": "ريالان إيرانيان",
+                "plural": "ريالات إيرانية",
+                "accusative": "ريالاً إيرانياً",
+                "gender": "m"
+            },
+            "note": "NEW: no subunit; colloquial تومان (10 ريال) not modelled"
+        },
+        {
+            "id": "MYR",
+            "category": "currency-world",
+            "label": "رينغيت ماليزي",
+            "code": "MYR",
+            "aliases": [
+                "رينغيت ماليزي"
+            ],
+            "forms": {
+                "singular": "رينغيت ماليزي",
+                "dual": "رينغيتان ماليزيان",
+                "plural": "رينغيتات ماليزية",
+                "accusative": "رينغيتاً ماليزياً",
+                "gender": "m"
+            },
+            "note": "NEW: no subunit — sen (1/100) has no settled Arabic form"
+        },
+        {
+            "id": "IDR",
+            "category": "currency-world",
+            "label": "روبية إندونيسية",
+            "code": "IDR",
+            "aliases": [
+                "روبية إندونيسية"
+            ],
+            "forms": {
+                "singular": "روبية إندونيسية",
+                "dual": "روبيتان إندونيسيتان",
+                "plural": "روبيات إندونيسية",
+                "accusative": "روبية إندونيسية",
+                "gender": "f"
+            },
+            "note": "NEW: no subunit — the sen is obsolete"
+        },
+        {
+            "id": "KRW",
+            "category": "currency-world",
+            "label": "وون كوري جنوبي",
+            "code": "KRW",
+            "aliases": [
+                "وون كوري جنوبي",
+                "وون كوري"
+            ],
+            "forms": {
+                "singular": "وون كوري جنوبي",
+                "dual": "وونان كوريان جنوبيان",
+                "plural": "وونات كورية جنوبية",
+                "accusative": "ووناً كورياً جنوبياً",
+                "gender": "m"
+            },
+            "note": "NEW: both adjectives of كوري جنوبي agree (كوريان جنوبيان، كورية جنوبية). R9: plural وونات by the consonant-final convention"
+        },
+        {
+            "id": "SEK",
+            "category": "currency-world",
+            "label": "كرونة سويدية",
+            "code": "SEK",
+            "aliases": [
+                "كرونة سويدية"
+            ],
+            "forms": {
+                "singular": "كرونة سويدية",
+                "dual": "كرونتان سويديتان",
+                "plural": "كرونات سويدية",
+                "accusative": "كرونة سويدية",
+                "gender": "f"
+            },
+            "note": "NEW: no subunit — öre has no settled Arabic form; spelling كرونة (also كرونا/كرون)"
+        },
+        {
+            "id": "NOK",
+            "category": "currency-world",
+            "label": "كرونة نرويجية",
+            "code": "NOK",
+            "aliases": [
+                "كرونة نرويجية"
+            ],
+            "forms": {
+                "singular": "كرونة نرويجية",
+                "dual": "كرونتان نرويجيتان",
+                "plural": "كرونات نرويجية",
+                "accusative": "كرونة نرويجية",
+                "gender": "f"
+            },
+            "note": "NEW: no subunit — øre has no settled Arabic form; spelling كرونة (also كرونا/كرون)"
+        },
+        {
+            "id": "DKK",
+            "category": "currency-world",
+            "label": "كرونة دنماركية",
+            "code": "DKK",
+            "aliases": [
+                "كرونة دنماركية"
+            ],
+            "forms": {
+                "singular": "كرونة دنماركية",
+                "dual": "كرونتان دنماركيتان",
+                "plural": "كرونات دنماركية",
+                "accusative": "كرونة دنماركية",
+                "gender": "f"
+            },
+            "note": "NEW: no subunit — øre has no settled Arabic form; spelling كرونة (also كرونا/كرون)"
+        },
+        {
+            "id": "BTC",
+            "category": "crypto",
+            "label": "بيتكوين",
+            "code": "BTC",
+            "aliases": [
+                "بيتكوين",
+                "بتكوين"
+            ],
+            "forms": {
+                "singular": "بيتكوين",
+                "dual": "بيتكوينان",
+                "plural": "بيتكوينات",
+                "accusative": "بيتكويناً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "ساتوشي",
+                "dual": "ساتوشيان",
+                "plural": "ساتوشي",
+                "accusative": "ساتوشي",
+                "gender": "m",
+                "ratio": 100000000
+            },
+            "note": "R9: convention — consonant-final foreign names inflect like دولار (dual -ان, plural -ات, accusative -اً); vowel-final names (ساتوشي) stay invariable except the dual -ان. Alternative: invariable throughout (ثلاثة بيتكوين)"
+        },
+        {
+            "id": "ETH",
+            "category": "crypto",
+            "label": "إيثيريوم",
+            "code": "ETH",
+            "aliases": [
+                "إيثيريوم",
+                "إيثريوم",
+                "إيثر"
+            ],
+            "forms": {
+                "singular": "إيثيريوم",
+                "dual": "إيثيريومان",
+                "plural": "إيثيريومات",
+                "accusative": "إيثيريوماً",
+                "gender": "m"
+            },
+            "note": "R9: convention — consonant-final foreign names inflect like دولار (dual -ان, plural -ات, accusative -اً); vowel-final names (ساتوشي) stay invariable except the dual -ان. Alternative: invariable throughout (ثلاثة بيتكوين). NEW: the coin itself is often called إيثر"
+        },
+        {
+            "id": "USDT",
+            "category": "crypto",
+            "label": "تيثر",
+            "code": "USDT",
+            "aliases": [
+                "تيثر"
+            ],
+            "forms": {
+                "singular": "تيثر",
+                "dual": "تيثران",
+                "plural": "تيثرات",
+                "accusative": "تيثراً",
+                "gender": "m"
+            },
+            "note": "R9: convention — consonant-final foreign names inflect like دولار (dual -ان, plural -ات, accusative -اً); vowel-final names (ساتوشي) stay invariable except the dual -ان. Alternative: invariable throughout (ثلاثة بيتكوين)"
+        },
+        {
+            "id": "pound",
+            "category": "generic-currency",
+            "label": "جنيه",
+            "aliases": [
+                "جنيه"
+            ],
+            "forms": {
+                "singular": "جنيه",
+                "dual": "جنيهان",
+                "plural": "جنيهات",
+                "accusative": "جنيهاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "dinar",
+            "category": "generic-currency",
+            "label": "دينار",
+            "aliases": [
+                "دينار"
+            ],
+            "forms": {
+                "singular": "دينار",
+                "dual": "ديناران",
+                "plural": "دنانير",
+                "accusative": "ديناراً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "riyal",
+            "category": "generic-currency",
+            "label": "ريال",
+            "aliases": [
+                "ريال"
+            ],
+            "forms": {
+                "singular": "ريال",
+                "dual": "ريالان",
+                "plural": "ريالات",
+                "accusative": "ريالاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "dirham",
+            "category": "generic-currency",
+            "label": "درهم",
+            "aliases": [
+                "درهم"
+            ],
+            "forms": {
+                "singular": "درهم",
+                "dual": "درهمان",
+                "plural": "دراهم",
+                "accusative": "درهماً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "lira",
+            "category": "generic-currency",
+            "label": "ليرة",
+            "aliases": [
+                "ليرة"
+            ],
+            "forms": {
+                "singular": "ليرة",
+                "dual": "ليرتان",
+                "plural": "ليرات",
+                "accusative": "ليرة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "dollar",
+            "category": "generic-currency",
+            "label": "دولار",
+            "aliases": [
+                "دولار"
+            ],
+            "forms": {
+                "singular": "دولار",
+                "dual": "دولاران",
+                "plural": "دولارات",
+                "accusative": "دولاراً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "franc",
+            "category": "generic-currency",
+            "label": "فرنك",
+            "aliases": [
+                "فرنك"
+            ],
+            "forms": {
+                "singular": "فرنك",
+                "dual": "فرنكان",
+                "plural": "فرنكات",
+                "accusative": "فرنكاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "rupee",
+            "category": "generic-currency",
+            "label": "روبية",
+            "aliases": [
+                "روبية"
+            ],
+            "forms": {
+                "singular": "روبية",
+                "dual": "روبيتان",
+                "plural": "روبيات",
+                "accusative": "روبية",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "euro",
+            "category": "generic-currency",
+            "label": "يورو",
+            "aliases": [
+                "يورو"
+            ],
+            "forms": {
+                "singular": "يورو",
+                "dual": "يوروان",
+                "plural": "يورو",
+                "accusative": "يورو",
+                "gender": "m"
+            },
+            "note": "R9: invariable, as EUR"
+        },
+        {
+            "id": "yen",
+            "category": "generic-currency",
+            "label": "ين",
+            "aliases": [
+                "ين"
+            ],
+            "forms": {
+                "singular": "ين",
+                "dual": "ينان",
+                "plural": "ينات",
+                "accusative": "يناً",
+                "gender": "m"
+            },
+            "note": "R9: as JPY"
+        },
+        {
+            "id": "gram",
+            "category": "weight",
+            "label": "غرام",
+            "aliases": [
+                "غرام",
+                "جرام",
+                "غ",
+                "جم",
+                "g"
+            ],
+            "forms": {
+                "singular": "غرام",
+                "dual": "غرامان",
+                "plural": "غرامات",
+                "accusative": "غراماً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "kilogram",
+            "category": "weight",
+            "label": "كيلوغرام",
+            "aliases": [
+                "كيلوغرام",
+                "كغ",
+                "kg"
+            ],
+            "forms": {
+                "singular": "كيلوغرام",
+                "dual": "كيلوغرامان",
+                "plural": "كيلوغرامات",
+                "accusative": "كيلوغراماً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "غرام",
+                "dual": "غرامان",
+                "plural": "غرامات",
+                "accusative": "غراماً",
+                "gender": "m",
+                "ratio": 1000
+            }
+        },
+        {
+            "id": "ton",
+            "category": "weight",
+            "label": "طن",
+            "aliases": [
+                "طن",
+                "t"
+            ],
+            "forms": {
+                "singular": "طن",
+                "dual": "طنان",
+                "plural": "أطنان",
+                "accusative": "طناً",
+                "gender": "m"
+            },
+            "note": "Metric ton (1000 kg)"
+        },
+        {
+            "id": "milligram",
+            "category": "weight",
+            "label": "ملليغرام",
+            "aliases": [
+                "ملليغرام",
+                "مليغرام",
+                "ملغ",
+                "mg"
+            ],
+            "forms": {
+                "singular": "ملليغرام",
+                "dual": "ملليغرامان",
+                "plural": "ملليغرامات",
+                "accusative": "ملليغراماً",
+                "gender": "m"
+            },
+            "note": "NEW: spelling of the milli- prefix varies (مللي/ملي); this catalog uses ملليغرام but مليلتر and مليمتر"
+        },
+        {
+            "id": "ounce",
+            "category": "weight",
+            "label": "أونصة",
+            "aliases": [
+                "أونصة",
+                "أوقية",
+                "oz"
+            ],
+            "forms": {
+                "singular": "أونصة",
+                "dual": "أونصتان",
+                "plural": "أونصات",
+                "accusative": "أونصة",
+                "gender": "f"
+            },
+            "note": "NEW: troy vs avoirdupois ounce not distinguished"
+        },
+        {
+            "id": "pound_weight",
+            "category": "weight",
+            "label": "رطل",
+            "aliases": [
+                "رطل",
+                "lb"
+            ],
+            "forms": {
+                "singular": "رطل",
+                "dual": "رطلان",
+                "plural": "أرطال",
+                "accusative": "رطلاً",
+                "gender": "m"
+            },
+            "note": "NEW: avoirdupois pound (~453.6 g); the traditional Arab رطل varies by region"
+        },
+        {
+            "id": "carat",
+            "category": "weight",
+            "label": "قيراط",
+            "aliases": [
+                "قيراط",
+                "ct"
+            ],
+            "forms": {
+                "singular": "قيراط",
+                "dual": "قيراطان",
+                "plural": "قراريط",
+                "accusative": "قيراطاً",
+                "gender": "m"
+            },
+            "note": "Gem carat (0.2 g); the same word is used for gold purity (karat)"
+        },
+        {
+            "id": "liter",
+            "category": "volume",
+            "label": "لتر",
+            "aliases": [
+                "لتر",
+                "ليتر",
+                "L"
+            ],
+            "forms": {
+                "singular": "لتر",
+                "dual": "لتران",
+                "plural": "لترات",
+                "accusative": "لتراً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "مليلتر",
+                "dual": "مليلتران",
+                "plural": "مليلترات",
+                "accusative": "مليلتراً",
+                "gender": "m",
+                "ratio": 1000
+            }
+        },
+        {
+            "id": "cubic_meter",
+            "category": "volume",
+            "label": "متر مكعب",
+            "aliases": [
+                "متر مكعب",
+                "م3",
+                "m3"
+            ],
+            "forms": {
+                "singular": "متر مكعب",
+                "dual": "متران مكعبان",
+                "plural": "أمتار مكعبة",
+                "accusative": "متراً مكعباً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "gallon",
+            "category": "volume",
+            "label": "غالون",
+            "aliases": [
+                "غالون",
+                "جالون",
+                "gal"
+            ],
+            "forms": {
+                "singular": "غالون",
+                "dual": "غالونان",
+                "plural": "غالونات",
+                "accusative": "غالوناً",
+                "gender": "m"
+            },
+            "note": "NEW: US vs imperial gallon not distinguished"
+        },
+        {
+            "id": "barrel",
+            "category": "volume",
+            "label": "برميل",
+            "aliases": [
+                "برميل",
+                "bbl"
+            ],
+            "forms": {
+                "singular": "برميل",
+                "dual": "برميلان",
+                "plural": "براميل",
+                "accusative": "برميلاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "meter",
+            "category": "length",
+            "label": "متر",
+            "aliases": [
+                "متر",
+                "م",
+                "m"
+            ],
+            "forms": {
+                "singular": "متر",
+                "dual": "متران",
+                "plural": "أمتار",
+                "accusative": "متراً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "سنتيمتر",
+                "dual": "سنتيمتران",
+                "plural": "سنتيمترات",
+                "accusative": "سنتيمتراً",
+                "gender": "m",
+                "ratio": 100
+            }
+        },
+        {
+            "id": "centimeter",
+            "category": "length",
+            "label": "سنتيمتر",
+            "aliases": [
+                "سنتيمتر",
+                "سنتمتر",
+                "سم",
+                "cm"
+            ],
+            "forms": {
+                "singular": "سنتيمتر",
+                "dual": "سنتيمتران",
+                "plural": "سنتيمترات",
+                "accusative": "سنتيمتراً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "millimeter",
+            "category": "length",
+            "label": "مليمتر",
+            "aliases": [
+                "مليمتر",
+                "ملم",
+                "مم",
+                "mm"
+            ],
+            "forms": {
+                "singular": "مليمتر",
+                "dual": "مليمتران",
+                "plural": "مليمترات",
+                "accusative": "مليمتراً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "kilometer",
+            "category": "length",
+            "label": "كيلومتر",
+            "aliases": [
+                "كيلومتر",
+                "كم",
+                "km"
+            ],
+            "forms": {
+                "singular": "كيلومتر",
+                "dual": "كيلومتران",
+                "plural": "كيلومترات",
+                "accusative": "كيلومتراً",
+                "gender": "m"
+            },
+            "subunit": {
+                "singular": "متر",
+                "dual": "متران",
+                "plural": "أمتار",
+                "accusative": "متراً",
+                "gender": "m",
+                "ratio": 1000
+            }
+        },
+        {
+            "id": "mile",
+            "category": "length",
+            "label": "ميل",
+            "aliases": [
+                "ميل",
+                "mi"
+            ],
+            "forms": {
+                "singular": "ميل",
+                "dual": "ميلان",
+                "plural": "أميال",
+                "accusative": "ميلاً",
+                "gender": "m"
+            },
+            "note": "Statute mile; nautical mile not modelled"
+        },
+        {
+            "id": "foot",
+            "category": "length",
+            "label": "قدم",
+            "aliases": [
+                "قدم",
+                "ft"
+            ],
+            "forms": {
+                "singular": "قدم",
+                "dual": "قدمان",
+                "plural": "أقدام",
+                "accusative": "قدماً",
+                "gender": "f"
+            },
+            "note": "NEW: قدم is feminine in classical usage (ثلاث أقدام، قدم واحدة); MSA often treats the unit as masculine (ثلاثة أقدام)"
+        },
+        {
+            "id": "inch",
+            "category": "length",
+            "label": "بوصة",
+            "aliases": [
+                "بوصة",
+                "إنش",
+                "انش",
+                "in"
+            ],
+            "forms": {
+                "singular": "بوصة",
+                "dual": "بوصتان",
+                "plural": "بوصات",
+                "accusative": "بوصة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "yard",
+            "category": "length",
+            "label": "ياردة",
+            "aliases": [
+                "ياردة",
+                "yd"
+            ],
+            "forms": {
+                "singular": "ياردة",
+                "dual": "ياردتان",
+                "plural": "ياردات",
+                "accusative": "ياردة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "square_meter",
+            "category": "area",
+            "label": "متر مربع",
+            "aliases": [
+                "متر مربع",
+                "م2",
+                "m2"
+            ],
+            "forms": {
+                "singular": "متر مربع",
+                "dual": "متران مربعان",
+                "plural": "أمتار مربعة",
+                "accusative": "متراً مربعاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "square_kilometer",
+            "category": "area",
+            "label": "كيلومتر مربع",
+            "aliases": [
+                "كيلومتر مربع",
+                "كم2",
+                "km2"
+            ],
+            "forms": {
+                "singular": "كيلومتر مربع",
+                "dual": "كيلومتران مربعان",
+                "plural": "كيلومترات مربعة",
+                "accusative": "كيلومتراً مربعاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "dunam",
+            "category": "area",
+            "label": "دونم",
+            "aliases": [
+                "دونم"
+            ],
+            "forms": {
+                "singular": "دونم",
+                "dual": "دونمان",
+                "plural": "دونمات",
+                "accusative": "دونماً",
+                "gender": "m"
+            },
+            "note": "NEW: size varies by country (metric dunam 1000 m², Iraqi 2500 m²)"
+        },
+        {
+            "id": "feddan",
+            "category": "area",
+            "label": "فدان",
+            "aliases": [
+                "فدان"
+            ],
+            "forms": {
+                "singular": "فدان",
+                "dual": "فدانان",
+                "plural": "أفدنة",
+                "accusative": "فداناً",
+                "gender": "m"
+            },
+            "note": "NEW: plural أفدنة (standard); فدادين is common in Egypt"
+        },
+        {
+            "id": "hectare",
+            "category": "area",
+            "label": "هكتار",
+            "aliases": [
+                "هكتار",
+                "ha"
+            ],
+            "forms": {
+                "singular": "هكتار",
+                "dual": "هكتاران",
+                "plural": "هكتارات",
+                "accusative": "هكتاراً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "second",
+            "category": "time",
+            "label": "ثانية",
+            "aliases": [
+                "ثانية",
+                "s"
+            ],
+            "forms": {
+                "singular": "ثانية",
+                "dual": "ثانيتان",
+                "plural": "ثوان",
+                "accusative": "ثانية",
+                "gender": "f"
+            },
+            "note": "NEW: correct form after 3–10 is ثوانٍ (manqus, indefinite genitive); diacritics are not allowed, so it is written ثوان. The common ثواني is avoided"
+        },
+        {
+            "id": "minute",
+            "category": "time",
+            "label": "دقيقة",
+            "aliases": [
+                "دقيقة",
+                "min"
+            ],
+            "forms": {
+                "singular": "دقيقة",
+                "dual": "دقيقتان",
+                "plural": "دقائق",
+                "accusative": "دقيقة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "hour",
+            "category": "time",
+            "label": "ساعة",
+            "aliases": [
+                "ساعة",
+                "h"
+            ],
+            "forms": {
+                "singular": "ساعة",
+                "dual": "ساعتان",
+                "plural": "ساعات",
+                "accusative": "ساعة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "day",
+            "category": "time",
+            "label": "يوم",
+            "aliases": [
+                "يوم"
+            ],
+            "forms": {
+                "singular": "يوم",
+                "dual": "يومان",
+                "plural": "أيام",
+                "accusative": "يوماً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "week",
+            "category": "time",
+            "label": "أسبوع",
+            "aliases": [
+                "أسبوع"
+            ],
+            "forms": {
+                "singular": "أسبوع",
+                "dual": "أسبوعان",
+                "plural": "أسابيع",
+                "accusative": "أسبوعاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "month",
+            "category": "time",
+            "label": "شهر",
+            "aliases": [
+                "شهر"
+            ],
+            "forms": {
+                "singular": "شهر",
+                "dual": "شهران",
+                "plural": "أشهر",
+                "accusative": "شهراً",
+                "gender": "m"
+            },
+            "note": "Plural of paucity أشهر with 3–10 (not شهور)"
+        },
+        {
+            "id": "year",
+            "category": "time",
+            "label": "سنة",
+            "aliases": [
+                "سنة"
+            ],
+            "forms": {
+                "singular": "سنة",
+                "dual": "سنتان",
+                "plural": "سنوات",
+                "accusative": "سنة",
+                "gender": "f"
+            },
+            "note": "NEW: سنين is an alternative plural; عام would be a separate unit"
+        },
+        {
+            "id": "piece",
+            "category": "count",
+            "label": "قطعة",
+            "aliases": [
+                "قطعة"
+            ],
+            "forms": {
+                "singular": "قطعة",
+                "dual": "قطعتان",
+                "plural": "قطع",
+                "accusative": "قطعة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "item",
+            "category": "count",
+            "label": "حبة",
+            "aliases": [
+                "حبة"
+            ],
+            "forms": {
+                "singular": "حبة",
+                "dual": "حبتان",
+                "plural": "حبات",
+                "accusative": "حبة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "pack",
+            "category": "count",
+            "label": "علبة",
+            "aliases": [
+                "علبة"
+            ],
+            "forms": {
+                "singular": "علبة",
+                "dual": "علبتان",
+                "plural": "علب",
+                "accusative": "علبة",
+                "gender": "f"
+            },
+            "note": "NEW: plural علب (standard); علبات is also heard"
+        },
+        {
+            "id": "box",
+            "category": "count",
+            "label": "صندوق",
+            "aliases": [
+                "صندوق"
+            ],
+            "forms": {
+                "singular": "صندوق",
+                "dual": "صندوقان",
+                "plural": "صناديق",
+                "accusative": "صندوقاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "carton",
+            "category": "count",
+            "label": "كرتونة",
+            "aliases": [
+                "كرتونة"
+            ],
+            "forms": {
+                "singular": "كرتونة",
+                "dual": "كرتونتان",
+                "plural": "كراتين",
+                "accusative": "كرتونة",
+                "gender": "f"
+            },
+            "note": "NEW: كرتونة is a regional/commercial word; plural كراتين (also كرتونات)"
+        },
+        {
+            "id": "pallet",
+            "category": "count",
+            "label": "طبلية",
+            "aliases": [
+                "طبلية"
+            ],
+            "forms": {
+                "singular": "طبلية",
+                "dual": "طبليتان",
+                "plural": "طبليات",
+                "accusative": "طبلية",
+                "gender": "f"
+            },
+            "note": "NEW: regional commercial word (MSA منصة نقالة); plural طبليات (also طبالي)"
+        },
+        {
+            "id": "dozen",
+            "category": "count",
+            "label": "دستة",
+            "aliases": [
+                "دستة",
+                "درزن",
+                "دزينة"
+            ],
+            "forms": {
+                "singular": "دستة",
+                "dual": "دستتان",
+                "plural": "دستات",
+                "accusative": "دستة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "bag",
+            "category": "count",
+            "label": "كيس",
+            "aliases": [
+                "كيس"
+            ],
+            "forms": {
+                "singular": "كيس",
+                "dual": "كيسان",
+                "plural": "أكياس",
+                "accusative": "كيساً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "roll",
+            "category": "count",
+            "label": "لفة",
+            "aliases": [
+                "لفة"
+            ],
+            "forms": {
+                "singular": "لفة",
+                "dual": "لفتان",
+                "plural": "لفات",
+                "accusative": "لفة",
+                "gender": "f"
+            }
+        },
+        {
+            "id": "pair",
+            "category": "count",
+            "label": "زوج",
+            "aliases": [
+                "زوج"
+            ],
+            "forms": {
+                "singular": "زوج",
+                "dual": "زوجان",
+                "plural": "أزواج",
+                "accusative": "زوجاً",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "byte",
+            "category": "data",
+            "label": "بايت",
+            "aliases": [
+                "بايت",
+                "B"
+            ],
+            "forms": {
+                "singular": "بايت",
+                "dual": "بايتان",
+                "plural": "بايتات",
+                "accusative": "بايتاً",
+                "gender": "m"
+            },
+            "note": "NEW: plural بايتات by the R9 consonant-final convention; invariable بايت (ثلاثة بايت) is also common"
+        },
+        {
+            "id": "kilobyte",
+            "category": "data",
+            "label": "كيلوبايت",
+            "aliases": [
+                "كيلوبايت",
+                "KB"
+            ],
+            "forms": {
+                "singular": "كيلوبايت",
+                "dual": "كيلوبايتان",
+                "plural": "كيلوبايتات",
+                "accusative": "كيلوبايتاً",
+                "gender": "m"
+            },
+            "note": "NEW: plural كيلوبايتات by the R9 consonant-final convention; invariable كيلوبايت (ثلاثة كيلوبايت) is also common"
+        },
+        {
+            "id": "megabyte",
+            "category": "data",
+            "label": "ميغابايت",
+            "aliases": [
+                "ميغابايت",
+                "ميجابايت",
+                "MB"
+            ],
+            "forms": {
+                "singular": "ميغابايت",
+                "dual": "ميغابايتان",
+                "plural": "ميغابايتات",
+                "accusative": "ميغابايتاً",
+                "gender": "m"
+            },
+            "note": "NEW: plural ميغابايتات by the R9 consonant-final convention; invariable ميغابايت (ثلاثة ميغابايت) is also common"
+        },
+        {
+            "id": "gigabyte",
+            "category": "data",
+            "label": "غيغابايت",
+            "aliases": [
+                "غيغابايت",
+                "جيجابايت",
+                "GB"
+            ],
+            "forms": {
+                "singular": "غيغابايت",
+                "dual": "غيغابايتان",
+                "plural": "غيغابايتات",
+                "accusative": "غيغابايتاً",
+                "gender": "m"
+            },
+            "note": "NEW: plural غيغابايتات by the R9 consonant-final convention; invariable غيغابايت (ثلاثة غيغابايت) is also common"
+        },
+        {
+            "id": "terabyte",
+            "category": "data",
+            "label": "تيرابايت",
+            "aliases": [
+                "تيرابايت",
+                "TB"
+            ],
+            "forms": {
+                "singular": "تيرابايت",
+                "dual": "تيرابايتان",
+                "plural": "تيرابايتات",
+                "accusative": "تيرابايتاً",
+                "gender": "m"
+            },
+            "note": "NEW: plural تيرابايتات by the R9 consonant-final convention; invariable تيرابايت (ثلاثة تيرابايت) is also common"
+        },
+        {
+            "id": "bit",
+            "category": "data",
+            "label": "بت",
+            "aliases": [
+                "بت",
+                "bit"
+            ],
+            "forms": {
+                "singular": "بت",
+                "dual": "بتان",
+                "plural": "بتات",
+                "accusative": "بتاً",
+                "gender": "m"
+            },
+            "note": "NEW: plural بتات by the R9 consonant-final convention; invariable بت (ثلاثة بت) is also common"
+        },
+        {
+            "id": "km_per_hour",
+            "category": "speed",
+            "label": "كيلومتر في الساعة",
+            "aliases": [
+                "كيلومتر في الساعة",
+                "كم/س",
+                "km/h"
+            ],
+            "forms": {
+                "singular": "كيلومتر في الساعة",
+                "one": "كيلومتر واحد في الساعة",
+                "dual": "كيلومتران في الساعة",
+                "plural": "كيلومترات في الساعة",
+                "accusative": "كيلومتراً في الساعة",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "mile_per_hour",
+            "category": "speed",
+            "label": "ميل في الساعة",
+            "aliases": [
+                "ميل في الساعة",
+                "mph"
+            ],
+            "forms": {
+                "singular": "ميل في الساعة",
+                "one": "ميل واحد في الساعة",
+                "dual": "ميلان في الساعة",
+                "plural": "أميال في الساعة",
+                "accusative": "ميلاً في الساعة",
+                "gender": "m"
+            }
+        },
+        {
+            "id": "megabit_per_second",
+            "category": "speed",
+            "label": "ميغابت في الثانية",
+            "aliases": [
+                "ميغابت في الثانية",
+                "Mbps"
+            ],
+            "forms": {
+                "singular": "ميغابت في الثانية",
+                "one": "ميغابت واحد في الثانية",
+                "dual": "ميغابتان في الثانية",
+                "plural": "ميغابتات في الثانية",
+                "accusative": "ميغابتاً في الثانية",
+                "gender": "m"
+            },
+            "note": "NEW: plural ميغابتات as for بت (R9 convention)"
+        },
+        {
+            "id": "knot",
+            "category": "speed",
+            "label": "عقدة",
+            "aliases": [
+                "عقدة",
+                "kn"
+            ],
+            "forms": {
+                "singular": "عقدة",
+                "dual": "عقدتان",
+                "plural": "عقد",
+                "accusative": "عقدة",
+                "gender": "f"
+            }
+        }
+    ]
+};
+export default data;
