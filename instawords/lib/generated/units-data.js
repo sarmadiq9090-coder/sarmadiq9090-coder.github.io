@@ -26,13 +26,35 @@ const data = {
                 "accusative": "ريالاً سعودياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Saudi Riyal",
+                    "plural": "Saudi Riyals"
+                },
+                "fr": {
+                    "singular": "riyal saoudien",
+                    "plural": "riyals saoudiens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "هللة",
                 "dual": "هللتان",
                 "plural": "هللات",
                 "accusative": "هللة",
                 "gender": "f",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Halala",
+                        "plural": "Halalas"
+                    },
+                    "fr": {
+                        "singular": "halala",
+                        "plural": "halalas",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -51,13 +73,35 @@ const data = {
                 "accusative": "درهماً إماراتياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "UAE Dirham",
+                    "plural": "UAE Dirhams"
+                },
+                "fr": {
+                    "singular": "dirham émirati",
+                    "plural": "dirhams émiratis",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "فلس",
                 "dual": "فلسان",
                 "plural": "فلوس",
                 "accusative": "فلساً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Fils",
+                        "plural": "Fils"
+                    },
+                    "fr": {
+                        "singular": "fils",
+                        "plural": "fils",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R8: plural of فلس"
         },
@@ -77,13 +121,35 @@ const data = {
                 "accusative": "ريالاً قطرياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Qatari Riyal",
+                    "plural": "Qatari Riyals"
+                },
+                "fr": {
+                    "singular": "riyal qatarien",
+                    "plural": "riyals qatariens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "درهم",
                 "dual": "درهمان",
                 "plural": "دراهم",
                 "accusative": "درهماً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Dirham",
+                        "plural": "Dirhams"
+                    },
+                    "fr": {
+                        "singular": "dirham",
+                        "plural": "dirhams",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -101,13 +167,35 @@ const data = {
                 "accusative": "ديناراً كويتياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Kuwaiti Dinar",
+                    "plural": "Kuwaiti Dinars"
+                },
+                "fr": {
+                    "singular": "dinar koweïtien",
+                    "plural": "dinars koweïtiens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "فلس",
                 "dual": "فلسان",
                 "plural": "فلوس",
                 "accusative": "فلساً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Fils",
+                        "plural": "Fils"
+                    },
+                    "fr": {
+                        "singular": "fils",
+                        "plural": "fils",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R8: plural of فلس"
         },
@@ -126,13 +214,35 @@ const data = {
                 "accusative": "ديناراً بحرينياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Bahraini Dinar",
+                    "plural": "Bahraini Dinars"
+                },
+                "fr": {
+                    "singular": "dinar bahreïni",
+                    "plural": "dinars bahreïnis",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "فلس",
                 "dual": "فلسان",
                 "plural": "فلوس",
                 "accusative": "فلساً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Fils",
+                        "plural": "Fils"
+                    },
+                    "fr": {
+                        "singular": "fils",
+                        "plural": "fils",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R8: plural of فلس"
         },
@@ -151,13 +261,35 @@ const data = {
                 "accusative": "ريالاً عمانياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Omani Rial",
+                    "plural": "Omani Rials"
+                },
+                "fr": {
+                    "singular": "rial omanais",
+                    "plural": "rials omanais",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "بيسة",
                 "dual": "بيستان",
                 "plural": "بيسات",
                 "accusative": "بيسة",
                 "gender": "f",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Baisa",
+                        "plural": "Baisa"
+                    },
+                    "fr": {
+                        "singular": "baïsa",
+                        "plural": "baïsas",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -175,13 +307,35 @@ const data = {
                 "accusative": "ديناراً عراقياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Iraqi Dinar",
+                    "plural": "Iraqi Dinars"
+                },
+                "fr": {
+                    "singular": "dinar irakien",
+                    "plural": "dinars irakiens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "فلس",
                 "dual": "فلسان",
                 "plural": "فلوس",
                 "accusative": "فلساً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Fils",
+                        "plural": "Fils"
+                    },
+                    "fr": {
+                        "singular": "fils",
+                        "plural": "fils",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R8: plural of فلس"
         },
@@ -200,13 +354,35 @@ const data = {
                 "accusative": "ديناراً أردنياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Jordanian Dinar",
+                    "plural": "Jordanian Dinars"
+                },
+                "fr": {
+                    "singular": "dinar jordanien",
+                    "plural": "dinars jordaniens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "فلس",
                 "dual": "فلسان",
                 "plural": "فلوس",
                 "accusative": "فلساً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Fils",
+                        "plural": "Fils"
+                    },
+                    "fr": {
+                        "singular": "fils",
+                        "plural": "fils",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R8: plural of فلس. R13: subunit choice (فلس/1000 vs قرش/100)"
         },
@@ -226,13 +402,35 @@ const data = {
                 "accusative": "جنيهاً مصرياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Egyptian Pound",
+                    "plural": "Egyptian Pounds"
+                },
+                "fr": {
+                    "singular": "livre égyptienne",
+                    "plural": "livres égyptiennes",
+                    "gender": "f"
+                }
+            },
             "subunit": {
                 "singular": "قرش",
                 "dual": "قرشان",
                 "plural": "قروش",
                 "accusative": "قرشاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Piastre",
+                        "plural": "Piastres"
+                    },
+                    "fr": {
+                        "singular": "piastre",
+                        "plural": "piastres",
+                        "gender": "f"
+                    }
+                }
             }
         },
         {
@@ -251,13 +449,35 @@ const data = {
                 "accusative": "جنيهاً سودانياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Sudanese Pound",
+                    "plural": "Sudanese Pounds"
+                },
+                "fr": {
+                    "singular": "livre soudanaise",
+                    "plural": "livres soudanaises",
+                    "gender": "f"
+                }
+            },
             "subunit": {
                 "singular": "قرش",
                 "dual": "قرشان",
                 "plural": "قروش",
                 "accusative": "قرشاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Piastre",
+                        "plural": "Piastres"
+                    },
+                    "fr": {
+                        "singular": "piastre",
+                        "plural": "piastres",
+                        "gender": "f"
+                    }
+                }
             }
         },
         {
@@ -276,13 +496,35 @@ const data = {
                 "accusative": "ليرة سورية",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Syrian Pound",
+                    "plural": "Syrian Pounds"
+                },
+                "fr": {
+                    "singular": "livre syrienne",
+                    "plural": "livres syriennes",
+                    "gender": "f"
+                }
+            },
             "subunit": {
                 "singular": "قرش",
                 "dual": "قرشان",
                 "plural": "قروش",
                 "accusative": "قرشاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Piastre",
+                        "plural": "Piastres"
+                    },
+                    "fr": {
+                        "singular": "piastre",
+                        "plural": "piastres",
+                        "gender": "f"
+                    }
+                }
             },
             "note": "NEW: قرش is the legal subunit but no longer used in practice. A redenomination of the Syrian pound was announced in 2025; verify code and subunit"
         },
@@ -302,13 +544,35 @@ const data = {
                 "accusative": "ليرة لبنانية",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Lebanese Pound",
+                    "plural": "Lebanese Pounds"
+                },
+                "fr": {
+                    "singular": "livre libanaise",
+                    "plural": "livres libanaises",
+                    "gender": "f"
+                }
+            },
             "subunit": {
                 "singular": "قرش",
                 "dual": "قرشان",
                 "plural": "قروش",
                 "accusative": "قرشاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Piastre",
+                        "plural": "Piastres"
+                    },
+                    "fr": {
+                        "singular": "piastre",
+                        "plural": "piastres",
+                        "gender": "f"
+                    }
+                }
             },
             "note": "NEW: قرش is the legal subunit but no longer used in practice"
         },
@@ -328,13 +592,35 @@ const data = {
                 "accusative": "ريالاً يمنياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Yemeni Rial",
+                    "plural": "Yemeni Rials"
+                },
+                "fr": {
+                    "singular": "rial yéménite",
+                    "plural": "rials yéménites",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "فلس",
                 "dual": "فلسان",
                 "plural": "فلوس",
                 "accusative": "فلساً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Fils",
+                        "plural": "Fils"
+                    },
+                    "fr": {
+                        "singular": "fils",
+                        "plural": "fils",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R8: plural of فلس"
         },
@@ -354,13 +640,35 @@ const data = {
                 "accusative": "ديناراً ليبياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Libyan Dinar",
+                    "plural": "Libyan Dinars"
+                },
+                "fr": {
+                    "singular": "dinar libyen",
+                    "plural": "dinars libyens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "درهم",
                 "dual": "درهمان",
                 "plural": "دراهم",
                 "accusative": "درهماً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Dirham",
+                        "plural": "Dirhams"
+                    },
+                    "fr": {
+                        "singular": "dirham",
+                        "plural": "dirhams",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -379,13 +687,35 @@ const data = {
                 "accusative": "ديناراً تونسياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Tunisian Dinar",
+                    "plural": "Tunisian Dinars"
+                },
+                "fr": {
+                    "singular": "dinar tunisien",
+                    "plural": "dinars tunisiens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "مليم",
                 "dual": "مليمان",
                 "plural": "مليمات",
                 "accusative": "مليماً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Millime",
+                        "plural": "Millimes"
+                    },
+                    "fr": {
+                        "singular": "millime",
+                        "plural": "millimes",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -404,13 +734,35 @@ const data = {
                 "accusative": "ديناراً جزائرياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Algerian Dinar",
+                    "plural": "Algerian Dinars"
+                },
+                "fr": {
+                    "singular": "dinar algérien",
+                    "plural": "dinars algériens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنتيم",
                 "dual": "سنتيمان",
                 "plural": "سنتيمات",
                 "accusative": "سنتيماً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Centime",
+                        "plural": "Centimes"
+                    },
+                    "fr": {
+                        "singular": "centime",
+                        "plural": "centimes",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -429,13 +781,35 @@ const data = {
                 "accusative": "درهماً مغربياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Moroccan Dirham",
+                    "plural": "Moroccan Dirhams"
+                },
+                "fr": {
+                    "singular": "dirham marocain",
+                    "plural": "dirhams marocains",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنتيم",
                 "dual": "سنتيمان",
                 "plural": "سنتيمات",
                 "accusative": "سنتيماً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Centime",
+                        "plural": "Centimes"
+                    },
+                    "fr": {
+                        "singular": "centime",
+                        "plural": "centimes",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -452,6 +826,17 @@ const data = {
                 "plural": "أوقيات موريتانية",
                 "accusative": "أوقية موريتانية",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Mauritanian Ouguiya",
+                    "plural": "Mauritanian Ouguiyas"
+                },
+                "fr": {
+                    "singular": "ouguiya mauritanien",
+                    "plural": "ouguiyas mauritaniens",
+                    "gender": "m"
+                }
             },
             "note": "No subunit: the khoums (خمس) is 1/5 of an ouguiya, not a power of ten. NEW: plural أوقيات (sound plural); the broken plural أواق (أواقٍ) is also classical"
         },
@@ -470,6 +855,17 @@ const data = {
                 "accusative": "شلناً صومالياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Somali Shilling",
+                    "plural": "Somali Shillings"
+                },
+                "fr": {
+                    "singular": "shilling somalien",
+                    "plural": "shillings somaliens",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: no subunit; the cent (senti, ISO minor unit 2) is nominal and unused"
         },
         {
@@ -486,6 +882,17 @@ const data = {
                 "plural": "فرنكات جيبوتية",
                 "accusative": "فرنكاً جيبوتياً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Djiboutian Franc",
+                    "plural": "Djiboutian Francs"
+                },
+                "fr": {
+                    "singular": "franc djiboutien",
+                    "plural": "francs djiboutiens",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -502,6 +909,17 @@ const data = {
                 "plural": "فرنكات قمرية",
                 "accusative": "فرنكاً قمرياً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Comorian Franc",
+                    "plural": "Comorian Francs"
+                },
+                "fr": {
+                    "singular": "franc comorien",
+                    "plural": "francs comoriens",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -522,13 +940,35 @@ const data = {
                 "accusative": "دولاراً أمريكياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "US Dollar",
+                    "plural": "US Dollars"
+                },
+                "fr": {
+                    "singular": "dollar américain",
+                    "plural": "dollars américains",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنت",
                 "dual": "سنتان",
                 "plural": "سنتات",
                 "accusative": "سنتاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Cent",
+                        "plural": "Cents"
+                    },
+                    "fr": {
+                        "singular": "cent",
+                        "plural": "cents",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -547,13 +987,35 @@ const data = {
                 "accusative": "يورو",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Euro",
+                    "plural": "Euros"
+                },
+                "fr": {
+                    "singular": "euro",
+                    "plural": "euros",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنت",
                 "dual": "سنتان",
                 "plural": "سنتات",
                 "accusative": "سنتاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Cent",
+                        "plural": "Cents"
+                    },
+                    "fr": {
+                        "singular": "centime",
+                        "plural": "centimes",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R9: يورو is invariable (ثلاثة يورو، عشرون يورو), ends in a vowel so the accusative takes no alif-tanween; dual يوروان. Label differs from the generic euro only for the dropdown; output forms carry no adjective"
         },
@@ -574,13 +1036,35 @@ const data = {
                 "accusative": "جنيهاً إسترلينياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Pound Sterling",
+                    "plural": "Pounds Sterling"
+                },
+                "fr": {
+                    "singular": "livre sterling",
+                    "plural": "livres sterling",
+                    "gender": "f"
+                }
+            },
             "subunit": {
                 "singular": "بنس",
                 "dual": "بنسان",
                 "plural": "بنسات",
                 "accusative": "بنساً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Penny",
+                        "plural": "Pence"
+                    },
+                    "fr": {
+                        "singular": "penny",
+                        "plural": "pence",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -597,6 +1081,17 @@ const data = {
                 "plural": "ينات يابانية",
                 "accusative": "يناً يابانياً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Japanese Yen",
+                    "plural": "Japanese Yen"
+                },
+                "fr": {
+                    "singular": "yen japonais",
+                    "plural": "yens japonais",
+                    "gender": "m"
+                }
             },
             "note": "R9: plural ينات by the consonant-final convention; invariable ين (ثلاثة ين) is also common"
         },
@@ -616,6 +1111,17 @@ const data = {
                 "accusative": "يواناً صينياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Chinese Yuan",
+                    "plural": "Chinese Yuan"
+                },
+                "fr": {
+                    "singular": "yuan chinois",
+                    "plural": "yuans chinois",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: no subunit — fen (1/100) has no settled Arabic form"
         },
         {
@@ -633,13 +1139,35 @@ const data = {
                 "accusative": "فرنكاً سويسرياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Swiss Franc",
+                    "plural": "Swiss Francs"
+                },
+                "fr": {
+                    "singular": "franc suisse",
+                    "plural": "francs suisses",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنتيم",
                 "dual": "سنتيمان",
                 "plural": "سنتيمات",
                 "accusative": "سنتيماً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Centime",
+                        "plural": "Centimes"
+                    },
+                    "fr": {
+                        "singular": "centime",
+                        "plural": "centimes",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "NEW: Rappen/centime rendered سنتيم"
         },
@@ -658,13 +1186,35 @@ const data = {
                 "accusative": "دولاراً كندياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Canadian Dollar",
+                    "plural": "Canadian Dollars"
+                },
+                "fr": {
+                    "singular": "dollar canadien",
+                    "plural": "dollars canadiens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنت",
                 "dual": "سنتان",
                 "plural": "سنتات",
                 "accusative": "سنتاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Cent",
+                        "plural": "Cents"
+                    },
+                    "fr": {
+                        "singular": "cent",
+                        "plural": "cents",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -683,13 +1233,35 @@ const data = {
                 "accusative": "دولاراً أسترالياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Australian Dollar",
+                    "plural": "Australian Dollars"
+                },
+                "fr": {
+                    "singular": "dollar australien",
+                    "plural": "dollars australiens",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنت",
                 "dual": "سنتان",
                 "plural": "سنتات",
                 "accusative": "سنتاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Cent",
+                        "plural": "Cents"
+                    },
+                    "fr": {
+                        "singular": "cent",
+                        "plural": "cents",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -707,13 +1279,35 @@ const data = {
                 "accusative": "دولاراً سنغافورياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Singapore Dollar",
+                    "plural": "Singapore Dollars"
+                },
+                "fr": {
+                    "singular": "dollar de Singapour",
+                    "plural": "dollars de Singapour",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنت",
                 "dual": "سنتان",
                 "plural": "سنتات",
                 "accusative": "سنتاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Cent",
+                        "plural": "Cents"
+                    },
+                    "fr": {
+                        "singular": "cent",
+                        "plural": "cents",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -731,13 +1325,35 @@ const data = {
                 "accusative": "روبية هندية",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Indian Rupee",
+                    "plural": "Indian Rupees"
+                },
+                "fr": {
+                    "singular": "roupie indienne",
+                    "plural": "roupies indiennes",
+                    "gender": "f"
+                }
+            },
             "subunit": {
                 "singular": "بيسة",
                 "dual": "بيستان",
                 "plural": "بيسات",
                 "accusative": "بيسة",
                 "gender": "f",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Paisa",
+                        "plural": "Paise"
+                    },
+                    "fr": {
+                        "singular": "paisa",
+                        "plural": "paisas",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "NEW: paisa rendered بيسة (as the Omani baisa)"
         },
@@ -756,6 +1372,17 @@ const data = {
                 "accusative": "روبية باكستانية",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Pakistani Rupee",
+                    "plural": "Pakistani Rupees"
+                },
+                "fr": {
+                    "singular": "roupie pakistanaise",
+                    "plural": "roupies pakistanaises",
+                    "gender": "f"
+                }
+            },
             "note": "NEW: no subunit — the paisa is no longer legal tender"
         },
         {
@@ -773,13 +1400,35 @@ const data = {
                 "accusative": "ليرة تركية",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Turkish Lira",
+                    "plural": "Turkish Lira"
+                },
+                "fr": {
+                    "singular": "livre turque",
+                    "plural": "livres turques",
+                    "gender": "f"
+                }
+            },
             "subunit": {
                 "singular": "قرش",
                 "dual": "قرشان",
                 "plural": "قروش",
                 "accusative": "قرشاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Kuruş",
+                        "plural": "Kuruş"
+                    },
+                    "fr": {
+                        "singular": "kuruş",
+                        "plural": "kuruş",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -797,13 +1446,35 @@ const data = {
                 "accusative": "روبلاً روسياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Russian Ruble",
+                    "plural": "Russian Rubles"
+                },
+                "fr": {
+                    "singular": "rouble russe",
+                    "plural": "roubles russes",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "كوبيك",
                 "dual": "كوبيكان",
                 "plural": "كوبيكات",
                 "accusative": "كوبيكاً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Kopeck",
+                        "plural": "Kopecks"
+                    },
+                    "fr": {
+                        "singular": "kopeck",
+                        "plural": "kopecks",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -820,6 +1491,17 @@ const data = {
                 "plural": "ريالات إيرانية",
                 "accusative": "ريالاً إيرانياً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Iranian Rial",
+                    "plural": "Iranian Rials"
+                },
+                "fr": {
+                    "singular": "rial iranien",
+                    "plural": "rials iraniens",
+                    "gender": "m"
+                }
             },
             "note": "NEW: no subunit; colloquial تومان (10 ريال) not modelled"
         },
@@ -838,6 +1520,17 @@ const data = {
                 "accusative": "رينغيتاً ماليزياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Malaysian Ringgit",
+                    "plural": "Malaysian Ringgit"
+                },
+                "fr": {
+                    "singular": "ringgit malaisien",
+                    "plural": "ringgits malaisiens",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: no subunit — sen (1/100) has no settled Arabic form"
         },
         {
@@ -854,6 +1547,17 @@ const data = {
                 "plural": "روبيات إندونيسية",
                 "accusative": "روبية إندونيسية",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Indonesian Rupiah",
+                    "plural": "Indonesian Rupiah"
+                },
+                "fr": {
+                    "singular": "roupie indonésienne",
+                    "plural": "roupies indonésiennes",
+                    "gender": "f"
+                }
             },
             "note": "NEW: no subunit — the sen is obsolete"
         },
@@ -873,6 +1577,17 @@ const data = {
                 "accusative": "ووناً كورياً جنوبياً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "South Korean Won",
+                    "plural": "South Korean Won"
+                },
+                "fr": {
+                    "singular": "won sud-coréen",
+                    "plural": "wons sud-coréens",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: both adjectives of كوري جنوبي agree (كوريان جنوبيان، كورية جنوبية). R9: plural وونات by the consonant-final convention"
         },
         {
@@ -889,6 +1604,17 @@ const data = {
                 "plural": "كرونات سويدية",
                 "accusative": "كرونة سويدية",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Swedish Krona",
+                    "plural": "Swedish Kronor"
+                },
+                "fr": {
+                    "singular": "couronne suédoise",
+                    "plural": "couronnes suédoises",
+                    "gender": "f"
+                }
             },
             "note": "NEW: no subunit — öre has no settled Arabic form; spelling كرونة (also كرونا/كرون)"
         },
@@ -907,6 +1633,17 @@ const data = {
                 "accusative": "كرونة نرويجية",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Norwegian Krone",
+                    "plural": "Norwegian Kroner"
+                },
+                "fr": {
+                    "singular": "couronne norvégienne",
+                    "plural": "couronnes norvégiennes",
+                    "gender": "f"
+                }
+            },
             "note": "NEW: no subunit — øre has no settled Arabic form; spelling كرونة (also كرونا/كرون)"
         },
         {
@@ -923,6 +1660,17 @@ const data = {
                 "plural": "كرونات دنماركية",
                 "accusative": "كرونة دنماركية",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Danish Krone",
+                    "plural": "Danish Kroner"
+                },
+                "fr": {
+                    "singular": "couronne danoise",
+                    "plural": "couronnes danoises",
+                    "gender": "f"
+                }
             },
             "note": "NEW: no subunit — øre has no settled Arabic form; spelling كرونة (also كرونا/كرون)"
         },
@@ -942,13 +1690,35 @@ const data = {
                 "accusative": "بيتكويناً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Bitcoin",
+                    "plural": "Bitcoins"
+                },
+                "fr": {
+                    "singular": "bitcoin",
+                    "plural": "bitcoins",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "ساتوشي",
                 "dual": "ساتوشيان",
                 "plural": "ساتوشي",
                 "accusative": "ساتوشي",
                 "gender": "m",
-                "ratio": 100000000
+                "ratio": 100000000,
+                "i18n": {
+                    "en": {
+                        "singular": "Satoshi",
+                        "plural": "Satoshis"
+                    },
+                    "fr": {
+                        "singular": "satoshi",
+                        "plural": "satoshis",
+                        "gender": "m"
+                    }
+                }
             },
             "note": "R9: convention — consonant-final foreign names inflect like دولار (dual -ان, plural -ات, accusative -اً); vowel-final names (ساتوشي) stay invariable except the dual -ان. Alternative: invariable throughout (ثلاثة بيتكوين)"
         },
@@ -969,6 +1739,17 @@ const data = {
                 "accusative": "إيثيريوماً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Ether",
+                    "plural": "Ether"
+                },
+                "fr": {
+                    "singular": "ether",
+                    "plural": "ethers",
+                    "gender": "m"
+                }
+            },
             "note": "R9: convention — consonant-final foreign names inflect like دولار (dual -ان, plural -ات, accusative -اً); vowel-final names (ساتوشي) stay invariable except the dual -ان. Alternative: invariable throughout (ثلاثة بيتكوين). NEW: the coin itself is often called إيثر"
         },
         {
@@ -986,6 +1767,17 @@ const data = {
                 "accusative": "تيثراً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Tether",
+                    "plural": "Tether"
+                },
+                "fr": {
+                    "singular": "tether",
+                    "plural": "tethers",
+                    "gender": "m"
+                }
+            },
             "note": "R9: convention — consonant-final foreign names inflect like دولار (dual -ان, plural -ات, accusative -اً); vowel-final names (ساتوشي) stay invariable except the dual -ان. Alternative: invariable throughout (ثلاثة بيتكوين)"
         },
         {
@@ -1001,6 +1793,17 @@ const data = {
                 "plural": "جنيهات",
                 "accusative": "جنيهاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Pound",
+                    "plural": "Pounds"
+                },
+                "fr": {
+                    "singular": "livre",
+                    "plural": "livres",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1016,6 +1819,17 @@ const data = {
                 "plural": "دنانير",
                 "accusative": "ديناراً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Dinar",
+                    "plural": "Dinars"
+                },
+                "fr": {
+                    "singular": "dinar",
+                    "plural": "dinars",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1031,6 +1845,17 @@ const data = {
                 "plural": "ريالات",
                 "accusative": "ريالاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Riyal",
+                    "plural": "Riyals"
+                },
+                "fr": {
+                    "singular": "riyal",
+                    "plural": "riyals",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1046,6 +1871,17 @@ const data = {
                 "plural": "دراهم",
                 "accusative": "درهماً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Dirham",
+                    "plural": "Dirhams"
+                },
+                "fr": {
+                    "singular": "dirham",
+                    "plural": "dirhams",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1061,6 +1897,17 @@ const data = {
                 "plural": "ليرات",
                 "accusative": "ليرة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Lira",
+                    "plural": "Lira"
+                },
+                "fr": {
+                    "singular": "livre",
+                    "plural": "livres",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1076,6 +1923,17 @@ const data = {
                 "plural": "دولارات",
                 "accusative": "دولاراً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Dollar",
+                    "plural": "Dollars"
+                },
+                "fr": {
+                    "singular": "dollar",
+                    "plural": "dollars",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1091,6 +1949,17 @@ const data = {
                 "plural": "فرنكات",
                 "accusative": "فرنكاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Franc",
+                    "plural": "Francs"
+                },
+                "fr": {
+                    "singular": "franc",
+                    "plural": "francs",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1106,6 +1975,17 @@ const data = {
                 "plural": "روبيات",
                 "accusative": "روبية",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Rupee",
+                    "plural": "Rupees"
+                },
+                "fr": {
+                    "singular": "roupie",
+                    "plural": "roupies",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1122,6 +2002,17 @@ const data = {
                 "accusative": "يورو",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Euro",
+                    "plural": "Euros"
+                },
+                "fr": {
+                    "singular": "euro",
+                    "plural": "euros",
+                    "gender": "m"
+                }
+            },
             "note": "R9: invariable, as EUR"
         },
         {
@@ -1137,6 +2028,17 @@ const data = {
                 "plural": "ينات",
                 "accusative": "يناً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Yen",
+                    "plural": "Yen"
+                },
+                "fr": {
+                    "singular": "yen",
+                    "plural": "yens",
+                    "gender": "m"
+                }
             },
             "note": "R9: as JPY"
         },
@@ -1157,6 +2059,17 @@ const data = {
                 "plural": "غرامات",
                 "accusative": "غراماً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Gram",
+                    "plural": "Grams"
+                },
+                "fr": {
+                    "singular": "gramme",
+                    "plural": "grammes",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1175,13 +2088,35 @@ const data = {
                 "accusative": "كيلوغراماً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Kilogram",
+                    "plural": "Kilograms"
+                },
+                "fr": {
+                    "singular": "kilogramme",
+                    "plural": "kilogrammes",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "غرام",
                 "dual": "غرامان",
                 "plural": "غرامات",
                 "accusative": "غراماً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Gram",
+                        "plural": "Grams"
+                    },
+                    "fr": {
+                        "singular": "gramme",
+                        "plural": "grammes",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -1198,6 +2133,17 @@ const data = {
                 "plural": "أطنان",
                 "accusative": "طناً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Tonne",
+                    "plural": "Tonnes"
+                },
+                "fr": {
+                    "singular": "tonne",
+                    "plural": "tonnes",
+                    "gender": "f"
+                }
             },
             "note": "Metric ton (1000 kg)"
         },
@@ -1218,6 +2164,17 @@ const data = {
                 "accusative": "ملليغراماً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Milligram",
+                    "plural": "Milligrams"
+                },
+                "fr": {
+                    "singular": "milligramme",
+                    "plural": "milligrammes",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: spelling of the milli- prefix varies (مللي/ملي); this catalog uses ملليغرام but مليلتر and مليمتر"
         },
         {
@@ -1236,6 +2193,17 @@ const data = {
                 "accusative": "أونصة",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Ounce",
+                    "plural": "Ounces"
+                },
+                "fr": {
+                    "singular": "once",
+                    "plural": "onces",
+                    "gender": "f"
+                }
+            },
             "note": "NEW: troy vs avoirdupois ounce not distinguished"
         },
         {
@@ -1253,6 +2221,17 @@ const data = {
                 "accusative": "رطلاً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Pound",
+                    "plural": "Pounds"
+                },
+                "fr": {
+                    "singular": "livre",
+                    "plural": "livres",
+                    "gender": "f"
+                }
+            },
             "note": "NEW: avoirdupois pound (~453.6 g); the traditional Arab رطل varies by region"
         },
         {
@@ -1269,6 +2248,17 @@ const data = {
                 "plural": "قراريط",
                 "accusative": "قيراطاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Carat",
+                    "plural": "Carats"
+                },
+                "fr": {
+                    "singular": "carat",
+                    "plural": "carats",
+                    "gender": "m"
+                }
             },
             "note": "Gem carat (0.2 g); the same word is used for gold purity (karat)"
         },
@@ -1288,13 +2278,35 @@ const data = {
                 "accusative": "لتراً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Litre",
+                    "plural": "Litres"
+                },
+                "fr": {
+                    "singular": "litre",
+                    "plural": "litres",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "مليلتر",
                 "dual": "مليلتران",
                 "plural": "مليلترات",
                 "accusative": "مليلتراً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Millilitre",
+                        "plural": "Millilitres"
+                    },
+                    "fr": {
+                        "singular": "millilitre",
+                        "plural": "millilitres",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -1312,6 +2324,17 @@ const data = {
                 "plural": "أمتار مكعبة",
                 "accusative": "متراً مكعباً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Cubic Metre",
+                    "plural": "Cubic Metres"
+                },
+                "fr": {
+                    "singular": "mètre cube",
+                    "plural": "mètres cubes",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1330,6 +2353,17 @@ const data = {
                 "accusative": "غالوناً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Gallon",
+                    "plural": "Gallons"
+                },
+                "fr": {
+                    "singular": "gallon",
+                    "plural": "gallons",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: US vs imperial gallon not distinguished"
         },
         {
@@ -1346,6 +2380,17 @@ const data = {
                 "plural": "براميل",
                 "accusative": "برميلاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Barrel",
+                    "plural": "Barrels"
+                },
+                "fr": {
+                    "singular": "baril",
+                    "plural": "barils",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1364,13 +2409,35 @@ const data = {
                 "accusative": "متراً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Metre",
+                    "plural": "Metres"
+                },
+                "fr": {
+                    "singular": "mètre",
+                    "plural": "mètres",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "سنتيمتر",
                 "dual": "سنتيمتران",
                 "plural": "سنتيمترات",
                 "accusative": "سنتيمتراً",
                 "gender": "m",
-                "ratio": 100
+                "ratio": 100,
+                "i18n": {
+                    "en": {
+                        "singular": "Centimetre",
+                        "plural": "Centimetres"
+                    },
+                    "fr": {
+                        "singular": "centimètre",
+                        "plural": "centimètres",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -1389,6 +2456,17 @@ const data = {
                 "plural": "سنتيمترات",
                 "accusative": "سنتيمتراً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Centimetre",
+                    "plural": "Centimetres"
+                },
+                "fr": {
+                    "singular": "centimètre",
+                    "plural": "centimètres",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1407,6 +2485,17 @@ const data = {
                 "plural": "مليمترات",
                 "accusative": "مليمتراً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Millimetre",
+                    "plural": "Millimetres"
+                },
+                "fr": {
+                    "singular": "millimètre",
+                    "plural": "millimètres",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1425,13 +2514,35 @@ const data = {
                 "accusative": "كيلومتراً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Kilometre",
+                    "plural": "Kilometres"
+                },
+                "fr": {
+                    "singular": "kilomètre",
+                    "plural": "kilomètres",
+                    "gender": "m"
+                }
+            },
             "subunit": {
                 "singular": "متر",
                 "dual": "متران",
                 "plural": "أمتار",
                 "accusative": "متراً",
                 "gender": "m",
-                "ratio": 1000
+                "ratio": 1000,
+                "i18n": {
+                    "en": {
+                        "singular": "Metre",
+                        "plural": "Metres"
+                    },
+                    "fr": {
+                        "singular": "mètre",
+                        "plural": "mètres",
+                        "gender": "m"
+                    }
+                }
             }
         },
         {
@@ -1449,6 +2560,17 @@ const data = {
                 "accusative": "ميلاً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Mile",
+                    "plural": "Miles"
+                },
+                "fr": {
+                    "singular": "mile",
+                    "plural": "miles",
+                    "gender": "m"
+                }
+            },
             "note": "Statute mile; nautical mile not modelled"
         },
         {
@@ -1465,6 +2587,17 @@ const data = {
                 "plural": "أقدام",
                 "accusative": "قدماً",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Foot",
+                    "plural": "Feet"
+                },
+                "fr": {
+                    "singular": "pied",
+                    "plural": "pieds",
+                    "gender": "m"
+                }
             },
             "note": "NEW: قدم is feminine in classical usage (ثلاث أقدام، قدم واحدة); MSA often treats the unit as masculine (ثلاثة أقدام)"
         },
@@ -1484,6 +2617,17 @@ const data = {
                 "plural": "بوصات",
                 "accusative": "بوصة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Inch",
+                    "plural": "Inches"
+                },
+                "fr": {
+                    "singular": "pouce",
+                    "plural": "pouces",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1500,6 +2644,17 @@ const data = {
                 "plural": "ياردات",
                 "accusative": "ياردة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Yard",
+                    "plural": "Yards"
+                },
+                "fr": {
+                    "singular": "yard",
+                    "plural": "yards",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1517,6 +2672,17 @@ const data = {
                 "plural": "أمتار مربعة",
                 "accusative": "متراً مربعاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Square Metre",
+                    "plural": "Square Metres"
+                },
+                "fr": {
+                    "singular": "mètre carré",
+                    "plural": "mètres carrés",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1534,6 +2700,17 @@ const data = {
                 "plural": "كيلومترات مربعة",
                 "accusative": "كيلومتراً مربعاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Square Kilometre",
+                    "plural": "Square Kilometres"
+                },
+                "fr": {
+                    "singular": "kilomètre carré",
+                    "plural": "kilomètres carrés",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1549,6 +2726,17 @@ const data = {
                 "plural": "دونمات",
                 "accusative": "دونماً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Dunam",
+                    "plural": "Dunams"
+                },
+                "fr": {
+                    "singular": "dounam",
+                    "plural": "dounams",
+                    "gender": "m"
+                }
             },
             "note": "NEW: size varies by country (metric dunam 1000 m², Iraqi 2500 m²)"
         },
@@ -1566,6 +2754,17 @@ const data = {
                 "accusative": "فداناً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Feddan",
+                    "plural": "Feddans"
+                },
+                "fr": {
+                    "singular": "feddan",
+                    "plural": "feddans",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: plural أفدنة (standard); فدادين is common in Egypt"
         },
         {
@@ -1582,6 +2781,17 @@ const data = {
                 "plural": "هكتارات",
                 "accusative": "هكتاراً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Hectare",
+                    "plural": "Hectares"
+                },
+                "fr": {
+                    "singular": "hectare",
+                    "plural": "hectares",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1599,6 +2809,17 @@ const data = {
                 "accusative": "ثانية",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Second",
+                    "plural": "Seconds"
+                },
+                "fr": {
+                    "singular": "seconde",
+                    "plural": "secondes",
+                    "gender": "f"
+                }
+            },
             "note": "NEW: correct form after 3–10 is ثوانٍ (manqus, indefinite genitive); diacritics are not allowed, so it is written ثوان. The common ثواني is avoided"
         },
         {
@@ -1615,6 +2836,17 @@ const data = {
                 "plural": "دقائق",
                 "accusative": "دقيقة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Minute",
+                    "plural": "Minutes"
+                },
+                "fr": {
+                    "singular": "minute",
+                    "plural": "minutes",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1631,6 +2863,17 @@ const data = {
                 "plural": "ساعات",
                 "accusative": "ساعة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Hour",
+                    "plural": "Hours"
+                },
+                "fr": {
+                    "singular": "heure",
+                    "plural": "heures",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1646,6 +2889,17 @@ const data = {
                 "plural": "أيام",
                 "accusative": "يوماً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Day",
+                    "plural": "Days"
+                },
+                "fr": {
+                    "singular": "jour",
+                    "plural": "jours",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1661,6 +2915,17 @@ const data = {
                 "plural": "أسابيع",
                 "accusative": "أسبوعاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Week",
+                    "plural": "Weeks"
+                },
+                "fr": {
+                    "singular": "semaine",
+                    "plural": "semaines",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1676,6 +2941,17 @@ const data = {
                 "plural": "أشهر",
                 "accusative": "شهراً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Month",
+                    "plural": "Months"
+                },
+                "fr": {
+                    "singular": "mois",
+                    "plural": "mois",
+                    "gender": "m"
+                }
             },
             "note": "Plural of paucity أشهر with 3–10 (not شهور)"
         },
@@ -1693,6 +2969,17 @@ const data = {
                 "accusative": "سنة",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Year",
+                    "plural": "Years"
+                },
+                "fr": {
+                    "singular": "an",
+                    "plural": "ans",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: سنين is an alternative plural; عام would be a separate unit"
         },
         {
@@ -1708,6 +2995,17 @@ const data = {
                 "plural": "قطع",
                 "accusative": "قطعة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Piece",
+                    "plural": "Pieces"
+                },
+                "fr": {
+                    "singular": "pièce",
+                    "plural": "pièces",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1723,6 +3021,17 @@ const data = {
                 "plural": "حبات",
                 "accusative": "حبة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Item",
+                    "plural": "Items"
+                },
+                "fr": {
+                    "singular": "unité",
+                    "plural": "unités",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1739,6 +3048,17 @@ const data = {
                 "accusative": "علبة",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Pack",
+                    "plural": "Packs"
+                },
+                "fr": {
+                    "singular": "paquet",
+                    "plural": "paquets",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: plural علب (standard); علبات is also heard"
         },
         {
@@ -1754,6 +3074,17 @@ const data = {
                 "plural": "صناديق",
                 "accusative": "صندوقاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Box",
+                    "plural": "Boxes"
+                },
+                "fr": {
+                    "singular": "boîte",
+                    "plural": "boîtes",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1770,6 +3101,17 @@ const data = {
                 "accusative": "كرتونة",
                 "gender": "f"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Carton",
+                    "plural": "Cartons"
+                },
+                "fr": {
+                    "singular": "carton",
+                    "plural": "cartons",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: كرتونة is a regional/commercial word; plural كراتين (also كرتونات)"
         },
         {
@@ -1785,6 +3127,17 @@ const data = {
                 "plural": "طبليات",
                 "accusative": "طبلية",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Pallet",
+                    "plural": "Pallets"
+                },
+                "fr": {
+                    "singular": "palette",
+                    "plural": "palettes",
+                    "gender": "f"
+                }
             },
             "note": "NEW: regional commercial word (MSA منصة نقالة); plural طبليات (also طبالي)"
         },
@@ -1803,6 +3156,17 @@ const data = {
                 "plural": "دستات",
                 "accusative": "دستة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Dozen",
+                    "plural": "Dozen"
+                },
+                "fr": {
+                    "singular": "douzaine",
+                    "plural": "douzaines",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1818,6 +3182,17 @@ const data = {
                 "plural": "أكياس",
                 "accusative": "كيساً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Bag",
+                    "plural": "Bags"
+                },
+                "fr": {
+                    "singular": "sac",
+                    "plural": "sacs",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1833,6 +3208,17 @@ const data = {
                 "plural": "لفات",
                 "accusative": "لفة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Roll",
+                    "plural": "Rolls"
+                },
+                "fr": {
+                    "singular": "rouleau",
+                    "plural": "rouleaux",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1848,6 +3234,17 @@ const data = {
                 "plural": "أزواج",
                 "accusative": "زوجاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Pair",
+                    "plural": "Pairs"
+                },
+                "fr": {
+                    "singular": "paire",
+                    "plural": "paires",
+                    "gender": "f"
+                }
             }
         },
         {
@@ -1865,6 +3262,17 @@ const data = {
                 "accusative": "بايتاً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Byte",
+                    "plural": "Bytes"
+                },
+                "fr": {
+                    "singular": "octet",
+                    "plural": "octets",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: plural بايتات by the R9 consonant-final convention; invariable بايت (ثلاثة بايت) is also common"
         },
         {
@@ -1881,6 +3289,17 @@ const data = {
                 "plural": "كيلوبايتات",
                 "accusative": "كيلوبايتاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Kilobyte",
+                    "plural": "Kilobytes"
+                },
+                "fr": {
+                    "singular": "kilooctet",
+                    "plural": "kilooctets",
+                    "gender": "m"
+                }
             },
             "note": "NEW: plural كيلوبايتات by the R9 consonant-final convention; invariable كيلوبايت (ثلاثة كيلوبايت) is also common"
         },
@@ -1900,6 +3319,17 @@ const data = {
                 "accusative": "ميغابايتاً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Megabyte",
+                    "plural": "Megabytes"
+                },
+                "fr": {
+                    "singular": "mégaoctet",
+                    "plural": "mégaoctets",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: plural ميغابايتات by the R9 consonant-final convention; invariable ميغابايت (ثلاثة ميغابايت) is also common"
         },
         {
@@ -1918,6 +3348,17 @@ const data = {
                 "accusative": "غيغابايتاً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Gigabyte",
+                    "plural": "Gigabytes"
+                },
+                "fr": {
+                    "singular": "gigaoctet",
+                    "plural": "gigaoctets",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: plural غيغابايتات by the R9 consonant-final convention; invariable غيغابايت (ثلاثة غيغابايت) is also common"
         },
         {
@@ -1935,6 +3376,17 @@ const data = {
                 "accusative": "تيرابايتاً",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Terabyte",
+                    "plural": "Terabytes"
+                },
+                "fr": {
+                    "singular": "téraoctet",
+                    "plural": "téraoctets",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: plural تيرابايتات by the R9 consonant-final convention; invariable تيرابايت (ثلاثة تيرابايت) is also common"
         },
         {
@@ -1951,6 +3403,17 @@ const data = {
                 "plural": "بتات",
                 "accusative": "بتاً",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Bit",
+                    "plural": "Bits"
+                },
+                "fr": {
+                    "singular": "bit",
+                    "plural": "bits",
+                    "gender": "m"
+                }
             },
             "note": "NEW: plural بتات by the R9 consonant-final convention; invariable بت (ثلاثة بت) is also common"
         },
@@ -1970,6 +3433,17 @@ const data = {
                 "plural": "كيلومترات في الساعة",
                 "accusative": "كيلومتراً في الساعة",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Kilometre per Hour",
+                    "plural": "Kilometres per Hour"
+                },
+                "fr": {
+                    "singular": "kilomètre par heure",
+                    "plural": "kilomètres par heure",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -1987,6 +3461,17 @@ const data = {
                 "plural": "أميال في الساعة",
                 "accusative": "ميلاً في الساعة",
                 "gender": "m"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Mile per Hour",
+                    "plural": "Miles per Hour"
+                },
+                "fr": {
+                    "singular": "mile par heure",
+                    "plural": "miles par heure",
+                    "gender": "m"
+                }
             }
         },
         {
@@ -2005,6 +3490,17 @@ const data = {
                 "accusative": "ميغابتاً في الثانية",
                 "gender": "m"
             },
+            "i18n": {
+                "en": {
+                    "singular": "Megabit per Second",
+                    "plural": "Megabits per Second"
+                },
+                "fr": {
+                    "singular": "mégabit par seconde",
+                    "plural": "mégabits par seconde",
+                    "gender": "m"
+                }
+            },
             "note": "NEW: plural ميغابتات as for بت (R9 convention)"
         },
         {
@@ -2021,6 +3517,17 @@ const data = {
                 "plural": "عقد",
                 "accusative": "عقدة",
                 "gender": "f"
+            },
+            "i18n": {
+                "en": {
+                    "singular": "Knot",
+                    "plural": "Knots"
+                },
+                "fr": {
+                    "singular": "nœud",
+                    "plural": "nœuds",
+                    "gender": "m"
+                }
             }
         }
     ]

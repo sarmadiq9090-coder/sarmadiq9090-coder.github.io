@@ -3,10 +3,12 @@ import { Catalog } from "./catalog.js";
 import { TafqitError } from "./errors.js";
 import { phrase } from "./engine.js";
 import { normalizeNumber } from "./normalize.js";
+import { isLanguage } from "./lang/index.js";
 import defaultCatalogData from "./generated/units-data.js";
 export { TafqitError, ERROR_MESSAGES } from "./errors.js";
 export { normalizeNumber } from "./normalize.js";
 export { Catalog } from "./catalog.js";
+export { LANGUAGES } from "./lang/index.js";
 const HUNDREDS_FORMS = ["مائة", "مئة"];
 function resolveHundreds(v) {
     if (v === undefined || v === "")
@@ -15,17 +17,26 @@ function resolveHundreds(v) {
         return v;
     throw new TafqitError("INVALID_OPTION", `hundredsForm=${v}`);
 }
+function resolveLanguage(v) {
+    if (v === undefined || v === "")
+        return "ar";
+    if (isLanguage(v))
+        return v;
+    throw new TafqitError("INVALID_OPTION", `language=${v}`);
+}
 /** Create an engine bound to a units catalog (e.g. a customised units.json). */
 export function createTafqit(catalogData = defaultCatalogData) {
     const catalog = new Catalog(catalogData);
     const tafqit = (input, options = {}) => {
+        const language = resolveLanguage(options.language);
         const unit = catalog.get(options.unit);
+        // Validated for every language, but only Arabic uses it.
         const hundredsForm = resolveHundreds(options.hundredsForm);
         const number = normalizeNumber(input);
         const decimals = options.decimals ?? "round";
         if (decimals !== "round" && decimals !== "error")
             throw new TafqitError("INVALID_OPTION", `decimals=${decimals}`);
-        const text = phrase({ number, unit, hundredsForm, decimals });
+        const text = phrase({ number, unit, hundredsForm, decimals, language });
         return [options.prefix?.trim(), text, options.suffix?.trim()].filter(Boolean).join(" ");
     };
     const tryTafqit = (input, options) => {
@@ -47,7 +58,7 @@ export function createTafqit(catalogData = defaultCatalogData) {
         }
     };
     const convert = (req) => ({
-        result: tafqit(req.the_number, { unit: req.unit, hundredsForm: req.hundreds_form }),
+        result: tafqit(req.the_number, { unit: req.unit, hundredsForm: req.hundreds_form, language: req.language }),
     });
     return { tafqit, tryTafqit, convert, units: catalog.units, findUnit: (n) => catalog.find(n) };
 }

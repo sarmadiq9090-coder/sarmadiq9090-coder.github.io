@@ -8,6 +8,7 @@ export const ERROR_MESSAGES = {
     UNKNOWN_UNIT: "الوحدة غير معروفة.",
     INVALID_OPTION: "خيار غير صالح.",
     INVALID_CATALOG: "ملف الوحدات غير صالح.",
+    NO_LANGUAGE_FORMS: "لا تتوفر صيغة لهذه الوحدة باللغة المختارة.",
 };
 export class TafqitError extends Error {
     constructor(code, detail) {
