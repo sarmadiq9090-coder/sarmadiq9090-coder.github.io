@@ -1,7 +1,7 @@
 // Bulk conversion page. Designed to stay responsive with tens of thousands of lines:
 // conversion is cheap, so all rows are converted at once, and the table is rendered in chunks.
 import { csvColumnValues, toCsv } from "../lib/csv.js";
-import { engineReady, bindOptions, loadPrefs, copyText, flash, escapeHtml, debounce, formatCount } from "./app.js";
+import { engineReady, bindOptions, loadPrefs, applyParams, copyText, flash, escapeHtml, debounce, formatCount, languageInfo } from "./app.js";
 
 const $ = (id) => document.getElementById(id);
 const numbersEl = $("numbers");
@@ -21,13 +21,15 @@ const { engine } = await engineReady;
 
 /** @type {{input: string, r: import("../lib/index.js").TafqitResult}[]} */
 let results = [];
+/** Attributes for result cells in the current output language (e.g. ` dir="ltr" lang="en"`). */
+let textAttrs = "";
 let renderToken = 0;
 
 function rowHtml(i, item) {
   const { input, r } = item;
   const cleaned = r.cleaned ?? "";
   const text = r.ok ? escapeHtml(r.result) : escapeHtml(r.error.message);
-  return `<tr${r.ok ? "" : ' class="is-error"'}><td class="c-idx">${i + 1}</td><td class="c-in"><span dir="ltr">${escapeHtml(input)}</span></td><td class="c-clean"><span dir="ltr">${escapeHtml(cleaned)}</span></td><td class="c-text">${text}</td></tr>`;
+  return `<tr${r.ok ? "" : ' class="is-error"'}><td class="c-idx">${i + 1}</td><td class="c-in"><span dir="ltr">${escapeHtml(input)}</span></td><td class="c-clean"><span dir="ltr">${escapeHtml(cleaned)}</span></td><td class="c-text"${r.ok ? textAttrs : ""}>${text}</td></tr>`;
 }
 
 function renderRows() {
@@ -60,6 +62,8 @@ function renderRows() {
 
 function convertAll() {
   const opts = options.get();
+  const lang = languageInfo(opts.language);
+  textAttrs = lang.id === "ar" ? "" : ` dir="${escapeHtml(lang.dir ?? "ltr")}" lang="${escapeHtml(lang.id)}"`;
   const lines = numbersEl.value.split(/\r\n|\r|\n/);
   const out = [];
   for (const line of lines) {
@@ -81,7 +85,7 @@ function convertAll() {
 // Short delay for small lists, longer for big pastes so typing stays smooth.
 const schedule = debounce(convertAll, () => (numbersEl.value.length > 50000 ? 400 : 120));
 
-const options = bindOptions($("options"), engine, loadPrefs(), () => schedule.now());
+const options = bindOptions($("options"), engine, applyParams(loadPrefs(), engine, new URLSearchParams(location.search)), () => schedule.now());
 numbersEl.addEventListener("input", () => schedule());
 
 $("sample").addEventListener("click", () => {

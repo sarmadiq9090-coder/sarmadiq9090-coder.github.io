@@ -1,4 +1,4 @@
-/* تفقيط مفتوح — FastKiwi design language (light theme only). No external resources. */
+/* InstaWords (تفقيط) — FastKiwi design language (light theme only). No external resources. */
 
 @font-face { font-family: "Plex Arabic"; font-style: normal; font-weight: 400; font-display: swap;
   src: url(../fonts/plex-arabic-arabic-400.woff2) format("woff2");
@@ -97,6 +97,7 @@ pre code { background: none; padding: 0; }
 .brand:hover { color: var(--text); }
 .brand img { width: 34px; height: 34px; }
 .brand small { color: var(--accent-text); font-weight: 700; font-size: 1rem; }
+.product small { color: var(--accent-text); font-size: .9rem; }
 .product { display: flex; align-items: center; gap: .5rem; padding-inline-start: 1rem; border-inline-start: 1px solid var(--border); color: var(--text); text-decoration: none; font-weight: 700; white-space: nowrap; }
 .product img { width: 28px; height: 28px; border-radius: 7px; }
 .tool-nav { margin-inline-start: auto; }
@@ -397,3 +398,76 @@ textarea { min-height: 220px; resize: vertical; line-height: 1.65; font-family: 
 .example-out { padding: .6rem .9rem; border-radius: 10px; background: var(--bg-soft); border: 1px solid var(--border); font-weight: 700; color: var(--accent-text); }
 .form-grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
 .form-grid .chips { align-self: end; min-height: 48px; }
+
+/* ---------- InstaWords polish ---------- */
+
+/* typography scale */
+.hero h1 { font-size: clamp(1.85rem, 1.25rem + 2.4vw, 2.85rem); line-height: 1.25; }
+.hero-page h1 { font-size: clamp(1.7rem, 1.25rem + 1.7vw, 2.4rem); }
+.lead { line-height: 1.8; }
+.field > label, fieldset > legend { font-size: .92rem; letter-spacing: .005em; }
+
+.app-label { display: flex; width: fit-content; align-items: center; gap: .5rem; margin: 0 0 .7rem; font-weight: 700; color: var(--accent-text); }
+.app-label img { width: 28px; height: 28px; border-radius: 7px; box-shadow: 0 0 0 1px var(--border), 0 4px 12px rgb(76 154 30 / .18); }
+.cta { display: flex; flex-wrap: wrap; gap: .65rem; margin-block: 1.4rem .4rem; }
+.fine { font-size: .88rem; color: var(--muted); margin: .6rem 0 0; }
+.split { display: grid; gap: 2rem; align-items: center; }
+@media (min-width: 920px) { .split { grid-template-columns: 1.05fr .95fr; } }
+.split h2 { font-size: clamp(1.45rem, 1.1rem + 1.3vw, 2rem); }
+.split .checks { margin-top: 1rem; }
+@media (max-width: 520px) {
+  .split .cta .btn { flex: 1 1 100%; }
+  .hero .cta { gap: .5rem; margin-top: 1.1rem; }
+  .hero .cta .btn { flex: 1 1 auto; min-height: 42px; padding: .4rem .7rem; font-size: .9rem; border-radius: 10px; }
+  .hero .cta .btn svg { width: 17px; height: 17px; }
+}
+
+/* converter card */
+.tool-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem 1rem; margin-bottom: 1rem; padding-bottom: .85rem; border-bottom: 1px solid var(--border); }
+.tool-title { margin: 0; font-size: 1.15rem; }
+.kbd-hint { margin: 0; font-size: .82rem; color: var(--muted); }
+.kbd-hint kbd { min-width: 1.6em; padding: 0 .35rem; font-size: .75rem; border-bottom-width: 2px; }
+@media (hover: none), (pointer: coarse) { .kbd-hint { display: none; } }
+
+.lang-field .segmented span { min-width: 5.5rem; }
+
+.input-wrap { position: relative; }
+.input-wrap input.input-number { padding-left: 3.4rem; }
+.clear-btn { position: absolute; left: .55rem; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: var(--bg-soft); color: var(--muted); cursor: pointer; transition: background-color .15s, color .15s; }
+.clear-btn:hover { background: color-mix(in srgb, var(--brand) 14%, var(--surface)); color: var(--text); }
+.clear-btn svg { width: 18px; height: 18px; }
+
+/* result panel states */
+.cheque[data-state="empty"] { border-style: dashed; background: var(--bg-soft); }
+.cheque[data-state="empty"]::before { background: var(--border-strong); }
+.cheque[data-state="error"] { border-color: color-mix(in srgb, var(--danger) 35%, var(--border)); background: color-mix(in srgb, var(--danger) 4%, var(--surface)); }
+.cheque[data-state="error"]::before { background: var(--danger); }
+.result-text.is-empty { border-bottom-color: transparent; min-height: 0; padding-bottom: 0; }
+.result-text[dir="ltr"] { text-align: left; letter-spacing: .005em; }
+.samples { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-top: .6rem; }
+.samples bdi { font-variant-numeric: tabular-nums; }
+.cheque[data-state="empty"] .cheque-foot { display: none; }
+
+@keyframes iw-reveal { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes iw-pop { 0% { transform: scale(1); } 45% { transform: scale(1.05); } 100% { transform: scale(1); } }
+.cheque.is-revealed .result-text { animation: iw-reveal .28s ease-out both; }
+.btn .i-done { display: none; }
+.btn.is-done .i-copy { display: none; }
+.btn.is-done .i-done { display: block; }
+.btn.is-done { animation: iw-pop .3s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .cheque.is-revealed .result-text, .btn.is-done { animation: none; }
+}
+
+.results td.c-text[dir="ltr"] { text-align: left; }
+
+/* Windows app mock (decorative) */
+.win-mock { margin: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: 0 1px 2px rgb(15 23 42 / .06), 0 24px 60px -24px rgb(47 111 16 / .35); overflow: hidden; max-width: 520px; justify-self: center; width: 100%; }
+.win-bar { display: flex; align-items: center; gap: .4rem; padding: .55rem .8rem; background: var(--bg-soft); border-bottom: 1px solid var(--border); font-size: .85rem; }
+.win-bar span { width: 10px; height: 10px; border-radius: 50%; background: var(--border-strong); }
+.win-bar b { margin-inline-start: .4rem; color: var(--muted); }
+.win-body { display: grid; gap: .7rem; padding: 1.2rem; }
+.win-field { padding: .55rem .85rem; border: 1.5px solid var(--brand); border-radius: 10px; font-weight: 700; font-size: 1.3rem; text-align: right; box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent); }
+.win-chip { padding: .45rem .85rem; border: 1.5px solid var(--border-strong); border-radius: 10px; color: var(--muted); }
+.win-result { padding: .8rem 1rem; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--border)); background: linear-gradient(180deg, #fbfdf8, #f3f8ec); font-weight: 700; line-height: 1.8; }
+.win-btn { justify-self: end; padding: .45rem 1.1rem; border-radius: 10px; background: var(--grad); color: #fff; font-weight: 700; font-size: .92rem; }

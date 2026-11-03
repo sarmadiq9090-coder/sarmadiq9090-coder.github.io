@@ -1,15 +1,6 @@
-// Tafqit rules, docs/SPEC.md §3–§11.
-import { TafqitError } from "./errors.js";
-import { COMPOUND_ONES, DECIMAL_POINT_WORD, HUNDREDS, MAX_INTEGER_DIGITS, ONES, SCALES, TEENS, TENS, WAW, ZERO, } from "./lexicon.js";
-import { normalizeNumber } from "./normalize.js";
-/** Split digit string into 3-digit groups, least significant first. */
-function splitGroups(digits) {
-    const groups = [];
-    for (let end = digits.length; end > 0; end -= 3) {
-        groups.push(parseInt(digits.slice(Math.max(0, end - 3), end), 10));
-    }
-    return groups;
-}
+// Arabic tafqit rules, docs/SPEC.md §3–§11.
+import { COMPOUND_ONES, DECIMAL_POINT_WORD, HUNDREDS, ONES, SCALES, TEENS, TENS, WAW, ZERO, } from "../lexicon.js";
+import { splitGroups } from "./types.js";
 /** Last two digits of a digit string. */
 function lastTwo(digits) {
     return parseInt(digits.slice(-2), 10);
@@ -96,58 +87,13 @@ function fractionDigitsWords(fraction, hf) {
         words.push(integerWords(rest, "m", hf, false));
     return words.join(" ");
 }
-/** Add one to a digit string. */
-function incrementDigits(digits) {
-    const a = digits.split("");
-    let i = a.length - 1;
-    while (i >= 0 && a[i] === "9")
-        a[i--] = "0";
-    if (i < 0)
-        a.unshift("1");
-    else
-        a[i] = String(Number(a[i]) + 1);
-    return a.join("");
-}
-/** §8 / P1 — round half-up to `d` fraction digits on strings. Returns [integer, subunit digits]. */
-export function roundHalfUp(integer, fraction, d) {
-    let digits = integer + fraction.slice(0, d).padEnd(d, "0");
-    if ((fraction[d] ?? "0") >= "5")
-        digits = incrementDigits(digits);
-    const int = digits.slice(0, digits.length - d).replace(/^0+/, "") || "0";
-    if (int.length > MAX_INTEGER_DIGITS)
-        throw new TafqitError("TOO_LARGE");
-    return [int, digits.slice(digits.length - d)];
-}
-/** Full phrase without prefix/suffix. */
-export function phrase({ number, unit, hundredsForm: hf, decimals }) {
-    let { integer } = number;
-    const { fraction } = number;
-    if (unit.forms === null) {
+export const arabic = {
+    info: { id: "ar", label: "العربية", dir: "rtl", supportsHundredsForm: true },
+    pickForms: (forms) => forms,
+    plain(integer, fraction, hf) {
         const intText = integerWords(integer, "m", hf, false);
-        if (!fraction)
-            return intText;
-        if (fraction.length > 15)
-            throw new TafqitError("TOO_MANY_DECIMALS");
-        return `${intText} ${DECIMAL_POINT_WORD} ${fractionDigitsWords(fraction, hf)}`;
-    }
-    let sub = "0";
-    if (fraction) {
-        if (!unit.subunit)
-            throw new TafqitError("FRACTION_NOT_SUPPORTED", unit.label);
-        const d = String(unit.subunit.ratio).length - 1;
-        let subDigits = fraction.padEnd(d, "0");
-        if (fraction.length > d) {
-            if (decimals === "error")
-                throw new TafqitError("TOO_MANY_DECIMALS", `${unit.label}: ${d}`);
-            [integer, subDigits] = roundHalfUp(integer, fraction, d);
-        }
-        sub = subDigits.replace(/^0+/, "") || "0";
-    }
-    if (sub === "0")
-        return countPhrase(integer, unit.forms, hf);
-    const subText = countPhrase(sub, unit.subunit, hf);
-    if (integer === "0")
-        return subText;
-    return countPhrase(integer, unit.forms, hf) + WAW + subText;
-}
-export { normalizeNumber };
+        return fraction ? `${intText} ${DECIMAL_POINT_WORD} ${fractionDigitsWords(fraction, hf)}` : intText;
+    },
+    count: countPhrase,
+    subunitJoiner: WAW,
+};

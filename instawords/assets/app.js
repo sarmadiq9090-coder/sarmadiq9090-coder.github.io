@@ -1,7 +1,25 @@
-// Shared page code: engine loading, unit list, options panel, preferences, copy, service worker.
-import { createTafqit, tryTafqit, units, findUnit } from "../lib/index.js";
+// InstaWords (تفقيط) — shared page code: engine loading, unit list, options panel (language,
+// unit, hundreds, decimals, prefix, suffix), preferences, copy, keyboard shortcuts, service worker.
+// A namespace import keeps the page working with cores that do not export LANGUAGES yet.
+import * as core from "../lib/index.js";
 
+const { createTafqit, tryTafqit, units, findUnit } = core;
 const BUNDLED = { tryTafqit, units, findUnit };
+
+/** Output languages offered by the core ({id, label, dir, supportsHundredsForm}); Arabic only if absent. */
+const ARABIC = { id: "ar", label: "العربية", dir: "rtl", supportsHundredsForm: true };
+export const LANGUAGES = Array.isArray(core.LANGUAGES) && core.LANGUAGES.some((l) => l && l.id === "ar")
+  ? core.LANGUAGES.filter((l) => l && typeof l.id === "string")
+  : [ARABIC];
+export const languageInfo = (id) => LANGUAGES.find((l) => l.id === id) ?? LANGUAGES.find((l) => l.id === "ar") ?? ARABIC;
+
+/** Ready-made prefix/suffix per language: [prefix, suffix, button label]. */
+const PRESETS = {
+  ar: ["فقط", "لا غير", "فقط … لا غير"],
+  en: ["", "Only", "… Only"],
+  fr: ["Arrêtée la présente facture à la somme de", "", "Arrêtée la présente facture à la somme de …"],
+};
+const presetFor = (lang) => PRESETS[lang] ?? PRESETS.ar;
 
 /** Arabic names of the unit categories, in display order. */
 export const CATEGORY_LABELS = {
@@ -33,7 +51,7 @@ export const engineReady = (async () => {
     if (!engine.units.length) throw new Error("units.json has no units");
     return { engine, source: "units.json" };
   } catch (err) {
-    console.warn("[tafket] units.json غير متاح، تُستخدم الوحدات المضمّنة:", err);
+    console.warn("[InstaWords] units.json غير متاح، تُستخدم الوحدات المضمّنة:", err);
     return { engine: BUNDLED, source: "bundled" };
   }
 })();
@@ -41,7 +59,7 @@ export const engineReady = (async () => {
 /* ---------- Preferences (localStorage may be unavailable) ---------- */
 
 const PREFS_KEY = "tafket.prefs.v1";
-export const DEFAULT_PREFS = { unit: "SAR", hundredsForm: "مائة", decimals: "round", prefix: "", suffix: "" };
+export const DEFAULT_PREFS = { language: "ar", unit: "SAR", hundredsForm: "مائة", decimals: "round", prefix: "", suffix: "" };
 
 export function loadPrefs() {
   try {
@@ -90,6 +108,29 @@ export function fillUnitSelect(select, engine, selectedId) {
   if (wanted) select.value = wanted.id;
 }
 
+/** Build the language radios inside `container`; the surrounding fieldset stays hidden with one language. */
+function fillLanguages(root) {
+  const field = root.querySelector("[data-language-field]");
+  const box = root.querySelector("[data-language-options]");
+  if (!field || !box) return;
+  box.replaceChildren(
+    ...LANGUAGES.map((l) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "language";
+      input.value = l.id;
+      const span = document.createElement("span");
+      span.textContent = l.label ?? l.id;
+      span.lang = l.id;
+      if (l.dir) span.dir = l.dir;
+      label.append(input, span);
+      return label;
+    }),
+  );
+  field.hidden = LANGUAGES.length < 2;
+}
+
 /**
  * Wire the shared options panel. Returns get()/set() for the current options.
  * `onChange(options)` runs after every user change; choices are remembered.
@@ -98,18 +139,50 @@ export function bindOptions(root, engine, initial, onChange) {
   const unit = root.querySelector("#unit");
   const prefix = root.querySelector("#prefix");
   const suffix = root.querySelector("#suffix");
+  const hundredsField = root.querySelector("[data-hundreds-field]");
+  const presetBtn = root.querySelector('[data-preset="only"]');
   const radios = (name) => [...root.querySelectorAll(`input[name="${name}"]`)];
+  const checked = (name, fallback) => radios(name).find((r) => r.checked)?.value ?? fallback;
 
   fillUnitSelect(unit, engine, initial.unit);
+  fillLanguages(root);
 
-  const get = () => ({
-    unit: unit.value,
-    hundredsForm: radios("hundreds").find((r) => r.checked)?.value ?? "مائة",
-    decimals: radios("decimals").find((r) => r.checked)?.value ?? "round",
-    prefix: prefix.value,
-    suffix: suffix.value,
-  });
+  const get = () => {
+    const lang = languageInfo(checked("language", "ar"));
+    const o = {
+      language: lang.id,
+      unit: unit.value,
+      decimals: checked("decimals", "round"),
+      prefix: prefix.value,
+      suffix: suffix.value,
+    };
+    // رسم المئة applies to Arabic output only.
+    if (lang.supportsHundredsForm) o.hundredsForm = checked("hundreds", "مائة");
+    return o;
+  };
+
+  // Show the controls that make sense for the chosen language.
+  const syncLanguage = () => {
+    const lang = languageInfo(checked("language", "ar"));
+    if (hundredsField) {
+      hundredsField.hidden = !lang.supportsHundredsForm;
+      hundredsField.disabled = !lang.supportsHundredsForm;
+    }
+    if (presetBtn) {
+      const [, , label] = presetFor(lang.id);
+      presetBtn.textContent = label;
+      presetBtn.title = label;
+      presetBtn.lang = lang.id;
+      presetBtn.dir = lang.dir ?? "rtl";
+    }
+    document.documentElement.dataset.outputLang = lang.id;
+  };
+
   const set = (o) => {
+    if (o.language !== undefined) {
+      const id = languageInfo(o.language).id;
+      for (const r of radios("language")) r.checked = r.value === id;
+    }
     if (o.unit !== undefined) {
       const u = engine.findUnit(o.unit);
       if (u) unit.value = u.id;
@@ -118,24 +191,59 @@ export function bindOptions(root, engine, initial, onChange) {
     if (o.decimals !== undefined) for (const r of radios("decimals")) r.checked = r.value === o.decimals;
     if (o.prefix !== undefined) prefix.value = o.prefix;
     if (o.suffix !== undefined) suffix.value = o.suffix;
+    syncLanguage();
   };
-  set(initial);
+  set({ hundredsForm: "مائة", ...initial, language: initial.language ?? "ar" });
 
+  // Everything is remembered, including رسم المئة while another language is shown.
+  const remember = () => savePrefs({ ...get(), hundredsForm: checked("hundreds", "مائة") });
   const changed = () => {
-    const o = get();
-    savePrefs(o);
-    onChange(o);
+    remember();
+    onChange(get());
   };
+
+  let previousLang = languageInfo(checked("language", "ar")).id;
+  root.addEventListener("change", (e) => {
+    if (e.target.name === "language") {
+      // Swap a ready-made prefix/suffix for the same preset in the new language.
+      const [op, os] = presetFor(previousLang);
+      if (prefix.value.trim() === op && suffix.value.trim() === os && (op || os)) {
+        const [np, ns] = presetFor(e.target.value);
+        prefix.value = np;
+        suffix.value = ns;
+      }
+      previousLang = e.target.value;
+      syncLanguage();
+    }
+  });
   root.addEventListener("input", (e) => { if (e.target.closest("[data-option]")) changed(); });
   root.addEventListener("change", (e) => { if (e.target.closest("[data-option]")) changed(); });
   for (const btn of root.querySelectorAll("[data-preset]")) {
     btn.addEventListener("click", () => {
-      const [p, s] = btn.dataset.preset === "none" ? ["", ""] : ["فقط", "لا غير"];
+      const [p, s] = btn.dataset.preset === "none" ? ["", ""] : presetFor(get().language);
       set({ prefix: p, suffix: s });
       changed();
     });
   }
-  return { get, set };
+  return { get, set, language: () => languageInfo(get().language) };
+}
+
+/** Deep-link overrides shared by the pages: unit, lang, h, decimals, prefix, suffix. */
+export function applyParams(initial, engine, params) {
+  if (params.has("unit") && engine.findUnit(params.get("unit"))) initial.unit = params.get("unit");
+  if (params.has("lang") && LANGUAGES.some((l) => l.id === params.get("lang"))) initial.language = params.get("lang");
+  if (params.get("h") === "مئة" || params.get("h") === "مائة") initial.hundredsForm = params.get("h");
+  if (params.get("decimals") === "error" || params.get("decimals") === "round") initial.decimals = params.get("decimals");
+  if (params.has("prefix")) initial.prefix = params.get("prefix");
+  if (params.has("suffix")) initial.suffix = params.get("suffix");
+  return initial;
+}
+
+/** "1234567.5" → "1,234,567.5" (string based, so any length works). */
+export function groupThousands(cleaned) {
+  const [int, frac] = String(cleaned).split(".");
+  const grouped = int.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return frac !== undefined ? `${grouped}.${frac}` : grouped;
 }
 
 /* ---------- Clipboard ---------- */
@@ -193,6 +301,27 @@ for (const btn of document.querySelectorAll("[data-copy-from]")) {
     flash(btn, null, ok);
   });
 }
+
+/* ---------- Keyboard shortcuts: "/" focuses the input, Ctrl/⌘+Enter copies the result ---------- */
+
+document.addEventListener("keydown", (e) => {
+  const t = e.target;
+  const typing = t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+  if (e.key === "/" && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    const field = document.querySelector("[data-shortcut-focus]");
+    if (field) {
+      e.preventDefault();
+      field.focus();
+      field.select?.();
+    }
+  } else if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+    const btn = document.querySelector("[data-shortcut-copy]");
+    if (btn && !btn.disabled) {
+      e.preventDefault();
+      btn.click();
+    }
+  }
+});
 
 /* ---------- Service worker (offline). Ignored on file:// and unsupported browsers. ---------- */
 
