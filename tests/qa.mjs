@@ -64,7 +64,7 @@ async function checkLinks(page, name, scope = 'body') {
       const rmFallback = l.dl === 'Remember-Me' && /\/releases\/latest$/.test(u.pathname); // intercepted by site.js -> on-site dialog
       ok(download || rmFallback || (l.gh && /GitHub/.test(l.text)), `${name}: github link not an explicit GitHub button: ${l.text} -> ${l.href}`);
     } else if (u.hostname === 'apps.microsoft.com') { // Microsoft Store links: the one allowed exception to staying on the site, always the labelled badge
-      ok(l.store && /^\/detail\/9[A-Z0-9]{11}$/.test(u.pathname) && /^\?cid=[a-z-]+$/.test(u.search), `${name}: Microsoft Store link is a badge link with a campaign ID: ${l.href}`);
+      ok(l.store && /^\/detail\/9[A-Z0-9]{11}$/.test(u.pathname) && /^\?referrer=appbadge&cid=[a-z-]+&mode=full$/.test(u.search), `${name}: Microsoft Store link is a badge link with a campaign ID: ${l.href}`);
     } else ok(false, `${name}: off-site link ${l.href}`);
   }
   return github;
@@ -523,11 +523,11 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(S.canonical === 'https://fastkiwi.app' + url && S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: canonical and language switch`);
     ok(JSON.stringify(S.cards.map(c => [c.id, c.sid])) === JSON.stringify(Object.entries(IDS)), `${tag}: one card per app with its Store ID ${JSON.stringify(S.cards.map(c => c.sid))}`);
     for (const c of S.cards) {
-      const base = `https://apps.microsoft.com/detail/${IDS[c.id]}?cid=`;
-      ok(c.store && c.href === base + 'fastkiwi-site', `${tag} ${c.id}: badge links to ${base}fastkiwi-site (${c.href})`);
+      const base = `https://apps.microsoft.com/detail/${IDS[c.id]}?referrer=appbadge&cid=`, tail = '&mode=full';
+      ok(c.store && c.href === base + 'fastkiwi-site' + tail, `${tag} ${c.id}: badge links to ${base}fastkiwi-site${tail} (${c.href})`);
       ok(c.img === '/' + BADGES[lang][0] && /Microsoft Store/.test(c.alt), `${tag} ${c.id}: the self-hosted ${lang} badge with alt text (${c.img})`);
       ok(c.h >= 32 && Math.abs(c.w / c.h - c.nat) < 0.02 && c.pad >= c.h / 4 - 0.5, `${tag} ${c.id}: badge ≥ 32 px tall, aspect ratio kept, quarter-height clear space (${c.w?.toFixed(1)}×${c.h?.toFixed(1)}, pad ${c.pad?.toFixed(1)})`);
-      const want = ['whatsapp', 'telegram', 'groups'].map(x => base + x);
+      const want = ['whatsapp', 'telegram', 'groups'].map(x => base + x + tail);
       ok(JSON.stringify(c.share) === JSON.stringify(want) && JSON.stringify(c.copies) === JSON.stringify(want), `${tag} ${c.id}: share links for WhatsApp, Telegram and groups with copy buttons`);
     }
     /* open one share helper and copy a link */
@@ -535,7 +535,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const btn = page.locator('#remember-me .st-share button[data-copy]').nth(1);
     ok(await btn.isVisible(), `${tag}: copy button shown once the helper is open`);
     await btn.click(); await page.waitForTimeout(150);
-    ok(await page.evaluate(() => navigator.clipboard.readText()) === 'https://apps.microsoft.com/detail/9NGB1F7T7JGN?cid=telegram' && await btn.textContent() === (lang === 'en' ? 'Copied' : 'تم النسخ'), `${tag}: copy puts the Telegram link on the clipboard and says so`);
+    ok(await page.evaluate(() => navigator.clipboard.readText()) === 'https://apps.microsoft.com/detail/9NGB1F7T7JGN?referrer=appbadge&cid=telegram&mode=full' && await btn.textContent() === (lang === 'en' ? 'Copied' : 'تم النسخ'), `${tag}: copy puts the Telegram link on the clipboard and says so`);
     const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
     ok(m.sw <= m.cw, `${tag}: no horizontal scroll with a share helper open`);
     ok(offsite.length === 0, `${tag}: no third-party requests, badges are self-hosted (${offsite})`);
