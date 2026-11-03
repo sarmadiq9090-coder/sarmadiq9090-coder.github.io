@@ -1,6 +1,13 @@
 /* FastKiwi: live release info from the GitHub API (no tracking, cached for an hour). */
 (function () {
-  var OWNER = 'sarmadiq9090-coder', REPOS = ['arabic-file-search', 'Remember-Me', 'local-ai-chat'];
+  var OWNER = 'sarmadiq9090-coder', REPOS = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'];
+  /* the installer each download button points at; names follow each repo's release workflow */
+  var INSTALLER = {
+    'arabic-file-search': /^bahth\.exe$/,
+    'Remember-Me': /^Remember-Me-Setup-.*\.exe$/i,
+    'local-ai-chat': /^local-ai-chat\.exe$/,
+    'tafket': /^InstaWords_[\d.]+_x64-setup\.exe$/
+  };
   var ar = document.documentElement.lang === 'ar';
   var nf = new Intl.NumberFormat(ar ? 'ar' : 'en', { notation: 'compact', maximumFractionDigits: 1 });
   var df = new Intl.DateTimeFormat(ar ? 'ar' : 'en', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -28,6 +35,7 @@
   function size(b) { return b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.round(b / 1024) + ' KB'; }
   function pick(assets) {
     return assets.filter(function (a) { return a.n === 'bahth.exe'; })[0] ||
+      assets.filter(function (a) { return /setup.*\.exe$/i.test(a.n); })[0] ||
       assets.filter(function (a) { return /\.(exe|msi)$/i.test(a.n) && !/arm64|x86|setup.*\.blockmap/i.test(a.n); })[0] ||
       assets.filter(function (a) { return /\.(exe|msi|zip)$/i.test(a.n); })[0];
   }
@@ -46,6 +54,17 @@
       a.rels.forEach(function (r) { r.assets.forEach(function (x) { dl += x.d; }); });
       var latest = a.rels.filter(function (r) { return !r.pre; })[0];
       var el = document.querySelector('.rel[data-repo="' + a.repo + '"]');
+      /* download buttons: direct link to the latest installer, with its version */
+      var inst = latest && latest.assets.filter(function (x) { return INSTALLER[a.repo] && INSTALLER[a.repo].test(x.n); })[0];
+      if (inst) {
+        var href = 'https://github.com/' + OWNER + '/' + a.repo + '/releases/download/' +
+          encodeURIComponent(latest.tag) + '/' + encodeURIComponent(inst.n);
+        document.querySelectorAll('a[data-dl="' + a.repo + '"]').forEach(function (btn) {
+          btn.href = href;
+          var ver = btn.querySelector('[data-dl-ver]');
+          if (ver) ver.textContent = /^v/i.test(latest.tag) ? latest.tag : 'v' + latest.tag;
+        });
+      }
       if (latest && el) {
         var as = pick(latest.assets), parts = [latest.tag, df.format(new Date(latest.date))];
         if (as) parts.push(size(as.s));
