@@ -506,6 +506,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       rows: [...document.querySelectorAll('#summary + .table-wrap tbody tr')].map(r => ({ to: r.querySelector('th a')?.getAttribute('href'), cells: r.querySelectorAll('td').length })),
       contact: [...document.querySelectorAll('#contact ~ .pv-contact a')].map(a => [a.href, a.hasAttribute('data-github'), /GitHub/.test(a.textContent)]),
       support: !!document.querySelector('a[href="../#support"]'),
+      store: (() => { const h = document.getElementById('store'), b = h?.nextElementSibling; return h && b?.matches('.pv-store') ? { title: h.textContent, text: b.textContent, apps: [...b.querySelectorAll('li strong')].map(s => s.textContent),
+        afterSummary: !!(document.getElementById('summary').compareDocumentPosition(h) & Node.DOCUMENT_POSITION_FOLLOWING), beforeApps: !!(h.compareDocumentPosition(document.getElementById('apps')) & Node.DOCUMENT_POSITION_FOLLOWING) } : null; })(),
       scripts: document.scripts.length
     }));
     const tag = `privacy ${lang}`;
@@ -522,6 +524,13 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(/GitHub Pages/.test(P.sectionText.site), `${tag}: the site section names its host`);
     ok(P.contact.length === 4 && P.contact.every(([h, gh, t], i) => h === ISSUES[i] && gh && t), `${tag}: contact = each app's labelled GitHub issues link ${JSON.stringify(P.contact)}`);
     ok(P.support, `${tag}: links to the on-site Support section`);
+    /* Microsoft Store copies: one block, Store updates (no own update check), package folder removed on uninstall, Microsoft's own data collection */
+    const S = P.store;
+    ok(S && /Microsoft Store/.test(S.title) && (lang === 'en' ? /copies/.test(S.title) : /النسخ المنزّلة/.test(S.title)) && S.afterSummary && S.beforeApps, `${tag}: "Microsoft Store copies" section between the summary and the apps (${S && S.title})`);
+    ok(S && S.apps.length === 3 && ['InstaWords', lang === 'en' ? 'Remember Me' : 'ذكرني', 'InstaFind'].every((a, i) => S.apps[i].startsWith(a)), `${tag}: Store section covers InstaWords, Remember Me and InstaFind (${S && S.apps})`);
+    ok(S && S.text.includes('%LOCALAPPDATA%\\Packages\\<package family>\\') && S.text.includes('%APPDATA%') && S.text.includes('FastKiwi.InstaWords_sm1xjmj6v76yc') && S.text.includes('FastKiwi.RememberMeReminders_sm1xjmj6v76yc'), `${tag}: Store section names the package data folders`);
+    ok(S && (lang === 'en' ? /does not run the app’s own update check/.test(S.text) && /uninstall/.test(S.text) && /Microsoft Store itself may collect data/.test(S.text) && /in preparation/.test(S.text)
+      : /لا تشغّل فحص التحديثات/.test(S.text) && /عند إزالة البرنامج/.test(S.text) && /قد يجمع Microsoft Store نفسه بيانات/.test(S.text) && /قيد التحضير/.test(S.text)), `${tag}: Store section: Store updates, removed on uninstall, InstaFind not yet released, Microsoft's own data collection`);
     ok(P.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
     await checkLinks(page, tag);
   }
