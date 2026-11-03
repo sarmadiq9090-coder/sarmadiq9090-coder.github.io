@@ -51,8 +51,15 @@
     prev: function (n) { return 'Previous releases (' + n + ')'; }, preRel: 'Pre-release'
   };
 
-  var v = doc.querySelector('video.demo');
-  if (v && reduce) { v.removeAttribute('autoplay'); v.pause(); }
+  /* the demo video loads and plays only while it is on screen (never with reduced motion); until then it shows its poster */
+  var v = doc.querySelector('video.demo[data-autoplay]');
+  if (v && !reduce && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause();
+      });
+    }, { rootMargin: '200px 0px' }).observe(v);
+  }
 
   /* ---------- GitHub data ---------- */
   function cached(url, shape) {
@@ -225,7 +232,9 @@
   }
 
   /* ---------- home: download buttons, release lines, stats ---------- */
-  if (doc.querySelector('a[data-dl], .rel[data-repo], [data-stat]')) Promise.all(REPOS.map(load)).then(function (all) {
+  /* only the apps this page shows are asked for (the home page's totals need all four) */
+  var needed = REPOS.filter(function (r) { return doc.querySelector('[data-stat], a[data-dl="' + r + '"], .rel[data-repo="' + r + '"]'); });
+  if (needed.length) Promise.all(needed.map(load)).then(function (all) {
     var stars = 0, dl = 0, rel = 0, okStars = false, okRel = false;
     all.forEach(function (a) {
       if (a.info) { stars += a.info.stargazers_count || 0; okStars = true; }

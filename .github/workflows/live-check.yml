@@ -1,0 +1,78 @@
+# Weekly check of https://fastkiwi.app with the real GitHub API (tests/live-check.mjs).
+# On failure it opens one issue titled "Live site check failed" (or updates the open one); a later passing run closes it.
+name: Live site check
+
+on:
+  schedule:
+    - cron: '17 4 * * 1' # Mondays 04:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: live-check
+  cancel-in-progress: false
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Playwright + Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Check the live site
+        id: check
+        continue-on-error: true
+        run: node tests/live-check.mjs --base https://fastkiwi.app --report live-report.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QA_OUT: tests/output
+
+      - name: Upload screenshots
+        if: steps.check.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-check-screenshots
+          path: tests/output/
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Open, update or close the issue
+        uses: actions/github-script@v7
+        env:
+          OUTCOME: ${{ steps.check.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            const title = 'Live site check failed';
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const report = fs.existsSync('live-report.md') ? fs.readFileSync('live-report.md', 'utf8') : '## Live site check failed\n\nThe check did not finish; see the run log.\n';
+            const open = (await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state: 'open', per_page: 100 }))
+              .find(i => !i.pull_request && i.title === title);
+            if (process.env.OUTCOME === 'success') {
+              if (open) {
+                await github.rest.issues.createComment({ ...context.repo, issue_number: open.number, body: `The live site check passes again ([run](${run})). Closing.` });
+                await github.rest.issues.update({ ...context.repo, issue_number: open.number, state: 'closed', state_reason: 'completed' });
+              }
+              return;
+            }
+            const body = `${report}\n[Workflow run](${run}) (screenshots are attached to the run).`.slice(0, 65000);
+            if (open) {
+              await github.rest.issues.update({ ...context.repo, issue_number: open.number, body });
+              await github.rest.issues.createComment({ ...context.repo, issue_number: open.number, body: `Still failing on ${new Date().toISOString().slice(0, 10)}: [run](${run}). The issue description has the latest report.` });
+            } else {
+              await github.rest.issues.create({ ...context.repo, title, body });
+            }
+            core.setFailed('The live site check failed; see the issue.');

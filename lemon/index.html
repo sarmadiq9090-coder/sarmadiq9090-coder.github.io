@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lemon: local AI chat for Windows | FastKiwi</title>
+<meta name="description" content="Lemon is a free, open-source Windows app for chatting and coding with AI models that run on your own PC through Ollama: offline, in Arabic and English, with assistants that answer from your files and a live code preview.">
+<link rel="canonical" href="https://fastkiwi.app/lemon/">
+<link rel="alternate" hreflang="en" href="https://fastkiwi.app/lemon/">
+<link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/lemon/">
+<link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/lemon/">
+<meta name="theme-color" content="#3f8a1c">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preload" href="../fonts/plex-arabic-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../style.css">
+<script>document.documentElement.classList.add("js");addEventListener("load",function(){if(!window.FK)document.documentElement.classList.remove("js")})</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FastKiwi">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Lemon: local AI chat for Windows">
+<meta property="og:description" content="Chat and code with AI models on your own PC through Ollama. Offline, free and open source.">
+<meta property="og:url" content="https://fastkiwi.app/lemon/">
+<meta property="og:image" content="https://fastkiwi.app/img/social-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fastkiwi.app/img/social-en.png">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Lemon", "alternateName": "Local AI Chat", "operatingSystem": "Windows 10, Windows 11", "applicationCategory": "DeveloperApplication", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "inLanguage": ["en", "ar"], "downloadUrl": "https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest/download/local-ai-chat.exe", "softwareRequirements": "Ollama, Microsoft Edge WebView2 Runtime", "screenshot": "https://fastkiwi.app/img/lemon-en.webp", "url": "https://fastkiwi.app/lemon/", "publisher": {"@type": "Organization", "@id": "https://fastkiwi.app/#org", "name": "FastKiwi", "url": "https://fastkiwi.app/"}}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="FastKiwi home"><img src="../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi</span></a>
+    <nav class="nav" aria-label="Main">
+      <a class="opt" href="#features">Features</a>
+      <a class="opt" href="#requirements">Requirements</a>
+      <a class="opt" href="#faq">FAQ</a>
+      <a class="opt" href="../releases/#lemon">What’s new</a>
+      <a class="lang" href="../ar/lemon/" hreflang="ar" lang="ar">العربية</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="app-page">
+
+<section class="hero ap-hero" aria-labelledby="lemon-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="app-label"><img src="../img/lemon.webp" width="36" height="36" alt="">Lemon <span>· local AI chat</span></p>
+      <h1 id="lemon-title">AI chat on your own PC, <span class="hl">offline</span></h1>
+      <p class="lead">A ChatGPT-style Windows app for AI models that run on your computer through Ollama. One small .exe, in Arabic and English, with no account and no cloud.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest/download/local-ai-chat.exe" data-dl="local-ai-chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          Download Lemon<span class="dl-ver" data-dl-ver></span>
+        </a>
+        <a class="btn btn-ghost" href="#requirements">What you need</a>
+      </div>
+      <p class="fine ap-facts">Free &amp; open source (MIT) · Windows 10/11, 64-bit · single file, no installer · needs Ollama</p>
+      <p class="rel ap-rel" data-repo="local-ai-chat"></p>
+    </div>
+    <figure class="shot ap-shot">
+      <div class="win dark">
+        <div class="win-bar"><img src="../img/lemon.webp" width="16" height="16" alt=""><span class="t">Lemon</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-lemon"><img src="../img/lemon-en.webp" srcset="../img/lemon-en-640.webp 640w, ../img/lemon-en.webp 960w" sizes="(max-width: 719px) calc(100vw - 32px), 680px" width="960" height="600" fetchpriority="high" alt="Lemon’s home screen in English: the chat box, suggested prompts, the qwen3:8b model and “Connected · Ollama” status"></div>
+      </div>
+      <figcaption>Lemon in English, connected to Ollama on the same PC.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="features" class="section" aria-labelledby="features-title">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="kicker">Features</p>
+      <h2 id="features-title">Everything stays on your PC</h2>
+      <p>Lemon talks only to the Ollama server on your own computer. Your prompts, files and chats never leave it.</p>
+    </div>
+    <div class="feat-grid">
+      <article class="card reveal">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/></svg></span>A familiar chat</h3>
+        <p>Answers stream in as they are written, with stop, copy, regenerate and edit-and-resend. Models that can “think” get a deep-thinking switch.</p>
+      </article>
+      <article class="card reveal">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2zm0 0A2 2 0 0 0 6 22h12v-4"/><path d="M9 7h6M9 11h4"/></svg></span>Assistants from your files</h3>
+        <p>Give an assistant your PDFs, text, code or notes. It answers only from them in strict mode and shows its sources under each answer.</p>
+      </article>
+      <article class="card reveal">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5v15l12-7.5z"/></svg></span>Live code preview</h3>
+        <p>Run HTML, JavaScript or SVG, from pages to small games, in a sandboxed side panel. Errors are caught, with an “ask for a fix” button.</p>
+      </article>
+      <article class="card reveal">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span>Models that fit your PC</h3>
+        <p>Download and delete Ollama models inside the app. Suggestions are rated against your graphics card and memory: recommended, slow, or not recommended.</p>
+      </article>
+      <article class="card reveal">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>Arabic and English</h3>
+        <p>Switch the language live in Settings, with correct right-to-left and left-to-right layout everywhere. Light, dark or system theme.</p>
+      </article>
+      <article class="card reveal">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>Private and up to date</h3>
+        <p>No telemetry, accounts or ads. Its local server listens on 127.0.0.1 only and refuses requests from other websites. Updates install in one click, checked with SHA-256.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section band" aria-labelledby="deep-title">
+  <div class="wrap show flip">
+    <div class="reveal">
+      <p class="kicker">New in 2.2</p>
+      <h2 id="deep-title">Assistants that read your documents properly</h2>
+      <p class="intro">With deep understanding, on by default for new assistants, the model reads each document once and writes a structured digest of its sections, numbers and conditions.</p>
+      <ul class="checks">
+        <li><strong>Better answers to broad questions:</strong> follow-up questions are rewritten into full searches, and matching passages come with their neighbours.</li>
+        <li><strong>See what it read:</strong> the extracted text and the digest of each file can be viewed and edited, with a test panel for the assistant.</li>
+        <li><strong>Ready-made instructions:</strong> templates for legal, tutoring, support, research, HR and technical documentation.</li>
+      </ul>
+      <p class="fine">Indexing takes longer with deep understanding: in the developer’s test on an RTX 2070 (8 GB) with qwen3:8b, a 6-page Arabic PDF took about 95 seconds. Scanned PDFs without a text layer can’t be read; use a copy with OCR text.</p>
+    </div>
+    <figure class="shot reveal">
+      <div class="win dark">
+        <div class="win-bar"><img src="../img/lemon.webp" width="16" height="16" alt=""><span class="t">Lemon</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-lemon"><img src="../img/lemon-preview-en.webp" srcset="../img/lemon-preview-en-640.webp 640w, ../img/lemon-preview-en.webp 960w" sizes="(max-width: 959px) calc(100vw - 48px), 680px" width="960" height="600" loading="lazy" decoding="async" alt="Lemon’s live preview: a small canvas game runs in a side panel next to its HTML code"></div>
+      </div>
+      <figcaption>Live preview: a small game running next to its code.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="requirements" class="section" aria-labelledby="req-title">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="kicker">Requirements</p>
+      <h2 id="req-title">What you need</h2>
+      <p>Lemon is the window you chat in. The AI models themselves run in Ollama, a free program that you install once.</p>
+    </div>
+    <div class="req-grid">
+      <div class="card reveal">
+        <h3>Your PC</h3>
+        <ul class="checks">
+          <li><strong>Windows 10 or 11, 64-bit.</strong></li>
+          <li><strong>Ollama</strong> installed on the same PC, from ollama.com. Lemon starts it for you if it is installed but not running.</li>
+          <li><strong>Microsoft Edge WebView2</strong>, already part of Windows 11 and up-to-date Windows 10.</li>
+          <li><strong>Recommended:</strong> a graphics card with 8 GB of memory or more and 16 GB of RAM. Small models also run on the processor alone, just slower.</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <h3>Get started in three steps</h3>
+        <ol class="steps">
+          <li><strong>Install Ollama</strong> from ollama.com.</li>
+          <li><strong>Download Lemon</strong> and run <code>local-ai-chat.exe</code>. There is no installer: keep the file wherever you like.</li>
+          <li><strong>Open Models</strong> in Lemon and download one of the models suggested for your PC, for example a small Qwen or Gemma model.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="download" class="section final" aria-labelledby="download-title">
+  <div class="wrap">
+    <div class="panel reveal">
+      <img src="../img/lemon.webp" width="72" height="72" alt="">
+      <h2 id="download-title">Download Lemon</h2>
+      <p>Free and open source. One file, straight from the app’s official release.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest/download/local-ai-chat.exe" data-dl="local-ai-chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          Download for Windows<span class="dl-ver" data-dl-ver></span>
+        </a>
+        <a class="btn btn-ghost" href="../releases/#lemon">Release notes &amp; all versions</a>
+      </div>
+      <p class="fine ap-verify">The <a href="../releases/#lemon">release notes</a> show the file’s SHA-256 fingerprint. To compare it, run <code>Get-FileHash .\local-ai-chat.exe</code> in PowerShell.</p>
+      <p class="sublinks ap-gh">
+        <a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a>
+        <a href="https://github.com/sarmadiq9090-coder/local-ai-chat/issues/new" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Report a problem on GitHub</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section band" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <div class="head">
+      <p class="kicker">FAQ</p>
+      <h2 id="faq-title">Questions about Lemon</h2>
+      <p>More answers in the <a href="../#faq">FastKiwi FAQ</a>.</p>
+    </div>
+    <div class="faq">
+      <details id="faq-internet"><summary>Does Lemon need the internet?</summary><div><p>No. Chats run on your PC. The internet is used only when you download a model (Ollama fetches it) and for the update check, at start-up and every 6 hours, which you can turn off in Settings.</p></div></details>
+      <details id="faq-ollama"><summary>What is Ollama, and why do I need it?</summary><div><p>Ollama is a separate, free program that runs AI models on your computer. Lemon is the app you chat in; it connects to Ollama at <code>http://127.0.0.1:11434</code> by default, and you can change that address in Settings. Ollama and the models are not part of Lemon, and each model has its own license.</p></div></details>
+      <details id="faq-models"><summary>Which model should I start with?</summary><div><p>Open Models in Lemon: the catalog rates each model against your graphics card and memory. A small Qwen or Gemma model is a good start. Models with 1 to 4 billion parameters also run without a graphics card, only more slowly.</p></div></details>
+      <details id="faq-data"><summary>Where are my chats stored?</summary><div><p>In <code>%APPDATA%\LocalAiChat</code> on your PC: one file per conversation, plus settings and assistants. Exports go to <code>Documents\LocalAiChat</code>. To keep everything in one folder instead, set the <code>LOCALAI_DATA_DIR</code> environment variable.</p></div></details>
+      <details id="faq-pdf"><summary>Can an assistant read scanned PDFs?</summary><div><p>Not yet. A scanned page is only an image, so there is no text to read. Give the assistant a copy of the PDF with OCR text and it works as usual.</p></div></details>
+      <details id="faq-smartscreen"><summary>Windows says “Windows protected your PC”. Is it safe?</summary><div><p>Lemon is not code-signed yet, so SmartScreen doesn’t recognise the publisher. Click “More info”, then “Run anyway”. The code is public, every release is built automatically from it, and you can compare the file’s SHA-256 fingerprint with the one on the <a href="../releases/#lemon">release notes</a>.</p></div></details>
+      <details id="faq-remove"><summary>How do I remove it?</summary><div><p>Close Lemon and delete <code>local-ai-chat.exe</code>. To also delete your chats and settings, remove the <code>LocalAiChat</code> folders. Your models stay in Ollama until you delete them there or in Lemon’s Models page.</p></div></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot-bottom">
+    <p>© 2026 FastKiwi · Free, open-source Windows apps</p>
+    <ul class="foot-links"><li><a href="../">FastKiwi home</a></li><li><a href="../releases/">What’s new</a></li><li data-feed hidden><a class="feed-link" href="../releases.xml" type="application/atom+xml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>Release feed (RSS)</a></li><li><a href="../privacy/">Privacy</a></li></ul>
+    <a class="lang-switch" href="../ar/lemon/" hreflang="ar" lang="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>العربية</a>
+  </div>
+</footer>
+<script src="../site.js" defer></script>
+</body>
+</html>

@@ -171,6 +171,7 @@ html[dir="rtl"] .hero::before { transform: scaleX(-1); }
 .s-instafind { --ar: 944 / 561; --iw: 100.2119%; --im: -3.2839% 0 0 -.1059%; --sbg: #f0f0f0; }
 .s-remember { --ar: 948 / 631; --iw: 101.2658%; --sbg: #fff; }
 .s-lemon { --ar: 960 / 600; --sbg: #1e1f1c; }
+.s-instafind-r { --ar: 960 / 571; --sbg: #fff; } /* pre-cropped capture: no title bar to hide */
 .s-instawords { --ar: 959 / 712; --iw: 100.1043%; --im: -3.1283% 0 0 0; --sbg: #f7f9f2; }
 
 /* ---------- hero stage: the four apps ----------
@@ -464,7 +465,7 @@ html[dir="rtl"] .dl-head { padding: 1.25rem 1.5rem 1rem 1.25rem; }
 .md > h4:first-child { margin-top: 0; }
 .md p { margin: 0 0 .7rem; }
 .md p.quote { border-inline-start: 3px solid var(--tint-2); padding-inline-start: .8rem; }
-.md ul, .md ol { padding-inline-start: 1.25rem; margin: 0 0 .7rem; }
+.md ul, .md ol { padding-inline: 1.25rem; margin: 0 0 .7rem; } /* both sides: an item whose direction differs from its list puts its marker on the other side */
 .md li + li { margin-top: .25rem; }
 .md li.sub { margin-inline-start: 1.1rem; list-style-type: circle; }
 .md strong { color: var(--text); }
@@ -552,6 +553,40 @@ html[dir="rtl"] .rp-switch a { padding: .3rem .4rem .3rem .85rem; }
   .rp-switch ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .3rem; }
   .rp-switch a, html[dir="rtl"] .rp-switch a { flex-direction: column; gap: .15rem; padding: .35rem .2rem; border-radius: 12px; font-size: .74rem; justify-content: center; text-align: center; }
 }
+
+/* ---------- app pages (Lemon) ---------- */
+.ap-hero h1 { font-size: clamp(2.1rem, 1.3rem + 3vw, 3.5rem); }
+.ap-hero .lead { margin-bottom: 1.75rem; }
+.ap-facts { margin: 1.25rem 0 0; }
+.ap-rel { margin: .35rem 0 0; font-size: .85rem; color: var(--muted); min-height: 1.4em; direction: ltr; unicode-bidi: isolate; }
+html[dir="rtl"] .ap-rel { text-align: right; }
+@media (max-width: 1099px) { html[dir] .ap-rel { text-align: center; } }
+.ap-shot { margin: 0; min-width: 0; width: 100%; max-width: 720px; margin-inline: auto; }
+.ap-shot figcaption { margin-top: .9rem; font-size: .88rem; color: var(--muted); text-align: center; }
+.feat-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.feat-grid .card { display: flex; flex-direction: column; gap: .6rem; }
+.feat-grid h3 { display: flex; align-items: center; gap: .75rem; margin: 0; font-size: 1.15rem; }
+.feat-grid p { margin: 0; color: var(--muted); }
+.feat-grid .ico, .req-grid .ico { background: var(--tint-2); color: var(--brand-dark); }
+.req-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.req-grid h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+.req-grid .checks { margin: 0; }
+.steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.steps li { counter-increment: step; position: relative; padding-inline-start: 2.6rem; color: var(--muted); }
+.steps li strong { color: var(--text); }
+.steps li::before { content: counter(step); position: absolute; inset-inline-start: 0; top: 0; display: grid; place-items: center; width: 1.85rem; height: 1.85rem; border-radius: 50%; background: var(--brand-dark); color: #fff; font-weight: 700; font-size: .9rem; line-height: 1; }
+.steps code, .faq code, .ap-verify code { direction: ltr; unicode-bidi: isolate; white-space: nowrap; }
+.ap-verify { margin: 1.5rem auto 0; max-width: 40rem; }
+.ap-gh { justify-content: center; margin: 1rem 0 0; }
+.site-footer .foot-links { display: flex; flex-wrap: wrap; gap: .35rem 1.25rem; list-style: none; padding: 0; margin: 0; }
+.foot-links a { color: var(--muted); text-decoration: none; }
+.foot-links a:hover { color: var(--brand-dark); text-decoration: underline; }
+[data-feed][hidden] { display: none !important; }
+.feed-link { display: inline-flex; align-items: center; gap: .4rem; }
+.feed-link svg { width: 16px; height: 16px; flex: none; color: #c2410c; }
+.rp-feed { margin: 1rem 0 0; font-size: .92rem; }
+.rp-feed a { font-weight: 700; text-decoration: none; }
+.rp-feed a:hover { text-decoration: underline; }
 
 /* ---------- simple pages (privacy, 404) ---------- */
 .page { padding-block: clamp(3rem, 7vw, 5.5rem); }

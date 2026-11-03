@@ -1,0 +1,47 @@
+# Browser QA of the whole site (tests/qa.mjs, ~2000 checks) plus the tools' unit tests.
+name: Site QA
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Playwright + Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Tools tests (feed, InstaWords fallback)
+        run: npm run test:tools
+
+      - name: Browser QA
+        run: node tests/qa.mjs
+        env:
+          QA_OUT: tests/output
+
+      - name: Upload screenshots and report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-qa-screenshots
+          path: tests/output/
+          retention-days: 14
