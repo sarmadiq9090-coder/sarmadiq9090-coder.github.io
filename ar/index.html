@@ -11,14 +11,14 @@
 <link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/">
 <meta name="theme-color" content="#3f8a1c">
 <meta name="color-scheme" content="light">
-<link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
 <link rel="preload" href="../fonts/plex-arabic-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/plex-arabic-arabic-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="../kiwi.css">
+<script>document.documentElement.classList.add("js");addEventListener("load",function(){if(!window.FK)document.documentElement.classList.remove("js")})</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FastKiwi">
 <meta property="og:locale" content="ar_AR">
@@ -38,17 +38,18 @@
 <body>
 <a class="skip" href="#main">تخطَّ إلى المحتوى</a>
 
-<div class="news" data-news hidden><div class="wrap"><span><b>جديد:</b> صدر InstaFind <span data-news-ver></span>.</span> <a data-news-link href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest">ما الجديد →</a></div></div>
+<div class="news" data-news hidden><div class="wrap"><span><b>جديد</b>صدر InstaFind <span data-news-ver></span>.</span> <a data-news-link href="#download-instafind">ما الجديد ←</a></div></div>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="./">
-      <img src="../img/logo.svg" width="34" height="34" alt="">
+    <a class="brand" href="./" aria-label="FastKiwi، الصفحة الرئيسية">
+      <img src="../img/logo.svg" width="36" height="36" alt="">
       <span>FastKiwi <small>فاست كيوي</small></span>
     </a>
     <nav class="nav" aria-label="القائمة الرئيسية">
       <a class="opt" href="#apps">البرامج</a>
       <a class="opt" href="#why">لماذا FastKiwi</a>
       <a class="opt" href="#faq">أسئلة شائعة</a>
+      <a class="opt" href="#support">الدعم</a>
       <a class="lang" href="../" hreflang="en" lang="en">English</a>
     </nav>
   </div>
@@ -57,144 +58,191 @@
 <main id="main">
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="wrap">
-    <div>
-      <p class="eyebrow">مجاني · مفتوح المصدر · لويندوز</p>
-      <h1 id="hero-title"><span class="grad">برامج ويندوز</span> خفيفة وسريعة، تفهم العربية</h1>
-      <p class="lead">برامج صغيرة تعمل فوراً، بلا إنترنت وبلا حساب، وتبقي ملفاتك على جهازك. كل برنامج يتحدّث وحده، بالعربية والإنكليزية.</p>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="pill"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>مجاني · مفتوح المصدر · ويندوز 10 و11</p>
+      <h1 id="hero-title"><span class="hl">برامج ويندوز</span> خفيفة وسريعة، تفهم العربية</h1>
+      <p class="lead">أربعة برامج صغيرة تعمل فوراً، بلا إنترنت وبلا حساب، وتبقي ملفاتك على جهازك، بالعربية والإنكليزية.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#apps">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
           تصفّح البرامج
         </a>
-        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder">
+        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder" data-github>
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.3-1.69-1.3-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
           الكود على GitHub
         </a>
       </div>
-      <ul class="app-strip" aria-label="البرامج">
-        <li><a href="#instafind"><img src="../img/instafind.svg" width="40" height="40" alt="">InstaFind</a></li>
-        <li><a href="#remember-me"><img src="../img/remember-me.webp" width="40" height="40" alt="">ذكرني</a></li>
-        <li><a href="#lemon"><img src="../img/lemon.webp" width="40" height="40" alt="">Lemon</a></li>
-        <li><a href="#instawords"><img src="../img/instawords.svg" width="40" height="40" alt="">InstaWords</a></li>
+      <ul class="chips" aria-label="وعودنا">
+        <li><a href="privacy/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.6"/><path d="M12 20h.01"/></svg>بدون إنترنت</a></li>
+        <li><a href="#open-source"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>مفتوح المصدر</a></li>
+        <li><a href="#faq-free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>مجاني للأبد</a></li>
+        <li><a href="privacy/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.5 0 10 8 10 8a17 17 0 0 1-2.2 3.2M6.6 6.6C3.9 8.4 2 12 2 12s3.5 8 10 8a9.7 9.7 0 0 0 5.4-1.6M2 2l20 20M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>لا تتبّع</a></li>
       </ul>
     </div>
-    <figure class="shot">
-      <video class="demo" autoplay muted loop playsinline preload="auto" width="800" height="501" poster="../img/instafind-ar.png" aria-label="InstaFind على ويندوز: «احمد» تجد «أحمد»، والكتابة بلوحة المفاتيح الخطأ تجد «التقرير»"><source src="../img/instafind-demo-ar.mp4" type="video/mp4"><img src="../img/instafind-ar.png" width="800" height="501" alt="InstaFind على ويندوز: «احمد» تجد «أحمد»، والكتابة بلوحة المفاتيح الخطأ تجد «التقرير»"></video>
-      <figcaption>InstaFind على ويندوز: نتائج أثناء الكتابة، و«احمد» تجد «أحمد».</figcaption>
-    </figure>
-  </div>
-</section>
 
-<section class="trust" aria-label="FastKiwi بالأرقام">
-  <div class="wrap">
-    <ul class="badges"><li>مجاني دائماً</li><li>بلا إعلانات</li><li>بلا حساب</li><li>يعمل بلا إنترنت</li><li>مفتوح المصدر (MIT)</li><li>عربي وإنكليزي</li></ul>
-    <ul class="stats"><li data-stat="stars" hidden><b data-n>–</b> نجمة على GitHub</li><li data-stat="downloads" hidden><b data-n>–</b> تنزيل</li><li data-stat="releases" hidden><b data-n>–</b> إصدار</li><li><b>ويندوز 10 و11</b> x64 · ARM64 · x86</li></ul>
-  </div>
-</section>
-
-<section id="apps" aria-labelledby="apps-title">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 id="apps-title">برامجنا</h2>
-      <p>كل برنامج يحل مشكلة واحدة ويحلها جيداً. مجانية بالكامل، لويندوز 10 و11 وللمتصفح.</p>
-    </div>
-    <div class="grid apps">
-      <article class="card app">
-        <img class="app-icon" src="../img/instafind.svg" width="64" height="64" alt="">
-        <h3>InstaFind <span class="sub">بحث سريع</span></h3>
-        <p>ابحث عن أي ملف على جهازك أثناء الكتابة، بالعربية أو الإنكليزية، وحتى داخل ملفات PDF وWord.</p>
-        <div class="tags"><span>Rust</span><span>ملف واحد</span><span>بحث فوري</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">تنزيل<span class="dl-ver" data-dl-ver></span></a>
-          <a class="btn btn-ghost btn-sm" href="../arabic-file-search/">صفحة البرنامج</a>
+    <div class="stage-wrap">
+      <div class="stage" data-stage>
+        <figure class="win" id="win-instafind" role="tabpanel" aria-labelledby="tab-instafind" data-pos="0">
+          <div class="win-bar"><img src="../img/instafind.svg" width="16" height="16" alt=""><span class="t">بحث سريع · InstaFind</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-instafind"><img src="../img/instafind-ar.png" width="946" height="593" fetchpriority="high" alt="InstaFind يبحث عن «الميزانية» داخل المستندات"></div>
+        </figure>
+        <figure class="win" id="win-remember" role="tabpanel" aria-labelledby="tab-remember" data-pos="1" aria-hidden="true">
+          <div class="win-bar"><img src="../img/remember-me.webp" width="16" height="16" alt=""><span class="t">ذكرني</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-remember"><img src="../img/remember-me-ar.webp" width="960" height="631" decoding="async" alt="الواجهة العربية لبرنامج ذكرني مع مهام اليوم والتذكير القادم"></div>
+        </figure>
+        <figure class="win dark" id="win-lemon" role="tabpanel" aria-labelledby="tab-lemon" data-pos="2" aria-hidden="true">
+          <div class="win-bar"><img src="../img/lemon.webp" width="16" height="16" alt=""><span class="t">Lemon</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-lemon"><img src="../img/lemon-ar.webp" width="960" height="600" decoding="async" alt="الواجهة العربية لبرنامج Lemon للمحادثة مع الذكاء الاصطناعي المحلي"></div>
+        </figure>
+        <figure class="win" id="win-instawords" role="tabpanel" aria-labelledby="tab-instawords" data-pos="3" aria-hidden="true">
+          <div class="win-bar"><img src="../img/instawords.svg" width="16" height="16" alt=""><span class="t">تفقيط · InstaWords</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-instawords"><img src="../img/instawords-ar.webp" width="960" height="743" decoding="async" alt="برنامج InstaWords يكتب 1250.75 ريالاً سعودياً بالحروف العربية"></div>
+        </figure>
+      </div>
+      <div class="tabs">
+        <div class="tablist" role="tablist" aria-label="برامج FastKiwi">
+          <button class="tab" type="button" role="tab" id="tab-instafind" aria-controls="win-instafind" aria-selected="true"><img src="../img/instafind.svg" width="28" height="28" alt=""><span class="name">InstaFind</span><span class="prog" aria-hidden="true"></span></button>
+          <button class="tab" type="button" role="tab" id="tab-remember" aria-controls="win-remember" aria-selected="false" tabindex="-1"><img src="../img/remember-me.webp" width="28" height="28" alt=""><span class="name">ذكرني</span><span class="prog" aria-hidden="true"></span></button>
+          <button class="tab" type="button" role="tab" id="tab-lemon" aria-controls="win-lemon" aria-selected="false" tabindex="-1"><img src="../img/lemon.webp" width="28" height="28" alt=""><span class="name">Lemon</span><span class="prog" aria-hidden="true"></span></button>
+          <button class="tab" type="button" role="tab" id="tab-instawords" aria-controls="win-instawords" aria-selected="false" tabindex="-1"><img src="../img/instawords.svg" width="28" height="28" alt=""><span class="name">InstaWords</span><span class="prog" aria-hidden="true"></span></button>
         </div>
-        <p class="rel" data-repo="arabic-file-search"></p>
-      </article>
-      <article class="card app">
-        <img class="app-icon" src="../img/remember-me.webp" width="64" height="64" alt="">
-        <h3>ذكرني <span class="sub">Remember Me</span></h3>
-        <p>مهام وملاحظات وتذكيرات تبقى ظاهرة على الشاشة حتى تتعامل معها، مع تكرار مرن ونسخ احتياطي موثوق.</p>
-        <div class="tags"><span>12 لغة</span><span>6 ثيمات</span><span>تذكير لا يُنسى</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/Remember-Me/releases/latest" data-dl="Remember-Me">تنزيل<span class="dl-ver" data-dl-ver></span></a>
-          <a class="btn btn-ghost btn-sm" href="../Remember-Me/ar/">صفحة البرنامج</a>
-        </div>
-        <p class="rel" data-repo="Remember-Me"></p>
-      </article>
-      <article class="card app">
-        <img class="app-icon" src="../img/lemon.webp" width="64" height="64" alt="">
-        <h3>Lemon <span class="sub">الذكاء المحلي</span></h3>
-        <p>محادثة وبرمجة مع نماذج الذكاء الاصطناعي على جهازك عبر Ollama، بلا إنترنت، مع مساعدين يجيبون من ملفاتك فقط.</p>
-        <div class="tags"><span>Ollama</span><span>بلا إنترنت</span><span>معاينة الكود</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest/download/local-ai-chat.exe" data-dl="local-ai-chat">تنزيل<span class="dl-ver" data-dl-ver></span></a>
-          <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat">صفحة البرنامج</a>
-        </div>
-        <p class="rel" data-repo="local-ai-chat"></p>
-      </article>
-      <article class="card app">
-        <img class="app-icon" src="../img/instawords.svg" width="64" height="64" alt="">
-        <h3>InstaWords <span class="sub">تفقيط المبالغ</span></h3>
-        <p>اكتب أي مبلغ بالحروف للشيكات والفواتير، بالعربية أو الإنجليزية أو الفرنسية، رقماً واحداً أو آلاف الأرقام دفعة واحدة. في المتصفح أو كبرنامج ويندوز، وحتى بلا إنترنت.</p>
-        <div class="tags"><span>متصفح وويندوز</span><span>عربي · إنجليزي · فرنسي</span><span>أكثر من 100 عملة ووحدة</span><span>Excel</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.0.0/InstaWords_2.0.0_x64-setup.exe" data-dl="tafket">تنزيل لويندوز<span class="dl-ver" data-dl-ver>v2.0.0</span></a>
-          <a class="btn btn-ghost btn-sm" href="../instawords/">افتح في المتصفح</a>
-          <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/tafket">الشيفرة المصدرية</a>
-        </div>
-        <p class="rel" data-repo="tafket"></p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="instafind" class="soft" aria-labelledby="instafind-title">
-  <div class="wrap split">
-    <div>
-      <p class="app-label"><img src="../img/instafind.svg" width="28" height="28" alt="">InstaFind · بحث سريع</p>
-      <h2 id="instafind-title">اعثر على أي ملف في ثانية</h2>
-      <p class="muted">يفهرس كل أقراصك مرة واحدة، ثم يُظهر النتائج أثناء الكتابة. ويفهم العربية كما تُكتب فعلاً.</p>
-      <ul class="checks">
-        <li><strong>«احمد» تجد «أحمد»:</strong> لا فرق بين الهمزات والتاء المربوطة، ويقبل الفرانكو والكتابة بلوحة المفاتيح الخطأ.</li>
-        <li><strong>البحث داخل المستندات:</strong> PDF وWord وExcel والصور والملفات المضغوطة، مع مقتطف من النص.</li>
-        <li><strong>أسرع من بحث ويندوز:</strong> ثانية واحدة مقابل 96 ثانية في اختبارنا على ويندوز.</li>
-      </ul>
-      <p class="hotkey">اضغط <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> من أي مكان لفتح نافذة البحث.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
-          تنزيل InstaFind<span class="dl-ver" data-dl-ver></span>
-        </a>
-        <a class="btn btn-ghost" href="../arabic-file-search/">المزيد عن InstaFind</a>
+        <button class="playpause" type="button" data-label-pause="إيقاف العرض التلقائي" data-label-play="تشغيل العرض التلقائي" aria-label="إيقاف العرض التلقائي">
+          <svg class="pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1.5"/><rect x="14" y="4" width="5" height="16" rx="1.5"/></svg>
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg>
+        </button>
       </div>
     </div>
-    <figure class="shot">
-      <img src="../img/instafind-ar.png" width="946" height="593" loading="lazy" decoding="async" alt="البحث عن «الميزانية» داخل المستندات في InstaFind">
-      <figcaption>البحث عن «الميزانية» داخل المستندات.</figcaption>
-    </figure>
   </div>
 </section>
 
-<section id="compare" aria-labelledby="compare-title">
+<section id="apps" class="section" aria-labelledby="apps-title">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="compare-title">InstaFind مقارنة بغيره</h2>
-      <p>نظرة سريعة ومنصفة على أشهر طرق البحث عن الملفات في ويندوز.</p>
+    <div class="head reveal">
+      <p class="kicker">البرامج</p>
+      <h2 id="apps-title">كل برنامج يحل مشكلة واحدة، ويحلها جيداً</h2>
+      <p>مجانية بالكامل، لويندوز 10 و11، وInstaWords في المتصفح أيضاً.</p>
     </div>
-    <div class="table-wrap" tabindex="0" role="region" aria-labelledby="compare-title">
-      <table class="cmp"><thead><tr><th scope="col"></th><th scope="col">InstaFind</th><th scope="col">Everything</th><th scope="col">Listary</th><th scope="col">بحث ويندوز</th></tr></thead><tbody><tr><th scope="row">السعر</th><td>مجاني</td><td>مجاني</td><td>مجاني، والنسخة Pro مدفوعة</td><td>مدمج</td></tr><tr><th scope="row">مفتوح المصدر</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم · MIT</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td></tr><tr><th scope="row">يفهم اختلاف الإملاء العربي (أحمد = احمد)</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td></tr><tr><th scope="row">البحث داخل ملفات PDF وWord</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-part"><span aria-hidden="true">≈</span> بطيء، بأمر خاص</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td></tr><tr><th scope="row">نتائج فورية في كل الأقراص</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-no"><span aria-hidden="true">✕</span> لا · المجلدات المفهرسة فقط</td></tr></tbody></table>
+    <div class="bento">
+      <article class="card app big lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="../img/instafind.svg" width="64" height="64" alt="">
+          <h3>InstaFind <span class="sub">بحث سريع</span></h3>
+        </div>
+        <p class="benefit">ابحث عن أي ملف على جهازك أثناء الكتابة، بالعربية أو الإنكليزية، وحتى داخل ملفات PDF وWord.</p>
+        <div class="speed">
+          <h4>الوقت اللازم للعثور على ملف، في اختبارنا على ويندوز</h4>
+          <div class="bar us"><span>InstaFind</span><span class="track"><span class="fill" style="--w:1.04%"></span></span><b>1 ث</b></div>
+          <div class="bar"><span>بحث ويندوز</span><span class="track"><span class="fill" style="--w:100%"></span></span><b>96 ث</b></div>
+        </div>
+        <ul class="feats" aria-label="أبرز الميزات">
+          <li>«احمد» تجد «أحمد»</li><li>داخل PDF وWord وExcel</li><li class="ltr">Ctrl + Alt + F</li><li>ملف واحد</li>
+        </ul>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">تنزيل<span class="dl-ver" data-dl-ver></span></a>
+          <a class="btn btn-ghost btn-sm" href="../arabic-file-search/">التفاصيل</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="arabic-file-search"></p><a href="#download-instafind">ملاحظات الإصدار</a></div>
+      </article>
+
+      <article class="card app lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="../img/remember-me.webp" width="56" height="56" alt="">
+          <h3>ذكرني <span class="sub" lang="en">Remember Me</span></h3>
+        </div>
+        <p class="benefit">تذكيرات تبقى ظاهرة على الشاشة حتى تتعامل معها، مع تكرار مرن ونسخ احتياطي موثوق.</p>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/Remember-Me/releases/latest" data-dl="Remember-Me">تنزيل<span class="dl-ver" data-dl-ver></span></a>
+          <a class="btn btn-ghost btn-sm" href="../Remember-Me/ar/">التفاصيل</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="Remember-Me"></p><a href="#download-remember-me">ملاحظات الإصدار</a></div>
+      </article>
+
+      <article class="card app lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="../img/lemon.webp" width="56" height="56" alt="">
+          <h3>Lemon <span class="sub">الذكاء الاصطناعي المحلي</span></h3>
+        </div>
+        <p class="benefit">محادثة وبرمجة مع نماذج الذكاء الاصطناعي على جهازك عبر Ollama، بلا إنترنت، مع مساعدين يجيبون من ملفاتك فقط.</p>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest/download/local-ai-chat.exe" data-dl="local-ai-chat">تنزيل<span class="dl-ver" data-dl-ver></span></a>
+          <a class="btn btn-ghost btn-sm" href="#lemon">التفاصيل</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="local-ai-chat"></p><a href="#download-lemon">ملاحظات الإصدار</a></div>
+      </article>
+
+      <article class="card app lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="../img/instawords.svg" width="56" height="56" alt="">
+          <h3>InstaWords <span class="sub">تفقيط المبالغ</span></h3>
+        </div>
+        <p class="benefit">اكتب أي مبلغ بالحروف للشيكات والفواتير، بالعربية أو الإنجليزية أو الفرنسية. في المتصفح أو كبرنامج ويندوز، وحتى بلا إنترنت.</p>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.0.0/InstaWords_2.0.0_x64-setup.exe" data-dl="tafket">تنزيل لويندوز<span class="dl-ver" data-dl-ver>v2.0.0</span></a>
+          <a class="btn btn-ghost btn-sm" href="../instawords/">افتح في المتصفح</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="tafket"></p><a href="#download-instawords">ملاحظات الإصدار</a></div>
+      </article>
+
+      <article class="card stat reveal" aria-labelledby="stat-title">
+        <p class="num" id="stat-title"><b class="ltr">100%</b><span>بلا إنترنت</span></p>
+        <p>كل البرامج تعمل على جهازك بالكامل. الإنترنت يُستخدم فقط للتحقق من التحديثات، أو لتنزيل نموذج ذكاء اصطناعي تختاره في Lemon.</p>
+        <ul class="zeros">
+          <li><b>0</b>حسابات</li><li><b>0</b>إعلانات</li><li><b>0</b>أدوات تتبّع</li>
+        </ul>
+      </article>
     </div>
-    <p class="note">حسب المواقع الرسمية لكل برنامج، نوفمبر 2026. هل هناك معلومة قديمة؟ <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new">أخبرنا</a>.</p>
   </div>
 </section>
 
-<section id="remember-me" aria-labelledby="remember-title">
-  <div class="wrap split rev">
-    <div>
-      <p class="app-label"><img src="../img/remember-me.webp" width="28" height="28" alt="">ذكرني · Remember Me</p>
+<section id="instafind" class="section band" aria-labelledby="instafind-title">
+  <div class="wrap">
+    <div class="show">
+      <div class="reveal">
+        <p class="app-label"><img src="../img/instafind.svg" width="36" height="36" alt="">InstaFind <span>· بحث سريع</span></p>
+        <h2 id="instafind-title">اعثر على أي ملف في ثانية</h2>
+        <p class="intro">يفهرس كل أقراصك مرة واحدة، ثم يُظهر النتائج أثناء الكتابة. ويفهم العربية كما تُكتب فعلاً.</p>
+        <ul class="checks">
+          <li><strong>«احمد» تجد «أحمد»:</strong> لا فرق بين الهمزات والتاء المربوطة، ويقبل الفرانكو والكتابة بلوحة المفاتيح الخطأ.</li>
+          <li><strong>البحث داخل المستندات:</strong> PDF وWord وExcel والصور والملفات المضغوطة، مع مقتطف من النص.</li>
+          <li><strong>أسرع من بحث ويندوز:</strong> ثانية واحدة مقابل 96 ثانية في اختبارنا على ويندوز.</li>
+        </ul>
+        <p class="hotkey">اضغط <span class="ltr"><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd></span> من أي مكان لفتح نافذة البحث.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+            تنزيل InstaFind<span class="dl-ver" data-dl-ver></span>
+          </a>
+          <a class="btn btn-ghost" href="../arabic-file-search/">اعرف المزيد<span class="sr-only"> عن InstaFind</span></a>
+        </div>
+        <p class="sublinks"><a href="#download-instafind"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>ملاحظات الإصدار وكل الإصدارات</a><a href="https://github.com/sarmadiq9090-coder/arabic-file-search" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>الكود على GitHub</a></p>
+      </div>
+      <figure class="shot reveal">
+        <div class="win">
+          <div class="win-bar"><img src="../img/instafind.svg" width="16" height="16" alt=""><span class="t">بحث سريع · InstaFind</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-instafind"><video class="demo" autoplay muted loop playsinline preload="metadata" width="800" height="501" poster="../img/instafind-ar.png" aria-label="InstaFind على ويندوز: «احمد» تجد «أحمد»، والكتابة بلوحة المفاتيح الخطأ تجد «التقرير»"><source src="../img/instafind-demo-ar.mp4" type="video/mp4"><img src="../img/instafind-ar.png" width="946" height="593" alt="InstaFind على ويندوز: «احمد» تجد «أحمد»، والكتابة بلوحة المفاتيح الخطأ تجد «التقرير»"></video></div>
+        </div>
+        <figcaption>نتائج أثناء الكتابة، و«احمد» تجد «أحمد».</figcaption>
+      </figure>
+    </div>
+
+    <div class="compare reveal" id="compare">
+      <h3 id="compare-title">InstaFind مقارنة بغيره</h3>
+      <p>نظرة سريعة ومنصفة على أشهر طرق البحث عن الملفات في ويندوز.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="compare-title">
+        <table class="cmp"><thead><tr><th scope="col"><span class="sr-only">الميزة</span></th><th scope="col">InstaFind</th><th scope="col">Everything</th><th scope="col">Listary</th><th scope="col">بحث ويندوز</th></tr></thead><tbody><tr><th scope="row">السعر</th><td>مجاني</td><td>مجاني</td><td>مجاني، والنسخة Pro مدفوعة</td><td>مدمج</td></tr><tr><th scope="row">مفتوح المصدر</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم · MIT</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td></tr><tr><th scope="row">يفهم اختلاف الإملاء العربي (أحمد = احمد)</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td></tr><tr><th scope="row">البحث داخل ملفات PDF وWord</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-part"><span aria-hidden="true">≈</span> بطيء، بأمر خاص</td><td class="c-no"><span aria-hidden="true">✕</span> لا</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td></tr><tr><th scope="row">نتائج فورية في كل الأقراص</th><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-yes"><span aria-hidden="true">✓</span> نعم</td><td class="c-no"><span aria-hidden="true">✕</span> لا · المجلدات المفهرسة فقط</td></tr></tbody></table>
+      </div>
+      <p class="note">حسب المواقع الرسمية لكل برنامج، نوفمبر 2026. هل هناك معلومة قديمة؟ <a href="#support">أخبرنا</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="remember-me" class="section" aria-labelledby="remember-title">
+  <div class="wrap show flip">
+    <div class="reveal">
+      <p class="app-label"><img src="../img/remember-me.webp" width="36" height="36" alt="">ذكرني <span>· المهام والتذكيرات</span></p>
       <h2 id="remember-title">تذكيرات لا تختفي حتى تنجزها</h2>
-      <p class="muted">تطبيق مهام وملاحظات وتذكيرات لويندوز، تبقى نافذة التذكير ظاهرة حتى تتعامل معها، فلا يضيع موعد بين الإشعارات.</p>
+      <p class="intro">تطبيق مهام وملاحظات وتذكيرات لويندوز، تبقى نافذة التذكير ظاهرة حتى تتعامل معها، فلا يضيع موعد بين الإشعارات.</p>
       <ul class="checks">
         <li><strong>تكرار مرن:</strong> يومي وأسبوعي وشهري وأيام محددة، مع تأجيل بنقرة.</li>
         <li><strong>12 لغة و6 ثيمات:</strong> بما فيها العربية من اليمين لليسار والوضع الليلي.</li>
@@ -205,22 +253,26 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           تنزيل ذكرني<span class="dl-ver" data-dl-ver></span>
         </a>
-        <a class="btn btn-ghost" href="../Remember-Me/ar/">المزيد عن ذكرني</a>
+        <a class="btn btn-ghost" href="../Remember-Me/ar/">اعرف المزيد<span class="sr-only"> عن ذكرني</span></a>
       </div>
+      <p class="sublinks"><a href="#download-remember-me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>ملاحظات الإصدار وكل الإصدارات</a><a href="https://github.com/sarmadiq9090-coder/Remember-Me" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>الكود على GitHub</a></p>
     </div>
-    <figure class="shot">
-      <img src="../img/remember-me-ar.webp" width="960" height="631" loading="lazy" decoding="async" alt="الواجهة العربية لبرنامج ذكرني مع قائمة المهام">
+    <figure class="shot reveal">
+      <div class="win">
+        <div class="win-bar"><img src="../img/remember-me.webp" width="16" height="16" alt=""><span class="t">ذكرني</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-remember"><img src="../img/remember-me-ar.webp" width="960" height="631" loading="lazy" decoding="async" alt="الواجهة العربية لبرنامج ذكرني مع قائمة المهام"></div>
+      </div>
       <figcaption>الواجهة العربية لبرنامج ذكرني.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="lemon" class="soft" aria-labelledby="lemon-title">
-  <div class="wrap split">
-    <div>
-      <p class="app-label"><img src="../img/lemon.webp" width="28" height="28" alt="">Lemon · الذكاء المحلي</p>
+<section id="lemon" class="section band" aria-labelledby="lemon-title">
+  <div class="wrap show">
+    <div class="reveal">
+      <p class="app-label"><img src="../img/lemon.webp" width="36" height="36" alt="">Lemon <span>· الذكاء الاصطناعي المحلي</span></p>
       <h2 id="lemon-title">ذكاء اصطناعي على جهازك، بلا إنترنت</h2>
-      <p class="muted">واجهة مثل ChatGPT لنماذج Ollama المحلية. محادثاتك وملفاتك لا تغادر جهازك أبداً.</p>
+      <p class="intro">واجهة مثل ChatGPT لنماذج Ollama المحلية. محادثاتك وملفاتك لا تغادر جهازك أبداً.</p>
       <ul class="checks">
         <li><strong>مساعدون من ملفاتك:</strong> أعطه PDF أو نصوصاً فيجيب منها فقط ويعرض المصادر.</li>
         <li><strong>معاينة مباشرة:</strong> شغّل كود HTML والألعاب داخل البرنامج، مع زر «اطلب الإصلاح».</li>
@@ -231,27 +283,30 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           تنزيل Lemon<span class="dl-ver" data-dl-ver></span>
         </a>
-        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder/local-ai-chat">المزيد عن Lemon</a>
+        <a class="btn btn-ghost" href="#download-lemon">ملاحظات الإصدار</a>
       </div>
+      <p class="sublinks"><span>يحتاج <a href="#faq-offline">Ollama</a> لتشغيل النماذج.</span><a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>الكود على GitHub</a></p>
     </div>
-    <figure class="shot">
-      <img src="../img/lemon-ar.webp" width="960" height="600" loading="lazy" decoding="async" alt="الواجهة العربية لبرنامج Lemon للمحادثة مع الذكاء الاصطناعي المحلي">
+    <figure class="shot reveal">
+      <div class="win dark">
+        <div class="win-bar"><img src="../img/lemon.webp" width="16" height="16" alt=""><span class="t">Lemon</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-lemon"><img src="../img/lemon-ar.webp" width="960" height="600" loading="lazy" decoding="async" alt="الواجهة العربية لبرنامج Lemon للمحادثة مع الذكاء الاصطناعي المحلي"></div>
+      </div>
       <figcaption>الواجهة العربية لبرنامج Lemon.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="instawords" aria-labelledby="instawords-title">
-  <div class="wrap split rev">
-    <div>
-      <p class="app-label"><img src="../img/instawords.svg" width="28" height="28" alt="">InstaWords · تفقيط</p>
+<section id="instawords" class="section" aria-labelledby="instawords-title">
+  <div class="wrap show flip">
+    <div class="reveal">
+      <p class="app-label"><img src="../img/instawords.svg" width="36" height="36" alt="">InstaWords <span>· تفقيط</span></p>
       <h2 id="instawords-title">المبلغ بالحروف، جاهز للشيك</h2>
-      <p class="muted">برنامج ويندوز أصلي يكتب أي مبلغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية. سريع وخفيف ويعمل كاملاً دون إنترنت، ولا يحتاج تثبيت أي شيء إضافي.</p>
+      <p class="intro">برنامج ويندوز أصلي يكتب أي مبلغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية. سريع وخفيف ويعمل كاملاً دون إنترنت.</p>
       <ul class="checks">
         <li><strong>Ctrl+Alt+T من أي برنامج:</strong> انسخ رقماً، اضغط الاختصار، والصق المبلغ مكتوباً بالحروف.</li>
         <li><strong>أكثر من 100 عملة ووحدة:</strong> بالهللات والفلوس والسنتات، وبقواعد عربية صحيحة.</li>
         <li><strong>تبويب الدفعة:</strong> الصق عموداً كاملاً من Excel وصدّر النتائج CSV.</li>
-        <li><strong>يحدّث نفسه</strong> من GitHub، مع التحقق من سلامة المثبّت.</li>
       </ul>
       <div class="cta">
         <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.0.0/InstaWords_2.0.0_x64-setup.exe" data-dl="tafket">
@@ -260,83 +315,138 @@
         </a>
         <a class="btn btn-ghost" href="../instawords/">استخدمه في المتصفح</a>
       </div>
-      <p class="rel">ويندوز 10/11 · 2.5 ميغابايت · تثبيت للمستخدم دون صلاحيات المدير · <a href="https://github.com/sarmadiq9090-coder/tafket/releases/latest">النسخة المحمولة وملاحظات الإصدار</a></p>
+      <p class="fine">ويندوز 10/11 · 2.5 ميغابايت · تثبيت للمستخدم دون صلاحيات المدير · <a href="#download-instawords">النسخة المحمولة وملاحظات الإصدار</a></p>
+      <p class="sublinks"><a href="https://github.com/sarmadiq9090-coder/tafket" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>الكود على GitHub</a></p>
     </div>
-    <figure class="shot">
-      <img src="../img/instawords-ar.webp" width="960" height="743" loading="lazy" decoding="async" alt="برنامج InstaWords لويندوز يكتب 1250.75 ريالاً سعودياً بالحروف العربية">
+    <figure class="shot reveal">
+      <div class="win">
+        <div class="win-bar"><img src="../img/instawords.svg" width="16" height="16" alt=""><span class="t">تفقيط · InstaWords</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-instawords"><img src="../img/instawords-ar.webp" width="960" height="743" loading="lazy" decoding="async" alt="برنامج InstaWords لويندوز يكتب 1250.75 ريالاً سعودياً بالحروف العربية"></div>
+      </div>
       <figcaption>InstaWords 2.0 لويندوز بالواجهة العربية.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="why" aria-labelledby="why-title">
+<section id="why" class="night" aria-labelledby="why-title">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="why-title">لماذا FastKiwi؟</h2>
-      <p>نفس المبادئ في كل برنامج نصنعه.</p>
+    <div class="head reveal">
+      <p class="kicker">لماذا FastKiwi</p>
+      <h2 id="why-title">نفس المبادئ في كل برنامج</h2>
+      <p>أدوات صغيرة تحترم جهازك وخصوصيتك ولغتك.</p>
     </div>
-    <div class="grid">
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>خفيف وسريع</h3>
-        <p>يفتح فوراً ولا يثقل جهازك. أغلب برامجنا ملف واحد لا يحتاج تثبيتاً.</p>
-      </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.6"/><path d="M12 20h.01"/></svg></span>بلا إنترنت</h3>
+    <div class="principles reveal">
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.6"/><path d="M12 20h.01"/></svg></span>بلا إنترنت</h3>
         <p>كل شيء يعمل على جهازك. لا حساب، ولا خوادم، ولا انتظار.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>خصوصيتك أولاً</h3>
-        <p>ملفاتك ومحادثاتك لا تغادر جهازك، ولا يوجد أي تتبّع.</p>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>خصوصيتك أولاً</h3>
+        <p>ملفاتك ومحادثاتك لا تغادر جهازك، ولا يوجد أي تتبّع. <a href="privacy/">اقرأ صفحة الخصوصية</a>.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>العربية بحق</h3>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>العربية بحق</h3>
         <p>اتجاه صحيح من اليمين لليسار في كل مكان، وبحث يفهم الهمزات والتاء المربوطة.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span>مفتوح المصدر</h3>
-        <p>كل الكود منشور على GitHub برخصة MIT، ويمكن لأي أحد مراجعته.</p>
+      <article id="open-source">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span>مفتوح المصدر</h3>
+        <p>كل الكود منشور برخصة MIT، ويمكن لأي أحد مراجعته. <a href="https://github.com/sarmadiq9090-coder" data-github>اقرأه على GitHub</a>.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>تحديث آمن</h3>
-        <p>البرامج تتحدّث وحدها بنقرة، وكل إصدار يُبنى ويُختبر آلياً قبل نشره.</p>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>خفيف وسريع</h3>
+        <p>يفتح فوراً ولا يثقل جهازك. أغلب برامجنا ملف واحد لا يحتاج تثبيتاً.</p>
+      </article>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span>مجاني، وسيبقى كذلك</h3>
+        <p>بلا إعلانات ولا اشتراكات ولا نسخة مدفوعة. التحديث بنقرة واحدة، وكل إصدار يُبنى ويُختبر آلياً قبل نشره.</p>
       </article>
     </div>
   </div>
 </section>
 
-<section id="community" aria-labelledby="community-title">
+<section id="community" class="section" aria-labelledby="community-title">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="community-title">شارك معنا</h2>
-      <p>FastKiwi يُبنى بشكل مفتوح، وكل بلاغ أو فكرة تجعل البرامج أفضل.</p>
+    <div class="head center reveal">
+      <p class="kicker">المجتمع</p>
+      <h2 id="community-title">نبنيه بشكل مفتوح</h2>
+      <p>كل بلاغ وفكرة ونجمة تجعل البرامج أفضل للجميع.</p>
     </div>
-    <div class="grid com-grid">
-      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.9 1.9M16 2l-1.9 1.9M9 7.1V6a3 3 0 0 1 6 0v1.1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6zM12 20v-9M6 13H2M22 13h-4M3 21l3.5-2.5M21 21l-3.5-2.5M3 5l3.5 2.5M21 5l-3.5 2.5"/></svg></span><h3>بلّغ عن مشكلة</h3><p>شيء لا يعمل؟ افتح Issue بالعربية أو الإنكليزية.</p><span class="go">افتح بلاغاً →</span></a>
-      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></span><h3>اقترح ميزة</h3><p>أخبرنا بما يسهّل يومك.</p><span class="go">أرسل فكرتك →</span></a>
-      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span><h3>أضف نجمة</h3><p>النجمة على GitHub تساعد الآخرين على اكتشاف البرامج.</p><span class="go">نجمة لـ InstaFind →</span></a>
-      <a class="card com" href="https://github.com/sarmadiq9090-coder"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span><h3>ساهم</h3><p>الكود والترجمة والاختبار، كلها مرحب بها.</p><span class="go">شاهد الكود →</span></a>
+    <ul class="stats" aria-label="FastKiwi على GitHub">
+      <li data-stat="stars" hidden><b data-n>–</b> نجمة على GitHub</li>
+      <li data-stat="downloads" hidden><b data-n>–</b> تنزيل</li>
+      <li data-stat="releases" hidden><b data-n>–</b> إصدار</li>
+    </ul>
+    <div class="com">
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.9 1.9M16 2l-1.9 1.9M9 7.1V6a3 3 0 0 1 6 0v1.1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6zM12 20v-9M6 13H2M22 13h-4"/></svg></span><h3>بلّغ عن مشكلة</h3><p>شيء لا يعمل؟ أخبرنا بالعربية أو الإنكليزية.</p><a class="btn-link" href="#support">طريقة الإبلاغ <svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></span><h3>اقترح ميزة</h3><p>أخبرنا بما يسهّل يومك.</p><a class="btn-link" href="#support">أرسل فكرتك <svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span><h3>أضف نجمة</h3><p>النجمة تساعد الآخرين على اكتشاف البرامج.</p><a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search" data-github>نجمة لـ InstaFind على GitHub</a></div>
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span><h3>ساهم</h3><p>الكود والترجمة والاختبار، كلها مرحب بها.</p><a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder" data-github>شاهد الكود على GitHub</a></div>
     </div>
   </div>
 </section>
 
-<section id="faq" class="soft" aria-labelledby="faq-title">
-  <div class="wrap faq">
-    <h2 id="faq-title">أسئلة شائعة</h2>
-    <details><summary>هل البرامج مجانية فعلاً؟</summary><div><p>نعم، مجانية بالكامل ومفتوحة المصدر برخصة MIT. لا إعلانات ولا اشتراكات.</p></div></details>
-    <details><summary>هل تحتاج إنترنت؟</summary><div><p>لا. كل البرامج تعمل على جهازك دون اتصال. الإنترنت يُستخدم فقط عند التحقق من التحديثات أو تنزيل نموذج ذكاء اصطناعي في Lemon.</p></div></details>
-    <details><summary>على أي أنظمة تعمل؟</summary><div><p>ويندوز 10 و11. InstaFind يعمل أيضاً على أجهزة ARM64 و32 بت.</p></div></details>
-    <details><summary>لماذا يظهر تحذير SmartScreen؟</summary><div><p>لأن الملفات غير موقّعة رقمياً بعد. اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال». الكود كله منشور ويمكن مراجعته.</p></div></details>
-    <details><summary>كيف أبلّغ عن مشكلة أو أقترح ميزة؟</summary><div><p>افتح «Issue» في صفحة البرنامج على GitHub، بالعربية أو الإنكليزية.</p></div></details>
+<section id="faq" class="section band" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <div class="head">
+      <p class="kicker">أسئلة شائعة</p>
+      <h2 id="faq-title">أسئلة وأجوبة</h2>
+      <p>لم تجد جوابك؟ <a href="#support">اطلب المساعدة</a>.</p>
+    </div>
+    <div class="faq">
+      <details id="faq-smartscreen"><summary>يظهر تحذير «ناشر غير معروف» أو «حمى Windows جهاز الكمبيوتر». هل البرنامج آمن؟</summary><div><p>الملفات غير موقّعة رقمياً بعد، لذلك لا يتعرّف SmartScreen على الناشر. اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال». الكود كله منشور ويمكن مراجعته، وكل إصدار يُبنى منه آلياً.</p></div></details>
+      <details id="faq-antivirus"><summary>برنامج الحماية حذّر من الملف. ماذا أفعل؟</summary><div><p>البرامج الجديدة غير الموقّعة تُصنَّف أحياناً كتهديد عن طريق الخطأ (إنذار كاذب)، خصوصاً البرامج الصغيرة المكوّنة من ملف واحد. نزّل البرامج من هذا الموقع فقط، وافحص الملف بماسح ثانٍ مثل VirusTotal إن شئت، ثم <a href="#support">أخبرنا</a> لنبلّغ الشركة المصنّعة لبرنامج الحماية.</p></div></details>
+      <details id="faq-offline"><summary>هل تعمل فعلاً بلا إنترنت؟</summary><div><p>نعم. كل البرامج تعمل على جهازك دون اتصال. الإنترنت يُستخدم فقط عند التحقق من التحديثات أو تنزيل نموذج ذكاء اصطناعي في Lemon (يتصل Lemon بـ Ollama الذي يعمل على جهازك أنت).</p></div></details>
+      <details id="faq-uninstall"><summary>كيف أحذف برنامجاً؟</summary><div><p>البرامج التي تأتي بمثبّت، مثل ذكرني وInstaWords، تُحذف من إعدادات ويندوز › التطبيقات › التطبيقات المثبتة كأي برنامج آخر. أما البرامج المكوّنة من ملف واحد مثل InstaFind وLemon فلا تثبّت شيئاً: أغلق البرنامج واحذف ملف <span class="ltr">.exe</span>.</p></div></details>
+      <details id="faq-free"><summary>هل البرامج مجانية فعلاً؟</summary><div><p>نعم، مجانية بالكامل ومفتوحة المصدر برخصة MIT. لا إعلانات ولا اشتراكات.</p></div></details>
+      <details id="faq-windows"><summary>ما إصدارات ويندوز المدعومة؟</summary><div><p>ويندوز 10 و11. InstaFind يعمل أيضاً على أجهزة ARM64 و32 بت، وInstaWords يعمل أيضاً في أي متصفح حديث.</p></div></details>
+      <details id="faq-report"><summary>كيف أبلّغ عن مشكلة أو أقترح ميزة؟</summary><div><p>انظر قسم <a href="#support">الدعم</a> أدناه: لكل برنامج مكانه على GitHub للبلاغات والأفكار، بالعربية أو الإنكليزية.</p></div></details>
+    </div>
   </div>
 </section>
 
-<section class="final" aria-labelledby="final-title">
+<section id="support" class="section" aria-labelledby="support-title">
   <div class="wrap">
-    <img src="../img/logo.svg" width="64" height="64" alt="">
-    <h2 id="final-title">جرّب برامج FastKiwi الآن، مجاناً</h2>
-    <p class="muted">برامج صغيرة تفعل الشيء الصحيح بسرعة.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="#apps">تصفّح البرامج</a>
+    <div class="head reveal">
+      <p class="kicker">الدعم</p>
+      <h2 id="support-title">مساعدة في برنامج</h2>
+      <p>راجع <a href="#faq">الأسئلة الشائعة</a> وملاحظات الإصدار أولاً. للإبلاغ عن مشكلة أو اقتراح فكرة، افتح «Issue» في صفحة البرنامج على GitHub، بالعربية أو الإنكليزية.</p>
+    </div>
+    <div class="support">
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="../img/instafind.svg" width="44" height="44" alt=""><h3>InstaFind</h3></div>
+        <ul><li><a href="../arabic-file-search/">دليل البرنامج</a></li><li><a href="#download-instafind">ملاحظات الإصدار</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new" data-github>افتح Issue على GitHub</a>
+      </div>
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="../img/remember-me.webp" width="44" height="44" alt=""><h3>ذكرني</h3></div>
+        <ul><li><a href="../Remember-Me/ar/">دليل البرنامج</a></li><li><a href="#download-remember-me">ملاحظات الإصدار</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/Remember-Me/issues/new" data-github>افتح Issue على GitHub</a>
+      </div>
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="../img/lemon.webp" width="44" height="44" alt=""><h3>Lemon</h3></div>
+        <ul><li><a href="#lemon">عن Lemon</a></li><li><a href="#download-lemon">ملاحظات الإصدار</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat/issues/new" data-github>افتح Issue على GitHub</a>
+      </div>
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="../img/instawords.svg" width="44" height="44" alt=""><h3>InstaWords</h3></div>
+        <ul><li><a href="../instawords/">افتح في المتصفح</a></li><li><a href="#download-instawords">ملاحظات الإصدار</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/tafket/issues/new" data-github>افتح Issue على GitHub</a>
+      </div>
+    </div>
+    <p class="support-note">اذكر إصدار ويندوز وإصدار البرنامج. البلاغات على GitHub علنية، فلا تُرفق ملفات أو معلومات شخصية.</p>
+  </div>
+</section>
+
+<section class="section final" aria-labelledby="final-title">
+  <div class="wrap">
+    <div class="panel reveal">
+      <img src="../img/logo.svg" width="72" height="72" alt="">
+      <h2 id="final-title">جرّب برامج FastKiwi الآن، مجاناً</h2>
+      <p>برامج صغيرة تفعل الشيء الصحيح بسرعة.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#apps">تصفّح البرامج</a>
+        <a class="btn btn-ghost" href="#faq">اقرأ الأسئلة الشائعة</a>
+      </div>
     </div>
   </div>
 </section>
@@ -345,17 +455,29 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <p>© 2026 FastKiwi · برامج ويندوز مجانية ومفتوحة المصدر</p>
-    <nav aria-label="روابط">
-      <a href="../arabic-file-search/">InstaFind</a>
-      <a href="../Remember-Me/ar/">ذكرني</a>
-      <a href="https://github.com/sarmadiq9090-coder/local-ai-chat">Lemon</a>
-      <a href="../instawords/">InstaWords</a>
-      <a href="https://github.com/sarmadiq9090-coder">GitHub</a>
-      <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new">بلّغ عن مشكلة</a>
-      <a href="privacy/">الخصوصية</a>
-      <a href="../" hreflang="en" lang="en">English</a>
-    </nav>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="./"><img src="../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi <small>فاست كيوي</small></span></a>
+        <p>برامج ويندوز مجانية ومفتوحة المصدر، خفيفة وسريعة، تعمل بلا إنترنت وتتحدث العربية والإنكليزية.</p>
+        <a class="lang-switch" href="../" hreflang="en" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>English</a>
+      </div>
+      <nav aria-labelledby="f-apps">
+        <h2 id="f-apps">البرامج</h2>
+        <ul><li><a href="../arabic-file-search/">InstaFind</a></li><li><a href="../Remember-Me/ar/">ذكرني</a></li><li><a href="#lemon">Lemon</a></li><li><a href="../instawords/">InstaWords</a></li></ul>
+      </nav>
+      <nav aria-labelledby="f-res">
+        <h2 id="f-res">المصادر</h2>
+        <ul><li><a href="#download-instafind">ملاحظات الإصدار</a></li><li><a href="#faq">أسئلة شائعة</a></li><li><a href="#support">الدعم</a></li><li><a href="privacy/">الخصوصية</a></li></ul>
+      </nav>
+      <nav aria-labelledby="f-kiwi">
+        <h2 id="f-kiwi">FastKiwi</h2>
+        <ul><li><a href="#why">لماذا FastKiwi</a></li><li><a href="#community">المجتمع</a></li><li><a href="https://github.com/sarmadiq9090-coder" data-github>GitHub</a></li></ul>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FastKiwi · برامج ويندوز مجانية ومفتوحة المصدر</p>
+      <p>صُنعت لويندوز 10 و11</p>
+    </div>
   </div>
 </footer>
 <script src="../site.js" defer></script>

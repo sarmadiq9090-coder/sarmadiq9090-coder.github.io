@@ -471,3 +471,58 @@ textarea { min-height: 220px; resize: vertical; line-height: 1.65; font-family: 
 .win-chip { padding: .45rem .85rem; border: 1.5px solid var(--border-strong); border-radius: 10px; color: var(--muted); }
 .win-result { padding: .8rem 1rem; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--border)); background: linear-gradient(180deg, #fbfdf8, #f3f8ec); font-weight: 700; line-height: 1.8; }
 .win-btn { justify-self: end; padding: .45rem 1.1rem; border-radius: 10px; background: var(--grad); color: #fff; font-weight: 700; font-size: .92rem; }
+
+/* ---------- Windows download: version label, dialogs (#download, #support) ---------- */
+
+.ver { display: inline-block; font-size: .78em; font-weight: 700; direction: ltr; unicode-bidi: isolate; padding: .05em .45em; border-radius: 6px; background: color-mix(in srgb, currentColor 12%, transparent); }
+.site-footer .ver { background: none; padding: 0; font-weight: 400; }
+.release-links { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: .7rem 0 0; font-size: .92rem; }
+.release-links a { font-weight: 700; }
+a[data-github] svg { width: 18px; height: 18px; flex: none; }
+a[data-github]:not(.btn) { white-space: nowrap; }
+
+.dialog {
+  width: min(640px, calc(100vw - 32px));
+  max-height: min(88dvh, 860px);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 80px -20px rgb(15 23 42 / .45);
+  overflow: hidden;
+}
+.dialog[open] { display: flex; flex-direction: column; }
+.dialog::backdrop { background: rgb(20 32 15 / .45); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1.2rem; border-bottom: 1px solid var(--border); background: var(--bg-soft); }
+.dialog-head h2 { margin: 0; font-size: 1.15rem; }
+.dialog-close { flex: none; width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--muted); cursor: pointer; }
+.dialog-close:hover { color: var(--text); border-color: var(--border-strong); }
+.dialog-close svg { width: 20px; height: 20px; }
+.dialog-body { padding: 1.1rem 1.2rem 1.3rem; overflow-y: auto; overscroll-behavior: contain; }
+.dialog-body > :first-child { margin-top: 0; }
+.dialog-body .note { margin: 0 0 1rem; }
+.dialog-body .actions { margin-block: 1rem; }
+.dialog-body .checks { margin-top: .5rem; }
+.dialog-foot { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.dialog-loading { color: var(--muted); }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1.2rem; margin: 0; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; font-weight: 700; }
+.sha-row { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; margin-top: .8rem; padding: .7rem .8rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-soft); }
+.sha-label { width: 100%; font-size: .88rem; color: var(--muted); }
+.sha { flex: 1 1 18rem; min-width: 0; word-break: break-all; font-size: .82rem; line-height: 1.6; background: none; padding: 0; }
+.notes { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px dashed var(--border-strong); }
+.notes-title { font-size: 1.05rem; }
+.notes-body { color: var(--muted); font-size: .97rem; }
+.notes-body h3, .notes-body h4 { color: var(--text); font-size: 1rem; margin: 1rem 0 .4rem; }
+.notes-body ul, .notes-body ol { padding-inline-start: 1.3rem; margin: 0 0 1rem; }
+.notes-body li { margin-bottom: .35rem; }
+.notes-body strong { color: var(--text); }
+.notes-body code { word-break: break-all; }
+.support-list { padding-inline-start: 1.3rem; }
+.support-list li { margin-bottom: .7rem; }
+@media (max-width: 520px) {
+  .dialog { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+  .dialog-body .actions .btn { flex: 1 1 100%; }
+}

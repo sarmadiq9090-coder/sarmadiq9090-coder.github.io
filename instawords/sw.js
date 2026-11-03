@@ -1,11 +1,13 @@
 // Service worker: makes the whole site work offline.
 // VERSION and ASSETS are filled in by scripts/build-site.mjs; a new VERSION replaces the old cache.
-const VERSION = "db6087a17b81fcec";
+const VERSION = "63ebc1144e85a5bd";
 const ASSETS = [
   "./",
+  "LICENSE.txt",
   "Tafqit.bas",
   "assets/app.js",
   "assets/bulk.js",
+  "assets/release.js",
   "assets/single.js",
   "assets/style.css",
   "bulk.html",
@@ -63,6 +65,9 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+  // Other origins are never cached or answered here. In particular the GitHub API call for the
+  // latest Windows release goes straight to the network: offline it simply fails and the page
+  // falls back to the release it ships with, instead of showing a stale or broken cached answer.
   if (url.origin !== self.location.origin) return;
   if (url.pathname.endsWith("/units.json")) {
     event.respondWith(cacheThenUpdate(event));
