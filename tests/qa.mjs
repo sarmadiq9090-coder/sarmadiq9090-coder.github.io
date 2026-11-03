@@ -1,4 +1,4 @@
-// FastKiwi site QA (home, releases, Lemon, privacy policy, Microsoft Store draft, 404, redirects, feeds) in a real browser.
+// FastKiwi site QA (home, releases, Lemon, privacy policy, 404, redirects, feeds) in a real browser.
 // Run from the repo root: npm test   (or: node tests/qa.mjs [--no-shots])
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
@@ -23,7 +23,7 @@ const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/late
   'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}tafket/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
 const FEED = { en: fs.existsSync(path.join(ROOT, 'releases.xml')), ar: fs.existsSync(path.join(ROOT, 'ar', 'releases.xml')) };
 const WIDTHS = [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360];
-PAGES.push(['store-en', '/store/'], ['store-ar', '/ar/store/']); // draft Microsoft Store page (see section 12)
+PAGES.push(['store-en', '/store/'], ['store-ar', '/ar/store/']); // draft Microsoft Store page (see section 9b)
 const PROJECT_SITES = ['/arabic-file-search/', '/Remember-Me/']; // other repos' GitHub Pages, served on fastkiwi.app
 let fails = 0, passes = 0;
 const ok = (c, msg) => { if (c) passes++; else { fails++; console.log('  FAIL', msg); } };
@@ -487,62 +487,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   await ctx.close();
 }
 
-/* ---------- 10. privacy policy: one section per app + the site, summary table, effective date, contact, SEO, footer links everywhere ---------- */
-{
-  const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
-  await offline(ctx);
-  const page = await ctx.newPage();
-  const APPS = ['instafind', 'remember-me', 'lemon', 'instawords', 'site'];
-  const ISSUES = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'].map(r => GH + r + '/issues/new');
-  let offsite = [];
-  page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
-  for (const [lang, url, other] of [['en', '/privacy/', '/ar/privacy/'], ['ar', '/ar/privacy/', '/privacy/']]) {
-    offsite = [];
-    await page.goto(BASE + url, { waitUntil: 'networkidle' });
-    const P = await page.evaluate(() => ({
-      canonical: document.querySelector('link[rel=canonical]').href,
-      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
-      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
-      date: document.querySelector('time[datetime]')?.getAttribute('datetime'),
-      sections: [...document.querySelectorAll('section.pv-app[id]')].map(s => s.id),
-      sectionText: Object.fromEntries([...document.querySelectorAll('section.pv-app[id]')].map(s => [s.id, s.textContent])),
-      rows: [...document.querySelectorAll('#summary + .table-wrap tbody tr')].map(r => ({ to: r.querySelector('th a')?.getAttribute('href'), cells: r.querySelectorAll('td').length })),
-      contact: [...document.querySelectorAll('#contact ~ .pv-contact a')].map(a => [a.href, a.hasAttribute('data-github'), /GitHub/.test(a.textContent)]),
-      support: !!document.querySelector('a[href="../#support"]'),
-      scripts: document.scripts.length
-    }));
-    const tag = `privacy ${lang}`;
-    ok(P.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${P.canonical}`);
-    ok(JSON.stringify(P.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/privacy/', 'en https://fastkiwi.app/privacy/', 'x-default https://fastkiwi.app/privacy/']), `${tag}: hreflang ${P.hreflang}`);
-    ok(P.lang.length === 2 && P.lang.every(x => x === other), `${tag}: language switches go to ${other} (${P.lang})`);
-    ok(P.date === '2026-11-03', `${tag}: effective date ${P.date}`);
-    ok(JSON.stringify(P.sections) === JSON.stringify(APPS), `${tag}: one section per app and the site (${P.sections})`);
-    ok(P.rows.length === 5 && P.rows.every((r, i) => r.to === '#' + APPS[i] && r.cells === 2), `${tag}: summary table, a row per app linking to its section ${JSON.stringify(P.rows)}`);
-    ok(/open\.er-api\.com/.test(P.sectionText.instafind) && /BahthSari/.test(P.sectionText.instafind), `${tag}: InstaFind names the exchange-rate host and its data folder`);
-    ok(/Google Drive/.test(P.sectionText['remember-me']) && /Remember Me/.test(P.sectionText['remember-me']), `${tag}: Remember Me covers Google Drive backups`);
-    ok(/127\.0\.0\.1/.test(P.sectionText.lemon) && /crash\.txt/.test(P.sectionText.lemon), `${tag}: Lemon covers local Ollama and crash.txt`);
-    ok(/crash\.log/.test(P.sectionText.instawords) && /FastKiwi\\InstaWords/.test(P.sectionText.instawords), `${tag}: InstaWords covers its data folder and crash.log`);
-    ok(/GitHub Pages/.test(P.sectionText.site), `${tag}: the site section names its host`);
-    ok(P.contact.length === 4 && P.contact.every(([h, gh, t], i) => h === ISSUES[i] && gh && t), `${tag}: contact = each app's labelled GitHub issues link ${JSON.stringify(P.contact)}`);
-    ok(P.support, `${tag}: links to the on-site Support section`);
-    ok(P.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
-    await checkLinks(page, tag);
-  }
-  /* every full page links to the privacy page of its language from the footer */
-  for (const [u, want] of [['/', '/privacy/'], ['/ar/', '/ar/privacy/'], ['/releases/', '/privacy/'], ['/ar/releases/', '/ar/privacy/'], ['/lemon/', '/privacy/'], ['/ar/lemon/', '/ar/privacy/'], ['/instawords/', '/ar/privacy/']]) {
-    await page.goto(BASE + u, { waitUntil: 'domcontentloaded' });
-    const f = await page.evaluate(() => [...document.querySelectorAll('footer a')].map(a => new URL(a.href)).filter(x => /\/privacy\/$/.test(x.pathname)).map(x => [x.hostname, x.pathname]));
-    ok(f.length >= 1 && f.every(([h, p]) => p === want && (h === 'fastkiwi.app' || h === new URL(BASE).hostname)), `footer ${u}: privacy link to ${want} (${JSON.stringify(f)})`);
-  }
-  await ctx.close();
-  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
-  for (const u of ['https://fastkiwi.app/privacy/', 'https://fastkiwi.app/ar/privacy/']) {
-    const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
-    ok(/<lastmod>2026-11-03<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/privacy/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/privacy/"'), `sitemap: ${u} with lastmod and hreflang`);
-  }
-}
-
-/* ---------- 12. Microsoft Store page (DRAFT): store/ and ar/store/ ----------
+/* ---------- 9b. Microsoft Store page (DRAFT): store/ and ar/store/ ----------
    STORE_DRAFT: until the first Store approval these pages are noindex, left out of sitemap.xml and not linked from any other page.
    This is a deliberate, documented exception to "every page is in the sitemap". On launch: remove the noindex meta, add both
    pages to sitemap.xml, link them, and set STORE_DRAFT = false so the checks below flip. */
@@ -610,6 +555,61 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     }
   })(ROOT);
   if (STORE_DRAFT) ok(linking.length === 0, `store: draft not linked from other pages (${linking})`);
+}
+
+/* ---------- 10. privacy policy: one section per app + the site, summary table, effective date, contact, SEO, footer links everywhere ---------- */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+  await offline(ctx);
+  const page = await ctx.newPage();
+  const APPS = ['instafind', 'remember-me', 'lemon', 'instawords', 'site'];
+  const ISSUES = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'].map(r => GH + r + '/issues/new');
+  let offsite = [];
+  page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
+  for (const [lang, url, other] of [['en', '/privacy/', '/ar/privacy/'], ['ar', '/ar/privacy/', '/privacy/']]) {
+    offsite = [];
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const P = await page.evaluate(() => ({
+      canonical: document.querySelector('link[rel=canonical]').href,
+      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
+      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      date: document.querySelector('time[datetime]')?.getAttribute('datetime'),
+      sections: [...document.querySelectorAll('section.pv-app[id]')].map(s => s.id),
+      sectionText: Object.fromEntries([...document.querySelectorAll('section.pv-app[id]')].map(s => [s.id, s.textContent])),
+      rows: [...document.querySelectorAll('#summary + .table-wrap tbody tr')].map(r => ({ to: r.querySelector('th a')?.getAttribute('href'), cells: r.querySelectorAll('td').length })),
+      contact: [...document.querySelectorAll('#contact ~ .pv-contact a')].map(a => [a.href, a.hasAttribute('data-github'), /GitHub/.test(a.textContent)]),
+      support: !!document.querySelector('a[href="../#support"]'),
+      scripts: document.scripts.length
+    }));
+    const tag = `privacy ${lang}`;
+    ok(P.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${P.canonical}`);
+    ok(JSON.stringify(P.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/privacy/', 'en https://fastkiwi.app/privacy/', 'x-default https://fastkiwi.app/privacy/']), `${tag}: hreflang ${P.hreflang}`);
+    ok(P.lang.length === 2 && P.lang.every(x => x === other), `${tag}: language switches go to ${other} (${P.lang})`);
+    ok(P.date === '2026-11-03', `${tag}: effective date ${P.date}`);
+    ok(JSON.stringify(P.sections) === JSON.stringify(APPS), `${tag}: one section per app and the site (${P.sections})`);
+    ok(P.rows.length === 5 && P.rows.every((r, i) => r.to === '#' + APPS[i] && r.cells === 2), `${tag}: summary table, a row per app linking to its section ${JSON.stringify(P.rows)}`);
+    ok(/open\.er-api\.com/.test(P.sectionText.instafind) && /BahthSari/.test(P.sectionText.instafind), `${tag}: InstaFind names the exchange-rate host and its data folder`);
+    ok(/Google Drive/.test(P.sectionText['remember-me']) && /Remember Me/.test(P.sectionText['remember-me']), `${tag}: Remember Me covers Google Drive backups`);
+    ok(/127\.0\.0\.1/.test(P.sectionText.lemon) && /crash\.txt/.test(P.sectionText.lemon), `${tag}: Lemon covers local Ollama and crash.txt`);
+    ok(/crash\.log/.test(P.sectionText.instawords) && /FastKiwi\\InstaWords/.test(P.sectionText.instawords), `${tag}: InstaWords covers its data folder and crash.log`);
+    ok(/GitHub Pages/.test(P.sectionText.site), `${tag}: the site section names its host`);
+    ok(P.contact.length === 4 && P.contact.every(([h, gh, t], i) => h === ISSUES[i] && gh && t), `${tag}: contact = each app's labelled GitHub issues link ${JSON.stringify(P.contact)}`);
+    ok(P.support, `${tag}: links to the on-site Support section`);
+    ok(P.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
+    await checkLinks(page, tag);
+  }
+  /* every full page links to the privacy page of its language from the footer */
+  for (const [u, want] of [['/', '/privacy/'], ['/ar/', '/ar/privacy/'], ['/releases/', '/privacy/'], ['/ar/releases/', '/ar/privacy/'], ['/lemon/', '/privacy/'], ['/ar/lemon/', '/ar/privacy/'], ['/instawords/', '/ar/privacy/']]) {
+    await page.goto(BASE + u, { waitUntil: 'domcontentloaded' });
+    const f = await page.evaluate(() => [...document.querySelectorAll('footer a')].map(a => new URL(a.href)).filter(x => /\/privacy\/$/.test(x.pathname)).map(x => [x.hostname, x.pathname]));
+    ok(f.length >= 1 && f.every(([h, p]) => p === want && (h === 'fastkiwi.app' || h === new URL(BASE).hostname)), `footer ${u}: privacy link to ${want} (${JSON.stringify(f)})`);
+  }
+  await ctx.close();
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const u of ['https://fastkiwi.app/privacy/', 'https://fastkiwi.app/ar/privacy/']) {
+    const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
+    ok(/<lastmod>2026-11-03<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/privacy/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/privacy/"'), `sitemap: ${u} with lastmod and hreflang`);
+  }
 }
 
 await browser.close();
