@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ar">
+  <title>FastKiwi · ما الجديد</title>
+  <subtitle>آخر إصدارات برامج FastKiwi: InstaFind وذكرني وLemon وInstaWords.</subtitle>
+  <id>https://fastkiwi.app/ar/releases.xml</id>
+  <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/ar/releases.xml"/>
+  <link rel="alternate" type="text/html" hreflang="ar" href="https://fastkiwi.app/ar/releases/"/>
+  <updated>2026-11-03T14:44:02.000Z</updated>
+  <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
+  <icon>https://fastkiwi.app/img/icon-192.png</icon>
+  <rights>برامج مجانية ومفتوحة المصدر (MIT)</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:tafket/v2.1.0</id>
+    <title>InstaWords · تفقيط v2.1.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
+    <published>2026-11-03T14:44:02.000Z</published>
+    <updated>2026-11-03T14:44:02.000Z</updated>
+    <category term="instawords" label="InstaWords"/>
+    <summary type="text">برنامج Windows أصلي لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية، بأكثر من 100 عملة ووحدة. ليس موقعاً داخل نافذة: واجهة Windows حقيقية، سريعة وخفيفة، تعمل كلها دون إنترنت، ولا تحتاج تثبيت أي شيء إضافي على Windows 10 و11.…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:tafket/v2.0.0</id>
+    <title>InstaWords · تفقيط v2.0.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
+    <published>2026-11-03T11:17:02.000Z</published>
+    <updated>2026-11-03T11:17:02.000Z</updated>
+    <category term="instawords" label="InstaWords"/>
+    <summary type="text">برنامج Windows أصلي لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية، بأكثر من 100 عملة ووحدة. ليس موقعاً داخل نافذة: واجهة Windows حقيقية، سريعة وخفيفة، تعمل كلها دون إنترنت، ولا تحتاج تثبيت أي شيء إضافي على Windows 10 و11.…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:tafket/v1.1.0</id>
+    <title>InstaWords · تفقيط v1.1.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
+    <published>2026-11-03T08:44:40.000Z</published>
+    <updated>2026-11-03T08:44:40.000Z</updated>
+    <category term="instawords" label="InstaWords"/>
+    <summary type="text">تطبيق Windows لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية ولغات أخرى. يعمل دون إنترنت، ونتائجه مطابقة للموقع. InstaWords_…_x64-setup.exe: المثبّت (موصى به). يثبّت للمستخدم الحالي دون صلاحيات المسؤول. InstaWords_…_x64-portable.exe: نسخة محمولة تعمل دون تثبيت (تتطلب…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.0</id>
+    <title>InstaFind · بحث سريع v0.9.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-02T13:03:22.000Z</published>
+    <updated>2026-11-02T13:03:22.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">البرامج بأسمائها العربية كما تكتبها: أكثر من 45 برنامجاً ولعبة جديدة، وحرف غلط واحد مقبول («ديسكود» تجد Discord)، والبرنامج يتعلّم من اختيارك، وتظهر البرامج في النافذة الرئيسية أيضاً. تحويل العملات: «100 دولار»، «100 usd to iqd»، «50 يورو بالدينار» لـ 24 عملة، بأسعار تتحدث كل 12…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.2</id>
+    <title>InstaFind · بحث سريع v0.8.2</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-02T11:19:20.000Z</published>
+    <updated>2026-11-02T11:19:20.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">إصلاح توقف البرنامج فجأة على بعض الأجهزة عند الضغط المتكرر على خانة البحث العائمة أو عند ضغط زر الإغلاق، فتختفي الخانة والأيقونة بجانب الساعة. كل توقف مفاجئ يُسجَّل الآن في تقرير الخطأ، فإذا حدث يسألك البرنامج عند الفتح التالي إن كنت تريد إرساله. البحث من الهاتف لا يتوقف عند ضغط…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.1</id>
+    <title>InstaFind · بحث سريع v0.8.1</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-02T07:41:36.000Z</published>
+    <updated>2026-11-02T07:41:36.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">زر الإغلاق (X) يخفي البرنامج إلى الأيقونة بجانب الساعة بدل إغلاقه، وتبقى خانة البحث العائمة وCtrl+Alt+F تعمل. للخروج فعلاً: «خروج» من قائمة الأيقونة أو من «خيارات». التشغيل مع ويندوز يُفعَّل من جديد، حتى لو كان مدير المهام قد أوقفه. إصلاح تعطل بعد مدة من التشغيل كانت تبقى بعده…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.0</id>
+    <title>InstaFind · بحث سريع v0.8.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-01T22:25:57.000Z</published>
+    <updated>2026-11-01T22:25:57.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">شفافة وتكاد لا تُرى حتى تقرّب المؤشر، فتظهر بنعومة. لا تغطيها الإشعارات، وتختفي مع الألعاب والفيديو بملء الشاشة، وتسحبها لأي مكان. في أول تشغيل يسألك البرنامج إن كنت تريدها، وتقدر تخفيها أو تطفيها في أي وقت من «خيارات ← البحث من أي مكان». البرامج المثبتة بأسمائها العربية: اكتب…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.7.0</id>
+    <title>InstaFind · بحث سريع v0.7.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-01T20:08:52.000Z</published>
+    <updated>2026-11-01T20:08:52.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">نسخة أصلية لأجهزة ARM64 (مثل الحواسيب بمعالجات Snapdragon): bahth-arm64.exe، تعمل مباشرة دون محاكاة فتكون أسرع وأقل استهلاكاً للبطارية. نسخة لويندوز 32 بت: bahth-x86.exe. نسخة 64 بت العادية تبقى bahth.exe كما هي. كل نسخة تحدّث نفسها تلقائياً بنسختها، وScoop وwinget يختاران…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:Remember-Me/v1.6.1</id>
+    <title>ذكرني · Remember Me v1.6.1</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#remember-me"/>
+    <published>2026-11-01T18:13:54.000Z</published>
+    <updated>2026-11-01T18:13:54.000Z</updated>
+    <category term="remember-me" label="Remember Me"/>
+    <summary type="text">A small release with fixes for the v1.6.0 snooze choices and overdue wording, and clearer Hindi. Your tasks, notes, attachments, settings and snooze choices load unchanged. Snooze choices for today show their time, such as &quot;Today 9:00 PM&quot;, and Settings refuses a time today…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.6.1</id>
+    <title>InstaFind · بحث سريع v0.6.1</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-01T15:17:14.000Z</published>
+    <updated>2026-11-01T15:17:14.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">الخط تحت الجزء المطابق في الواجهة العربية كان في المكان الخطأ: في أسماء الملفات العربية التي لها امتداد لاتيني (مثل «تقرير المبيعات 2026.xlsx») كان الخط يُرسم مزاحاً إلى اليسار بعرض الامتداد، فيقع تحت كلمة أخرى. أصبح يقع تحت الكلمة التي بحثت عنها تماماً، وتم التحقق من ذلك بلقطات…</summary>
+  </entry>
+</feed>

@@ -1,6 +1,6 @@
 // Service worker: makes the whole site work offline.
 // VERSION and ASSETS are filled in by scripts/build-site.mjs; a new VERSION replaces the old cache.
-const VERSION = "63ebc1144e85a5bd";
+const VERSION = "a4141de09cf6d4a1";
 const ASSETS = [
   "./",
   "LICENSE.txt",
@@ -35,6 +35,7 @@ const ASSETS = [
   "lib/normalize.js",
   "lib/types.js",
   "manifest.webmanifest",
+  "release-fallback.json",
   "units.json"
 ];
 
