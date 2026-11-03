@@ -99,10 +99,18 @@ test('sync tool: updates the InstaWords fallback, writes the feeds, shows the li
 
 test('sync tool: refuses to write anything when an app has no data', () => {
   const dir = siteCopy();
+  // Works whether or not the repo already holds feeds (e.g. when run inside the sync job
+  // after the tool has updated the real site): start from a copy without feeds.
+  for (const f of ['releases.xml', 'ar/releases.xml']) fs.rmSync(path.join(dir, f), { force: true });
+  setFeedVisibility(dir);
+  const pages = ['index.html', 'ar/index.html', 'site.js', ...Object.keys(FEED_PAGES)];
+  const before = Object.fromEntries(pages.map((f) => [f, fs.readFileSync(path.join(dir, f), 'utf8')]));
   const partial = { ...FIX }; delete partial['local-ai-chat'];
   fs.writeFileSync(path.join(dir, 'fix.json'), JSON.stringify(partial));
   assert.throws(() => run(dir));
   assert.ok(!fs.existsSync(path.join(dir, 'releases.xml')));
-  assert.match(fs.readFileSync(path.join(dir, 'index.html'), 'utf8'), /data-feed hidden/);
+  assert.ok(!fs.existsSync(path.join(dir, 'ar/releases.xml')));
+  for (const f of pages) assert.equal(fs.readFileSync(path.join(dir, f), 'utf8'), before[f], f);
+  assert.match(before['index.html'], /data-feed hidden/);
   fs.rmSync(dir, { recursive: true });
 });
