@@ -2,3 +2,27 @@
 
 Home page for all FastKiwi apps, served at https://fastkiwi.app/ by GitHub Pages.
 Every project repo with GitHub Pages turned on appears automatically at `https://fastkiwi.app/<repo>/`.
+
+Rule for every page: visitors stay on fastkiwi.app for every action. The only links to github.com are
+explicit, labelled GitHub buttons (`data-github`, text containing "GitHub") and direct release-asset downloads.
+
+## Tests
+
+```sh
+npm ci && npx playwright install chromium   # or use a globally installed Playwright
+npm test                                    # tools tests + the browser QA (screenshots in tests/output/)
+npm run test:quick                          # the same without screenshots
+npm run test:live                           # checks the live site, with the real GitHub API
+```
+
+- `tests/qa.mjs`: every page at 12 widths, the hero, dialogs, releases and Lemon pages, redirects and feeds,
+  with the GitHub API mocked from the apps' real release-note formats (`tests/fixtures/`).
+- `tests/tools.test.mjs`: the feed generator and the InstaWords fallback updater.
+- `tests/live-check.mjs`: pages, links, images, download assets and versions on https://fastkiwi.app.
+
+## Automation (`.github/workflows/`)
+
+- `site-qa.yml`: the QA suite on every push and pull request.
+- `live-check.yml`: weekly live check; opens (or updates) the issue "Live site check failed".
+- `sync.yml`: daily; rebuilds `instawords/` from the tafket repo, updates the static InstaWords download link,
+  regenerates `releases.xml` and `ar/releases.xml` (`tools/sync-releases.mjs`), runs the QA and pushes if anything changed.

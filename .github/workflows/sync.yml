@@ -1,0 +1,96 @@
+# Daily: rebuild instawords/ from the tafket repo, point the static InstaWords download at its latest installer,
+# regenerate the release feeds (releases.xml, ar/releases.xml), run the QA suite, and push to main only if something changed.
+# Also runs when the sync tools change on main (so the first feeds appear right after this workflow is merged).
+name: Sync InstaWords and release feeds
+
+on:
+  schedule:
+    - cron: '43 3 * * *' # daily 03:43 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/**'
+      - '.github/workflows/sync.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Check out tafket (InstaWords)
+        uses: actions/checkout@v4
+        with:
+          repository: sarmadiq9090-coder/tafket
+          path: .sync/tafket
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            .sync/tafket/package-lock.json
+
+      - name: Build the InstaWords site
+        working-directory: .sync/tafket
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f scripts/update-release-fallback.mjs ]; then node scripts/update-release-fallback.mjs || true; fi
+          npm ci
+          npm run build:site
+          test -f _site/index.html
+          echo "TAFKET_SHA=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
+
+      - name: Replace instawords/ with the build
+        run: rsync -a --delete --exclude .nojekyll .sync/tafket/_site/ instawords/
+
+      - name: InstaWords fallback link + release feeds
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/sync-releases.mjs
+
+      - name: Install Playwright + Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: QA
+        run: |
+          npm run test:tools
+          node tests/qa.mjs --no-shots
+        env:
+          QA_OUT: tests/output
+
+      - name: Upload the QA report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-qa-report
+          path: tests/output/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Commit and push if anything changed
+        run: |
+          git add -A instawords releases.xml ar/releases.xml index.html ar/index.html releases ar/releases lemon ar/lemon site.js
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git diff --cached --stat
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Sync InstaWords site and release feeds" -m "From sarmadiq9090-coder/tafket@${TAFKET_SHA} and the GitHub releases of the four apps."
+          git pull --rebase origin main
+          git push origin HEAD:main
