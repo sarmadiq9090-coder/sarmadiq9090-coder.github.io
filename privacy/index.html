@@ -3,45 +3,179 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy | FastKiwi</title>
-<meta name="description" content="FastKiwi apps collect no data: no telemetry, no account, your files stay on your PC.">
+<title>Privacy policy | FastKiwi</title>
+<meta name="description" content="What each FastKiwi app (InstaFind, Remember Me, Lemon, InstaWords) and the fastkiwi.app website store on your device and send over the network. No accounts, no ads, no analytics, no telemetry.">
 <link rel="canonical" href="https://fastkiwi.app/privacy/">
+<link rel="alternate" hreflang="en" href="https://fastkiwi.app/privacy/">
 <link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/privacy/">
+<link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/privacy/">
+<link rel="alternate" type="application/atom+xml" title="FastKiwi · What’s new" href="/releases.xml">
 <meta name="theme-color" content="#3f8a1c">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
 <link rel="stylesheet" href="../style.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FastKiwi">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Privacy policy | FastKiwi">
+<meta property="og:description" content="What each FastKiwi app and the website store on your device and send over the network.">
+<meta property="og:url" content="https://fastkiwi.app/privacy/">
+<meta property="og:image" content="https://fastkiwi.app/img/social-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fastkiwi.app/img/social-en.png">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../" aria-label="FastKiwi home"><img src="../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi</span></a>
-    <nav class="nav" aria-label="Main"><a class="opt" href="../">Home</a><a class="lang" href="../ar/privacy/" hreflang="ar" lang="ar">العربية</a></nav>
+    <nav class="nav" aria-label="Main">
+      <a class="opt" href="#summary">Summary</a>
+      <a class="opt" href="#apps">Apps</a>
+      <a class="opt" href="#contact">Contact</a>
+      <a class="lang" href="../ar/privacy/" hreflang="ar" lang="ar">العربية</a>
+    </nav>
   </div>
 </header>
 <main id="main">
-<section class="page"><div class="wrap">
+<section class="page pv"><div class="wrap">
+<p class="kicker">Privacy policy</p>
 <h1>Privacy</h1>
-<p class="lead">Short version: our apps do not collect anything about you.</p>
+<p class="lead">FastKiwi apps have no accounts, ads, analytics or telemetry. Your data stays on your PC. This page lists every network connection each app makes, what it sends and when.</p>
+<p class="pv-date">Effective date: <time datetime="2026-11-03">November 3, 2026</time></p>
+
+<p>This policy covers the Windows apps InstaFind, Remember Me, Lemon and InstaWords, the InstaWords web app and the fastkiwi.app website, all published by FastKiwi. All the code is open source, so you can check each point below in the source code.</p>
+
+<h2 id="summary">Summary</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-labelledby="summary">
+  <table class="cmp plain" role="table"><thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">App</th><th scope="col" role="columnheader">Network use</th><th scope="col" role="columnheader">Data that leaves your device</th></tr></thead><tbody role="rowgroup">
+    <tr role="row"><th scope="row" role="rowheader"><a href="#instafind">InstaFind</a></th><td role="cell" data-label="Network use">Update check on GitHub (automatic, daily). Exchange rates from open.er-api.com (automatic, at most every 12 hours). Phone search on your home network (off by default).</td><td role="cell" data-label="Data that leaves your device">None of your files, names or searches go to the internet. Requests carry only the app name and version. With phone search on, file names you search go to your own phone over your home network.</td></tr>
+    <tr role="row"><th scope="row" role="rowheader"><a href="#remember-me">Remember Me</a></th><td role="cell" data-label="Network use">Update check on GitHub, only after you allow it, or when you click Check now.</td><td role="cell" data-label="Data that leaves your device">None. A Google Drive backup is a copy in a folder you choose; Google’s own Drive app uploads it.</td></tr>
+    <tr role="row"><th scope="row" role="rowheader"><a href="#lemon">Lemon</a></th><td role="cell" data-label="Network use">Ollama on your own PC (127.0.0.1). Update check on GitHub (on by default, every 6 hours; can be turned off). Model downloads by Ollama.</td><td role="cell" data-label="Data that leaves your device">None, unless you point Lemon at an Ollama server on another computer: then your chats go to that server.</td></tr>
+    <tr role="row"><th scope="row" role="rowheader"><a href="#instawords">InstaWords</a></th><td role="cell" data-label="Network use">Update check on GitHub (on by default, at most daily; can be turned off). The web app asks GitHub for the latest version.</td><td role="cell" data-label="Data that leaves your device">None. Amounts and history stay on your PC or in your browser.</td></tr>
+    <tr role="row"><th scope="row" role="rowheader"><a href="#site">fastkiwi.app</a></th><td role="cell" data-label="Network use">Hosted on GitHub Pages. Some pages ask the GitHub API for the latest versions.</td><td role="cell" data-label="Data that leaves your device">Standard web requests (IP address, browser) to GitHub. No cookies, no analytics, no trackers.</td></tr>
+  </tbody></table>
+</div>
+<p class="note">Problem reports and suggestions are never sent automatically: each app opens a pre-filled GitHub issue in your browser, and nothing is sent unless you submit it there yourself.</p>
+
+<h2>What applies to every app</h2>
 <div class="card"><ul class="checks">
-<li><strong>No telemetry or analytics.</strong> The apps do not send usage data, crash reports or identifiers anywhere.</li>
-<li><strong>Your files stay on your PC.</strong> InstaFind&#39;s index, Remember Me&#39;s tasks and Lemon&#39;s chats are stored only on your computer.</li>
-<li><strong>No account.</strong> Nothing to sign up for.</li>
-<li><strong>Internet use:</strong> only to check GitHub for updates, and in Lemon to download an AI model you choose. InstaFind&#39;s web shortcuts open your browser only when you ask.</li>
-<li><strong>This website</strong> uses no cookies and no trackers. It is hosted on GitHub Pages, which may keep standard server logs. The home page asks the public GitHub API for the latest version numbers.</li>
-<li><strong>Feedback</strong> you post on GitHub is public and covered by GitHub&#39;s privacy policy.</li>
+<li><strong>No account, ads, analytics or telemetry.</strong> None of the apps sends usage statistics, crash reports or identifiers anywhere on its own.</li>
+<li><strong>Your data stays on your PC.</strong> The files each app keeps are listed below, with their folders, so you can see, copy or delete them.</li>
+<li><strong>We don’t receive, sell or share your data.</strong> FastKiwi runs no servers that receive data from the apps.</li>
+<li><strong>Feedback is your choice.</strong> “Report a problem” and similar buttons open a pre-filled GitHub issue in your browser. You can read and edit it first. Issues you post on GitHub are public and covered by GitHub’s privacy statement.</li>
+<li><strong>Links open in your browser.</strong> When you click a link in an app, the site it opens has its own privacy policy.</li>
 </ul></div>
-<p class="after">All the code is open source, so you can check every claim above on <a href="https://github.com/sarmadiq9090-coder" data-github>GitHub</a>. Questions? <a href="../#support">Open an issue</a>.</p>
-<p class="note">Last updated: November 2, 2026.</p>
+
+<h2 id="apps" class="pv-apps">The apps, one by one</h2>
+
+<section id="instafind" class="pv-app" aria-labelledby="instafind-title">
+<h3 id="instafind-title"><img src="../img/instafind.svg" width="32" height="32" alt="">InstaFind <span>· file search</span></h3>
+<h4>Stored on your PC</h4>
+<ul>
+<li>In <code>%LOCALAPPDATA%\BahthSari</code>: the index of file and folder names on your drives (<code>index.bin</code>), the index of text inside your documents (the <code>content</code> files, when content search is on), your recent and saved searches and which files and results you open most (<code>history.json</code>), settings (<code>settings.txt</code>), cached exchange rates (<code>rates.json</code>), a log (<code>log.txt</code>) and crash reports (<code>crash.txt</code>).</li>
+<li>Some settings, such as the interface language and the phone search switch, PIN and secret link, are kept in the Windows registry under <code>HKCU\Software\BahthSari</code>.</li>
+<li>Text in images is read by the OCR engine built into Windows, on your PC. Nothing is uploaded.</li>
+</ul>
+<h4>Network connections</h4>
+<ul>
+<li><strong>Update check:</strong> about 10 seconds after start and then at most once a day, InstaFind asks GitHub (<code>api.github.com</code>, or the release page on <code>github.com</code> if the API is busy) for the latest version. It sends nothing but the request and the app’s name and version (in the user-agent). A new version is downloaded from GitHub only after you choose to update. The automatic check can’t be turned off at the moment.</li>
+<li><strong>Exchange rates:</strong> for currency answers in the quick search (“100 usd to iqd”), InstaFind downloads a public table of rates from <code>open.er-api.com</code> when the saved rates are over 12 hours old: shortly after start while the quick search is enabled (it is by default), or when you open it. Only the table is requested, with the app’s name and version; your query is not sent, and the conversion is done on your PC.</li>
+<li><strong>Search from phone</strong> (Options, off by default): when you turn it on, InstaFind runs a small read-only web server on your home network. Devices with the PIN or the secret link can search your file names, and download files only if you also allow downloads. It accepts only private home-network addresses and never the internet. This traffic stays on your local network and is not encrypted (plain HTTP).</li>
+<li><strong>Web shortcuts</strong> such as “youtube …” or “google …” open your browser on that site with your words, only when you choose that result.</li>
+<li><strong>Feedback and crashes:</strong> “Send feedback” opens a pre-filled GitHub issue with the app version, Windows version, processor type and interface language. After a crash, InstaFind asks once whether to report it. If you choose yes, the issue also contains the crash report (error message, place in the code, technical addresses). Nothing is sent unless you submit the issue.</li>
+</ul>
+<p class="sublinks"><a href="../arabic-file-search/en/">InstaFind guide</a><a href="https://github.com/sarmadiq9090-coder/arabic-file-search" data-github>InstaFind source on GitHub</a></p>
+</section>
+
+<section id="remember-me" class="pv-app" aria-labelledby="remember-title">
+<h3 id="remember-title"><img src="../img/remember-me.webp" width="32" height="32" alt="">Remember Me <span>· tasks &amp; reminders</span></h3>
+<h4>Stored on your PC</h4>
+<ul>
+<li>In <code>%APPDATA%\Remember Me</code> (or the data folder you move it to): your tasks, notes, attachments and settings (<code>data.json</code> and the attachments folder), automatic and safety backups (<code>backups</code>), the Drive backup settings (<code>drive-backup.json</code>) and a log (<code>logs\remember-me.log</code>). The log is local only.</li>
+<li>Backups you export go to the folder you choose. Uninstalling keeps your data folder.</li>
+</ul>
+<h4>Network connections</h4>
+<ul>
+<li><strong>Updates, only with your consent:</strong> Remember Me first asks whether it may check for updates. Only if you allow it does it check GitHub Releases for the <code>Remember-Me</code> repository, about 30 seconds after start and then once a day, and download a new version, which installs when you restart or quit. <strong>Check now</strong> does the same once, at any time. None of your data is included. You can turn this off in Settings, Updates.</li>
+<li><strong>Google Drive backups:</strong> Remember Me never connects to Google. It has no Google sign-in, asks for no Google permissions and stores no Google passwords or tokens. It copies the backup (your tasks, notes and attachments) into a folder you choose on your PC. If that folder is synced by Google Drive for desktop, Google’s app uploads the copy to your Google account, under Google’s privacy policy. The “Install Google Drive and sign in” button opens Google’s download page in your browser.</li>
+<li><strong>Report a problem:</strong> opens a pre-filled GitHub issue with the app and Windows versions, processor type, language, theme and the last 30 lines of the log with folder paths and quoted text removed. It never includes your tasks, notes or file names, and nothing is sent unless you submit it. <strong>Copy diagnostic info</strong> only copies versions, language and theme to your clipboard.</li>
+</ul>
+<p class="sublinks"><a href="../Remember-Me/">Remember Me guide</a><a href="https://github.com/sarmadiq9090-coder/Remember-Me" data-github>Remember Me source on GitHub</a></p>
+</section>
+
+<section id="lemon" class="pv-app" aria-labelledby="lemon-title">
+<h3 id="lemon-title"><img src="../img/lemon.webp" width="32" height="32" alt="">Lemon <span>· local AI chat</span></h3>
+<h4>Stored on your PC</h4>
+<ul>
+<li>In <code>%APPDATA%\LocalAiChat</code>: your conversations, settings (<code>settings.json</code>), assistants and the documents you give them, with the text and search index made from those documents. After a crash, Lemon writes the error to <code>crash.txt</code> in the same folder and shows a notice next time. It never sends it.</li>
+<li>The window’s browser profile and cache are in <code>%LOCALAPPDATA%\LocalAiChat\webview</code>, and exports in <code>Documents\LocalAiChat</code>. With the <code>LOCALAI_DATA_DIR</code> variable set, everything is kept in that folder instead.</li>
+</ul>
+<h4>Network connections</h4>
+<ul>
+<li><strong>Ollama:</strong> your messages, the conversation so far and the text of documents you give an assistant (to index them and to answer from them) go to the Ollama server Lemon is set to, <code>http://127.0.0.1:11434</code> on your own PC by default, which runs the AI model. If you change that address in Settings to another computer, this data goes to that computer.</li>
+<li><strong>Lemon’s own server</strong> listens on <code>127.0.0.1</code> only, so other devices on your network can’t reach it.</li>
+<li><strong>Models:</strong> when you download a model, Ollama fetches it from its registry. That download is made by Ollama, under Ollama’s terms.</li>
+<li><strong>Update check:</strong> on by default; at start and every 6 hours Lemon asks GitHub (<code>api.github.com</code>) for its latest release. No chats or files are included. A new version is downloaded from GitHub only when you click Update now. You can turn the automatic check off in Settings.</li>
+<li><strong>Code preview:</strong> when you click Run on a code block, it runs in an isolated frame. If that code loads scripts, images or data from the internet, the preview fetches them like a web page would.</li>
+<li>Lemon’s window is drawn by Microsoft Edge WebView2, a part of Windows. Microsoft’s own Windows privacy settings apply to it.</li>
+</ul>
+<p class="sublinks"><a href="../lemon/">About Lemon</a><a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github>Lemon source on GitHub</a></p>
+</section>
+
+<section id="instawords" class="pv-app" aria-labelledby="instawords-title">
+<h3 id="instawords-title"><img src="../img/instawords.svg" width="32" height="32" alt="">InstaWords <span>· amounts in words</span></h3>
+<h4>Windows app: stored on your PC</h4>
+<ul>
+<li>In <code>%APPDATA%\FastKiwi\InstaWords</code>: settings (<code>settings.json</code>), the history of your last 100 conversions, that is each amount and its words (<code>history.json</code>, which you can clear in the app), and a crash log (<code>crash.log</code>, and <code>crash.old.log</code> once it passes 256 KB). The crash log holds the time, app version, the error and where it happened, never amounts, and it is never sent anywhere.</li>
+</ul>
+<h4>Windows app: network connections</h4>
+<ul>
+<li><strong>Update check:</strong> on by default; a few seconds after start, at most once a day, InstaWords asks GitHub (<code>api.github.com</code>) for its latest release, sending only the app name and version. A new version is downloaded from GitHub only after you choose to install it. You can turn the automatic check off in Settings.</li>
+<li><strong>Report a problem or suggestion:</strong> you write the report and see a preview. By default it includes technical details: app version and install type, Windows and .NET versions, interface language and Windows region, display scale, conversion options (language, currency, form of “hundred”, decimals), the hotkey and the last error code. Untick the box to leave them out. Amounts, the clipboard and the history are never included. The report opens as a pre-filled GitHub issue in your browser, or you can copy it. Nothing is sent unless you submit it.</li>
+</ul>
+<h4>Web app (fastkiwi.app/instawords/)</h4>
+<ul>
+<li>Conversion runs entirely in your browser. The amounts you type are never sent anywhere.</li>
+<li>Your browser’s local storage keeps your preferences (language, currency, form of “hundred”, decimals, prefix and suffix) and, for an hour, the latest Windows release details. A service worker keeps a copy of the site’s own files so it works offline.</li>
+<li>To show the latest Windows version, the page asks <code>api.github.com</code> directly from your browser, without cookies or referrer.</li>
+</ul>
+<p class="sublinks"><a href="../instawords/">Open InstaWords</a><a href="https://github.com/sarmadiq9090-coder/tafket" data-github>InstaWords source on GitHub</a></p>
+</section>
+
+<section id="site" class="pv-app" aria-labelledby="site-title">
+<h3 id="site-title"><img src="../img/logo.svg" width="32" height="32" alt="">This website, fastkiwi.app</h3>
+<ul>
+<li><strong>No cookies, analytics, ads or trackers.</strong> Fonts, images and scripts are served from fastkiwi.app itself; no third-party scripts or fonts are loaded.</li>
+<li><strong>Hosting:</strong> the site is hosted on GitHub Pages. Like any web server, GitHub receives your IP address and browser details with each request and may log them, under GitHub’s privacy statement. FastKiwi does not get these logs.</li>
+<li><strong>Version numbers:</strong> pages with download buttons or release notes (the home page, What’s new, Lemon and InstaWords) ask the public GitHub API (<code>api.github.com</code>) for the latest versions, directly from your browser. The answer is kept in your browser’s local storage for an hour, so the page doesn’t ask again on every visit. Nothing about you is stored there.</li>
+<li><strong>Downloads</strong> come straight from each app’s release on GitHub. Links that take you to GitHub are labelled “GitHub”.</li>
+</ul>
+</section>
+
+<h2 id="changes">Changes to this policy</h2>
+<p>When an app starts using the network in a new way, we update this page before that version is released and change the effective date above. Each app’s release notes on <a href="../releases/">What’s new</a> describe its changes.</p>
+
+<h2 id="contact">Contact</h2>
+<p>Questions about privacy, or something on this page that doesn’t match what an app does? See <a href="../#support">Support</a>, or open an issue on the app’s GitHub page, in English or Arabic. Issues are public, so please don’t include personal information.</p>
+<p class="sublinks pv-contact">
+  <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new" data-github>InstaFind: open an issue on GitHub</a>
+  <a href="https://github.com/sarmadiq9090-coder/Remember-Me/issues/new" data-github>Remember Me: open an issue on GitHub</a>
+  <a href="https://github.com/sarmadiq9090-coder/local-ai-chat/issues/new" data-github>Lemon: open an issue on GitHub</a>
+  <a href="https://github.com/sarmadiq9090-coder/tafket/issues/new" data-github>InstaWords: open an issue on GitHub</a>
+</p>
 <p><a class="back" href="../">← FastKiwi home</a></p>
 </div></section>
 </main>
 <footer class="site-footer">
   <div class="wrap foot-bottom">
     <p>© 2026 FastKiwi · Free, open-source Windows apps</p>
+    <ul class="foot-links"><li><a href="../">FastKiwi home</a></li><li><a href="../releases/">What’s new</a></li><li data-feed><a class="feed-link" href="../releases.xml" type="application/atom+xml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>Release feed (RSS)</a></li><li><a href="./" aria-current="page">Privacy</a></li></ul>
     <a class="lang-switch" href="../ar/privacy/" hreflang="ar" lang="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>العربية</a>
   </div>
 </footer>
