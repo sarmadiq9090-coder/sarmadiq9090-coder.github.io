@@ -11,13 +11,13 @@
 <link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/">
 <meta name="theme-color" content="#3f8a1c">
 <meta name="color-scheme" content="light">
-<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="fonts/plex-arabic-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="kiwi.css">
+<script>document.documentElement.classList.add("js");addEventListener("load",function(){if(!window.FK)document.documentElement.classList.remove("js")})</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FastKiwi">
 <meta property="og:locale" content="en_US">
@@ -35,19 +35,21 @@
 <meta name="twitter:image" content="https://fastkiwi.app/img/social-en.png">
 </head>
 <body>
+<body>
 <a class="skip" href="#main">Skip to content</a>
 
-<div class="news" data-news hidden><div class="wrap"><span><b>New:</b> InstaFind <span data-news-ver></span> is out.</span> <a data-news-link href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest">What's new →</a></div></div>
+<div class="news" data-news hidden><div class="wrap"><span><b>New</b>InstaFind <span data-news-ver></span> is out.</span> <a data-news-link href="#download-instafind">What's new →</a></div></div>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="./" aria-label="FastKiwi home">
-      <img src="img/logo.svg" width="34" height="34" alt="">
+      <img src="img/logo.svg" width="36" height="36" alt="">
       <span>FastKiwi</span>
     </a>
     <nav class="nav" aria-label="Main">
       <a class="opt" href="#apps">Apps</a>
       <a class="opt" href="#why">Why FastKiwi</a>
       <a class="opt" href="#faq">FAQ</a>
+      <a class="opt" href="#support">Support</a>
       <a class="lang" href="ar/" hreflang="ar" lang="ar">العربية</a>
     </nav>
   </div>
@@ -56,144 +58,191 @@
 <main id="main">
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="wrap">
-    <div>
-      <p class="eyebrow">Free · Open source · For Windows</p>
-      <h1 id="hero-title"><span class="grad">Windows apps</span> that are fast, light and bilingual</h1>
-      <p class="lead">Small apps that start instantly, need no internet or account, and keep your files on your PC. Each one updates itself and speaks Arabic and English.</p>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="pill"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>Free · Open source · Windows 10 &amp; 11</p>
+      <h1 id="hero-title"><span class="hl">Windows apps</span> that are fast, light and bilingual</h1>
+      <p class="lead">Four small apps that start instantly, work without internet and keep your files on your PC, in Arabic and English.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#apps">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
           Browse the apps
         </a>
-        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder">
+        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder" data-github>
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.3-1.69-1.3-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
           Source on GitHub
         </a>
       </div>
-      <ul class="app-strip" aria-label="Apps">
-        <li><a href="#instafind"><img src="img/instafind.svg" width="40" height="40" alt="">InstaFind</a></li>
-        <li><a href="#remember-me"><img src="img/remember-me.webp" width="40" height="40" alt="">Remember Me</a></li>
-        <li><a href="#lemon"><img src="img/lemon.webp" width="40" height="40" alt="">Lemon</a></li>
-        <li><a href="#instawords"><img src="img/instawords.svg" width="40" height="40" alt="">InstaWords</a></li>
+      <ul class="chips" aria-label="Our promises">
+        <li><a href="privacy/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.6"/><path d="M12 20h.01"/></svg>Works offline</a></li>
+        <li><a href="#open-source"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Open source</a></li>
+        <li><a href="#faq-free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>Free forever</a></li>
+        <li><a href="privacy/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.5 0 10 8 10 8a17 17 0 0 1-2.2 3.2M6.6 6.6C3.9 8.4 2 12 2 12s3.5 8 10 8a9.7 9.7 0 0 0 5.4-1.6M2 2l20 20M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>No tracking</a></li>
       </ul>
     </div>
-    <figure class="shot">
-      <video class="demo" autoplay muted loop playsinline preload="auto" width="800" height="501" poster="img/instafind-en.png" aria-label="InstaFind on Windows showing results while typing"><source src="img/instafind-demo-en.mp4" type="video/mp4"><img src="img/instafind-en.png" width="800" height="501" alt="InstaFind on Windows showing results while typing"></video>
-      <figcaption>InstaFind on Windows: results appear as you type.</figcaption>
-    </figure>
-  </div>
-</section>
 
-<section class="trust" aria-label="FastKiwi in numbers">
-  <div class="wrap">
-    <ul class="badges"><li>Free forever</li><li>No ads</li><li>No account</li><li>Works offline</li><li>Open source (MIT)</li><li>Arabic + English</li></ul>
-    <ul class="stats"><li data-stat="stars" hidden><b data-n>–</b> GitHub stars</li><li data-stat="downloads" hidden><b data-n>–</b> downloads</li><li data-stat="releases" hidden><b data-n>–</b> releases</li><li><b>Windows 10 &amp; 11</b> x64 · ARM64 · x86</li></ul>
-  </div>
-</section>
-
-<section id="apps" aria-labelledby="apps-title">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 id="apps-title">Our apps</h2>
-      <p>Each app solves one problem and solves it well. All free, for Windows 10 and 11 and the web.</p>
-    </div>
-    <div class="grid apps">
-      <article class="card app">
-        <img class="app-icon" src="img/instafind.svg" width="64" height="64" alt="">
-        <h3>InstaFind <span class="sub">instant file search</span></h3>
-        <p>Find any file on your PC as you type, in English or Arabic, even inside PDF and Word documents.</p>
-        <div class="tags"><span>Rust</span><span>Single exe</span><span>Instant</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">Download<span class="dl-ver" data-dl-ver></span></a>
-          <a class="btn btn-ghost btn-sm" href="arabic-file-search/en/">App page</a>
+    <div class="stage-wrap">
+      <div class="stage" data-stage>
+        <figure class="win" id="win-instafind" role="tabpanel" aria-labelledby="tab-instafind" data-pos="0">
+          <div class="win-bar"><img src="img/instafind.svg" width="16" height="16" alt=""><span class="t">InstaFind</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-instafind"><img src="img/instafind-en.png" width="946" height="593" fetchpriority="high" alt="InstaFind finding files named “budget” on Windows"></div>
+        </figure>
+        <figure class="win" id="win-remember" role="tabpanel" aria-labelledby="tab-remember" data-pos="1" aria-hidden="true">
+          <div class="win-bar"><img src="img/remember-me.webp" width="16" height="16" alt=""><span class="t">Remember Me</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-remember"><img src="img/remember-me-en.webp" width="960" height="631" decoding="async" alt="Remember Me showing today’s tasks and the next reminder"></div>
+        </figure>
+        <figure class="win dark" id="win-lemon" role="tabpanel" aria-labelledby="tab-lemon" data-pos="2" aria-hidden="true">
+          <div class="win-bar"><img src="img/lemon.webp" width="16" height="16" alt=""><span class="t">Lemon</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-lemon"><img src="img/lemon-en.webp" width="960" height="600" decoding="async" alt="Lemon local AI chat, connected to Ollama on the PC"></div>
+        </figure>
+        <figure class="win" id="win-instawords" role="tabpanel" aria-labelledby="tab-instawords" data-pos="3" aria-hidden="true">
+          <div class="win-bar"><img src="img/instawords.svg" width="16" height="16" alt=""><span class="t">InstaWords</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-instawords"><img src="img/instawords-en.webp" width="960" height="743" decoding="async" alt="InstaWords writing 1,250.75 Saudi riyals in English words"></div>
+        </figure>
+      </div>
+      <div class="tabs">
+        <div class="tablist" role="tablist" aria-label="FastKiwi apps">
+          <button class="tab" type="button" role="tab" id="tab-instafind" aria-controls="win-instafind" aria-selected="true"><img src="img/instafind.svg" width="28" height="28" alt=""><span class="name">InstaFind</span><span class="prog" aria-hidden="true"></span></button>
+          <button class="tab" type="button" role="tab" id="tab-remember" aria-controls="win-remember" aria-selected="false" tabindex="-1"><img src="img/remember-me.webp" width="28" height="28" alt=""><span class="name">Remember Me</span><span class="prog" aria-hidden="true"></span></button>
+          <button class="tab" type="button" role="tab" id="tab-lemon" aria-controls="win-lemon" aria-selected="false" tabindex="-1"><img src="img/lemon.webp" width="28" height="28" alt=""><span class="name">Lemon</span><span class="prog" aria-hidden="true"></span></button>
+          <button class="tab" type="button" role="tab" id="tab-instawords" aria-controls="win-instawords" aria-selected="false" tabindex="-1"><img src="img/instawords.svg" width="28" height="28" alt=""><span class="name">InstaWords</span><span class="prog" aria-hidden="true"></span></button>
         </div>
-        <p class="rel" data-repo="arabic-file-search"></p>
-      </article>
-      <article class="card app">
-        <img class="app-icon" src="img/remember-me.webp" width="64" height="64" alt="">
-        <h3>Remember Me <span class="sub">tasks &amp; reminders</span></h3>
-        <p>Tasks, notes and reminders that stay on screen until you deal with them, with flexible repeats and verified backups.</p>
-        <div class="tags"><span>12 languages</span><span>6 themes</span><span>Sticky alerts</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/Remember-Me/releases/latest" data-dl="Remember-Me">Download<span class="dl-ver" data-dl-ver></span></a>
-          <a class="btn btn-ghost btn-sm" href="Remember-Me/">App page</a>
-        </div>
-        <p class="rel" data-repo="Remember-Me"></p>
-      </article>
-      <article class="card app">
-        <img class="app-icon" src="img/lemon.webp" width="64" height="64" alt="">
-        <h3>Lemon <span class="sub">local AI chat</span></h3>
-        <p>Chat and code with AI models on your own PC through Ollama, fully offline, with assistants that answer only from your files.</p>
-        <div class="tags"><span>Ollama</span><span>Offline</span><span>Live preview</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest/download/local-ai-chat.exe" data-dl="local-ai-chat">Download<span class="dl-ver" data-dl-ver></span></a>
-          <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat">App page</a>
-        </div>
-        <p class="rel" data-repo="local-ai-chat"></p>
-      </article>
-      <article class="card app">
-        <img class="app-icon" src="img/instawords.svg" width="64" height="64" alt="">
-        <h3>InstaWords <span class="sub">amounts in words</span></h3>
-        <p>Write any amount in words for cheques and invoices, in Arabic, English or French: one number or thousands at once. In your browser or as a Windows app, even offline.</p>
-        <div class="tags"><span>Web &amp; Windows</span><span>Arabic · English · French</span><span>100+ currencies &amp; units</span><span>Excel</span></div>
-        <div class="app-cta">
-          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.0.0/InstaWords_2.0.0_x64-setup.exe" data-dl="tafket">Download for Windows<span class="dl-ver" data-dl-ver>v2.0.0</span></a>
-          <a class="btn btn-ghost btn-sm" href="instawords/">Open in browser</a>
-          <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/tafket">Source code</a>
-        </div>
-        <p class="rel" data-repo="tafket"></p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="instafind" class="soft" aria-labelledby="instafind-title">
-  <div class="wrap split">
-    <div>
-      <p class="app-label"><img src="img/instafind.svg" width="28" height="28" alt="">InstaFind</p>
-      <h2 id="instafind-title">Find any file in a second</h2>
-      <p class="muted">It indexes all your drives once, then shows results while you type. And it understands Arabic the way people actually write it.</p>
-      <ul class="checks">
-        <li><strong>Forgiving search:</strong> ignores Arabic letter variants, reads Franco-Arabic and text typed on the wrong keyboard layout.</li>
-        <li><strong>Search inside documents:</strong> PDF, Word, Excel, images and archives, with a snippet of the matching text.</li>
-        <li><strong>Faster than Windows search:</strong> 1 second versus 96 seconds in our test on Windows.</li>
-      </ul>
-      <p class="hotkey">Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> anywhere to open the search box.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
-          Download InstaFind<span class="dl-ver" data-dl-ver></span>
-        </a>
-        <a class="btn btn-ghost" href="arabic-file-search/en/">More about InstaFind</a>
+        <button class="playpause" type="button" data-label-pause="Pause the slideshow" data-label-play="Play the slideshow" aria-label="Pause the slideshow">
+          <svg class="pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1.5"/><rect x="14" y="4" width="5" height="16" rx="1.5"/></svg>
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg>
+        </button>
       </div>
     </div>
-    <figure class="shot">
-      <img src="img/instafind-en.png" width="946" height="593" loading="lazy" decoding="async" alt="Searching inside documents with InstaFind">
-      <figcaption>Searching inside documents.</figcaption>
-    </figure>
   </div>
 </section>
 
-<section id="compare" aria-labelledby="compare-title">
+<section id="apps" class="section" aria-labelledby="apps-title">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="compare-title">How InstaFind compares</h2>
-      <p>A fair, quick look at popular ways to find files on Windows.</p>
+    <div class="head reveal">
+      <p class="kicker">The apps</p>
+      <h2 id="apps-title">One problem each, solved well</h2>
+      <p>All free, for Windows 10 and 11, and InstaWords also in your browser.</p>
     </div>
-    <div class="table-wrap" tabindex="0" role="region" aria-labelledby="compare-title">
-      <table class="cmp"><thead><tr><th scope="col"></th><th scope="col">InstaFind</th><th scope="col">Everything</th><th scope="col">Listary</th><th scope="col">Windows Search</th></tr></thead><tbody><tr><th scope="row">Price</th><td>Free</td><td>Free</td><td>Free, Pro is paid</td><td>Built in</td></tr><tr><th scope="row">Open source</th><td class="c-yes"><span aria-hidden="true">✓</span> Yes · MIT</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td></tr><tr><th scope="row">Understands Arabic spelling variants <bdi lang="ar" dir="rtl">(أحمد = احمد)</bdi></th><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td></tr><tr><th scope="row">Search inside PDF and Word files</th><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-part"><span aria-hidden="true">≈</span> Slow, by command</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td></tr><tr><th scope="row">Instant results across all drives</th><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-no"><span aria-hidden="true">✕</span> No · Indexed folders only</td></tr></tbody></table>
+    <div class="bento">
+      <article class="card app big lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="img/instafind.svg" width="64" height="64" alt="">
+          <h3>InstaFind <span class="sub">Instant file search</span></h3>
+        </div>
+        <p class="benefit">Find any file on your PC as you type, in English or Arabic, even inside PDF and Word documents.</p>
+        <div class="speed">
+          <h4>Time to find a file, in our test on Windows</h4>
+          <div class="bar us"><span>InstaFind</span><span class="track"><span class="fill" style="--w:1.04%"></span></span><b>1 s</b></div>
+          <div class="bar"><span>Windows Search</span><span class="track"><span class="fill" style="--w:100%"></span></span><b>96 s</b></div>
+        </div>
+        <ul class="feats" aria-label="Highlights">
+          <li lang="ar" dir="rtl">أحمد = احمد</li><li>Inside PDF, Word &amp; Excel</li><li>Ctrl + Alt + F</li><li>Single exe</li>
+        </ul>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">Download<span class="dl-ver" data-dl-ver></span></a>
+          <a class="btn btn-ghost btn-sm" href="arabic-file-search/en/">Details</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="arabic-file-search"></p><a href="#download-instafind">Release notes</a></div>
+      </article>
+
+      <article class="card app lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="img/remember-me.webp" width="56" height="56" alt="">
+          <h3>Remember Me <span class="sub">Tasks &amp; reminders</span></h3>
+        </div>
+        <p class="benefit">Reminders that stay on screen until you deal with them, with flexible repeats and verified backups.</p>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/Remember-Me/releases/latest" data-dl="Remember-Me">Download<span class="dl-ver" data-dl-ver></span></a>
+          <a class="btn btn-ghost btn-sm" href="Remember-Me/">Details</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="Remember-Me"></p><a href="#download-remember-me">Release notes</a></div>
+      </article>
+
+      <article class="card app lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="img/lemon.webp" width="56" height="56" alt="">
+          <h3>Lemon <span class="sub">Local AI chat</span></h3>
+        </div>
+        <p class="benefit">Chat and code with AI models on your own PC through Ollama, fully offline, with assistants that answer only from your files.</p>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat/releases/latest/download/local-ai-chat.exe" data-dl="local-ai-chat">Download<span class="dl-ver" data-dl-ver></span></a>
+          <a class="btn btn-ghost btn-sm" href="#lemon">Details</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="local-ai-chat"></p><a href="#download-lemon">Release notes</a></div>
+      </article>
+
+      <article class="card app lift reveal">
+        <div class="app-top">
+          <img class="squircle" src="img/instawords.svg" width="56" height="56" alt="">
+          <h3>InstaWords <span class="sub">Amounts in words</span></h3>
+        </div>
+        <p class="benefit">Write any amount in words for cheques and invoices, in Arabic, English or French. In your browser or as a Windows app, even offline.</p>
+        <div class="app-foot">
+          <a class="btn btn-primary btn-sm" href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.0.0/InstaWords_2.0.0_x64-setup.exe" data-dl="tafket">Download<span class="dl-ver" data-dl-ver>v2.0.0</span></a>
+          <a class="btn btn-ghost btn-sm" href="instawords/">Open in browser</a>
+        </div>
+        <div class="meta"><p class="rel" data-repo="tafket"></p><a href="#download-instawords">Release notes</a></div>
+      </article>
+
+      <article class="card stat reveal" aria-labelledby="stat-title">
+        <p class="num" id="stat-title"><b>100%</b><span>offline</span></p>
+        <p>Every app runs entirely on your PC. The internet is only used to check for updates, or to download an AI model you pick in Lemon.</p>
+        <ul class="zeros">
+          <li><b>0</b>accounts</li><li><b>0</b>ads</li><li><b>0</b>trackers</li>
+        </ul>
+      </article>
     </div>
-    <p class="note">Based on each product’s public website, November 2026. Something out of date? <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new">Tell us</a>.</p>
   </div>
 </section>
 
-<section id="remember-me" aria-labelledby="remember-title">
-  <div class="wrap split rev">
-    <div>
-      <p class="app-label"><img src="img/remember-me.webp" width="28" height="28" alt="">Remember Me</p>
+<section id="instafind" class="section band" aria-labelledby="instafind-title">
+  <div class="wrap">
+    <div class="show">
+      <div class="reveal">
+        <p class="app-label"><img src="img/instafind.svg" width="36" height="36" alt="">InstaFind <span>· file search</span></p>
+        <h2 id="instafind-title">Find any file in a second</h2>
+        <p class="intro">It indexes all your drives once, then shows results while you type. And it understands Arabic the way people actually write it.</p>
+        <ul class="checks">
+          <li><strong>Forgiving search:</strong> ignores Arabic letter variants, reads Franco-Arabic and text typed on the wrong keyboard layout.</li>
+          <li><strong>Search inside documents:</strong> PDF, Word, Excel, images and archives, with a snippet of the matching text.</li>
+          <li><strong>Faster than Windows search:</strong> 1 second versus 96 seconds in our test on Windows.</li>
+        </ul>
+        <p class="hotkey">Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> anywhere to open the search box.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/arabic-file-search/releases/latest/download/bahth.exe" data-dl="arabic-file-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+            Download InstaFind<span class="dl-ver" data-dl-ver></span>
+          </a>
+          <a class="btn btn-ghost" href="arabic-file-search/en/">Learn more<span class="sr-only"> about InstaFind</span></a>
+        </div>
+        <p class="sublinks"><a href="#download-instafind"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><a href="https://github.com/sarmadiq9090-coder/arabic-file-search" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
+      </div>
+      <figure class="shot reveal">
+        <div class="win">
+          <div class="win-bar"><img src="img/instafind.svg" width="16" height="16" alt=""><span class="t">InstaFind</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="screen s-instafind"><video class="demo" autoplay muted loop playsinline preload="metadata" width="800" height="501" poster="img/instafind-en.png" aria-label="InstaFind on Windows showing results while typing"><source src="img/instafind-demo-en.mp4" type="video/mp4"><img src="img/instafind-en.png" width="946" height="593" alt="InstaFind on Windows showing results while typing"></video></div>
+        </div>
+        <figcaption>Results appear as you type, even inside documents.</figcaption>
+      </figure>
+    </div>
+
+    <div class="compare reveal" id="compare">
+      <h3 id="compare-title">How InstaFind compares</h3>
+      <p>A fair, quick look at popular ways to find files on Windows.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="compare-title">
+        <table class="cmp"><thead><tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col">InstaFind</th><th scope="col">Everything</th><th scope="col">Listary</th><th scope="col">Windows Search</th></tr></thead><tbody><tr><th scope="row">Price</th><td>Free</td><td>Free</td><td>Free, Pro is paid</td><td>Built in</td></tr><tr><th scope="row">Open source</th><td class="c-yes"><span aria-hidden="true">✓</span> Yes · MIT</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td></tr><tr><th scope="row">Understands Arabic spelling variants <bdi lang="ar" dir="rtl">(أحمد = احمد)</bdi></th><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-no"><span aria-hidden="true">✕</span> No</td></tr><tr><th scope="row">Search inside PDF and Word files</th><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-part"><span aria-hidden="true">≈</span> Slow, by command</td><td class="c-no"><span aria-hidden="true">✕</span> No</td><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td></tr><tr><th scope="row">Instant results across all drives</th><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-yes"><span aria-hidden="true">✓</span> Yes</td><td class="c-no"><span aria-hidden="true">✕</span> No · Indexed folders only</td></tr></tbody></table>
+      </div>
+      <p class="note">Based on each product’s public website, November 2026. Something out of date? <a href="#support">Tell us</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="remember-me" class="section" aria-labelledby="remember-title">
+  <div class="wrap show flip">
+    <div class="reveal">
+      <p class="app-label"><img src="img/remember-me.webp" width="36" height="36" alt="">Remember Me <span>· tasks &amp; reminders</span></p>
       <h2 id="remember-title">Reminders that stay until you act</h2>
-      <p class="muted">A task, note and reminder app for Windows whose alerts stay on screen until you deal with them, so nothing gets lost among notifications.</p>
+      <p class="intro">A task, note and reminder app for Windows whose alerts stay on screen until you deal with them, so nothing gets lost among notifications.</p>
       <ul class="checks">
         <li><strong>Flexible repeats:</strong> daily, weekly, monthly or chosen days, with one-click snooze.</li>
         <li><strong>12 languages and 6 themes:</strong> including right-to-left Arabic and dark mode.</li>
@@ -204,22 +253,26 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           Download Remember Me<span class="dl-ver" data-dl-ver></span>
         </a>
-        <a class="btn btn-ghost" href="Remember-Me/">More about Remember Me</a>
+        <a class="btn btn-ghost" href="Remember-Me/">Learn more<span class="sr-only"> about Remember Me</span></a>
       </div>
+      <p class="sublinks"><a href="#download-remember-me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><a href="https://github.com/sarmadiq9090-coder/Remember-Me" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
     </div>
-    <figure class="shot">
-      <img src="img/remember-me-en.webp" width="960" height="631" loading="lazy" decoding="async" alt="Remember Me main window with the task list">
+    <figure class="shot reveal">
+      <div class="win">
+        <div class="win-bar"><img src="img/remember-me.webp" width="16" height="16" alt=""><span class="t">Remember Me</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-remember"><img src="img/remember-me-en.webp" width="960" height="631" loading="lazy" decoding="async" alt="Remember Me main window with the task list"></div>
+      </div>
       <figcaption>Remember Me main window.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="lemon" class="soft" aria-labelledby="lemon-title">
-  <div class="wrap split">
-    <div>
-      <p class="app-label"><img src="img/lemon.webp" width="28" height="28" alt="">Lemon</p>
+<section id="lemon" class="section band" aria-labelledby="lemon-title">
+  <div class="wrap show">
+    <div class="reveal">
+      <p class="app-label"><img src="img/lemon.webp" width="36" height="36" alt="">Lemon <span>· local AI chat</span></p>
       <h2 id="lemon-title">AI on your own PC, offline</h2>
-      <p class="muted">A ChatGPT-style app for local Ollama models. Your chats and files never leave your PC.</p>
+      <p class="intro">A ChatGPT-style app for local Ollama models. Your chats and files never leave your PC.</p>
       <ul class="checks">
         <li><strong>Assistants from your files:</strong> give it PDFs or notes and it answers only from them, with sources.</li>
         <li><strong>Live preview:</strong> run HTML code and small games inside the app, with a "fix it" button.</li>
@@ -230,27 +283,30 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
           Download Lemon<span class="dl-ver" data-dl-ver></span>
         </a>
-        <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder/local-ai-chat">More about Lemon</a>
+        <a class="btn btn-ghost" href="#download-lemon">Release notes</a>
       </div>
+      <p class="sublinks"><span>Needs <a href="#faq-offline">Ollama</a> for the AI models.</span><a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
     </div>
-    <figure class="shot">
-      <img src="img/lemon-en.webp" width="960" height="600" loading="lazy" decoding="async" alt="Lemon local AI chat home screen">
+    <figure class="shot reveal">
+      <div class="win dark">
+        <div class="win-bar"><img src="img/lemon.webp" width="16" height="16" alt=""><span class="t">Lemon</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-lemon"><img src="img/lemon-en.webp" width="960" height="600" loading="lazy" decoding="async" alt="Lemon local AI chat home screen"></div>
+      </div>
       <figcaption>Lemon home screen.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="instawords" aria-labelledby="instawords-title">
-  <div class="wrap split rev">
-    <div>
-      <p class="app-label"><img src="img/instawords.svg" width="28" height="28" alt="">InstaWords · Tafqit</p>
+<section id="instawords" class="section" aria-labelledby="instawords-title">
+  <div class="wrap show flip">
+    <div class="reveal">
+      <p class="app-label"><img src="img/instawords.svg" width="36" height="36" alt="">InstaWords <span>· Tafqit</span></p>
       <h2 id="instawords-title">Amounts in words, ready for the cheque</h2>
-      <p class="muted">A native Windows app that writes any amount in words for cheques and invoices, in Arabic, English and French. Fast, light and fully offline, with nothing extra to install.</p>
+      <p class="intro">A native Windows app that writes any amount in words for cheques and invoices, in Arabic, English and French. Fast, light and fully offline.</p>
       <ul class="checks">
         <li><strong>Ctrl+Alt+T from any program:</strong> copy a number, press the shortcut, and paste the amount in words.</li>
         <li><strong>100+ currencies and units:</strong> halalas, fils, cents and more, with correct Arabic grammar.</li>
         <li><strong>Bulk tab:</strong> paste a whole Excel column and export the results to CSV.</li>
-        <li><strong>Updates itself</strong> from GitHub, with a verified installer.</li>
       </ul>
       <div class="cta">
         <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.0.0/InstaWords_2.0.0_x64-setup.exe" data-dl="tafket">
@@ -259,83 +315,138 @@
         </a>
         <a class="btn btn-ghost" href="instawords/">Use it in the browser</a>
       </div>
-      <p class="rel">Windows 10/11 · 2.5 MB · per-user install, no admin rights · <a href="https://github.com/sarmadiq9090-coder/tafket/releases/latest">portable version &amp; release notes</a></p>
+      <p class="fine">Windows 10/11 · 2.5 MB · per-user install, no admin rights · <a href="#download-instawords">portable version &amp; release notes</a></p>
+      <p class="sublinks"><a href="https://github.com/sarmadiq9090-coder/tafket" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
     </div>
-    <figure class="shot">
-      <img src="img/instawords-en.webp" width="960" height="743" loading="lazy" decoding="async" alt="InstaWords for Windows writing 1250.75 Saudi riyals in English words">
+    <figure class="shot reveal">
+      <div class="win">
+        <div class="win-bar"><img src="img/instawords.svg" width="16" height="16" alt=""><span class="t">InstaWords</span><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="screen s-instawords"><img src="img/instawords-en.webp" width="960" height="743" loading="lazy" decoding="async" alt="InstaWords for Windows writing 1250.75 Saudi riyals in English words"></div>
+      </div>
       <figcaption>InstaWords 2.0 for Windows, in English.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="why" aria-labelledby="why-title">
+<section id="why" class="night" aria-labelledby="why-title">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="why-title">Why FastKiwi?</h2>
-      <p>The same principles in every app we make.</p>
+    <div class="head reveal">
+      <p class="kicker">Why FastKiwi</p>
+      <h2 id="why-title">The same principles in every app</h2>
+      <p>Small tools that respect your PC, your privacy and your language.</p>
     </div>
-    <div class="grid">
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Fast and light</h3>
-        <p>Starts instantly and stays out of your way. Most of our apps are a single file with no installer.</p>
-      </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.6"/><path d="M12 20h.01"/></svg></span>Works offline</h3>
+    <div class="principles reveal">
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.6"/><path d="M12 20h.01"/></svg></span>Works offline</h3>
         <p>Everything runs on your PC. No account, no servers, no waiting.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>Private by design</h3>
-        <p>Your files and chats never leave your PC, and nothing is tracked.</p>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>Private by design</h3>
+        <p>Your files and chats never leave your PC, and nothing is tracked. <a href="privacy/">Read the privacy page</a>.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>Real Arabic support</h3>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>Real Arabic support</h3>
         <p>Proper right-to-left layout everywhere, and search that understands Arabic spelling.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span>Open source</h3>
-        <p>All code is on GitHub under the MIT license for anyone to review.</p>
+      <article id="open-source">
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span>Open source</h3>
+        <p>All code is public under the MIT license for anyone to review. <a href="https://github.com/sarmadiq9090-coder" data-github>Read it on GitHub</a>.</p>
       </article>
-      <article class="card">
-        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>Safe updates</h3>
-        <p>Apps update themselves in one click, and every release is built and tested automatically.</p>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Light and fast</h3>
+        <p>Starts instantly and stays out of your way. Most of our apps are a single file with no installer.</p>
+      </article>
+      <article>
+        <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span>Free, for good</h3>
+        <p>No ads, no subscriptions, no paid tier. Updates arrive in one click, and every release is built and tested automatically.</p>
       </article>
     </div>
   </div>
 </section>
 
-<section id="community" aria-labelledby="community-title">
+<section id="community" class="section" aria-labelledby="community-title">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="community-title">Get involved</h2>
-      <p>FastKiwi is built in the open. Every report and idea makes the apps better.</p>
+    <div class="head center reveal">
+      <p class="kicker">Community</p>
+      <h2 id="community-title">Built in the open</h2>
+      <p>Every report, idea and star makes the apps better for everyone.</p>
     </div>
-    <div class="grid com-grid">
-      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.9 1.9M16 2l-1.9 1.9M9 7.1V6a3 3 0 0 1 6 0v1.1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6zM12 20v-9M6 13H2M22 13h-4M3 21l3.5-2.5M21 21l-3.5-2.5M3 5l3.5 2.5M21 5l-3.5 2.5"/></svg></span><h3>Report a bug</h3><p>Something broken? Open an issue in English or Arabic.</p><span class="go">Open an issue →</span></a>
-      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></span><h3>Suggest a feature</h3><p>Tell us what would make your day easier.</p><span class="go">Suggest an idea →</span></a>
-      <a class="card com" href="https://github.com/sarmadiq9090-coder/arabic-file-search"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span><h3>Star on GitHub</h3><p>A star helps other people find the apps.</p><span class="go">Star InstaFind →</span></a>
-      <a class="card com" href="https://github.com/sarmadiq9090-coder"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span><h3>Contribute</h3><p>Code, translations and tests are all welcome.</p><span class="go">See the code →</span></a>
+    <ul class="stats" aria-label="FastKiwi on GitHub">
+      <li data-stat="stars" hidden><b data-n>–</b> GitHub stars</li>
+      <li data-stat="downloads" hidden><b data-n>–</b> downloads</li>
+      <li data-stat="releases" hidden><b data-n>–</b> releases</li>
+    </ul>
+    <div class="com">
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.9 1.9M16 2l-1.9 1.9M9 7.1V6a3 3 0 0 1 6 0v1.1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6zM12 20v-9M6 13H2M22 13h-4"/></svg></span><h3>Report a problem</h3><p>Something broken? Tell us, in English or Arabic.</p><a class="btn-link" href="#support">How to report <svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></span><h3>Suggest a feature</h3><p>Tell us what would make your day easier.</p><a class="btn-link" href="#support">Share an idea <svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span><h3>Give a star</h3><p>A star helps other people find the apps.</p><a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search" data-github>Star InstaFind on GitHub</a></div>
+      <div class="card lift reveal"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></span><h3>Contribute</h3><p>Code, translations and tests are all welcome.</p><a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder" data-github>See the code on GitHub</a></div>
     </div>
   </div>
 </section>
 
-<section id="faq" class="soft" aria-labelledby="faq-title">
-  <div class="wrap faq">
-    <h2 id="faq-title">FAQ</h2>
-    <details><summary>Are the apps really free?</summary><div><p>Yes. They are completely free and open source under the MIT license, with no ads or subscriptions.</p></div></details>
-    <details><summary>Do they need the internet?</summary><div><p>No. Everything runs on your PC. The internet is used only to check for updates, or to download an AI model in Lemon.</p></div></details>
-    <details><summary>Which systems do they run on?</summary><div><p>Windows 10 and 11. InstaFind also runs on ARM64 and 32-bit PCs.</p></div></details>
-    <details><summary>Why does SmartScreen show a warning?</summary><div><p>The files are not code-signed yet. Click "More info", then "Run anyway". All the code is public for review.</p></div></details>
-    <details><summary>How do I report a bug or suggest a feature?</summary><div><p>Open an issue on the app's GitHub page, in English or Arabic.</p></div></details>
+<section id="faq" class="section band" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <div class="head">
+      <p class="kicker">FAQ</p>
+      <h2 id="faq-title">Questions, answered</h2>
+      <p>Can’t find your answer? <a href="#support">Get help</a>.</p>
+    </div>
+    <div class="faq">
+      <details id="faq-smartscreen"><summary>Windows says “Unknown publisher” or “Windows protected your PC”. Is it safe?</summary><div><p>The files are not code-signed yet, so Windows SmartScreen doesn’t recognise the publisher. Click “More info”, then “Run anyway”. All the code is public for review, and every release is built automatically from it.</p></div></details>
+      <details id="faq-antivirus"><summary>My antivirus flagged the download. What should I do?</summary><div><p>New programs that aren’t code-signed are sometimes flagged by mistake (a “false positive”), especially small single-file apps. Download only from this site, check the file with a second scanner such as VirusTotal if you like, and <a href="#support">tell us</a> so we can report it to the antivirus maker.</p></div></details>
+      <details id="faq-offline"><summary>Do they really work without the internet?</summary><div><p>Yes. Everything runs on your PC. The internet is used only to check for updates, or to download an AI model in Lemon (Lemon talks to Ollama, which runs on your own PC).</p></div></details>
+      <details id="faq-uninstall"><summary>How do I uninstall an app?</summary><div><p>Apps that come with an installer, like Remember Me and InstaWords, are removed from Windows Settings › Apps › Installed apps, like any other program. Single-file apps such as InstaFind and Lemon don’t install anything: close the app and delete the .exe file.</p></div></details>
+      <details id="faq-free"><summary>Are the apps really free?</summary><div><p>Yes. They are completely free and open source under the MIT license, with no ads or subscriptions.</p></div></details>
+      <details id="faq-windows"><summary>Which Windows versions are supported?</summary><div><p>Windows 10 and 11. InstaFind also runs on ARM64 and 32-bit PCs, and InstaWords also works in any modern browser.</p></div></details>
+      <details id="faq-report"><summary>How do I report a problem or suggest a feature?</summary><div><p>See <a href="#support">Support</a> below: each app has its own place on GitHub for reports and ideas, in English or Arabic.</p></div></details>
+    </div>
   </div>
 </section>
 
-<section class="final" aria-labelledby="final-title">
+<section id="support" class="section" aria-labelledby="support-title">
   <div class="wrap">
-    <img src="img/logo.svg" width="64" height="64" alt="">
-    <h2 id="final-title">Try FastKiwi apps now, for free</h2>
-    <p class="muted">Small apps that do the right thing, fast.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="#apps">Browse the apps</a>
+    <div class="head reveal">
+      <p class="kicker">Support</p>
+      <h2 id="support-title">Get help with an app</h2>
+      <p>Check the <a href="#faq">FAQ</a> and the release notes first. To report a problem or suggest an idea, open an issue on the app’s GitHub page, in English or Arabic.</p>
+    </div>
+    <div class="support">
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="img/instafind.svg" width="44" height="44" alt=""><h3>InstaFind</h3></div>
+        <ul><li><a href="arabic-file-search/en/">App guide</a></li><li><a href="#download-instafind">Release notes</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new" data-github>Open an issue on GitHub</a>
+      </div>
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="img/remember-me.webp" width="44" height="44" alt=""><h3>Remember Me</h3></div>
+        <ul><li><a href="Remember-Me/">App guide</a></li><li><a href="#download-remember-me">Release notes</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/Remember-Me/issues/new" data-github>Open an issue on GitHub</a>
+      </div>
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="img/lemon.webp" width="44" height="44" alt=""><h3>Lemon</h3></div>
+        <ul><li><a href="#lemon">About Lemon</a></li><li><a href="#download-lemon">Release notes</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/local-ai-chat/issues/new" data-github>Open an issue on GitHub</a>
+      </div>
+      <div class="card reveal">
+        <div class="app-top"><img class="squircle" src="img/instawords.svg" width="44" height="44" alt=""><h3>InstaWords</h3></div>
+        <ul><li><a href="instawords/">Open in browser</a></li><li><a href="#download-instawords">Release notes</a></li></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/sarmadiq9090-coder/tafket/issues/new" data-github>Open an issue on GitHub</a>
+      </div>
+    </div>
+    <p class="support-note">Please mention your Windows version and the app version. Issues on GitHub are public, so don’t include personal files or information.</p>
+  </div>
+</section>
+
+<section class="section final" aria-labelledby="final-title">
+  <div class="wrap">
+    <div class="panel reveal">
+      <img src="img/logo.svg" width="72" height="72" alt="">
+      <h2 id="final-title">Try FastKiwi apps now, for free</h2>
+      <p>Small apps that do the right thing, fast.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#apps">Browse the apps</a>
+        <a class="btn btn-ghost" href="#faq">Read the FAQ</a>
+      </div>
     </div>
   </div>
 </section>
@@ -344,17 +455,29 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <p>© 2026 FastKiwi · Free, open-source Windows apps</p>
-    <nav aria-label="Links">
-      <a href="arabic-file-search/en/">InstaFind</a>
-      <a href="Remember-Me/">Remember Me</a>
-      <a href="https://github.com/sarmadiq9090-coder/local-ai-chat">Lemon</a>
-      <a href="instawords/">InstaWords</a>
-      <a href="https://github.com/sarmadiq9090-coder">GitHub</a>
-      <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new">Report a bug</a>
-      <a href="privacy/">Privacy</a>
-      <a href="ar/" hreflang="ar" lang="ar">العربية</a>
-    </nav>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="./"><img src="img/logo.svg" width="36" height="36" alt=""><span>FastKiwi</span></a>
+        <p>Free, open-source Windows apps that are fast, light, work offline and speak Arabic and English.</p>
+        <a class="lang-switch" href="ar/" hreflang="ar" lang="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>العربية</a>
+      </div>
+      <nav aria-labelledby="f-apps">
+        <h2 id="f-apps">Apps</h2>
+        <ul><li><a href="arabic-file-search/en/">InstaFind</a></li><li><a href="Remember-Me/">Remember Me</a></li><li><a href="#lemon">Lemon</a></li><li><a href="instawords/">InstaWords</a></li></ul>
+      </nav>
+      <nav aria-labelledby="f-res">
+        <h2 id="f-res">Resources</h2>
+        <ul><li><a href="#download-instafind">Release notes</a></li><li><a href="#faq">FAQ</a></li><li><a href="#support">Support</a></li><li><a href="privacy/">Privacy</a></li></ul>
+      </nav>
+      <nav aria-labelledby="f-kiwi">
+        <h2 id="f-kiwi">FastKiwi</h2>
+        <ul><li><a href="#why">Why FastKiwi</a></li><li><a href="#community">Community</a></li><li><a href="https://github.com/sarmadiq9090-coder" data-github>GitHub</a></li></ul>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FastKiwi · Free, open-source Windows apps</p>
+      <p>Made for Windows 10 &amp; 11</p>
+    </div>
   </div>
 </footer>
 <script src="site.js" defer></script>
