@@ -11,4 +11,5 @@
 ## Links
 - Source code: https://github.com/sarmadiq9090-coder
 - Arabic home page: https://fastkiwi.app/ar/
+- What's new (latest versions, release notes, checksums): https://fastkiwi.app/releases/
 - Privacy: https://fastkiwi.app/privacy/
