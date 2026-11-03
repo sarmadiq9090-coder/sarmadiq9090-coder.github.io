@@ -3,6 +3,11 @@
    Remote text (release notes) is only ever inserted as text nodes, never as HTML. */
 (function () {
   window.FK = 1; /* tells the inline fallback in <head> that scroll reveals are handled */
+  /* ===== SUPPORT CONTACT: the one place to set the support email and Telegram link =====
+     Used by /support/ and /ar/support/. While a value is '', those pages show a polite "coming soon"
+     note instead. Example: { email: 'support@fastkiwi.app', telegram: 'https://t.me/fastkiwi' }
+     (telegram must be an https://t.me/ link). */
+  var SUPPORT_CONTACT = { email: '', telegram: '' };
   var OWNER = 'sarmadiq9090-coder', REPOS = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'];
   /* the installer each download button points at; names follow each repo's release workflow */
   var INSTALLER = {
@@ -407,6 +412,31 @@
       });
     }, { rootMargin: '-35% 0px -60% 0px' });
     chips.forEach(function (c) { var t = doc.getElementById(c.getAttribute('href').slice(1)); if (t) sio.observe(t); });
+  }
+
+  /* ---------- support page: the email / Telegram ways to reach us (SUPPORT_CONTACT), or the "coming soon" note ---------- */
+  var contactBox = doc.querySelector('[data-support-contact]');
+  if (contactBox) {
+    var email = /^[^\s@<>"?&]+@[^\s@<>"?&]+\.[a-z]{2,}$/i.test(SUPPORT_CONTACT.email || '') ? SUPPORT_CONTACT.email : '';
+    var tg = /^https:\/\/t\.me\/[A-Za-z0-9_+\/-]+$/.test(SUPPORT_CONTACT.telegram || '') ? SUPPORT_CONTACT.telegram : '';
+    if (email || tg) {
+      var S = ar ? {
+        email: 'البريد الإلكتروني', emailNote: 'اكتب لنا بالعربية أو الإنجليزية.', emailBtn: 'راسلنا',
+        tg: 'تيليغرام', tgNote: 'راسلنا على تيليغرام. يفتح الرابط تطبيق تيليغرام أو موقعه.', tgBtn: 'افتح تيليغرام (Telegram)'
+      } : {
+        email: 'Email', emailNote: 'Write to us in English or Arabic.', emailBtn: 'Email us',
+        tg: 'Telegram', tgNote: 'Message us on Telegram. The link opens the Telegram app or website.', tgBtn: 'Open Telegram'
+      };
+      var ways = h('div', { class: 'sp-ways' });
+      if (email) ways.appendChild(h('div', { class: 'card' }, [h('h3', { text: S.email }), h('p', { text: S.emailNote }),
+        h('p', { class: 'sp-addr ltr', text: email }),
+        h('a', { class: 'btn btn-primary btn-sm', href: 'mailto:' + email, 'data-contact': 'email' }, [S.emailBtn])]));
+      if (tg) ways.appendChild(h('div', { class: 'card' }, [h('h3', { text: S.tg }), h('p', { text: S.tgNote }),
+        h('p', { class: 'sp-addr ltr', text: tg.replace(/^https:\/\//, '') }),
+        h('a', { class: 'btn btn-primary btn-sm', href: tg, 'data-contact': 'telegram' }, [S.tgBtn])]));
+      contactBox.querySelector('[data-support-soon]').hidden = true;
+      contactBox.appendChild(ways);
+    }
   }
 
   /* ---------- wide tables: show a fade + hint while there is more to scroll ---------- */

@@ -392,6 +392,21 @@ html[dir="rtl"] .table-wrap[data-more-end] { -webkit-mask-image: linear-gradient
 .support li a:hover { text-decoration: underline; }
 .support .btn { align-self: flex-start; }
 .support-note { margin-top: 1.25rem; color: var(--muted); font-size: .95rem; }
+.support-more { margin: 1rem 0 0; }
+/* support page (support/, ar/support/) */
+.sp .wrap > .card + .card { margin-top: 1rem; }
+.sp .card p:last-child { margin-bottom: 0; }
+.sp .card h3 { font-size: 1.15rem; margin: 0 0 .5rem; }
+.sp-soon { border-inline-start: 4px solid var(--brand); }
+.sp-never { background: var(--tint); }
+.sp-ways { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.sp-ways .card { margin: 0 !important; display: flex; flex-direction: column; gap: .5rem; }
+.sp-ways .card p { margin: 0; color: var(--muted); }
+.sp-ways .btn { align-self: flex-start; margin-top: auto; }
+.sp-addr { font-weight: 700; color: var(--text) !important; overflow-wrap: anywhere; }
+.sp .steps code { white-space: nowrap; }
+.sp-apps { margin-top: 1rem; }
+.sp-apps .btn { white-space: normal; text-align: center; }
 
 /* ---------- FAQ ---------- */
 .faq-grid { display: grid; gap: clamp(2rem, 4vw, 4rem); }
