@@ -1,4 +1,4 @@
-// FastKiwi site QA (home, releases, Lemon, privacy policy, 404, redirects, feeds) in a real browser.
+// FastKiwi site QA (home, releases, Lemon, privacy policy, Microsoft Store draft, 404, redirects, feeds) in a real browser.
 // Run from the repo root: npm test   (or: node tests/qa.mjs [--no-shots])
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
@@ -23,6 +23,7 @@ const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/late
   'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}tafket/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
 const FEED = { en: fs.existsSync(path.join(ROOT, 'releases.xml')), ar: fs.existsSync(path.join(ROOT, 'ar', 'releases.xml')) };
 const WIDTHS = [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360];
+PAGES.push(['store-en', '/store/'], ['store-ar', '/ar/store/']); // draft Microsoft Store page (see section 12)
 const PROJECT_SITES = ['/arabic-file-search/', '/Remember-Me/']; // other repos' GitHub Pages, served on fastkiwi.app
 let fails = 0, passes = 0;
 const ok = (c, msg) => { if (c) passes++; else { fails++; console.log('  FAIL', msg); } };
@@ -46,7 +47,7 @@ function exists(p) {
   try { if (fs.statSync(f).isDirectory()) f = path.join(f, 'index.html'); return fs.existsSync(f); } catch { return false; }
 }
 async function checkLinks(page, name, scope = 'body') {
-  const links = await page.$$eval(scope + ' a[href]', as => as.map(a => ({ href: a.href, raw: a.getAttribute('href'), text: a.textContent.replace(/\s+/g, ' ').trim(), gh: a.hasAttribute('data-github'), dl: a.getAttribute('data-dl'),
+  const links = await page.$$eval(scope + ' a[href]', as => as.map(a => ({ href: a.href, raw: a.getAttribute('href'), text: a.textContent.replace(/\s+/g, ' ').trim(), gh: a.hasAttribute('data-github'), store: a.hasAttribute('data-store') && !!a.querySelector('img[alt*="Microsoft Store"]'), dl: a.getAttribute('data-dl'),
     feed: !!a.closest('[data-feed]'), shown: !a.closest('[hidden]') })));
   const ids = new Set(await page.$$eval('[id]', es => es.map(e => e.id)));
   const github = [];
@@ -62,6 +63,8 @@ async function checkLinks(page, name, scope = 'body') {
       const download = DIRECT.test(u.pathname);
       const rmFallback = l.dl === 'Remember-Me' && /\/releases\/latest$/.test(u.pathname); // intercepted by site.js -> on-site dialog
       ok(download || rmFallback || (l.gh && /GitHub/.test(l.text)), `${name}: github link not an explicit GitHub button: ${l.text} -> ${l.href}`);
+    } else if (u.hostname === 'apps.microsoft.com') { // Microsoft Store links: the one allowed exception to staying on the site, always the labelled badge
+      ok(l.store && /^\/detail\/9[A-Z0-9]{11}$/.test(u.pathname) && /^\?cid=[a-z-]+$/.test(u.search), `${name}: Microsoft Store link is a badge link with a campaign ID: ${l.href}`);
     } else ok(false, `${name}: off-site link ${l.href}`);
   }
   return github;
@@ -537,6 +540,76 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
     ok(/<lastmod>2026-11-03<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/privacy/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/privacy/"'), `sitemap: ${u} with lastmod and hreflang`);
   }
+}
+
+/* ---------- 12. Microsoft Store page (DRAFT): store/ and ar/store/ ----------
+   STORE_DRAFT: until the first Store approval these pages are noindex, left out of sitemap.xml and not linked from any other page.
+   This is a deliberate, documented exception to "every page is in the sitemap". On launch: remove the noindex meta, add both
+   pages to sitemap.xml, link them, and set STORE_DRAFT = false so the checks below flip. */
+{
+  const STORE_DRAFT = true;
+  const IDS = { instawords: '9P62P4WQSQNK', 'remember-me': '9NGB1F7T7JGN', instafind: '9MTK4KMFQ657' };
+  /* official artwork from https://get.microsoft.com/images/en-us%20dark.svg and .../ar%20dark.svg, kept byte-for-byte (never altered) */
+  const BADGES = { en: ['img/store/get-it-from-microsoft-en-us-dark.svg', '0e0cd666d0b351bc2680658faf8485a5d2d78d2ab14086d37fca7f0e8c12fa69'],
+    ar: ['img/store/get-it-from-microsoft-ar-dark.svg', '0d15bd9f64ee490c8d451a27f3ab18d6727252062dfe2c5270c83b49fbb8780c'] };
+  const { createHash } = await import('node:crypto');
+  for (const [lang, [file, sha]] of Object.entries(BADGES)) {
+    const buf = fs.readFileSync(path.join(ROOT, file));
+    ok(createHash('sha256').update(buf).digest('hex') === sha && /^<svg width="161" height="44" viewBox="0 0 161 44"/.test(buf.toString()) && !/<script|https?:\/\/(?!www\.w3\.org)/.test(buf.toString()), `store: ${lang} badge is Microsoft's unaltered self-hosted SVG (${file})`);
+  }
+  for (const w of [1366, 390]) for (const [lang, url, other] of [['en', '/store/', '/ar/store/'], ['ar', '/ar/store/', '/store/']]) {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce', permissions: ['clipboard-read', 'clipboard-write'] });
+    await offline(ctx);
+    const page = await ctx.newPage(), offsite = [];
+    page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const S = await page.evaluate(() => ({
+      robots: [...document.querySelectorAll('meta[name=robots]')].map(m => m.content),
+      draftNote: [...document.head.childNodes].some(n => n.nodeType === 8 && /remove this noindex/.test(n.textContent)),
+      canonical: document.querySelector('link[rel=canonical]').href,
+      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      cards: [...document.querySelectorAll('.st-app')].map(c => { const b = c.querySelector('a.ms-badge'), i = b?.querySelector('img'), r = i?.getBoundingClientRect(), br = b?.getBoundingClientRect();
+        return { id: c.id, sid: c.dataset.storeId, href: b?.href, store: b?.hasAttribute('data-store'), img: i && new URL(i.src).pathname, alt: i?.alt, w: r?.width, h: r?.height, nat: i && i.naturalWidth / i.naturalHeight,
+          pad: r && Math.min(r.top - br.top, br.bottom - r.bottom), share: [...c.querySelectorAll('.st-share li')].map(li => li.querySelector('.st-url').textContent),
+          copies: [...c.querySelectorAll('.st-share button[data-copy]')].map(x => x.dataset.copy) }; })
+    }));
+    const tag = `store ${lang}@${w}`;
+    ok(STORE_DRAFT ? JSON.stringify(S.robots) === '["noindex"]' && S.draftNote : S.robots.length === 0, `${tag}: draft is noindex with a "remove on launch" comment (${S.robots})`);
+    ok(S.canonical === 'https://fastkiwi.app' + url && S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: canonical and language switch`);
+    ok(JSON.stringify(S.cards.map(c => [c.id, c.sid])) === JSON.stringify(Object.entries(IDS)), `${tag}: one card per app with its Store ID ${JSON.stringify(S.cards.map(c => c.sid))}`);
+    for (const c of S.cards) {
+      const base = `https://apps.microsoft.com/detail/${IDS[c.id]}?cid=`;
+      ok(c.store && c.href === base + 'fastkiwi-site', `${tag} ${c.id}: badge links to ${base}fastkiwi-site (${c.href})`);
+      ok(c.img === '/' + BADGES[lang][0] && /Microsoft Store/.test(c.alt), `${tag} ${c.id}: the self-hosted ${lang} badge with alt text (${c.img})`);
+      ok(c.h >= 32 && Math.abs(c.w / c.h - c.nat) < 0.02 && c.pad >= c.h / 4 - 0.5, `${tag} ${c.id}: badge ≥ 32 px tall, aspect ratio kept, quarter-height clear space (${c.w?.toFixed(1)}×${c.h?.toFixed(1)}, pad ${c.pad?.toFixed(1)})`);
+      const want = ['whatsapp', 'telegram', 'groups'].map(x => base + x);
+      ok(JSON.stringify(c.share) === JSON.stringify(want) && JSON.stringify(c.copies) === JSON.stringify(want), `${tag} ${c.id}: share links for WhatsApp, Telegram and groups with copy buttons`);
+    }
+    /* open one share helper and copy a link */
+    await page.click('#remember-me .st-share summary');
+    const btn = page.locator('#remember-me .st-share button[data-copy]').nth(1);
+    ok(await btn.isVisible(), `${tag}: copy button shown once the helper is open`);
+    await btn.click(); await page.waitForTimeout(150);
+    ok(await page.evaluate(() => navigator.clipboard.readText()) === 'https://apps.microsoft.com/detail/9NGB1F7T7JGN?cid=telegram' && await btn.textContent() === (lang === 'en' ? 'Copied' : 'تم النسخ'), `${tag}: copy puts the Telegram link on the clipboard and says so`);
+    const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
+    ok(m.sw <= m.cw, `${tag}: no horizontal scroll with a share helper open`);
+    ok(offsite.length === 0, `${tag}: no third-party requests, badges are self-hosted (${offsite})`);
+    await checkLinks(page, tag);
+    if (SHOTS) await page.screenshot({ path: `${OUT}after-store-${lang}-${w}-share.png`, fullPage: true, animations: 'disabled' });
+    await ctx.close();
+  }
+  /* draft: not in the sitemap and not linked from anywhere else on the site */
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  ok(STORE_DRAFT === !/fastkiwi\.app\/(ar\/)?store\//.test(sm), `store: ${STORE_DRAFT ? 'draft left out of' : 'listed in'} sitemap.xml`);
+  const linking = [];
+  (function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const f = path.join(dir, e.name), rel = path.relative(ROOT, f);
+      if (e.isDirectory()) { if (!/^(node_modules|tests|\.git|tools|\.sync)$/.test(rel) && rel !== path.join('store') && rel !== path.join('ar', 'store')) walk(f); }
+      else if (/\.(html|xml|txt|js)$/.test(e.name) && /href="[^"]*\bstore\/"|fastkiwi\.app\/(ar\/)?store\//.test(fs.readFileSync(f, 'utf8'))) linking.push(rel);
+    }
+  })(ROOT);
+  if (STORE_DRAFT) ok(linking.length === 0, `store: draft not linked from other pages (${linking})`);
 }
 
 await browser.close();

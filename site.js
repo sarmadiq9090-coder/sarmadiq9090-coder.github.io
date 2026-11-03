@@ -426,6 +426,18 @@
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   }
 
+  /* ---------- copy buttons in the page (<button data-copy="text" hidden>): shown only when the clipboard works ---------- */
+  doc.querySelectorAll('button[data-copy]').forEach(function (b) {
+    if (!navigator.clipboard) return;
+    var label = b.textContent;
+    b.hidden = false;
+    b.addEventListener('click', function () {
+      navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+        b.textContent = T.copied; setTimeout(function () { b.textContent = label; }, 1800);
+      }, function () {});
+    });
+  });
+
   /* ---------- reveal sections once ---------- */
   var reveals = doc.querySelectorAll('.reveal');
   if (reduce || !('IntersectionObserver' in window)) reveals.forEach(function (el) { el.classList.add('in'); });
