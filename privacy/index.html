@@ -72,6 +72,17 @@
 <li><strong>Links open in your browser.</strong> When you click a link in an app, the site it opens has its own privacy policy.</li>
 </ul></div>
 
+<h2 id="store">Microsoft Store copies</h2>
+<div class="pv-store">
+<p>InstaWords, Remember Me and InstaFind are also published, or being published, in the Microsoft Store. A copy installed from the Store does not run the app’s own update check: Microsoft Store installs its new versions. It keeps its data in the app package’s private folder, <code>%LOCALAPPDATA%\Packages\&lt;package family&gt;\…</code>, where Windows redirects what the app writes to <code>%APPDATA%</code> or <code>%LOCALAPPDATA%</code>, and Windows removes that folder when you uninstall the app. If the regular version is also on your PC, its folder is left as it is. Everything else on this page applies unchanged.</p>
+<ul>
+<li><strong>InstaWords:</strong> the Store copy makes no network connections of its own. Settings shows “Updates come from Microsoft Store” and the real data folder, <code>…\Packages\FastKiwi.InstaWords_sm1xjmj6v76yc\LocalCache\Roaming\FastKiwi\InstaWords</code>.</li>
+<li><strong>Remember Me:</strong> the Store copy never loads the updater. Its data is in <code>…\Packages\FastKiwi.RememberMeReminders_sm1xjmj6v76yc\LocalState\Remember Me</code>. On first start it copies in the data of the regular version on the same PC, if there is one, and does not change the original.</li>
+<li><strong>InstaFind:</strong> the Store version is in preparation. Like the others, it will get its updates from the Store, not from GitHub, and keep its data in its package folder.</li>
+</ul>
+<p>Microsoft Store itself may collect data, for example about downloads, installs and crashes, under Microsoft’s privacy statement.</p>
+</div>
+
 <h2 id="apps" class="pv-apps">The apps, one by one</h2>
 
 <section id="instafind" class="pv-app" aria-labelledby="instafind-title">

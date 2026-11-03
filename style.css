@@ -629,9 +629,10 @@ html[dir="rtl"] .ap-rel { text-align: right; }
 .pv-app h3 img { flex: none; width: 32px; height: 32px; border-radius: 8px; }
 .pv-app h3 span { font-weight: 400; color: var(--muted); font-size: .8em; }
 .pv-app h4 { font-size: 1.02rem; margin: 1.25rem 0 .4rem; }
-.pv-app ul { padding-inline-start: 1.25rem; display: grid; gap: .5rem; color: var(--muted); }
-.pv-app li strong { color: var(--text); }
+.pv-app ul, .pv-store ul { padding-inline-start: 1.25rem; display: grid; gap: .5rem; color: var(--muted); }
+.pv-app li strong, .pv-store li strong { color: var(--text); }
 .pv-app .sublinks { margin: 1.1rem 0 0; }
+.pv-store ul { margin: 0 0 1rem; }
 .pv-contact { flex-direction: column; align-items: flex-start; margin: 0 0 1.75rem; }
 @media (max-width: 720px) {
   .cmp.plain { min-width: 0; }

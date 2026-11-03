@@ -42,6 +42,11 @@ async function scrollThrough(page) { // like a person: wheel down the page, then
 }
 
 /* ---------- link policy ---------- */
+// The English InstaWords pages (instawords/en/) come from the tafket repo through the sync workflow, so a checkout made
+// before that sync has none yet: links to them are then accepted (and reported) instead of failing the QA.
+const IW_EN = fs.existsSync(path.join(ROOT, 'instawords', 'en', 'index.html'));
+if (!IW_EN) console.log('  NOTE instawords/en/ is not synced from tafket yet: links to it are accepted without a target');
+const pendingIwEn = p => !IW_EN && p.startsWith('/instawords/en/');
 function exists(p) {
   let f = path.join(ROOT, decodeURIComponent(p));
   try { if (fs.statSync(f).isDirectory()) f = path.join(f, 'index.html'); return fs.existsSync(f); } catch { return false; }
@@ -56,7 +61,7 @@ async function checkLinks(page, name, scope = 'body') {
     if (u.origin === BASE) {
       if (l.feed) { ok(exists(u.pathname) === l.shown && /\/releases\.xml$/.test(u.pathname), `${name}: feed link ${u.pathname} shown only when the feed exists`); continue; }
       if (l.raw.startsWith('#')) { ok(l.raw !== '#' && (ids.has(l.raw.slice(1)) || /^#download-(instafind|remember-me|lemon|instawords)$/.test(l.raw)), `${name}: anchor ${l.raw} has no target`); continue; }
-      ok(exists(u.pathname) || PROJECT_SITES.some(p => u.pathname.startsWith(p)), `${name}: internal link ${u.pathname} does not exist`);
+      ok(exists(u.pathname) || PROJECT_SITES.some(p => u.pathname.startsWith(p)) || pendingIwEn(u.pathname), `${name}: internal link ${u.pathname} does not exist`);
       if (u.hash && u.pathname.endsWith('/releases/')) ok(['#instafind', '#remember-me', '#lemon', '#instawords'].includes(u.hash), `${name}: releases deep link ${u.hash}`);
     } else if (u.hostname === 'github.com') {
       github.push(l);
@@ -507,6 +512,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       rows: [...document.querySelectorAll('#summary + .table-wrap tbody tr')].map(r => ({ to: r.querySelector('th a')?.getAttribute('href'), cells: r.querySelectorAll('td').length })),
       contact: [...document.querySelectorAll('#contact ~ .pv-contact a')].map(a => [a.href, a.hasAttribute('data-github'), /GitHub/.test(a.textContent)]),
       support: !!document.querySelector('a[href="../#support"]'),
+      store: (() => { const h = document.getElementById('store'), b = h?.nextElementSibling; return h && b?.matches('.pv-store') ? { title: h.textContent, text: b.textContent, apps: [...b.querySelectorAll('li strong')].map(s => s.textContent),
+        afterSummary: !!(document.getElementById('summary').compareDocumentPosition(h) & Node.DOCUMENT_POSITION_FOLLOWING), beforeApps: !!(h.compareDocumentPosition(document.getElementById('apps')) & Node.DOCUMENT_POSITION_FOLLOWING) } : null; })(),
       scripts: document.scripts.length
     }));
     const tag = `privacy ${lang}`;
@@ -523,6 +530,13 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(/GitHub Pages/.test(P.sectionText.site), `${tag}: the site section names its host`);
     ok(P.contact.length === 4 && P.contact.every(([h, gh, t], i) => h === ISSUES[i] && gh && t), `${tag}: contact = each app's labelled GitHub issues link ${JSON.stringify(P.contact)}`);
     ok(P.support, `${tag}: links to the on-site Support section`);
+    /* Microsoft Store copies: one block, Store updates (no own update check), package folder removed on uninstall, Microsoft's own data collection */
+    const S = P.store;
+    ok(S && /Microsoft Store/.test(S.title) && (lang === 'en' ? /copies/.test(S.title) : /النسخ المنزّلة/.test(S.title)) && S.afterSummary && S.beforeApps, `${tag}: "Microsoft Store copies" section between the summary and the apps (${S && S.title})`);
+    ok(S && S.apps.length === 3 && ['InstaWords', lang === 'en' ? 'Remember Me' : 'ذكرني', 'InstaFind'].every((a, i) => S.apps[i].startsWith(a)), `${tag}: Store section covers InstaWords, Remember Me and InstaFind (${S && S.apps})`);
+    ok(S && S.text.includes('%LOCALAPPDATA%\\Packages\\<package family>\\') && S.text.includes('%APPDATA%') && S.text.includes('FastKiwi.InstaWords_sm1xjmj6v76yc') && S.text.includes('FastKiwi.RememberMeReminders_sm1xjmj6v76yc'), `${tag}: Store section names the package data folders`);
+    ok(S && (lang === 'en' ? /does not run the app’s own update check/.test(S.text) && /uninstall/.test(S.text) && /Microsoft Store itself may collect data/.test(S.text) && /in preparation/.test(S.text)
+      : /لا تشغّل فحص التحديثات/.test(S.text) && /عند إزالة البرنامج/.test(S.text) && /قد يجمع Microsoft Store نفسه بيانات/.test(S.text) && /قيد التحضير/.test(S.text)), `${tag}: Store section: Store updates, removed on uninstall, InstaFind not yet released, Microsoft's own data collection`);
     ok(P.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
     await checkLinks(page, tag);
   }
@@ -616,6 +630,25 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   for (const u of ['https://fastkiwi.app/support/', 'https://fastkiwi.app/ar/support/']) {
     const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
     ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/support/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/support/"'), `sitemap: ${u} with lastmod and hreflang`);
+  }
+}
+
+/* ---------- 12. InstaWords in two languages: English home → instawords/en/, Arabic home → instawords/; sitemap alternates ---------- */
+{
+  const html = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+  const iwLinks = f => [...html(f).matchAll(/<a\b[^>]*href="((?:\.\.\/)?instawords\/[^"#]*)"/g)].map(m => m[1]);
+  const en = iwLinks('index.html'), ar = iwLinks('ar/index.html');
+  ok(en.length >= 4 && en.every(h => h === 'instawords/en/'), `home-en: InstaWords links open the English pages (${en})`);
+  ok(ar.length >= 4 && ar.every(h => h === '../instawords/'), `home-ar: InstaWords links open the Arabic pages (${ar})`);
+  ok(html('index.html').includes('"url": "https://fastkiwi.app/instawords/en/"') && html('ar/index.html').includes('"url": "https://fastkiwi.app/instawords/"'), 'home JSON-LD: InstaWords URL in the page language');
+  const sm = html('sitemap.xml'), B = 'https://fastkiwi.app/instawords/';
+  for (const page of ['', 'bulk.html', 'excel.html']) for (const loc of [`${B}${page}`, `${B}en/${page}`]) {
+    const entry = sm.match(new RegExp(`<url><loc>${loc.replace(/[.]/g, '\\.')}</loc>.*?</url>`))?.[0] ?? '';
+    ok([`hreflang="en" href="${B}en/${page}"`, `hreflang="ar" href="${B}${page}"`, `hreflang="x-default" href="${B}en/${page}"`].every(x => entry.includes(x)), `sitemap: ${loc} with en/ar/x-default alternates`);
+  }
+  if (IW_EN) for (const f of ['index.html', 'bulk.html', 'excel.html']) {
+    const p = path.join(ROOT, 'instawords', 'en', f);
+    if (fs.existsSync(p)) ok(/<html lang="en" dir="ltr">/.test(fs.readFileSync(p, 'utf8')), `instawords/en/${f}: English page synced from tafket`);
   }
 }
 
