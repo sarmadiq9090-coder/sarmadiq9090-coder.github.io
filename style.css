@@ -598,6 +598,33 @@ html[dir="rtl"] .ap-rel { text-align: right; }
 .page .after { margin-top: 1.75rem; }
 .site-footer > .foot-bottom { margin-top: 0; padding-top: 0; border-top: 0; align-items: center; }
 .page .back { display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; text-decoration: none; }
+/* privacy policy: summary table, one section per app */
+.pv h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.pv .kicker { margin-bottom: .5rem; }
+.pv-date { font-weight: 700; color: var(--muted); margin: 0 0 1.5rem; }
+.pv p, .pv li { overflow-wrap: break-word; }
+.pv code { overflow-wrap: anywhere; direction: ltr; unicode-bidi: isolate; }
+.pv .table-wrap { margin-top: 1rem; }
+.cmp.plain { min-width: 600px; }
+.cmp.plain thead th:nth-child(2), .cmp.plain td:nth-child(2) { background: none; }
+.cmp.plain thead th:nth-child(2) { color: var(--muted); }
+.cmp.plain th[scope="row"] a { color: var(--text); }
+.pv-app { margin-top: clamp(2rem, 4vw, 2.75rem); padding-top: clamp(1.5rem, 3vw, 2rem); border-top: 1px solid var(--border); }
+.pv-app h3 { display: flex; align-items: center; gap: .65rem; font-size: clamp(1.3rem, 1.1rem + .7vw, 1.6rem); margin-bottom: .75rem; }
+.pv-app h3 img { flex: none; width: 32px; height: 32px; border-radius: 8px; }
+.pv-app h3 span { font-weight: 400; color: var(--muted); font-size: .8em; }
+.pv-app h4 { font-size: 1.02rem; margin: 1.25rem 0 .4rem; }
+.pv-app ul { padding-inline-start: 1.25rem; display: grid; gap: .5rem; color: var(--muted); }
+.pv-app li strong { color: var(--text); }
+.pv-app .sublinks { margin: 1.1rem 0 0; }
+.pv-contact { flex-direction: column; align-items: flex-start; margin: 0 0 1.75rem; }
+@media (max-width: 720px) {
+  .cmp.plain { min-width: 0; }
+  .cmp.plain td:nth-child(2) { background: none; }
+  .cmp.plain td:nth-child(2)::before { color: var(--muted); }
+  .cmp.plain tbody tr { grid-template-columns: 1fr; }
+  .cmp.plain td:nth-child(2n+1) { border-inline-start: 0; border-top: 1px solid var(--border); }
+}
 .nf { text-align: center; min-height: calc(100vh - 69px); display: grid; place-items: center; padding-block: 3rem; }
 .nf .lead { margin-inline: auto; }
 .nf .code { font-size: clamp(5rem, 3rem + 10vw, 9rem); font-weight: 700; line-height: 1; color: var(--tint-2); -webkit-text-stroke: 2px var(--brand-light); margin-bottom: .5rem; }
