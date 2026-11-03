@@ -117,3 +117,7 @@ a.card.com .ico { margin-bottom: .6rem; }
 @media (prefers-reduced-motion: reduce) { a.card.com, a.card.com:hover { transition: none; transform: none; } }
 @media (max-width: 520px) { .app-strip a, [dir="rtl"] .app-strip a { border-radius: 16px; } }
 .c-part span { font-weight: 700; }
+
+/* version number on download buttons (filled from the latest GitHub release by site.js) */
+.dl-ver { margin-inline-start: .45em; font-weight: 400; font-size: .88em; opacity: .9; direction: ltr; unicode-bidi: isolate; }
+.dl-ver:empty { display: none; }
