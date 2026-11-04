@@ -5,10 +5,19 @@
   <id>https://fastkiwi.app/ar/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/ar/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="ar" href="https://fastkiwi.app/ar/releases/"/>
-  <updated>2026-11-03T14:44:02.000Z</updated>
+  <updated>2026-11-03T19:10:18.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
   <rights>برامج مجانية ومفتوحة المصدر (MIT)</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.1</id>
+    <title>InstaFind · بحث سريع v0.9.1</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-03T19:10:18.000Z</published>
+    <updated>2026-11-03T19:10:18.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">لا تحديث بدون تحقق: إذا لم يجد البرنامج بصمة SHA-256 لملف التحديث على GitHub، يرفض التحديث ويعرض رابط التنزيل اليدوي. نسخ winget و Scoop تُترك لمدير الحزم: يعرض البرنامج أمر التحديث بدل أن يحدّث نفسه.</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:tafket/v2.1.0</id>
     <title>InstaWords · تفقيط v2.1.0</title>
@@ -89,14 +98,5 @@
     <updated>2026-11-01T18:13:54.000Z</updated>
     <category term="remember-me" label="Remember Me"/>
     <summary type="text">A small release with fixes for the v1.6.0 snooze choices and overdue wording, and clearer Hindi. Your tasks, notes, attachments, settings and snooze choices load unchanged. Snooze choices for today show their time, such as &quot;Today 9:00 PM&quot;, and Settings refuses a time today…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.6.1</id>
-    <title>InstaFind · بحث سريع v0.6.1</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-01T15:17:14.000Z</published>
-    <updated>2026-11-01T15:17:14.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">الخط تحت الجزء المطابق في الواجهة العربية كان في المكان الخطأ: في أسماء الملفات العربية التي لها امتداد لاتيني (مثل «تقرير المبيعات 2026.xlsx») كان الخط يُرسم مزاحاً إلى اليسار بعرض الامتداد، فيقع تحت كلمة أخرى. أصبح يقع تحت الكلمة التي بحثت عنها تماماً، وتم التحقق من ذلك بلقطات…</summary>
   </entry>
 </feed>
