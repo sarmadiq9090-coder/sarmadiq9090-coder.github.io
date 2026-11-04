@@ -524,7 +524,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(P.rows.length === 5 && P.rows.every((r, i) => r.to === '#' + APPS[i] && r.cells === 2), `${tag}: summary table, a row per app linking to its section ${JSON.stringify(P.rows)}`);
     ok(/open\.er-api\.com/.test(P.sectionText.instafind) && /BahthSari/.test(P.sectionText.instafind), `${tag}: InstaFind names the exchange-rate host and its data folder`);
     ok(/Google Drive/.test(P.sectionText['remember-me']) && /Remember Me/.test(P.sectionText['remember-me']), `${tag}: Remember Me covers Google Drive backups`);
-    ok(/127\.0\.0\.1/.test(P.sectionText.lemon) && /crash\.txt/.test(P.sectionText.lemon), `${tag}: Lemon covers local Ollama and crash.txt`);
+    /* Lemon's crash.txt (merged in local-ai-chat main, not released yet) goes back on the page, and into this check, in the week Lemon ships it. */
+    ok(/127\.0\.0\.1/.test(P.sectionText.lemon) && !/crash\.txt/.test(P.sectionText.lemon), `${tag}: Lemon covers local Ollama (crash.txt not until the release that has it)`);
     ok(/crash\.log/.test(P.sectionText.instawords) && /FastKiwi\\InstaWords/.test(P.sectionText.instawords), `${tag}: InstaWords covers its data folder and crash.log`);
     ok(/GitHub Pages/.test(P.sectionText.site), `${tag}: the site section names its host`);
     ok(P.contact.length === 4 && P.contact.every(([h, gh, t], i) => h === ISSUES[i] && gh && t), `${tag}: contact = each app's labelled GitHub issues link ${JSON.stringify(P.contact)}`);
