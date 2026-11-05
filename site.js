@@ -6,7 +6,10 @@
   /* ===== SUPPORT CONTACT: the one place to set the support email and Telegram link =====
      Used by /support/ and /ar/support/. While a value is '', those pages show a polite "coming soon"
      note instead. Example: { email: 'support@fastkiwi.app', telegram: 'https://t.me/fastkiwi' }
-     (telegram must be an https://t.me/ link). */
+     (telegram must be an https://t.me/ link).
+     APPROVED ADDRESS: support@fastkiwi.app (owner decision, 2026-11-05, via Cloudflare Email Routing).
+     Fill it in ONLY after the owner confirms a test mail arrived; until then keep '' so the page never
+     shows an address that bounces. Set the same value in the Windows app (InstaWords SupportContact.cs). */
   var SUPPORT_CONTACT = { email: '', telegram: '' };
   var OWNER = 'sarmadiq9090-coder', REPOS = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'];
   /* the installer each download button points at; names follow each repo's release workflow */
