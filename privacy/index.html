@@ -47,7 +47,7 @@
 <p class="kicker">Privacy policy</p>
 <h1>Privacy</h1>
 <p class="lead">FastKiwi apps have no accounts, ads, analytics or telemetry. Your data stays on your PC. This page lists every network connection each app makes, what it sends and when.</p>
-<p class="pv-date">Effective date: <time datetime="2026-11-03">November 3, 2026</time></p>
+<p class="pv-date">Effective date: <time datetime="2026-11-06">November 6, 2026</time></p>
 
 <p>This policy covers the Windows apps InstaFind, Remember Me, Lemon and InstaWords, the InstaWords web app and the fastkiwi.app website, all published by FastKiwi. All the code is open source, so you can check each point below in the source code.</p>
 
@@ -78,7 +78,7 @@
 <ul>
 <li><strong>InstaWords:</strong> the Store copy makes no network connections of its own. Settings shows “Updates come from Microsoft Store” and the real data folder, <code>…\Packages\FastKiwi.InstaWords_sm1xjmj6v76yc\LocalCache\Roaming\FastKiwi\InstaWords</code>.</li>
 <li><strong>Remember Me:</strong> the Store copy never loads the updater. Its data is in <code>…\Packages\FastKiwi.RememberMeReminders_sm1xjmj6v76yc\LocalState\Remember Me</code>. On first start it copies in the data of the regular version on the same PC, if there is one, and does not change the original.</li>
-<li><strong>InstaFind:</strong> the Store version is in preparation. Like the others, it will get its updates from the Store, not from GitHub, and keep its data in its package folder.</li>
+<li><strong>InstaFind:</strong> the Store version is in preparation. Like the others, it will get its updates from the Store, not from GitHub, and keep its data in <code>%LOCALAPPDATA%\Packages\FastKiwi.InstaFind_sm1xjmj6v76yc\LocalCache\Local\BahthSari</code>. It does not include search from phone.</li>
 </ul>
 <p>Microsoft Store itself may collect data, for example about downloads, installs and crashes, under Microsoft’s privacy statement.</p>
 </div>
@@ -89,15 +89,15 @@
 <h3 id="instafind-title"><img src="../img/instafind.svg" width="32" height="32" alt="">InstaFind™ <span>· file search</span></h3>
 <h4>Stored on your PC</h4>
 <ul>
-<li>In <code>%LOCALAPPDATA%\BahthSari</code>: the index of file and folder names on your drives (<code>index.bin</code>), the index of text inside your documents (the <code>content</code> files, when content search is on), your recent and saved searches and which files and results you open most (<code>history.json</code>), settings (<code>settings.txt</code>), cached exchange rates (<code>rates.json</code>), a log (<code>log.txt</code>) and crash reports (<code>crash.txt</code>).</li>
+<li>In <code>%LOCALAPPDATA%\BahthSari</code>: the index of file and folder names on your drives (<code>index.bin</code>), the index of text inside your documents (the <code>content</code> files, when content search is on), your recent and saved searches and which files and results you open most (<code>history.json</code>), settings (<code>settings.txt</code>), cached exchange rates (<code>rates.json</code>), a log (<code>log.txt</code>) and crash reports (<code>crash.txt</code>). The indexes are built on your PC and never uploaded anywhere.</li>
 <li>Some settings, such as the interface language and the phone search switch, PIN and secret link, are kept in the Windows registry under <code>HKCU\Software\BahthSari</code>.</li>
 <li>Text in images is read by the OCR engine built into Windows, on your PC. Nothing is uploaded.</li>
 </ul>
 <h4>Network connections</h4>
 <ul>
 <li><strong>Update check:</strong> about 10 seconds after start and then at most once a day, InstaFind asks GitHub (<code>api.github.com</code>, or the release page on <code>github.com</code> if the API is busy) for the latest version. It sends nothing but the request and the app’s name and version (in the user-agent). A new version is downloaded from GitHub only after you choose to update. The automatic check can’t be turned off at the moment.</li>
-<li><strong>Exchange rates:</strong> for currency answers in the quick search (“100 usd to iqd”), InstaFind downloads a public table of rates from <code>open.er-api.com</code> when the saved rates are over 12 hours old: shortly after start while the quick search is enabled (it is by default), or when you open it. Only the table is requested, with the app’s name and version; your query is not sent, and the conversion is done on your PC.</li>
-<li><strong>Search from phone</strong> (Options, off by default): when you turn it on, InstaFind runs a small read-only web server on your home network. Devices with the PIN or the secret link can search your file names, and download files only if you also allow downloads. It accepts only private home-network addresses and never the internet. This traffic stays on your local network and is not encrypted (plain HTTP).</li>
+<li><strong>Exchange rates:</strong> for currency answers in the quick search (“100 usd to iqd”), InstaFind downloads a public table of rates from <code>open.er-api.com</code> when the saved rates are over 12 hours old: shortly after start while the quick search is enabled (it is by default), or when you open it. Only the table is requested, with the app’s name, version and project link (in the user-agent); your query is not sent, and the conversion is done on your PC.</li>
+<li><strong>Search from phone</strong> (Options, off by default): when you turn it on, InstaFind runs a small read-only web server on your home network. Devices with the PIN or the secret link can search your file names, and download files only if you also allow downloads. It accepts only private home-network addresses and never the internet. This traffic stays on your local network and is not encrypted (plain HTTP). The Microsoft Store version does not have this feature.</li>
 <li><strong>Web shortcuts</strong> such as “youtube …” or “google …” open your browser on that site with your words, only when you choose that result.</li>
 <li><strong>Feedback and crashes:</strong> “Send feedback” opens a pre-filled GitHub issue with the app version, Windows version, processor type and interface language. After a crash, InstaFind asks once whether to report it. If you choose yes, the issue also contains the crash report (error message, place in the code, technical addresses). Nothing is sent unless you submit the issue.</li>
 </ul>
@@ -124,7 +124,7 @@
 <h3 id="lemon-title"><img src="../img/lemon.webp" width="32" height="32" alt="">Lemon™ <span>· local AI chat</span></h3>
 <h4>Stored on your PC</h4>
 <ul>
-<li>In <code>%APPDATA%\LocalAiChat</code>: your conversations, settings (<code>settings.json</code>), assistants and the documents you give them, with the text and search index made from those documents. After a crash, Lemon writes the error to <code>crash.txt</code> in the same folder and shows a notice next time. It never sends it.</li>
+<li>In <code>%APPDATA%\LocalAiChat</code>: your conversations, settings (<code>settings.json</code>), assistants and the documents you give them, with the text and search index made from those documents.</li>
 <li>The window’s browser profile and cache are in <code>%LOCALAPPDATA%\LocalAiChat\webview</code>, and exports in <code>Documents\LocalAiChat</code>. With the <code>LOCALAI_DATA_DIR</code> variable set, everything is kept in that folder instead.</li>
 </ul>
 <h4>Network connections</h4>

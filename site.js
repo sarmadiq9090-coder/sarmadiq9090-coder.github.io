@@ -6,8 +6,10 @@
   /* ===== SUPPORT CONTACT: the one place to set the support email and Telegram link =====
      Used by /support/ and /ar/support/. While a value is '', those pages show a polite "coming soon"
      note instead. Example: { email: 'support@fastkiwi.app', telegram: 'https://t.me/fastkiwi' }
-     (telegram must be an https://t.me/ link). */
-  var SUPPORT_CONTACT = { email: '', telegram: '' };
+     (telegram must be an https://t.me/ link).
+     support@fastkiwi.app is live (Cloudflare Email Routing, MX + SPF verified 2026-11-06). The Windows app
+     (InstaWords SupportContact.cs) uses the same address. */
+  var SUPPORT_CONTACT = { email: 'support@fastkiwi.app', telegram: '' };
   var OWNER = 'sarmadiq9090-coder', REPOS = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'];
   /* the installer each download button points at; names follow each repo's release workflow */
   var INSTALLER = {
@@ -34,7 +36,7 @@
       fallback: 'https://github.com/' + OWNER + '/local-ai-chat/releases/latest/download/local-ai-chat.exe' },
     'tafket': { slug: 'instawords', icon: 'img/instawords.svg', name: ar ? 'InstaWords · تفقيط' : 'InstaWords',
       req: ar ? 'ويندوز 10 أو 11 · تثبيت للمستخدم دون صلاحيات المدير' : 'Windows 10 or 11 · per-user install, no admin rights',
-      fallback: 'https://github.com/' + OWNER + '/tafket/releases/download/v2.1.0/InstaWords_2.1.0_x64-setup.exe' }
+      fallback: 'https://github.com/' + OWNER + '/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe' }
   };
   var T = ar ? {
     title: 'التنزيل وملاحظات الإصدار', close: 'إغلاق', loading: 'جارٍ جلب آخر إصدار…', version: 'الإصدار', date: 'تاريخ النشر',
@@ -427,15 +429,18 @@
         email: 'Email', emailNote: 'Write to us in English or Arabic.', emailBtn: 'Email us',
         tg: 'Telegram', tgNote: 'Message us on Telegram. The link opens the Telegram app or website.', tgBtn: 'Open Telegram'
       };
-      var ways = h('div', { class: 'sp-ways' });
+      // The email card is in the page's HTML (it works without JavaScript); add it here only if it is missing.
+      var ways = contactBox.querySelector('.sp-ways') || h('div', { class: 'sp-ways' });
+      if (contactBox.querySelector('a[data-contact="email"]')) email = '';
       if (email) ways.appendChild(h('div', { class: 'card' }, [h('h3', { text: S.email }), h('p', { text: S.emailNote }),
         h('p', { class: 'sp-addr ltr', text: email }),
         h('a', { class: 'btn btn-primary btn-sm', href: 'mailto:' + email, 'data-contact': 'email' }, [S.emailBtn])]));
       if (tg) ways.appendChild(h('div', { class: 'card' }, [h('h3', { text: S.tg }), h('p', { text: S.tgNote }),
         h('p', { class: 'sp-addr ltr', text: tg.replace(/^https:\/\//, '') }),
         h('a', { class: 'btn btn-primary btn-sm', href: tg, 'data-contact': 'telegram' }, [S.tgBtn])]));
-      contactBox.querySelector('[data-support-soon]').hidden = true;
-      contactBox.appendChild(ways);
+      var soon = contactBox.querySelector('[data-support-soon]');
+      if (soon) soon.hidden = true;
+      if (!ways.parentNode) contactBox.appendChild(ways);
     }
   }
 

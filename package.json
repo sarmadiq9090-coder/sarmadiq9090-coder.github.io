@@ -7,9 +7,10 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test tests/tools.test.mjs && node tests/qa.mjs",
-    "test:quick": "node --test tests/tools.test.mjs && node tests/qa.mjs --no-shots",
+    "test": "node --test tests/tools.test.mjs && node tests/qa.mjs && node tests/pdf-kit.mjs",
+    "test:quick": "node --test tests/tools.test.mjs && node tests/qa.mjs --no-shots && node tests/pdf-kit.mjs --no-shots",
     "test:tools": "node --test tests/tools.test.mjs",
+    "test:pdf": "node tests/pdf-kit.mjs",
     "test:live": "node tests/live-check.mjs",
     "serve": "node tests/server.mjs 8765",
     "sync:releases": "node tools/sync-releases.mjs"

@@ -69,6 +69,8 @@ async function checkLinks(page, name, scope = 'body') {
       const download = DIRECT.test(u.pathname);
       const rmFallback = l.dl === 'Remember-Me' && /\/releases\/latest$/.test(u.pathname); // intercepted by site.js -> on-site dialog
       ok(download || rmFallback || (l.gh && /GitHub/.test(l.text)), `${name}: github link not an explicit GitHub button: ${l.text} -> ${l.href}`);
+    } else if (u.protocol === 'mailto:') {
+      ok(u.pathname === 'support@fastkiwi.app' && !u.search, `${name}: mailto only to support@fastkiwi.app: ${l.href}`);
     } else ok(false, `${name}: off-site link ${l.href}`);
   }
   return github;
@@ -521,12 +523,13 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(P.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${P.canonical}`);
     ok(JSON.stringify(P.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/privacy/', 'en https://fastkiwi.app/privacy/', 'x-default https://fastkiwi.app/privacy/']), `${tag}: hreflang ${P.hreflang}`);
     ok(P.lang.length === 2 && P.lang.every(x => x === other), `${tag}: language switches go to ${other} (${P.lang})`);
-    ok(P.date === '2026-11-03', `${tag}: effective date ${P.date}`);
+    ok(P.date === '2026-11-06', `${tag}: effective date ${P.date}`);
     ok(JSON.stringify(P.sections) === JSON.stringify(APPS), `${tag}: one section per app and the site (${P.sections})`);
     ok(P.rows.length === 5 && P.rows.every((r, i) => r.to === '#' + APPS[i] && r.cells === 2), `${tag}: summary table, a row per app linking to its section ${JSON.stringify(P.rows)}`);
     ok(/open\.er-api\.com/.test(P.sectionText.instafind) && /BahthSari/.test(P.sectionText.instafind), `${tag}: InstaFind names the exchange-rate host and its data folder`);
     ok(/Google Drive/.test(P.sectionText['remember-me']) && /Remember Me/.test(P.sectionText['remember-me']), `${tag}: Remember Me covers Google Drive backups`);
-    ok(/127\.0\.0\.1/.test(P.sectionText.lemon) && /crash\.txt/.test(P.sectionText.lemon), `${tag}: Lemon covers local Ollama and crash.txt`);
+    /* Lemon's crash.txt (merged in local-ai-chat main, not released yet) goes back on the page, and into this check, in the week Lemon ships it. */
+    ok(/127\.0\.0\.1/.test(P.sectionText.lemon) && !/crash\.txt/.test(P.sectionText.lemon), `${tag}: Lemon covers local Ollama (crash.txt not until the release that has it)`);
     ok(/crash\.log/.test(P.sectionText.instawords) && /FastKiwi\\InstaWords/.test(P.sectionText.instawords), `${tag}: InstaWords covers its data folder and crash.log`);
     ok(/GitHub Pages/.test(P.sectionText.site), `${tag}: the site section names its host`);
     ok(P.contact.length === 4 && P.contact.every(([h, gh, t], i) => h === ISSUES[i] && gh && t), `${tag}: contact = each app's labelled GitHub issues link ${JSON.stringify(P.contact)}`);
@@ -551,7 +554,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
   for (const u of ['https://fastkiwi.app/privacy/', 'https://fastkiwi.app/ar/privacy/']) {
     const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
-    ok(/<lastmod>2026-11-03<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/privacy/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/privacy/"'), `sitemap: ${u} with lastmod and hreflang`);
+    ok(/<lastmod>2026-11-06<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/privacy/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/privacy/"'), `sitemap: ${u} with lastmod and hreflang`);
   }
 }
 
@@ -560,7 +563,6 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   const SITE_JS = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8');
   const cfg = SITE_JS.match(/var SUPPORT_CONTACT = \{ email: '([^']*)', telegram: '([^']*)' \};/);
   ok(cfg && (SITE_JS.match(/SUPPORT_CONTACT = /g) || []).length === 1, 'support: site.js has exactly one SUPPORT_CONTACT = { email, telegram } config');
-  const configured = !!(cfg && (cfg[1] || cfg[2]));
   const ISSUES = { InstaFind: 'arabic-file-search', 'Remember Me': 'Remember-Me', 'ذكرني': 'Remember-Me', Lemon: 'local-ai-chat', InstaWords: 'tafket' };
   const read = page => page.evaluate(() => {
     const vis = e => !!e && !e.closest('[hidden]') && !!e.getClientRects().length;
@@ -589,7 +591,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/support/', 'en https://fastkiwi.app/support/', 'x-default https://fastkiwi.app/support/']), `${tag}: hreflang ${S.hreflang}`);
     ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
     ok(S.ids.length === 4, `${tag}: contact, what-to-include, GitHub and privacy sections (${S.ids})`);
-    if (!configured || !js) ok(S.soon && S.contact.length === 0, `${tag}: no email/Telegram configured (or no JS): the "coming soon" note shows, no contact links`);
+    /* support@fastkiwi.app is live: the email card is in the HTML (shown with or without JavaScript), and it matches site.js */
+    ok(!S.soon && S.contact.length === 1 && S.contact[0][0] === 'email' && S.contact[0][1] === 'mailto:support@fastkiwi.app' && S.contact[0][1] === 'mailto:' + (cfg && cfg[1]), `${tag}: the support email (mailto:support@fastkiwi.app, same as SUPPORT_CONTACT) shows, no "coming soon" note ${JSON.stringify(S.contact)}`);
     ok(S.steps.length === 4 && [/InstaWords/, lang === 'en' ? /version/ : /إصدار البرنامج/, /winver/, lang === 'en' ? /step by step/ : /خطوة بخطوة/].every((re, i) => re.test(S.steps[i])), `${tag}: what to include: app, version, Windows version, steps`);
     ok(lang === 'en' ? /Amounts/.test(S.never) && /personal/.test(S.never) : /المبالغ/.test(S.never) && /شخصية/.test(S.never), `${tag}: "never include" names amounts and personal data`);
     ok(S.issues.length === 4 && S.issues.every(x => x.href === `${GH}${ISSUES[x.app]}/issues/new` && (lang === 'en' ? x.text === 'Open a GitHub issue (needs a GitHub account)' : /GitHub/.test(x.text) && /يحتاج حساباً على GitHub/.test(x.text))), `${tag}: a labelled "needs a GitHub account" issue link per app ${JSON.stringify(S.issues)}`);
@@ -600,7 +603,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     if (SHOTS && js) await page.screenshot({ path: `${OUT}after-support-${lang}-${w}.png`, fullPage: true, animations: 'disabled' });
     await ctx.close();
   }
-  /* the same pages with an email and a Telegram link filled in (site.js served with the config set) */
+  /* the same pages once a Telegram link is filled in too (site.js served with the config set) */
   for (const [lang, url] of [['en', '/support/'], ['ar', '/ar/support/']]) for (const w of [1366, 390]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx);
@@ -609,7 +612,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     page.on('pageerror', e => errs.push(e.message));
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
     const S = await read(page), tag = `support ${lang}@${w} (configured)`;
-    ok(!S.soon && JSON.stringify(S.contact.map(c => c.slice(0, 2))) === JSON.stringify([['email', 'mailto:help@example.org'], ['telegram', 'https://t.me/example_support']]) && /Telegram/.test(S.contact[1][2]), `${tag}: email + labelled Telegram links replace the "coming soon" note ${JSON.stringify(S.contact)}`);
+    ok(!S.soon && JSON.stringify(S.contact.map(c => c.slice(0, 2))) === JSON.stringify([['email', 'mailto:support@fastkiwi.app'], ['telegram', 'https://t.me/example_support']]) && /Telegram/.test(S.contact[1][2]), `${tag}: the page's email card stays (no duplicate) and a labelled Telegram card is added once configured ${JSON.stringify(S.contact)}`);
     const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
     ok(m.sw <= m.cw && !errs.length, `${tag}: no horizontal scroll, no errors ${errs}`);
     if (SHOTS) await page.locator('#contact + [data-support-contact]').screenshot({ path: `${OUT}after-support-${lang}-${w}-configured.png` });

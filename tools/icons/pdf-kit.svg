@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PDF Kit">
+  <!-- FastKiwi PDF Kit: two stacked pages on kiwi green; the amber nuqta is the FastKiwi mark. Full-bleed, so it also works as a maskable icon. -->
+  <rect width="64" height="64" rx="14" fill="#3F8A1C"/>
+  <path fill="#7BC043" d="M20 15h17l9 9v21a3 3 0 0 1-3 3H20a3 3 0 0 1-3-3V18a3 3 0 0 1 3-3z" transform="translate(4 -3)"/>
+  <path fill="#FFFFFF" d="M20 15h17l9 9v21a3 3 0 0 1-3 3H20a3 3 0 0 1-3-3V18a3 3 0 0 1 3-3z" transform="translate(-1 3)"/>
+  <path fill="#D8EBC6" d="M36 18v7a2 2 0 0 0 2 2h7z"/>
+  <rect x="22" y="31" width="16" height="3" rx="1.5" fill="#3F8A1C"/>
+  <rect x="22" y="37" width="20" height="3" rx="1.5" fill="#7BC043"/>
+  <rect x="22" y="43" width="12" height="3" rx="1.5" fill="#7BC043"/>
+  <circle cx="41" cy="45" r="4" fill="#F59E0B"/>
+</svg>
