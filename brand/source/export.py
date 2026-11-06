@@ -7,12 +7,13 @@ Run gen.py first. Needs fonttools, uharfbuzz, cairosvg and Pillow. <work-dir> is
 used for the comparison strip in preview.png and is never copied into brand/.
 """
 import io
+import re
 import os
 import struct
 import sys
 
 import cairosvg
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen  # noqa: E402
@@ -103,6 +104,35 @@ def canvas(app, w, h, icon_px, dy=0):
     return img
 
 
+# ---------------------------------------------------------------- unplated (taskbar) glyphs
+# The taskbar shows the symbol alone, without the tile (Windows 11 unplated style). Forest details
+# inside a glyph (seeds, lemon lines, cheque bars, table gaps) become real holes. On a light
+# taskbar the pastel accents are too faint (1.3-1.8:1), so altform-lightunplated uses ink tones.
+INK = {gen.LIME: gen.LEAF, gen.SKY: "#0073B3", gen.LAVENDER: "#754AFF", gen.YELLOW: "#8A6A00",
+       gen.CORAL: "#D03400", gen.MINT: "#167D5B"}
+CROP = 200.0  # full glyphs: the middle 200 of the 256 grid fills the canvas
+
+
+def glyph(app, size, light=False):
+    if size <= 40:
+        grid = 16 if size <= 17 else 20 if size <= 21 else 24 if size <= 27 else 32
+        els, vb = gen.SMALL[app](grid), f"0 0 {grid} {grid}"
+    else:
+        o = (gen.TILE - CROP) / 2
+        els, vb = gen.GLYPHS[app](), f"{gen.f(o)} {gen.f(o)} {gen.f(CROP)} {gen.f(CROP)}"
+    body = "\n".join(els)
+    if light:
+        for a, ink in INK.items():
+            body = body.replace(f'"{a}"', f'"{ink}"')
+    mask = re.sub(r'"#[0-9A-Fa-f]{6}"', lambda m: '"#000000"' if m.group(0) == f'"{gen.FOREST}"' else '"#FFFFFF"', body)
+    color = raster(gen.svg(size, size, [body], gen.APPS[app][0], vb=vb), size)
+    alpha = raster(gen.svg(size, size, [f'<rect x="-999" y="-999" width="3000" height="3000" fill="#000000"/>', mask],
+                           "mask", vb=vb), size).convert("L")
+    out = color.copy()
+    out.putalpha(ImageChops.multiply(color.getchannel("A"), alpha))
+    return out
+
+
 def msix(app, d):
     n = 0
     for s in SCALES:
@@ -115,11 +145,10 @@ def msix(app, d):
         save(icon(app, round(50 * k)), os.path.join(d, f"StoreLogo.scale-{s}.png"))
         n += 4
     for ts in TARGET_SIZES:
-        plated = icon(app, ts)
-        save(plated, os.path.join(d, f"Square44x44Logo.targetsize-{ts}.png"))
-        # dark taskbar: keep the lighter edge; light taskbar: the plain forest edge is already crisp
-        save(plated, os.path.join(d, f"Square44x44Logo.targetsize-{ts}_altform-unplated.png"))
-        save(icon(app, ts, edge=False), os.path.join(d, f"Square44x44Logo.targetsize-{ts}_altform-lightunplated.png"))
+        # plated (Start, app list): the tile; unplated (taskbar): the symbol alone, ink tones on light
+        save(icon(app, ts), os.path.join(d, f"Square44x44Logo.targetsize-{ts}.png"))
+        save(glyph(app, ts), os.path.join(d, f"Square44x44Logo.targetsize-{ts}_altform-unplated.png"))
+        save(glyph(app, ts, light=True), os.path.join(d, f"Square44x44Logo.targetsize-{ts}_altform-lightunplated.png"))
         n += 3
     return n
 
@@ -253,15 +282,21 @@ def preview():
             text(gen.APPS[app][0], col_x + 380, row_y + 255, 20, fg)
         y = top + block_h
 
-    # 3. taskbar mock: all six at 24 px (as on a 100 % scale taskbar) on dark and light
-    for bg in (DARK, LIGHT):
-        dr.rectangle((0, y, W, y + 64), fill=bg)
-        x = W // 2 - 6 * 44 // 2
+    # 3. taskbar (unplated: the symbol alone) at 16/24/32/48, and 24 px at 4x, on dark and light
+    for bg, fg, light in ((DARK, MUTED_D, False), (LIGHT, MUTED_L, True)):
+        dr.rectangle((0, y, W, y + 200), fill=bg)
+        text("Taskbar, unplated (symbol alone" + (", ink tones)" if light else ")") +
+             "   16 / 24 / 32 / 48, then 24 at 4x", M, y + 12, 20, fg)
+        x = M
         for app in gen.APPS:
-            im = icon(app, 24)
-            sheet.paste(im, (x + 10, y + 20), im)
-            x += 44
-        y += 64
+            for s in (16, 24, 32, 48):
+                im = glyph(app, s, light)
+                sheet.paste(im, (x, y + 100 - s // 2), im)
+                x += s + 10
+            z = glyph(app, 24, light).resize((96, 96), Image.NEAREST)
+            sheet.paste(z, (x + 4, y + 52), z)
+            x += 96 + 34
+        y += 200
     y += 40
 
     # 4. comparison with the owner's AI-generated kit (reference only, never shipped)

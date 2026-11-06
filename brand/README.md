@@ -42,7 +42,7 @@
 | `icons/<app>/png/` | PNG بالأحجام 16، 20، 24، 32، 40، 48، 64، 96، 128، 256، 512 |
 | `icons/<app>/<app>.ico` | أيقونة ويندوز: 16، 20، 24، 32، 40، 48، 64، 96، 128، 256 (الأحجام الصغيرة من النسخ اليدوية) |
 | `icons/<app>/msix/` | صور حزمة MSIX للمتجر (التفاصيل أدناه) |
-| `preview.png` | لوحة المعاينة: الشعاران، وكل الأيقونات بالأحجام 16/24/32/48/256 على خلفية داكنة وفاتحة، ومقارنة مع حزمة صاحب المشروع |
+| `preview.png` | لوحة المعاينة: الشعاران، وكل الأيقونات بالأحجام 16/24/32/48/256 على خلفية داكنة وفاتحة، وأيقونات شريط المهام (الرمز وحده)، ومقارنة مع حزمة صاحب المشروع |
 | `source/gen.py`، `source/export.py` | السكربتان اللذان يولّدان كل شيء |
 
 `<app>` واحد من: `fastkiwi`، `instafind`، `remember-me`، `lemon`، `instawords`، `instaconvert`.
@@ -57,17 +57,20 @@
 | 28–40 | شبكة 32 |
 | 41 فأكبر | الرسم الكامل مع بذرة التوقيع (و«ب» في عدسة InstaFind) |
 
-في كل الأحجام حافة أفتح بعرض بكسل واحد (`#2F6249`) حول البلاطة، حتى تبقى ظاهرة على شريط المهام
-الداكن `#202020`.
+في كل الأحجام حافة أفتح بعرض بكسل واحد (`#2F6249`) حول البلاطة، حتى تبقى ظاهرة على الخلفيات
+الداكنة مثل `#202020`.
 
 ### صور MSIX (لكل تطبيق 62 ملفاً)
 
 - `Square44x44Logo.scale-100/125/150/200/400.png` (44، 55، 66، 88، 176 بكسل).
 - `Square44x44Logo.targetsize-N.png` بالأحجام 16، 20، 24، 30، 32، 36، 40، 48، 60، 64، 72، 80، 96، 256،
-  وكل حجم بثلاث نسخ:
-  - بلا لاحقة (plated)؛
-  - `_altform-unplated` لشريط المهام الداكن: البلاطة نفسها مع الحافة الأفتح؛
-  - `_altform-lightunplated` لشريط المهام الفاتح: البلاطة بلا الحافة الأفتح.
+  وكل حجم بثلاث نسخ (قرار صاحب المشروع: شريط المهام يعرض **الرمز وحده بلا بلاطة**، بأسلوب ويندوز 11):
+  - بلا لاحقة (plated): البلاطة، لقائمة ابدأ وقائمة التطبيقات؛
+  - `_altform-unplated` لشريط المهام الداكن: الرمز وحده بلونه، والتفاصيل الداكنة داخله (البذور،
+    وخطوط الليمونة، وأشرطة الشيك، وفواصل الجدول) مفرّغة؛
+  - `_altform-lightunplated` لشريط المهام الفاتح: الرمز وحده بدرجة «حبر» داكنة من لونه (الجدول أدناه)،
+    لأن الألوان الفاتحة لا تُرى على الخلفية الفاتحة.
+- البلاطة تبقى في صور المتجر وقائمة ابدأ: `Square44x44Logo.scale-*` و`Square150x150Logo` و`Wide310x150Logo` و`StoreLogo`.
 - `Square150x150Logo`، `Wide310x150Logo`: الأيقونة بنصف الارتفاع، فوق المنتصف قليلاً ليتّسع اسم التطبيق.
 - `StoreLogo` (50 بكسل × المقياس).
 - الأسماء تطابق ما يستعمله فرع متجر InstaWords (`make-assets.py`)، فالاستبدال يكون بنسخ الملفات
@@ -125,6 +128,18 @@
 | الحافة `#2F6249` | شريط مهام داكن `#202020` | 2.30:1 | حدّ البلاطة ظاهر وخفيف |
 | بلاطة forest | شريط مهام فاتح `#F3F3F3` | 11.23:1 | ممتاز |
 
+درجات «الحبر» لشريط المهام الفاتح (`altform-lightunplated`)، كلها 4.5:1 أو أكثر على `#F3F3F3`
+ما عدا أخضر الورقة (3.89:1، أكثر من 3:1 المطلوبة للرسوم):
+
+| التطبيق | اللون | الحبر | على `#F3F3F3` | اللون الأصلي على `#202020` |
+|---|---|---|---|---|
+| FastKiwi | `#B9F34A` | `#3F8A1C` | 3.89:1 | 12.40:1 |
+| InstaFind | `#78CFFF` | `#0073B3` | 4.61:1 | 9.44:1 |
+| Remember Me | `#C5B3FF` | `#754AFF` | 4.53:1 | 8.74:1 |
+| Lemon | `#FFD85A` | `#8A6A00` | 4.57:1 | 11.81:1 |
+| InstaWords | `#FFAA8E` | `#D03400` | 4.54:1 | 8.84:1 |
+| InstaConvert | `#4FE0B0` | `#167D5B` | 4.60:1 | 9.79:1 |
+
 (`#202020` و`#F3F3F3` تقريب لألوان شريط مهام ويندوز 11 الداكن والفاتح.)
 
 ## الشعارات النصية (taglines)
@@ -178,6 +193,10 @@ or copied from it, and its files are not shipped. This folder changes no live pa
 - **Exports per app:** PNG 16–512, a multi-size ICO (16–256; BMP frames below 256, PNG at 256) and the MSIX
   set (Square44x44 at scale-100…400 and targetsize-16…256 plated / `altform-unplated` / `altform-lightunplated`,
   Square150x150, Wide310x150, StoreLogo), named like InstaWords' existing Store assets.
+- **Taskbar (owner's decision):** `targetsize-*_altform-unplated` is the symbol alone (Windows 11 unplated
+  style) in its accent colour, with the dark inner details cut out; `_altform-lightunplated` uses ink tones
+  (≥ 4.5:1 on #F3F3F3, leaf green 3.89:1). The plated tile stays for Start and the Store (`targetsize-*`
+  without suffix, `scale-*`, Square150x150, Wide310x150, StoreLogo).
 - **Clear space:** ¼ of the mark height on every side. **Minimum:** mark 16 px, Latin lockup 120 px wide,
   Arabic lockup 140 px wide.
 - **Taglines:** site «برامج صغيرة، يوم عمل أسهل.» / "Small apps. A smoother workday."; Store and apps
