@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FastKiwi">
-  <!-- FastKiwi favicon: simplified for 16-32 px -->
-  <circle cx="32" cy="32" r="32" fill="#14200F"/>
-  <circle cx="32" cy="32" r="28" fill="#7BC043"/>
-  <circle cx="32" cy="32" r="8" fill="#FFF5DA"/>
-  <path fill="#14200F" d="M53.6 32L48.2 35.8L42.8 32L48.2 28.2ZM42.8 50.71L36.81 47.93L37.4 41.35L43.39 44.13ZM21.2 50.71L20.61 44.13L26.6 41.35L27.19 47.93ZM10.4 32L15.8 28.2L21.2 32L15.8 35.8ZM21.2 13.29L27.19 16.07L26.6 22.65L20.61 19.87Z"/>
-  <path fill="#F59E0B" d="M43.61 11.89L44.38 20.44L36.59 24.05L35.82 15.5Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-106 -106 239 212" width="239" height="212" role="img" aria-label="FastKiwi">
+<title>FastKiwi</title>
+<path fill="#123B2A" d="M127 0L78.74 -61.64A100 100 0 1 0 78.74 61.64Z"/>
+<path fill="#B9F34A" d="M115.57 0L71.65 -56.1A91 91 0 1 0 71.65 56.1Z"/>
+<path fill="#F7FAF2" d="M-27 0A27 17 0 1 0 27 0A27 17 0 1 0 -27 0Z"/>
+<path fill="#123B2A" d="M56.57 56.57L32.17 52.68L28.28 28.28L52.68 32.17ZM-56.57 56.57L-52.68 32.17L-28.28 28.28L-32.17 52.68ZM-56.57 -56.57L-32.17 -52.68L-28.28 -28.28L-52.68 -32.17ZM56.57 -56.57L52.68 -32.17L28.28 -28.28L32.17 -52.68Z"/>
 </svg>

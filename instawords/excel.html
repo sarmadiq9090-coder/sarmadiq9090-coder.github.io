@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>التفقيط في Excel: دالة TAFQIT دون إنترنت — InstaWords | FastKiwi</title>
-  <meta name="description" content="وحدة VBA مجانية ومفتوحة المصدر من InstaWords تضيف إلى Excel الدالة TAFQIT لتفقيط المبالغ بالحروف العربية، بأكثر من 100 عملة ووحدة، على جهازك دون إنترنت. مع مكتبة JavaScript للمطورين.">
+  <meta name="description" content="إضافة Excel مجانية ومفتوحة المصدر من InstaWords (InstaWords.xlam) تضيف الدالة TAFQIT لتفقيط المبالغ بالحروف العربية، بأكثر من 100 عملة ووحدة، على جهازك دون إنترنت. مع مكتبة JavaScript للمطورين.">
   <meta name="theme-color" content="#3f8a1c">
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://fastkiwi.app/instawords/excel.html">
@@ -54,17 +54,17 @@
   <div class="wrap">
     <div>
       <p class="app-label"><img src="icon.svg" width="28" height="28" alt="">InstaWords لـ Excel</p>
-      <p class="eyebrow">وحدة VBA مجانية · بلا إنترنت · بلا اشتراك</p>
+      <p class="eyebrow">إضافة Excel مجانية · بلا إنترنت · بلا اشتراك</p>
       <h1 id="page-title"><span class="grad">التفقيط داخل Excel</span>، على جهازك دون إنترنت</h1>
-      <p class="lead">ملف واحد يضيف إلى جدولك دالة اسمها <code dir="ltr">TAFQIT</code>. تعمل محلياً بلا اتصال ولا إضافات خارجية، وتعطي النص العربي نفسه الذي يعطيه InstaWords في المتصفح.</p>
+      <p class="lead">إضافة واحدة تثبّتها في Excel مرة واحدة، فتصبح الدالة <code dir="ltr">TAFQIT</code> متاحة في كل مصنف تفتحه. تعمل محلياً بلا اتصال، وتعطي النص نفسه الذي يعطيه InstaWords في المتصفح.</p>
       <div class="actions hero-cta">
-        <a class="btn btn-primary" href="Tafqit.bas" download="Tafqit.bas">
+        <a class="btn btn-primary" href="InstaWords.xlam" download="InstaWords.xlam">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
-          تنزيل Tafqit.bas
+          تنزيل الإضافة InstaWords.xlam
         </a>
-        <a class="btn btn-ghost" href="#install">طريقة التركيب</a>
+        <a class="btn btn-ghost" href="#install">طريقة التثبيت</a>
       </div>
-      <p class="hint">ملف نصي واحد يحوي الدالة وكل العملات والوحدات · لويندوز وmacOS.</p>
+      <p class="hint">ملف واحد يحوي الدالة وكل العملات والوحدات · Excel لويندوز. ولـ macOS أو لمصنف واحد: <a href="Tafqit.bas" download="Tafqit.bas"><span dir="ltr">Tafqit.bas</span></a> (<a href="#bas">الطريقة</a>).</p>
     </div>
   </div>
 </section>
@@ -73,13 +73,14 @@
   <div class="wrap">
     <div class="grid two">
       <article class="card prose">
-        <h2 id="install-title">التركيب مرة واحدة لكل مصنف</h2>
+        <h2 id="install-title">تثبيت الإضافة مرة واحدة</h2>
         <ol class="steps">
-          <li>افتح المصنف في Excel، ثم اضغط <kbd>Alt</kbd> + <kbd>F11</kbd> لفتح محرر Visual Basic (على Mac: <kbd>Option</kbd> + <kbd>F11</kbd>، أو من قائمة «أدوات ← ماكرو ← محرر Visual Basic»).</li>
-          <li>من قائمة <span dir="ltr">File</span> اختر <span dir="ltr">Import File…</span> وحدّد الملف <span dir="ltr">Tafqit.bas</span> الذي نزّلته.</li>
-          <li>أغلق المحرر، واحفظ المصنف بصيغة «مصنف Excel ممكَّن بماكرو» <span dir="ltr">(.xlsm)</span> حتى تبقى الدالة معه.</li>
+          <li>ضع الملف <span dir="ltr">InstaWords.xlam</span> الذي نزّلته في مجلد ثابت لن تحذفه، مثل مجلد <span dir="ltr">InstaWords</span> داخل «المستندات». فـ Excel يحمّل الإضافة من مكانها كل مرة.</li>
+          <li><strong>إلغاء الحظر أولاً:</strong> انقر الملف بزر الفأرة الأيمن ← «خصائص» ← في أسفل تبويب «عام» فعّل «إلغاء الحظر» <span dir="ltr">(Unblock)</span> ← «موافق». يضع Windows على كل ملف منزَّل من الإنترنت علامة تجعل Excel يحظر الماكرو فيه، فلا تعمل الدالة دون هذه الخطوة. (إن لم يظهر الخيار فالملف غير محظور.)</li>
+          <li>في Excel: «ملف» ← «خيارات» ← «الوظائف الإضافية» ← في «إدارة» اختر «وظائف Excel الإضافية» ← «انتقال…» ← «استعراض…» ← اختر <span dir="ltr">InstaWords.xlam</span> ← «موافق». <span dir="ltr">(File → Options → Add-ins → Manage: Excel Add-ins → Go… → Browse…)</span></li>
+          <li>تأكّد أن «InstaWords» محدد في القائمة ثم «موافق». الآن اكتب في أي مصنف <code dir="ltr">=TAFQIT(A1, "SAR")</code>، ولا حاجة لحفظه بصيغة <span dir="ltr">.xlsm</span>.</li>
         </ol>
-        <p class="note">إن ظهر تنبيه أمني عند فتح المصنف لاحقاً فاختر «تمكين المحتوى». وإن حظر Excel وحدات الماكرو في ملف منزَّل من الإنترنت، فافتح خصائص الملف في Windows وفعّل خيار «إلغاء الحظر».</p>
+        <p class="note">الإضافة مبنية وفق مواصفات ملفات Excel ومختبرة آلياً بقراءة الملف الناتج، لكنها لم تُجرَّب بعد في Excel حقيقي. إن لم تعمل لديك فاستخدم <a href="#bas">طريقة <span dir="ltr">Tafqit.bas</span></a> وأخبرنا عبر «الإبلاغ عن مشكلة» أسفل الصفحة.</p>
       </article>
 
       <article class="card prose" aria-labelledby="use-title">
@@ -91,6 +92,41 @@
         <p>المعاملات بعد الرقم اختيارية؛ فالصيغة <code dir="ltr">=TAFQIT(B2, "SAR")</code> تكفي في أغلب الأحوال.</p>
       </article>
     </div>
+
+    <div class="grid two">
+      <article class="card prose" id="trust" aria-labelledby="trust-title">
+        <h2 id="trust-title">إن ظهر تنبيه أمني: مركز التوثيق</h2>
+        <p>إن أظهر Excel عند تشغيله تنبيهاً أمنياً بشأن الإضافة، أو أعادت الدالة <code dir="ltr">#NAME?</code>، فالطريقة الأكثر أماناً أن تجعل مجلد الإضافة «موقعاً موثوقاً»:</p>
+        <ol class="steps">
+          <li>«ملف» ← «خيارات» ← «مركز التوثيق» ← «إعدادات مركز التوثيق…».</li>
+          <li>«المواقع الموثوقة» ← «إضافة موقع جديد…» ← اختر المجلد الذي فيه <span dir="ltr">InstaWords.xlam</span> ← «موافق».</li>
+          <li>أغلق Excel وافتحه من جديد.</li>
+        </ol>
+        <p class="note">لا تختر «تمكين كل وحدات الماكرو» في «إعدادات الماكرو»: فهو يسمح لأي ملف بتشغيل برامج على جهازك. الإعداد الافتراضي («تعطيل كل وحدات الماكرو مع الإعلام») مع موقع موثوق يكفي.</p>
+      </article>
+
+      <article class="card prose" id="bas" aria-labelledby="bas-title">
+        <h2 id="bas-title">بديل: وحدة <span dir="ltr">Tafqit.bas</span> في مصنف واحد</h2>
+        <p>لـ Excel على macOS، أو إن أردت الدالة داخل مصنف بعينه يُرسَل إلى غيرك. <a href="Tafqit.bas" download="Tafqit.bas">نزّل <span dir="ltr">Tafqit.bas</span></a> ثم:</p>
+        <ol class="steps">
+          <li>افتح المصنف في Excel، ثم اضغط <kbd>Alt</kbd> + <kbd>F11</kbd> لفتح محرر Visual Basic (على Mac: <kbd>Option</kbd> + <kbd>F11</kbd>، أو من قائمة «أدوات ← ماكرو ← محرر Visual Basic»).</li>
+          <li>من قائمة <span dir="ltr">File</span> اختر <span dir="ltr">Import File…</span> وحدّد الملف <span dir="ltr">Tafqit.bas</span> الذي نزّلته.</li>
+          <li>أغلق المحرر، واحفظ المصنف بصيغة «مصنف Excel ممكَّن بماكرو» <span dir="ltr">(.xlsm)</span> حتى تبقى الدالة معه.</li>
+        </ol>
+        <p class="note">إن ظهر تنبيه أمني عند فتح المصنف لاحقاً فاختر «تمكين المحتوى». وإن حظر Excel وحدات الماكرو في ملف منزَّل من الإنترنت، فافتح خصائص الملف في Windows وفعّل خيار «إلغاء الحظر».</p>
+      </article>
+    </div>
+
+    <article class="card prose" lang="en" dir="ltr" aria-labelledby="en-title">
+      <h2 id="en-title">In English</h2>
+      <p><strong><a href="InstaWords.xlam" download="InstaWords.xlam">InstaWords.xlam</a></strong> is an Excel add-in that adds <code>=TAFQIT(Number, [Unit], [HundredsForm], [Prefix], [Suffix], [Decimals], [Language])</code> to every workbook, offline. <code>=TAFQIT(A1, "SAR", "", "", "Only", "", "en")</code> gives English, <code>"fr"</code> French.</p>
+      <ol class="steps">
+        <li>Save the file in a folder you will keep. Right-click it → <b>Properties</b> → tick <b>Unblock</b> → OK (Windows marks downloaded files, and Excel blocks their macros).</li>
+        <li>Excel → <b>File → Options → Add-ins</b> → Manage: <b>Excel Add-ins</b> → <b>Go…</b> → <b>Browse…</b> → pick InstaWords.xlam → OK, and make sure InstaWords is ticked.</li>
+        <li>If Excel shows a security notice or <code>#NAME?</code>: <b>Trust Center → Trust Center Settings… → Trusted Locations → Add new location…</b> and add the add-in's folder. That is safer than enabling all macros.</li>
+      </ol>
+      <p class="muted">Built to the file-format specifications and verified by parsing the produced file, but not yet tried in a real Excel. If it does not work for you, import <a href="Tafqit.bas" download="Tafqit.bas">Tafqit.bas</a> instead (Alt+F11 → File → Import File…, save as .xlsm) and please report it.</p>
+    </article>
 
     <article class="card prose params-card" aria-labelledby="params-title">
       <h2 id="params-title">المعاملات</h2>
@@ -151,7 +187,7 @@ engine.tafqit("300", { unit: "SAR", hundredsForm: "مئة" });</code></pre>
     </div>
     <nav aria-label="روابط">
       <a href="https://fastkiwi.app/ar/">FastKiwi</a>
-      <a href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.1.0/InstaWords_2.1.0_x64-setup.exe" data-windows-download>برنامج ويندوز <span class="ver" data-version>v2.1.0</span></a>
+      <a href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe" data-windows-download>برنامج ويندوز <span class="ver" data-version>v2.2.0</span></a>
       <a href="#download" data-release-notes>ما الجديد في برنامج ويندوز</a>
       <a href="#support" data-support>الإبلاغ عن مشكلة أو اقتراح</a>
       <a href="https://github.com/sarmadiq9090-coder/tafket" data-github>الكود على GitHub</a>

@@ -5,10 +5,46 @@
   <id>https://fastkiwi.app/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="en" href="https://fastkiwi.app/releases/"/>
-  <updated>2026-11-03T14:44:02.000Z</updated>
+  <updated>2026-11-06T05:50:12.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
   <rights>Free, open-source software (MIT)</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:Remember-Me/v1.7.0</id>
+    <title>Remember Me v1.7.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#remember-me"/>
+    <published>2026-11-06T05:50:12.000Z</published>
+    <updated>2026-11-06T05:50:12.000Z</updated>
+    <category term="remember-me" label="Remember Me"/>
+    <summary type="text">Add CLAUDE.md: owner rules and repo guide · Add ROADMAP.md: phase plan, train milestones, rollback · Quick add from anywhere with a global shortcut · Microsoft Store: MSIX build, Store-mode updater off, listing kit</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:tafket/v2.2.0</id>
+    <title>InstaWords v2.2.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instawords"/>
+    <published>2026-11-06T05:35:48.000Z</published>
+    <updated>2026-11-06T05:35:48.000Z</updated>
+    <category term="instawords" label="InstaWords"/>
+    <summary type="text">A native Windows app that writes amounts in words for cheques and invoices, in Arabic, English and French, with 100+ currencies and units. Not a website in a window: a real Windows UI, fast and light, that works fully offline and needs nothing extra on Windows 10 and 11.…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:Remember-Me/v1.6.2</id>
+    <title>Remember Me v1.6.2</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#remember-me"/>
+    <published>2026-11-04T09:43:27.000Z</published>
+    <updated>2026-11-04T09:43:27.000Z</updated>
+    <category term="remember-me" label="Remember Me"/>
+    <summary type="text">Point Scoop and Chocolatey at v1.6.1 · Say &quot;Choose a time&quot; for out-of-range time fields · Installer build: exit non-zero on failure; set electron-winstaller build flag · Harden locale rendering and window navigation</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.1</id>
+    <title>InstaFind v0.9.1</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
+    <published>2026-11-03T19:10:18.000Z</published>
+    <updated>2026-11-03T19:10:18.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">Security update. The updater now refuses an update when GitHub publishes no SHA-256 digest for the program file (previously it could install without verification) and shows the manual download link instead. Copies installed with winget or Scoop no longer update themselves; they…</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:tafket/v2.1.0</id>
     <title>InstaWords v2.1.0</title>
@@ -55,33 +91,6 @@
     <summary type="text">Fixes the program suddenly quitting on some PCs when the floating search box was clicked repeatedly or the window was closed (8 MB UI stack instead of 1 MB, and the quick search no longer opens or closes inside its own opening or closing). Crashes that are not Rust panics, such…</summary>
   </entry>
   <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.1</id>
-    <title>InstaFind v0.8.1</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
-    <published>2026-11-02T07:41:36.000Z</published>
-    <updated>2026-11-02T07:41:36.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">The window's close button now hides InstaFind to the tray instead of quitting, so the floating search box and Ctrl+Alt+F keep working; use Exit in the tray menu or Options to quit. Start with Windows is turned back on once (also when Task Manager had disabled it). Fixes a crash…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.0</id>
-    <title>InstaFind v0.8.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
-    <published>2026-11-01T22:25:57.000Z</published>
-    <updated>2026-11-01T22:25:57.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">Search from anywhere. A small, nearly invisible search box floats above the clock and fades in when the pointer comes near (it never covers notifications, hides during full-screen apps, and can be dragged or turned off). Ctrl+Alt+F or the tray icon opens a quick-search popup…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.7.0</id>
-    <title>InstaFind v0.7.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
-    <published>2026-11-01T20:08:52.000Z</published>
-    <updated>2026-11-01T20:08:52.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">New native builds for Windows on ARM64 (bahth-arm64.exe) and 32-bit Windows (bahth-x86.exe); the x64 build stays bahth.exe, and each build updates itself with its own. New Options → Send feedback (report a problem, suggest a feature, ask or discuss, each prefilled with version,…</summary>
-  </entry>
-  <entry>
     <id>tag:fastkiwi.app,2026:Remember-Me/v1.6.1</id>
     <title>Remember Me v1.6.1</title>
     <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#remember-me"/>
@@ -89,14 +98,5 @@
     <updated>2026-11-01T18:13:54.000Z</updated>
     <category term="remember-me" label="Remember Me"/>
     <summary type="text">A small release with fixes for the v1.6.0 snooze choices and overdue wording, and clearer Hindi. Your tasks, notes, attachments, settings and snooze choices load unchanged. Snooze choices for today show their time, such as &quot;Today 9:00 PM&quot;, and Settings refuses a time today…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.6.1</id>
-    <title>InstaFind v0.6.1</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
-    <published>2026-11-01T15:17:14.000Z</published>
-    <updated>2026-11-01T15:17:14.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">Fixed the match underline in the Arabic interface: for Arabic names with a Latin extension (e.g. &quot;تقرير المبيعات 2026.xlsx&quot;) it was shifted left by the width of the extension. Positions are now ordered with the Unicode bidi algorithm exactly as the list draws them, verified with…</summary>
   </entry>
 </feed>

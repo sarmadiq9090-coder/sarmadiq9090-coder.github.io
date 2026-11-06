@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self' blob: data:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>PDF Kit: merge, split and convert PDF files, free and private | FastKiwi</title>
+<meta name="description" content="Merge PDFs, split or extract pages, turn JPG and PNG images into a PDF and PDF pages into images. Free, works offline, and your files never leave your device.">
+<link rel="canonical" href="https://fastkiwi.app/tools/pdf/">
+<link rel="alternate" hreflang="en" href="https://fastkiwi.app/tools/pdf/">
+<link rel="alternate" hreflang="ar" href="https://fastkiwi.app/tools/pdf/ar/">
+<link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/tools/pdf/">
+<meta name="theme-color" content="#3f8a1c" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101810" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../icons/pdf-kit.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="../icons/pdf-kit-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../tools.css">
+<link rel="stylesheet" href="pdf.css">
+<link rel="modulepreload" href="app.js">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FastKiwi">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="PDF Kit: merge, split and convert PDFs">
+<meta property="og:description" content="Free PDF tools that run in your browser. Your files never leave your device.">
+<meta property="og:url" content="https://fastkiwi.app/tools/pdf/">
+<meta property="og:image" content="https://fastkiwi.app/img/social-en.png">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "WebApplication", "name": "PDF Kit", "alternateName": "FastKiwi PDF Kit", "url": "https://fastkiwi.app/tools/pdf/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (web browser)", "browserRequirements": "Requires JavaScript", "inLanguage": "en", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "featureList": ["Merge PDF files", "Split a PDF or extract pages", "JPG and PNG to PDF", "PDF to JPG or PNG"], "publisher": {"@type": "Organization", "name": "FastKiwi", "url": "https://fastkiwi.app/"}}
+</script>
+</head>
+<body class="tool-page">
+<a class="skip" href="#main" data-i18n="skip"></a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" data-i18n-aria-label="brand_home"><img src="../../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi</span></a>
+    <nav class="nav" data-i18n-aria-label="nav_main"><a class="opt" href="../../" data-i18n="nav_home"></a><a href="../" data-i18n="nav_tools"></a><a class="lang" href="ar/" hreflang="ar" lang="ar">العربية</a></nav>
+  </div>
+</header>
+<main id="main">
+<section class="tb-hero">
+  <div class="wrap">
+    <p class="kicker"><a href="../" data-i18n="kicker"></a></p>
+    <h1>PDF Kit: merge, split and convert PDFs</h1>
+    <p class="lead" data-i18n="lead"></p>
+    <ul class="tb-trust">
+      <li class="tb-trust-main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><strong data-i18n="trust_local"></strong></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 5.2-2.8M19 13a10 10 0 0 0-2.2-1.6M2 8.8a15 15 0 0 1 4.2-2.6M22 8.8A15 15 0 0 0 11 5M12 20h.01"/></svg><span data-i18n="trust_offline"></span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="trust_free"></span></li>
+    </ul>
+  </div>
+</section>
+<section class="tb-tool" aria-labelledby="pk-tools-title">
+  <div class="wrap">
+    <h2 id="pk-tools-title" class="sr-only" data-i18n="tools_title"></h2>
+    <div id="app" class="pk-app"></div>
+    <noscript><p class="pk-noscript">PDF Kit needs JavaScript. It runs on your device: nothing is uploaded.</p></noscript>
+  </div>
+</section>
+<section class="tb-more">
+  <div class="wrap tb-more-grid">
+    <div class="card tb-install" id="install">
+      <h2 data-i18n="pwa_title"></h2>
+      <p data-i18n="pwa_text"></p>
+      <button class="btn btn-primary" type="button" data-pwa-install hidden data-i18n="pwa_install"></button>
+      <p class="tb-hint" data-pwa-hint hidden></p>
+      <p class="tb-state" data-pwa-state hidden></p>
+    </div>
+    <div class="card tb-how">
+      <h2 data-i18n="how_title"></h2>
+      <p data-i18n="how_text"></p>
+      <p class="tb-libs"><span data-i18n="how_libs"></span> <a data-i18n-href="privacy_href" data-i18n="privacy_link"></a></p>
+    </div>
+  </div>
+</section>
+<section class="tb-request">
+  <div class="wrap">
+    <div class="tb-request-panel">
+      <div><h2 data-i18n="request_title"></h2><p data-i18n="request_text"></p></div>
+      <!-- TODO(telegram): there is no FastKiwi Telegram channel yet. When it exists (OWNER-GUIDE-AR ح.1), add it here next to the
+           e-mail link, e.g. <a class="btn btn-ghost" href="https://t.me/fastkiwi_support">Telegram</a>, and move the e-mail to the support mailbox. -->
+      <a class="btn btn-ghost" href="mailto:sarmadiq9090@gmail.com?subject=FastKiwi%20tool%20request" data-i18n="request_link"></a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap foot-bottom">
+    <p>© 2026 FastKiwi · <span data-i18n="foot_tagline"></span></p>
+    <a class="lang-switch" href="ar/" hreflang="ar" lang="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>العربية</a>
+  </div>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

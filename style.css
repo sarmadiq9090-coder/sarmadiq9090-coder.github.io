@@ -109,6 +109,12 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
 .brand img { width: 36px; height: 36px; }
 .brand small { font-size: .9rem; font-weight: 400; color: var(--muted); }
 html[lang="en"] .brand { letter-spacing: -.01em; }
+/* Brand v2 lockup (brand/logo, viewBox trimmed): the mark and name are one image, drawn by CSS so every page
+   gets it without markup changes. The page's <img> and text stay in the markup; the text is kept for screen readers. */
+.brand::before { content: ""; flex: none; width: 153px; height: 36px; background: url(img/fastkiwi-latin.svg) center / contain no-repeat; }
+html[lang="ar"] .brand::before { width: 179px; background-image: url(img/fastkiwi-arabic.svg); }
+.brand > img { display: none; }
+.brand > span { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .nav { display: flex; align-items: center; gap: .25rem; margin-inline-start: auto; }
 .nav a { color: var(--muted); text-decoration: none; font-size: .95rem; font-weight: 700; padding: .45rem .75rem; border-radius: 10px; }
 .nav a:hover { color: var(--text); background: var(--tint); }
@@ -236,7 +242,7 @@ html[dir="rtl"] .tab .prog { transform-origin: right; }
 .card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(1.25rem, 2.5vw, 1.75rem); box-shadow: var(--shadow-sm); }
 .lift { transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s ease; }
 .lift:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-2); }
-.squircle { width: 56px; height: 56px; border-radius: 15px; flex: none; box-shadow: 0 0 0 1px rgb(20 32 15 / .06), 0 6px 16px -6px rgb(20 32 15 / .3); }
+.squircle { width: 56px; height: 56px; border-radius: 22%; flex: none; box-shadow: 0 0 0 1px rgb(20 32 15 / .06), 0 6px 16px -6px rgb(20 32 15 / .3); }
 
 /* ---------- apps bento ---------- */
 .bento { display: grid; gap: 1rem; grid-template-columns: 1fr; }
@@ -263,7 +269,7 @@ html[dir="rtl"] .tab .prog { transform-origin: right; }
 .big { padding: clamp(1.5rem, 3vw, 2.25rem); background: linear-gradient(180deg, var(--surface) 55%, var(--tint)); }
 .big .app-top h3 { font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem); }
 .big .app-top .sub { font-size: 1rem; }
-.big .squircle { width: 64px; height: 64px; border-radius: 17px; }
+.big .squircle { width: 64px; height: 64px; }
 .big .benefit { font-size: clamp(1.07rem, 1rem + .3vw, 1.2rem); flex: 0 0 auto; max-width: 34rem; }
 .big .app-foot { margin-top: auto; }
 .speed { margin: .5rem 0; padding: 1.25rem 1.25rem 1.1rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
@@ -386,12 +392,47 @@ html[dir="rtl"] .table-wrap[data-more-end] { -webkit-mask-image: linear-gradient
 .support { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
 .support .card { display: flex; flex-direction: column; gap: .75rem; }
 .support .app-top h3 { font-size: 1.1rem; }
-.support .squircle { width: 44px; height: 44px; border-radius: 12px; }
+.support .squircle { width: 44px; height: 44px; }
 .support ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .35rem; font-size: .95rem; flex: 1; }
 .support li a { font-weight: 700; text-decoration: none; }
 .support li a:hover { text-decoration: underline; }
 .support .btn { align-self: flex-start; }
 .support-note { margin-top: 1.25rem; color: var(--muted); font-size: .95rem; }
+.support-more { margin: 1rem 0 0; }
+/* support page (support/, ar/support/) */
+.sp .wrap > .card + .card { margin-top: 1rem; }
+.sp .card p:last-child { margin-bottom: 0; }
+.sp .card h3 { font-size: 1.15rem; margin: 0 0 .5rem; }
+.sp-soon { border-inline-start: 4px solid var(--brand); }
+.sp-never { background: var(--tint); }
+.sp-ways { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.sp-ways .card { margin: 0 !important; display: flex; flex-direction: column; gap: .5rem; }
+.sp-ways .card p { margin: 0; color: var(--muted); }
+.sp-ways .btn { align-self: flex-start; margin-top: auto; }
+.sp-addr { font-weight: 700; color: var(--text) !important; overflow-wrap: anywhere; }
+.sp .steps code { white-space: nowrap; }
+.sp-apps { margin-top: 1rem; }
+.sp-apps .btn { white-space: normal; text-align: center; }
+/* official downloads: one card per app, a list of its official sources */
+.od-apps { display: grid; gap: 1rem; margin-top: 1rem; }
+.od-app .app-top { margin-bottom: 1rem; }
+.od-app .app-top h3 { font-size: 1.25rem; }
+.od-app p { margin: 0; color: var(--muted); }
+.od-soon { background: var(--tint); }
+.od-src { display: grid; gap: .65rem; margin: 0; }
+.od-src > div { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: .25rem 1rem; padding-top: .65rem; border-top: 1px solid var(--border); }
+.od-src dt { font-weight: 700; }
+.od-src dd { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.od-src dd a { font-weight: 700; }
+.od-src dd .btn { margin-top: .1rem; }
+.od-src code { color: var(--text); }
+.od-state { font-size: .9rem; }
+.od-cmd { margin: .6rem 0 0; padding: .7rem .9rem; background: var(--tint); border: 1px solid var(--border); border-radius: 10px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text); text-align: left; }
+.steps .od-cmd code { white-space: inherit; overflow-wrap: anywhere; }
+.od .btn { white-space: normal; text-align: center; }
+.od-warn { border-inline-start: 4px solid var(--amber, #d97706); }
+.od-warn p + p { margin-top: .75rem; }
+@media (max-width: 560px) { .od-src > div { grid-template-columns: 1fr; } }
 
 /* ---------- FAQ ---------- */
 .faq-grid { display: grid; gap: clamp(2rem, 4vw, 4rem); }
@@ -614,9 +655,10 @@ html[dir="rtl"] .ap-rel { text-align: right; }
 .pv-app h3 img { flex: none; width: 32px; height: 32px; border-radius: 8px; }
 .pv-app h3 span { font-weight: 400; color: var(--muted); font-size: .8em; }
 .pv-app h4 { font-size: 1.02rem; margin: 1.25rem 0 .4rem; }
-.pv-app ul { padding-inline-start: 1.25rem; display: grid; gap: .5rem; color: var(--muted); }
-.pv-app li strong { color: var(--text); }
+.pv-app ul, .pv-store ul { padding-inline-start: 1.25rem; display: grid; gap: .5rem; color: var(--muted); }
+.pv-app li strong, .pv-store li strong { color: var(--text); }
 .pv-app .sublinks { margin: 1.1rem 0 0; }
+.pv-store ul { margin: 0 0 1rem; }
 .pv-contact { flex-direction: column; align-items: flex-start; margin: 0 0 1.75rem; }
 @media (max-width: 720px) {
   .cmp.plain { min-width: 0; }

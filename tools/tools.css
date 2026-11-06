@@ -1,0 +1,91 @@
+/* FastKiwi Toolbox: shared look of /tools/ pages, on top of /style.css (same kiwi-green tokens).
+   Adds dark mode (follows the system), the tool hero, trust strip, install/how cards and the "request a tool" band.
+   Logical properties throughout, so the same rules serve LTR and RTL pages. */
+
+[hidden] { display: none !important; }
+@media (prefers-color-scheme: dark) {
+  .brand::before { background-image: url(../img/fastkiwi-latin-dark.svg); }
+  html[lang="ar"] .brand::before { background-image: url(../img/fastkiwi-arabic-dark.svg); }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0f1610;
+    --surface: #162017;
+    --tint: #1a281a;
+    --tint-2: #213421;
+    --border: #283a27;
+    --border-2: #36502f;
+    --text: #e6f0dd;
+    --muted: #a9baa0;
+    --brand: #7bc043;
+    --brand-dark: #9bd46b;
+    --brand-deep: #b5e38d;
+    --brand-light: #8fd45a;
+    --shadow-xs: 0 1px 2px rgb(0 0 0 / .4);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / .35), 0 2px 8px -2px rgb(0 0 0 / .4);
+    --shadow: 0 1px 2px rgb(0 0 0 / .35), 0 12px 28px -10px rgb(0 0 0 / .6);
+  }
+  .site-header { background: rgb(15 22 16 / .82); }
+  .btn-primary { background: #7bc043; color: #0f1a0a; box-shadow: 0 1px 2px rgb(0 0 0 / .4); }
+  .btn-primary:hover { background: #8fd45a; }
+  .btn-primary:disabled { background: #3b4f36; color: #a9baa0; }
+  .skip { background: var(--brand); color: #0f1a0a; }
+  .squircle { box-shadow: 0 0 0 1px rgb(255 255 255 / .08); }
+}
+
+.tool-page .btn:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+.tool-page .kicker a { color: inherit; text-decoration: none; }
+.tool-page .kicker a:hover { text-decoration: underline; }
+
+/* ---------- hero ---------- */
+.tb-hero { position: relative; padding-block: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 3vw, 2rem); isolation: isolate; overflow: clip; }
+.tb-hero::before { content: ""; position: absolute; inset: -30% -10% auto; height: 140%; z-index: -1; pointer-events: none;
+  background: radial-gradient(45% 55% at 80% 20%, rgb(123 192 67 / .16), transparent 70%), radial-gradient(35% 45% at 10% 0%, rgb(123 192 67 / .09), transparent 70%); }
+html[dir="rtl"] .tb-hero::before { transform: scaleX(-1); }
+.tb-hero h1 { font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.1rem); max-width: 22em; }
+.tb-hero .lead { margin-bottom: 1.25rem; }
+.tb-trust { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem .6rem; }
+.tb-trust li { display: inline-flex; align-items: center; gap: .45rem; padding: .35rem .85rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); font-size: .92rem; font-weight: 700; color: var(--text); }
+.tb-trust svg { width: 18px; height: 18px; flex: none; color: var(--brand); }
+.tb-trust .tb-trust-main { background: var(--brand-dark); border-color: var(--brand-dark); color: #fff; font-size: 1rem; padding: .5rem 1.05rem; }
+.tb-trust .tb-trust-main svg { color: #fff; }
+@media (prefers-color-scheme: dark) { .tb-trust .tb-trust-main { background: #7bc043; border-color: #7bc043; color: #0f1a0a; } .tb-trust .tb-trust-main svg { color: #0f1a0a; } }
+
+/* ---------- tool area + side cards ---------- */
+.tb-tool { padding-block: 0 clamp(2.5rem, 5vw, 4rem); }
+.tb-more { padding-block: 0 clamp(2.5rem, 5vw, 4rem); }
+.tb-more-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.tb-more h2 { font-size: 1.25rem; margin-bottom: .5rem; }
+.tb-more p { color: var(--muted); margin: 0 0 1rem; }
+.tb-more p:last-child { margin-bottom: 0; }
+.tb-install .btn { margin-bottom: 1rem; }
+.tb-hint, .tb-state { font-size: .92rem; }
+.tb-state { display: flex; align-items: center; gap: .5rem; color: var(--brand-dark) !important; font-weight: 700; }
+.tb-state::before { content: ""; width: .6rem; height: .6rem; border-radius: 50%; background: var(--brand); flex: none; }
+.tb-libs { font-size: .92rem; }
+
+/* ---------- request a tool ---------- */
+.tb-request { padding-block: 0 clamp(3rem, 6vw, 4.5rem); }
+.tb-request-panel { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: var(--radius-lg); background: linear-gradient(180deg, var(--tint), var(--tint-2)); border: 1px solid var(--tint-2); }
+.tb-request-panel h2 { font-size: clamp(1.3rem, 1.1rem + .8vw, 1.7rem); margin-bottom: .35rem; }
+.tb-request-panel p { margin: 0; color: var(--muted); }
+@media (max-width: 520px) { .tb-request-panel .btn { flex: 1 1 100%; } }
+
+/* ---------- /tools/ index ---------- */
+.tb-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.tb-card { display: flex; flex-direction: column; gap: .75rem; }
+.tb-card h2 { display: flex; align-items: center; gap: .8rem; font-size: 1.35rem; margin: 0; }
+.tb-card h2 a { color: inherit; text-decoration: none; }
+.tb-card h2 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.tb-card h2 a:focus-visible { outline: 0; }
+.tb-card:has(h2 a:focus-visible) { outline: 3px solid var(--brand); outline-offset: 3px; }
+.tb-card p { margin: 0; color: var(--muted); }
+.tb-card ul { margin: 0; padding-inline-start: 1.2rem; color: var(--muted); display: grid; gap: .2rem; }
+.tb-card .btn-link { margin-top: auto; }
+.tb-card .squircle { width: 48px; height: 48px; border-radius: 13px; }
+.tb-soon { border-style: dashed; background: transparent; box-shadow: none; justify-content: center; }
+.tb-soon h2 { color: var(--muted); }
+.tb-badge { display: inline-block; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; background: var(--tint-2); color: var(--brand-dark); }
