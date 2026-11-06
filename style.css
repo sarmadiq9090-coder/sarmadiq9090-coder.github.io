@@ -109,6 +109,12 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
 .brand img { width: 36px; height: 36px; }
 .brand small { font-size: .9rem; font-weight: 400; color: var(--muted); }
 html[lang="en"] .brand { letter-spacing: -.01em; }
+/* Brand v2 lockup (brand/logo, viewBox trimmed): the mark and name are one image, drawn by CSS so every page
+   gets it without markup changes. The page's <img> and text stay in the markup; the text is kept for screen readers. */
+.brand::before { content: ""; flex: none; width: 153px; height: 36px; background: url(img/fastkiwi-latin.svg) center / contain no-repeat; }
+html[lang="ar"] .brand::before { width: 179px; background-image: url(img/fastkiwi-arabic.svg); }
+.brand > img { display: none; }
+.brand > span { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .nav { display: flex; align-items: center; gap: .25rem; margin-inline-start: auto; }
 .nav a { color: var(--muted); text-decoration: none; font-size: .95rem; font-weight: 700; padding: .45rem .75rem; border-radius: 10px; }
 .nav a:hover { color: var(--text); background: var(--tint); }
@@ -236,7 +242,7 @@ html[dir="rtl"] .tab .prog { transform-origin: right; }
 .card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(1.25rem, 2.5vw, 1.75rem); box-shadow: var(--shadow-sm); }
 .lift { transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s ease; }
 .lift:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-2); }
-.squircle { width: 56px; height: 56px; border-radius: 15px; flex: none; box-shadow: 0 0 0 1px rgb(20 32 15 / .06), 0 6px 16px -6px rgb(20 32 15 / .3); }
+.squircle { width: 56px; height: 56px; border-radius: 22%; flex: none; box-shadow: 0 0 0 1px rgb(20 32 15 / .06), 0 6px 16px -6px rgb(20 32 15 / .3); }
 
 /* ---------- apps bento ---------- */
 .bento { display: grid; gap: 1rem; grid-template-columns: 1fr; }
@@ -263,7 +269,7 @@ html[dir="rtl"] .tab .prog { transform-origin: right; }
 .big { padding: clamp(1.5rem, 3vw, 2.25rem); background: linear-gradient(180deg, var(--surface) 55%, var(--tint)); }
 .big .app-top h3 { font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem); }
 .big .app-top .sub { font-size: 1rem; }
-.big .squircle { width: 64px; height: 64px; border-radius: 17px; }
+.big .squircle { width: 64px; height: 64px; }
 .big .benefit { font-size: clamp(1.07rem, 1rem + .3vw, 1.2rem); flex: 0 0 auto; max-width: 34rem; }
 .big .app-foot { margin-top: auto; }
 .speed { margin: .5rem 0; padding: 1.25rem 1.25rem 1.1rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
@@ -386,7 +392,7 @@ html[dir="rtl"] .table-wrap[data-more-end] { -webkit-mask-image: linear-gradient
 .support { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
 .support .card { display: flex; flex-direction: column; gap: .75rem; }
 .support .app-top h3 { font-size: 1.1rem; }
-.support .squircle { width: 44px; height: 44px; border-radius: 12px; }
+.support .squircle { width: 44px; height: 44px; }
 .support ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .35rem; font-size: .95rem; flex: 1; }
 .support li a { font-weight: 700; text-decoration: none; }
 .support li a:hover { text-decoration: underline; }

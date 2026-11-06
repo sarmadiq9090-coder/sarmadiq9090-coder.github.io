@@ -3,6 +3,10 @@
    Logical properties throughout, so the same rules serve LTR and RTL pages. */
 
 [hidden] { display: none !important; }
+@media (prefers-color-scheme: dark) {
+  .brand::before { background-image: url(../img/fastkiwi-latin-dark.svg); }
+  html[lang="ar"] .brand::before { background-image: url(../img/fastkiwi-arabic-dark.svg); }
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
