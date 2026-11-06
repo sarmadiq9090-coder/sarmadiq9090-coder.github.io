@@ -3,7 +3,7 @@
 
 const VENDOR = new URL('../vendor/', import.meta.url);
 const PDFLIB = new URL('pdf-lib-1.17.1/pdf-lib.esm.min.js', VENDOR).href;
-const PDFJS = new URL('pdfjs-dist-6.4.299/', VENDOR).href;
+const PDFJS = new URL('pdfjs-dist-6.5.438/', VENDOR).href;
 
 let pdfLibP, pdfjsP, worker;
 export const pdfLib = () => (pdfLibP ??= import(PDFLIB));
