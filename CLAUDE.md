@@ -56,7 +56,7 @@ No build. Node >= 22, npm; Playwright 1.63.0 (devDependency).
 npm ci && npx playwright install chromium
 npm test              # tools unit tests + browser QA of every page (screenshots in tests/output/)
 npm run test:quick    # the same without screenshots
-npm run test:tools    # feed generator and InstaWords fallback updater only
+npm run test:tools    # feed generator, InstaWords fallback updater, data/apps.json schema
 npm run test:live     # checks the live site with the real GitHub API
 npm run serve         # local server on port 8765
 ```
