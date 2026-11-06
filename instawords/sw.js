@@ -1,8 +1,9 @@
 // Service worker: makes the whole site work offline.
 // VERSION and ASSETS are filled in by scripts/build-site.mjs; a new VERSION replaces the old cache.
-const VERSION = "a4141de09cf6d4a1";
+const VERSION = "e356b22c56e05ef3";
 const ASSETS = [
   "./",
+  "InstaWords.xlam",
   "LICENSE.txt",
   "Tafqit.bas",
   "assets/app.js",
