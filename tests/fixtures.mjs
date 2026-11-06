@@ -62,8 +62,11 @@ export async function mockApi(ctx, delay = 0) {
   await ctx.route('https://api.github.com/**', async r => {
     const u = new URL(r.request().url()), m = u.pathname.match(/^\/repos\/[^/]+\/([^/]+)(\/releases)?$/);
     if (delay) await new Promise(res => setTimeout(res, delay));
-    if (!m || !FIX[m[1]]) return r.fulfill({ status: 404, body: '{}' });
-    const rels = FIX[m[1]].map(x => ({ ...x, draft: false, html_url: 'https://github.com/x/' + m[1] + '/releases/tag/' + x.tag_name, assets: x.assets.map(a => ({ ...a })) }));
+    // GitHub repo name -> app id: InstaWords' repo was renamed from tafket, which stays its id on the site (and in FIX).
+    // The old name answers 404 here so the pages are seen to ask for the new one.
+    const id = m && (m[1] === 'tafket' ? null : m[1] === 'InstaWords' ? 'tafket' : m[1]);
+    if (!m || !id || !FIX[id]) return r.fulfill({ status: 404, body: '{}' });
+    const rels = FIX[id].map(x => ({ ...x, draft: false, html_url: 'https://github.com/x/' + m[1] + '/releases/tag/' + x.tag_name, assets: x.assets.map(a => ({ ...a })) }));
     return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(m[2] ? rels : { stargazers_count: 120 }) });
   });
 }

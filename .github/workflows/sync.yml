@@ -1,4 +1,4 @@
-# Daily: rebuild instawords/ from the tafket repo, point the static InstaWords download at its latest installer,
+# Daily: rebuild instawords/ from the InstaWords repo, point the static InstaWords download at its latest installer,
 # regenerate the release feeds (releases.xml, ar/releases.xml), run the QA suite, and push to main only if something changed.
 # Also runs when the sync tools change on main (so the first feeds appear right after this workflow is merged).
 name: Sync InstaWords and release feeds
@@ -29,10 +29,10 @@ jobs:
         with:
           ref: main
 
-      - name: Check out tafket (InstaWords)
+      - name: Check out InstaWords (formerly tafket)
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
-          repository: sarmadiq9090-coder/tafket
+          repository: sarmadiq9090-coder/InstaWords
           path: .sync/tafket
           persist-credentials: false
 
@@ -91,6 +91,6 @@ jobs:
           git diff --cached --stat
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m "Sync InstaWords site and release feeds" -m "From sarmadiq9090-coder/tafket@${TAFKET_SHA} and the GitHub releases of the four apps."
+          git commit -m "Sync InstaWords site and release feeds" -m "From sarmadiq9090-coder/InstaWords@${TAFKET_SHA} and the GitHub releases of the four apps."
           git pull --rebase origin main
           git push origin HEAD:main

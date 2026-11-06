@@ -11,6 +11,10 @@
      (InstaWords SupportContact.cs) uses the same address. */
   var SUPPORT_CONTACT = { email: 'support@fastkiwi.app', telegram: '' };
   var OWNER = 'sarmadiq9090-coder', REPOS = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'];
+  /* REPOS are the apps' ids on this site (data-dl, data-repo, data-release, tools/releases.mjs): each is its GitHub repo's
+     name, except InstaWords, whose repo was renamed from tafket. GH_REPO gives the repo name for API and download URLs. */
+  var GH_REPO = { 'tafket': 'InstaWords' };
+  function ghRepo(repo) { return GH_REPO[repo] || repo; }
   /* the installer each download button points at; names follow each repo's release workflow */
   var INSTALLER = {
     'arabic-file-search': /^bahth\.exe$/,
@@ -91,7 +95,7 @@
   var store = {};
   function load(repo) {
     if (!store[repo]) {
-      var b = 'https://api.github.com/repos/' + OWNER + '/' + repo;
+      var b = 'https://api.github.com/repos/' + OWNER + '/' + ghRepo(repo);
       store[repo] = Promise.all([cached(b, slimInfo).catch(function () { return null; }),
         cached(b + '/releases?per_page=100', slim).catch(function () { return null; })])
         .then(function (x) { return { repo: repo, info: x[0], rels: x[1] }; });
@@ -106,7 +110,7 @@
       assets.filter(function (a) { return /\.(exe|msi|zip)$/i.test(a.n); })[0];
   }
   function assetUrl(repo, tag, name) {
-    return 'https://github.com/' + OWNER + '/' + repo + '/releases/download/' + encodeURIComponent(tag) + '/' + encodeURIComponent(name);
+    return 'https://github.com/' + OWNER + '/' + ghRepo(repo) + '/releases/download/' + encodeURIComponent(tag) + '/' + encodeURIComponent(name);
   }
   function latestOf(d) { return d && d.rels && d.rels.filter(function (r) { return !r.pre; })[0]; }
   function installerOf(repo, rel) {
@@ -235,7 +239,7 @@
     }));
   }
   function ghLink(repo, label, path, cls) {
-    return h('a', { href: 'https://github.com/' + OWNER + '/' + repo + '/releases' + (path || ''), 'data-github': '', class: cls || '', text: label });
+    return h('a', { href: 'https://github.com/' + OWNER + '/' + ghRepo(repo) + '/releases' + (path || ''), 'data-github': '', class: cls || '', text: label });
   }
 
   /* ---------- home: download buttons, release lines, stats ---------- */

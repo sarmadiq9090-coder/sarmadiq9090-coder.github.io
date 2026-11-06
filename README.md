@@ -26,5 +26,5 @@ npm run test:live                           # checks the live site, with the rea
 
 - `site-qa.yml`: the QA suite on every push and pull request.
 - `live-check.yml`: weekly live check; opens (or updates) the issue "Live site check failed".
-- `sync.yml`: daily; rebuilds `instawords/` from the tafket repo, updates the static InstaWords download link,
+- `sync.yml`: daily; rebuilds `instawords/` from the InstaWords repo (formerly tafket), updates the static InstaWords download link,
   regenerates `releases.xml` and `ar/releases.xml` (`tools/sync-releases.mjs`), runs the QA and pushes if anything changed.
