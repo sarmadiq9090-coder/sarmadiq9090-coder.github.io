@@ -383,8 +383,11 @@ def s_instawords(n):
     out = [el(rrect(x0, y0, x1, y1, r), CORAL)]
     h = y1 - y0
     m = (x1 - x0) * 0.13
+    if n == 16:  # snapped: amount bar 2 px at the top right, words bar 2 px underneath
+        out.append(el(rrect(9, 5, 12, 7, 1) + rrect(4, 9, 12, 11, 1), FOREST))
+        return out
     if n <= 24:
-        bh = {16: 2.0, 20: 2.2, 24: 2.6}[n]
+        bh = {20: 2.2, 24: 2.6}[n]
         # amount (short, thick) at the top right, words underneath
         d = bar(x1 - m - (x1 - x0) * 0.32, x1 - m, y0 + h * 0.3, bh + 0.4)
         d += bar(x0 + m, x1 - m, y0 + h * 0.7, bh)
@@ -402,6 +405,9 @@ def s_instawords(n):
 
 
 def s_instaconvert(n):
+    if n == 16:  # snapped to whole pixels: header 3 px, two rows of 3 px, 1 px gaps
+        return [el(rrect(3, 3, 14, 14, 1), MINT),
+                el(rrect(2.5, 6, 14.5, 7, 0) + rrect(8, 6, 9, 14.5, 0) + rrect(2.5, 10, 14.5, 11, 0), FOREST)]
     p = {16: (3, 3, 13, 13, 1.0, 3.0), 20: (4, 3.5, 16, 16.5, 1.2, 3.5), 24: (4.5, 4, 19.5, 19.5, 1.4, 4.0),
          32: (6, 5.5, 26, 26.5, 1.8, 5.5)}[n]
     x0, y0, x1, y1, r, head = p
