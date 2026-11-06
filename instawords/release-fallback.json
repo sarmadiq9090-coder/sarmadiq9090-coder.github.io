@@ -1,17 +1,17 @@
 {
-  "version": "2.1.0",
-  "tag": "v2.1.0",
-  "date": "2026-11-03T14:44:02Z",
+  "version": "2.2.0",
+  "tag": "v2.2.0",
+  "date": "2026-11-06T05:35:48Z",
   "setup": {
-    "name": "InstaWords_2.1.0_x64-setup.exe",
-    "url": "https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.1.0/InstaWords_2.1.0_x64-setup.exe",
-    "size": 2569007,
-    "sha256": "4a5c5f40ca880ed6f8e86d097dadb0bb1cce986fefbbc82d021f043eac9f647a"
+    "name": "InstaWords_2.2.0_x64-setup.exe",
+    "url": "https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe",
+    "size": 2570251,
+    "sha256": "d3ebe2850abe951d1e588ed5dac7933fae840cf4279dd8383bf9881aabf40b4b"
   },
   "portable": {
-    "name": "InstaWords_2.1.0_x64-portable.zip",
-    "url": "https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.1.0/InstaWords_2.1.0_x64-portable.zip",
-    "size": 661832,
-    "sha256": "b7ef87139f328a1dcb4e15c0463df8e23837fe10570635310d6e248b78cb43e0"
+    "name": "InstaWords_2.2.0_x64-portable.zip",
+    "url": "https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-portable.zip",
+    "size": 663562,
+    "sha256": "d203ff70fa729b1ee6a54a1034d6662dcadfa0c6e69086c09a375ad65ddcb788"
   }
 }

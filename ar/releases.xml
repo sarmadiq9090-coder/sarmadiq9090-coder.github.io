@@ -5,10 +5,19 @@
   <id>https://fastkiwi.app/ar/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/ar/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="ar" href="https://fastkiwi.app/ar/releases/"/>
-  <updated>2026-11-04T09:43:27.000Z</updated>
+  <updated>2026-11-06T05:35:48.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
   <rights>برامج مجانية ومفتوحة المصدر (MIT)</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:tafket/v2.2.0</id>
+    <title>InstaWords · تفقيط v2.2.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
+    <published>2026-11-06T05:35:48.000Z</published>
+    <updated>2026-11-06T05:35:48.000Z</updated>
+    <category term="instawords" label="InstaWords"/>
+    <summary type="text">برنامج Windows أصلي لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية، بأكثر من 100 عملة ووحدة. ليس موقعاً داخل نافذة: واجهة Windows حقيقية، سريعة وخفيفة، تعمل كلها دون إنترنت، ولا تحتاج تثبيت أي شيء إضافي على Windows 10 و11.…</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:Remember-Me/v1.6.2</id>
     <title>ذكرني · Remember Me v1.6.2</title>
@@ -89,14 +98,5 @@
     <updated>2026-11-01T22:25:57.000Z</updated>
     <category term="instafind" label="InstaFind"/>
     <summary type="text">شفافة وتكاد لا تُرى حتى تقرّب المؤشر، فتظهر بنعومة. لا تغطيها الإشعارات، وتختفي مع الألعاب والفيديو بملء الشاشة، وتسحبها لأي مكان. في أول تشغيل يسألك البرنامج إن كنت تريدها، وتقدر تخفيها أو تطفيها في أي وقت من «خيارات ← البحث من أي مكان». البرامج المثبتة بأسمائها العربية: اكتب…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.7.0</id>
-    <title>InstaFind · بحث سريع v0.7.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-01T20:08:52.000Z</published>
-    <updated>2026-11-01T20:08:52.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">نسخة أصلية لأجهزة ARM64 (مثل الحواسيب بمعالجات Snapdragon): bahth-arm64.exe، تعمل مباشرة دون محاكاة فتكون أسرع وأقل استهلاكاً للبطارية. نسخة لويندوز 32 بت: bahth-x86.exe. نسخة 64 بت العادية تبقى bahth.exe كما هي. كل نسخة تحدّث نفسها تلقائياً بنسختها، وScoop وwinget يختاران…</summary>
   </entry>
 </feed>
