@@ -337,7 +337,8 @@ const data = {
                     }
                 }
             },
-            "note": "R8: plural of فلس"
+            "displayDigits": 0,
+            "note": "R8: plural of فلس. displayDigits 0: the fils is not used in practice; Iraqi cheques, invoices and accounts write whole dinars (1,750,000 دينار), so whole amounts show no decimals"
         },
         {
             "id": "JOD",
@@ -526,7 +527,8 @@ const data = {
                     }
                 }
             },
-            "note": "NEW: قرش is the legal subunit but no longer used in practice. A redenomination of the Syrian pound was announced in 2025; verify code and subunit"
+            "displayDigits": 0,
+            "note": "NEW: قرش is the legal subunit but no longer used in practice. A redenomination of the Syrian pound was announced in 2025; verify code and subunit. displayDigits 0: whole amounts are written in pounds without decimals (revisit if the redenominated pound brings the قرش back)"
         },
         {
             "id": "LBP",
@@ -574,7 +576,8 @@ const data = {
                     }
                 }
             },
-            "note": "NEW: قرش is the legal subunit but no longer used in practice"
+            "displayDigits": 0,
+            "note": "NEW: قرش is the legal subunit but no longer used in practice. displayDigits 0: whole amounts are written in pounds without decimals"
         },
         {
             "id": "YER",
@@ -622,7 +625,8 @@ const data = {
                     }
                 }
             },
-            "note": "R8: plural of فلس"
+            "displayDigits": 0,
+            "note": "R8: plural of فلس. displayDigits 0: the fils has long been out of circulation; Yemeni amounts are written in whole rials"
         },
         {
             "id": "LYD",

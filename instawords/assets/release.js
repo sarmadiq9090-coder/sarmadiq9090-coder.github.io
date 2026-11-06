@@ -7,7 +7,7 @@
 // Remote text (release notes) is only ever put into the page as DOM text nodes, never as HTML.
 import { copyText, flash } from "./app.js";
 
-const REPO = "sarmadiq9090-coder/tafket";
+const REPO = "sarmadiq9090-coder/InstaWords";
 const API = `https://api.github.com/repos/${REPO}/releases/latest`;
 const DOWNLOAD_PREFIX = `https://github.com/${REPO}/releases/download/`;
 const RELEASE_PAGE_PREFIX = `https://github.com/${REPO}/releases/`;
@@ -25,7 +25,7 @@ const PORTABLE_RE = /^InstaWords_[\d.]+_x64-portable\.zip$/;
  * `null` below and over the static download links of every page (so they name the same file);
  * scripts/update-release-fallback.mjs refreshes the JSON after each release. Do not edit here.
  */
-const FALLBACK_DATA = /* @release-fallback */ {"version":"2.2.0","tag":"v2.2.0","date":"2026-11-06T05:35:48Z","setup":{"name":"InstaWords_2.2.0_x64-setup.exe","url":"https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe","size":2570251,"sha256":"d3ebe2850abe951d1e588ed5dac7933fae840cf4279dd8383bf9881aabf40b4b"},"portable":{"name":"InstaWords_2.2.0_x64-portable.zip","url":"https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-portable.zip","size":663562,"sha256":"d203ff70fa729b1ee6a54a1034d6662dcadfa0c6e69086c09a375ad65ddcb788"}};
+const FALLBACK_DATA = /* @release-fallback */ {"version":"2.2.0","tag":"v2.2.0","date":"2026-11-06T05:35:48Z","setup":{"name":"InstaWords_2.2.0_x64-setup.exe","url":"https://github.com/sarmadiq9090-coder/InstaWords/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe","size":2570251,"sha256":"d3ebe2850abe951d1e588ed5dac7933fae840cf4279dd8383bf9881aabf40b4b"},"portable":{"name":"InstaWords_2.2.0_x64-portable.zip","url":"https://github.com/sarmadiq9090-coder/InstaWords/releases/download/v2.2.0/InstaWords_2.2.0_x64-portable.zip","size":663562,"sha256":"d203ff70fa729b1ee6a54a1034d6662dcadfa0c6e69086c09a375ad65ddcb788"}};
 const FALLBACK = {
   source: "fallback",
   version: FALLBACK_DATA.version,

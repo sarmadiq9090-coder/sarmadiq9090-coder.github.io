@@ -60,7 +60,7 @@
       <div class="actions hero-cta">
         <a class="btn btn-primary" href="InstaWords.xlam" download="InstaWords.xlam">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
-          تنزيل الإضافة InstaWords.xlam
+          تنزيل الإضافة InstaWords.xlam (تجريبية)
         </a>
         <a class="btn btn-ghost" href="#install">طريقة التثبيت</a>
       </div>
@@ -119,7 +119,7 @@
 
     <article class="card prose" lang="en" dir="ltr" aria-labelledby="en-title">
       <h2 id="en-title">In English</h2>
-      <p><strong><a href="InstaWords.xlam" download="InstaWords.xlam">InstaWords.xlam</a></strong> is an Excel add-in that adds <code>=TAFQIT(Number, [Unit], [HundredsForm], [Prefix], [Suffix], [Decimals], [Language])</code> to every workbook, offline. <code>=TAFQIT(A1, "SAR", "", "", "Only", "", "en")</code> gives English, <code>"fr"</code> French.</p>
+      <p><strong><a href="InstaWords.xlam" download="InstaWords.xlam">InstaWords.xlam</a></strong> (experimental) is an Excel add-in that adds <code>=TAFQIT(Number, [Unit], [HundredsForm], [Prefix], [Suffix], [Decimals], [Language])</code> to every workbook, offline. <code>=TAFQIT(A1, "SAR", "", "", "Only", "", "en")</code> gives English, <code>"fr"</code> French.</p>
       <ol class="steps">
         <li>Save the file in a folder you will keep. Right-click it → <b>Properties</b> → tick <b>Unblock</b> → OK (Windows marks downloaded files, and Excel blocks their macros).</li>
         <li>Excel → <b>File → Options → Add-ins</b> → Manage: <b>Excel Add-ins</b> → <b>Go…</b> → <b>Browse…</b> → pick InstaWords.xlam → OK, and make sure InstaWords is ticked.</li>
@@ -173,7 +173,7 @@ if (!r.ok) console.log(r.error.code, r.error.message);
 const engine = createTafqit(await (await fetch("units.json")).json());
 engine.tafqit("300", { unit: "SAR", hundredsForm: "مئة" });</code></pre>
     </div>
-    <p class="muted">الخيارات: <code dir="ltr">unit</code> و<code dir="ltr">hundredsForm</code> و<code dir="ltr">decimals</code> (<span dir="ltr">"round"</span> للتقريب أو <span dir="ltr">"error"</span>) و<code dir="ltr">prefix</code> و<code dir="ltr">suffix</code>. التفاصيل الكاملة في <a href="https://github.com/sarmadiq9090-coder/tafket" data-github>مستودع المشروع على GitHub</a>.</p>
+    <p class="muted">الخيارات: <code dir="ltr">unit</code> و<code dir="ltr">hundredsForm</code> و<code dir="ltr">decimals</code> (<span dir="ltr">"round"</span> للتقريب أو <span dir="ltr">"error"</span>) و<code dir="ltr">prefix</code> و<code dir="ltr">suffix</code>. التفاصيل الكاملة في <a href="https://github.com/sarmadiq9090-coder/InstaWords" data-github>مستودع المشروع على GitHub</a>.</p>
   </div>
 </section>
 
@@ -187,10 +187,10 @@ engine.tafqit("300", { unit: "SAR", hundredsForm: "مئة" });</code></pre>
     </div>
     <nav aria-label="روابط">
       <a href="https://fastkiwi.app/ar/">FastKiwi</a>
-      <a href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe" data-windows-download>برنامج ويندوز <span class="ver" data-version>v2.2.0</span></a>
+      <a href="https://github.com/sarmadiq9090-coder/InstaWords/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe" data-windows-download>برنامج ويندوز <span class="ver" data-version>v2.2.0</span></a>
       <a href="#download" data-release-notes>ما الجديد في برنامج ويندوز</a>
       <a href="#support" data-support>الإبلاغ عن مشكلة أو اقتراح</a>
-      <a href="https://github.com/sarmadiq9090-coder/tafket" data-github>الكود على GitHub</a>
+      <a href="https://github.com/sarmadiq9090-coder/InstaWords" data-github>الكود على GitHub</a>
       <a href="LICENSE.txt">رخصة MIT</a>
       <a href="https://fastkiwi.app/ar/privacy/">الخصوصية</a>
     </nav>
