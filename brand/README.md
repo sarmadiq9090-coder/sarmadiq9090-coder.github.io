@@ -15,6 +15,10 @@
 - **عائلة التطبيقات:** بلاطة خضراء داكنة (forest) تملأ الأيقونة كلها، زواياها مدوّرة بنسبة 22٪،
   وفيها رمز التطبيق بلونه، وفي الركن الأيمن السفلي «بذرة» ليمونية على شكل نقطة عربية (توقيع العائلة).
   أيقونة FastKiwi نفسها بلا بذرة التوقيع.
+- **InstaWords استثناء:** له أيقونته المعتمدة من صاحب المشروع (2026-11-06): **سنّ قلم يكتب خطّاً**، بلاطة
+  بتدرّج أخضر (`#4C9A1E` ← `#0F766E`) زواياها 15/64، والسنّ أبيض، والخط المكتوب ليموني فاتح `#D9F99D`، بلا بذرة
+  توقيع ولا حافة. الأصل في مستودع InstaWords (`windows/branding/instawords.svg`، وهو نفسه `site/icon.svg`)،
+  وكل صوره هنا من راسمه نفسه (`source/brandicon.py`)، فهي تطابق صور التطبيق والمتجر بايتاً ببايت.
 
 | التطبيق | الرمز | اللون |
 |---|---|---|
@@ -22,7 +26,7 @@
 | InstaFind | عدسة بحث في داخلها «ب» (من 41 بكسل فأكبر) | سماوي `#78CFFF` |
 | Remember Me | جرس | خزامي `#C5B3FF` |
 | Lemon | فقاعة كلام على شكل ليمونة: بيضاوية مائلة بطرفين بارزين، تختلف عن دائرة الكيوي | أصفر `#FFD85A` |
-| InstaWords | شيك: خانة المبلغ «١٢٣» في الأعلى، وتحتها المبلغ كتابةً كأشرطة كلمات (بلا ورقة ولا سهم) | مرجاني `#FFAA8E` |
+| InstaWords | سنّ قلم يكتب خطّاً: سنّ أبيض مائل فيه شقّ وثقب، وتحته خط متموّج مكتوب (على بلاطة بتدرّج أخضر، لا على forest) | السنّ أبيض `#FFFFFF`، والخط ليموني فاتح `#D9F99D`، والبلاطة `#4C9A1E` ← `#0F766E` |
 | InstaConvert | جدول: شريط عنوان، وشبكة 3×2، وخط مسح يعبر الجدول (بلا علامة صح) | نعناعي `#4FE0B0` |
 
 ## الملفات
@@ -37,13 +41,14 @@
 | `logo/fastkiwi-*-on-forest.svg` | النسخة المعكوسة على خلفية forest (الخلفية جزء من الملف) |
 | `logo/fastkiwi-*-mono-forest.svg`، `logo/fastkiwi-*-mono-white.svg` | الشعار بلون واحد |
 | `logo/png/` | كل ما سبق PNG: الشعارات بعرض 1600، والرمز بارتفاع 64 و512 |
-| `icons/<app>/<app>.svg` | الأيقونة الكاملة (256) مع بذرة التوقيع |
-| `icons/<app>/<app>-16/20/24/32.svg` | نسخ صغيرة مضبوطة يدوياً على شبكة البكسل، **بلا بذرة** |
+| `icons/<app>/<app>.svg` | الأيقونة الكاملة (256) مع بذرة التوقيع (InstaWords: الأصل كما هو، 64×64) |
+| `icons/<app>/<app>-16/20/24/32.svg` | نسخ صغيرة مضبوطة يدوياً على شبكة البكسل، **بلا بذرة** (InstaWords: الرسم نفسه، والخط المكتوب بعرض 1.2 بكسل على الأقل، والسنّ والخط مُزاحان بما يحاذي البكسل، كما يرسمه `brandicon.py`) |
 | `icons/<app>/png/` | PNG بالأحجام 16، 20، 24، 32، 40، 48، 64، 96، 128، 256، 512 |
-| `icons/<app>/<app>.ico` | أيقونة ويندوز: 16، 20، 24، 32، 40، 48، 64، 96، 128، 256 (الأحجام الصغيرة من النسخ اليدوية) |
+| `icons/<app>/<app>.ico` | أيقونة ويندوز: 16، 20، 24، 32، 40، 48، 64، 96، 128، 256 (الأحجام الصغيرة من النسخ اليدوية؛ في InstaWords الإطارات المشتركة مع `InstaWords.ico` في التطبيق مطابقة له) |
 | `icons/<app>/msix/` | صور حزمة MSIX للمتجر (التفاصيل أدناه) |
 | `preview.png` | لوحة المعاينة: الشعاران، وكل الأيقونات بالأحجام 16/24/32/48/256 على خلفية داكنة وفاتحة، وأيقونات شريط المهام (الرمز وحده)، ومقارنة مع حزمة صاحب المشروع |
 | `source/gen.py`، `source/export.py` | السكربتان اللذان يولّدان كل شيء |
+| `source/instawords.svg`، `source/brandicon.py` | أصل أيقونة InstaWords وراسمها (Pillow فقط)، نسختان حرفيتان من مستودع InstaWords (`windows/branding/`). عند تغيير الأيقونة هناك: انسخهما فوق هذين ثم أعد التوليد |
 
 `<app>` واحد من: `fastkiwi`، `instafind`، `remember-me`، `lemon`، `instawords`، `instaconvert`.
 
@@ -57,8 +62,10 @@
 | 28–40 | شبكة 32 |
 | 41 فأكبر | الرسم الكامل مع بذرة التوقيع (و«ب» في عدسة InstaFind) |
 
+InstaWords لا يستعمل هذه الشبكات: رسم واحد في كل الأحجام، يحاذيه `brandicon.py` على البكسل حتى 32 بكسل.
+
 في كل الأحجام حافة أفتح بعرض بكسل واحد (`#2F6249`) حول البلاطة، حتى تبقى ظاهرة على الخلفيات
-الداكنة مثل `#202020`.
+الداكنة مثل `#202020` (ما عدا InstaWords: بلاطته المتدرّجة ظاهرة بلا حافة، 4.62 إلى 2.98:1 على `#202020`).
 
 ### صور MSIX (لكل تطبيق 62 ملفاً)
 
@@ -67,14 +74,15 @@
   وكل حجم بثلاث نسخ (قرار صاحب المشروع: شريط المهام يعرض **الرمز وحده بلا بلاطة**، بأسلوب ويندوز 11):
   - بلا لاحقة (plated): البلاطة، لقائمة ابدأ وقائمة التطبيقات؛
   - `_altform-unplated` لشريط المهام الداكن: الرمز وحده بلونه، والتفاصيل الداكنة داخله (البذور،
-    وخطوط الليمونة، وأشرطة الشيك، وفواصل الجدول) مفرّغة؛
+    وخطوط الليمونة، وشقّ سنّ القلم وثقبه، وفواصل الجدول) مفرّغة. InstaWords: السنّ أبيض والخط ليموني فاتح `#D9F99D`؛
   - `_altform-lightunplated` لشريط المهام الفاتح: الرمز وحده بدرجة «حبر» داكنة من لونه (الجدول أدناه)،
-    لأن الألوان الفاتحة لا تُرى على الخلفية الفاتحة.
+    لأن الألوان الفاتحة لا تُرى على الخلفية الفاتحة. InstaWords: السنّ أخضر مزرقّ `#0F766E` والخط أخضر الورقة `#3F8A1C`.
 - البلاطة تبقى في صور المتجر وقائمة ابدأ: `Square44x44Logo.scale-*` و`Square150x150Logo` و`Wide310x150Logo` و`StoreLogo`.
 - `Square150x150Logo`، `Wide310x150Logo`: الأيقونة بنصف الارتفاع، فوق المنتصف قليلاً ليتّسع اسم التطبيق.
 - `StoreLogo` (50 بكسل × المقياس).
 - الأسماء تطابق ما يستعمله فرع متجر InstaWords (`make-assets.py`)، فالاستبدال يكون بنسخ الملفات
-  فوق القديمة **بنفس الأسماء**، دون تغيير أي اسم ملف أو هوية حزمة.
+  فوق القديمة **بنفس الأسماء**، دون تغيير أي اسم ملف أو هوية حزمة. صور InstaWords الـ35 التي يصنعها
+  `make-assets.py` هناك مطابقة بايتاً ببايت لنظيراتها هنا، والبقية (targetsize 20، 30، 36، 40، 60، 64، 72، 80، 96) من الراسم نفسه.
 
 ## طريقة الاستعمال
 
@@ -103,7 +111,7 @@
 | InstaFind | `#78CFFF` | |
 | Remember Me | `#C5B3FF` | |
 | Lemon | `#FFD85A` | |
-| InstaWords | `#FFAA8E` | |
+| InstaWords | تدرّج `#4C9A1E` ← `#0F766E`، سنّ `#FFFFFF`، خط `#D9F99D` | أيقونته الخاصة (سنّ القلم) |
 | InstaConvert | `#4FE0B0` | |
 
 النسب محسوبة بمعادلة WCAG 2.x (relative luminance). AA للنص العادي 4.5:1، وللنص الكبير
@@ -120,10 +128,13 @@
 | سماوي `#78CFFF` | forest | 7.22:1 | AAA |
 | خزامي `#C5B3FF` | forest | 6.69:1 | AA (AAA للكبير) |
 | أصفر `#FFD85A` | forest | 9.04:1 | AAA |
-| مرجاني `#FFAA8E` | forest | 6.76:1 | AA (AAA للكبير) |
+| سنّ أبيض `#FFFFFF` | بلاطة InstaWords `#4C9A1E` / `#0F766E` | 3.53 / 5.47:1 | رسوم 3:1 |
+| خط ليموني فاتح `#D9F99D` | بلاطة InstaWords `#4C9A1E` / `#0F766E` | 3.02 / 4.69:1 | رسوم 3:1 |
 | نعناعي `#4FE0B0` | forest | 7.49:1 | AAA |
 | ليموني `#B9F34A` | أبيض دافئ | 1.25:1 | يفشل: لا يُستعمل على الفاتح |
-| سماوي / خزامي / أصفر / مرجاني / نعناعي | أبيض دافئ | 1.64 / 1.77 / 1.31 / 1.75 / 1.58 | يفشل: لا تُستعمل على الفاتح |
+| سماوي / خزامي / أصفر / نعناعي | أبيض دافئ | 1.64 / 1.77 / 1.31 / 1.58 | يفشل: لا تُستعمل على الفاتح |
+| بلاطة InstaWords `#4C9A1E` / `#0F766E` | شريط مهام داكن `#202020` | 4.62 / 2.98:1 | ظاهرة بلا حافة |
+| بلاطة InstaWords `#4C9A1E` / `#0F766E` | شريط مهام فاتح `#F3F3F3` | 3.18 / 4.93:1 | ظاهرة |
 | بلاطة forest | شريط مهام داكن `#202020` | 1.31:1 | الحافة لا تُرى، لذلك أُضيفت الحافة الأفتح |
 | الحافة `#2F6249` | شريط مهام داكن `#202020` | 2.30:1 | حدّ البلاطة ظاهر وخفيف |
 | بلاطة forest | شريط مهام فاتح `#F3F3F3` | 11.23:1 | ممتاز |
@@ -137,7 +148,8 @@
 | InstaFind | `#78CFFF` | `#0073B3` | 4.61:1 | 9.44:1 |
 | Remember Me | `#C5B3FF` | `#754AFF` | 4.53:1 | 8.74:1 |
 | Lemon | `#FFD85A` | `#8A6A00` | 4.57:1 | 11.81:1 |
-| InstaWords | `#FFAA8E` | `#D03400` | 4.54:1 | 8.84:1 |
+| InstaWords (السنّ) | `#FFFFFF` | `#0F766E` | 4.93:1 | 16.29:1 |
+| InstaWords (الخط) | `#D9F99D` | `#3F8A1C` | 3.89:1 | 13.96:1 |
 | InstaConvert | `#4FE0B0` | `#167D5B` | 4.60:1 | 9.79:1 |
 
 (`#202020` و`#F3F3F3` تقريب لألوان شريط مهام ويندوز 11 الداكن والفاتح.)
@@ -153,11 +165,11 @@
 
 ## الخطوط والترخيص
 
-- اللاتيني: IBM Plex Sans SemiBold. العربي: IBM Plex Sans Arabic SemiBold (وBold للأرقام «١٢٣»).
+- اللاتيني: IBM Plex Sans SemiBold. العربي: IBM Plex Sans Arabic SemiBold.
   الخطّان بترخيص SIL Open Font License 1.1 (حزم IBM الرسمية `@ibm/plex-sans` و`@ibm/plex-sans-arabic` 1.1.0).
 - كل النصوص حُوّلت إلى مسارات (paths)، فلا يحتاج أي ملف إلى خط، ولا يُوزَّع ملف خط هنا.
 - «ب» في عدسة InstaFind مرسومة يدوياً (قوس ونقطة على شكل معيّن)، لا من خط.
-- الرسوم أصلية، صُنعت بالكود من أشكال هندسية محسوبة.
+- الرسوم أصلية، صُنعت بالكود من أشكال هندسية محسوبة. أيقونة InstaWords من مستودع InstaWords نفسه.
 
 ## إعادة التوليد
 
@@ -167,9 +179,9 @@ python3 brand/source/gen.py <fonts-dir> brand          # كل ملفات SVG
 python3 brand/source/export.py <fonts-dir> brand <work-dir> [<owner-kit-dir>]   # PNG وICO وMSIX وpreview.png
 ```
 
-`<fonts-dir>` فيه `IBMPlexSans-SemiBold.woff` و`IBMPlexSansArabic-SemiBold.woff` و`IBMPlexSansArabic-Bold.woff`
+`<fonts-dir>` فيه `IBMPlexSans-SemiBold.woff` و`IBMPlexSansArabic-SemiBold.woff`
 (من مجلد `fonts/complete/woff` في حزم npm المذكورة). `<owner-kit-dir>` اختياري، ويُستعمل فقط لشريط المقارنة في
-المعاينة.
+المعاينة. صور InstaWords كلها من `source/brandicon.py` (ملفات SVG الصغيرة من `gen.py`، والبقية من `export.py`).
 
 ---
 
@@ -186,8 +198,12 @@ or copied from it, and its files are not shipped. This folder changes no live pa
   each in colour, reversed on forest, and one-colour forest / white.
 - **App icons:** a forest tile that fills 100 % of the canvas, corner radius 22 %, a lime nuqta seed at the
   lower right (not on FastKiwi itself). InstaFind: magnifier with «ب»; Remember Me: bell; Lemon: lemon-shaped
-  speech bubble; InstaWords: cheque with an «١٢٣» amount box and word bars; InstaConvert: mint table with
-  header band, 3×2 grid and scan line.
+  speech bubble; InstaConvert: mint table with header band, 3×2 grid and scan line.
+- **InstaWords (exception, owner-approved 2026-11-06):** its own icon, a **pen nib writing a stroke**: a green
+  gradient tile (#4C9A1E to #0F766E, radius 15/64), a white nib with a slit and hole, a pale-lime #D9F99D
+  stroke; no seed, no edge. Master and renderer are verbatim copies of the InstaWords repo's
+  `windows/branding/instawords.svg` and `brandicon.py` (`source/`), so every export matches the app and Store
+  assets byte for byte. Unplated: white nib, lime stroke; light-unplated: teal #0F766E nib, leaf #3F8A1C stroke.
 - **Small sizes:** hand-tuned 16/20/24/32 px drawings without the seed (used up to 40 px), all with a 1 px
   lighter tile edge `#2F6249` (2.30:1 on a #202020 taskbar; the plain forest tile is 1.31:1).
 - **Exports per app:** PNG 16–512, a multi-size ICO (16–256; BMP frames below 256, PNG at 256) and the MSIX
