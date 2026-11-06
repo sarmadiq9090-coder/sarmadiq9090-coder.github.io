@@ -88,6 +88,8 @@ There are no versions or tags: every push to `main` is live. So merge site PRs o
   `https://fastkiwi.app/img/...`).
 - `instawords/`, `releases.xml`, `ar/releases.xml`: written by `sync.yml`; don't hand-edit them.
 - `robots.txt`, `sitemap.xml`, `llms.txt`, `site.webmanifest`, `404.html`.
+- `data/arabic-numbers.json` and its schema: other apps copy them from this URL at build time. Regenerate the
+  JSON with InstaWords' `scripts/export-dictionary.mjs`; never hand-edit it (data/README.md).
 
 ## Pending for the owner
 

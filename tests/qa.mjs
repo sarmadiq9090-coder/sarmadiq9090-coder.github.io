@@ -1,4 +1,4 @@
-// FastKiwi site QA (home, releases, Lemon, privacy policy, support, official downloads, 404, redirects, feeds) in a real browser.
+// FastKiwi site QA (home, releases, Lemon, privacy policy, support, official downloads, 404, redirects, feeds, data/) in a real browser.
 // Run from the repo root: npm test   (or: node tests/qa.mjs [--no-shots])
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
@@ -8,6 +8,7 @@ import { FIX, mockApi } from './fixtures.mjs';
 import { startServer } from './server.mjs';
 import { loadPlaywright } from './lib/playwright.mjs';
 import { buildFeed } from '../tools/releases.mjs';
+import { validate } from './lib/json-schema.mjs';
 const { chromium } = loadPlaywright();
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -735,6 +736,31 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const p = path.join(ROOT, 'instawords', 'en', f);
     if (fs.existsSync(p)) ok(/<html lang="en" dir="ltr">/.test(fs.readFileSync(p, 'utf8')), `instawords/en/${f}: English page synced from tafket`);
   }
+}
+
+/* ---------- 13. shared Arabic number dictionary (data/): valid against its schema, served as JSON, not in the sitemap ---------- */
+{
+  const rd = f => fs.readFileSync(path.join(ROOT, 'data', f), 'utf8');
+  const dict = JSON.parse(rd('arabic-numbers.json')), schema = JSON.parse(rd('arabic-numbers.schema.json'));
+  const errs = validate(schema, dict);
+  ok(!errs.length, `data/arabic-numbers.json: valid against data/arabic-numbers.schema.json ${errs.slice(0, 5)}`);
+  /* the validator itself catches what matters (so a green check means something) */
+  const broken = [d => { delete d.words.scales.thousand.dual; }, d => { d.digitDisplay.default = 'arabic-indic'; }, d => { d.words.tens['20'] = ''; },
+    d => { d.extra = 1; }, d => { d.digits.toLatin.persian['۹'] = '٩'; }, d => { d.version = '1.0'; }, d => { d.words.hundreds.forms['مئة'].words = {}; }];
+  broken.forEach((f, i) => { const d = structuredClone(dict); f(d); ok(validate(schema, d).length > 0, `json-schema validator: broken copy ${i} rejected`); });
+  ok(dict.digitDisplay.default === 'latin' && JSON.stringify(dict.digitDisplay.options) === '["latin","arabic-indic"]', 'dictionary: digit rule 123 by default, ١٢٣ as an option');
+  const w = dict.words;
+  ok(w.hundreds.forms['مائة'].words['200'] === 'مائتان' && w.hundreds.forms['مئة'].words['100'] === 'مئة' && w.scales.thousand.dual === 'ألفان' && w.teens.m['11'] === 'أحد عشر' && dict.conjunction.word === 'و', 'dictionary: finance words (مائتان، مئة، ألفان، أحد عشر، و)');
+  ok(['G14', 'G16', 'G18'].every(id => dict.examples.some(e => e.id === id)), 'dictionary: examples include مائتان ريال, ألفان ريال, أحد عشر ألف ريال');
+  ok(/^[0-9a-f]{40}$/.test(dict.source.commit) && dict.source.generator === 'scripts/export-dictionary.mjs', 'dictionary: generated from an InstaWords commit');
+  for (const [f, type] of [['arabic-numbers.json', 'application/json'], ['arabic-numbers.schema.json', 'application/json'], ['README.md', null]]) {
+    const r = await fetch(`${BASE}/data/${f}`), body = await r.text();
+    ok(r.status === 200 && body === rd(f) && (!type || r.headers.get('content-type') === type), `served: /data/${f} (${r.status} ${r.headers.get('content-type')})`);
+  }
+  /* GitHub Pages serves data/ as-is: .nojekyll is there and nothing hides the folder */
+  ok(fs.existsSync(path.join(ROOT, '.nojekyll')) && !fs.existsSync(path.join(ROOT, '_config.yml')), 'served: .nojekyll and no Jekyll config, so data/ is published');
+  ok(!/^Disallow:\s*\/data\b/m.test(fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8')), 'robots.txt does not block /data/');
+  ok(!fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8').includes('/data/'), 'sitemap: data/ is not listed');
 }
 
 await browser.close();
