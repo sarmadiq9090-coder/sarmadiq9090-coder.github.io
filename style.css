@@ -691,6 +691,21 @@ html[dir="rtl"] .ap-rel { text-align: right; }
 .st-chan { grid-column: 1 / -1; font-weight: 700; font-size: .85rem; }
 .st-url { font-size: .78rem; background: var(--tint); padding: .15rem .4rem; border-radius: 6px; direction: ltr; text-align: left; overflow-wrap: anywhere; }
 .st-after { margin-top: 2rem; color: var(--muted); }
+/* accept switch: data-accepted on each Store card ("no" = the coming-soon line only, "yes" = badge, Store link and share helper) */
+.st-app[data-accepted="no"] .st-in-store, .st-app[data-accepted="yes"] .st-soon { display: none; }
+.st-soon { margin: 0; font-weight: 700; color: var(--brand-dark); }
+.st-soon-app { background: var(--tint); }
+.st-label { font-weight: 700; }
+.st-direct { display: grid; gap: .55rem; margin: 0; }
+.st-direct p { margin: 0; }
+.st-direct .fine code, .st-cmd code { direction: ltr; unicode-bidi: isolate; }
+.st-soon-dl { font-weight: 700; }
+.st-winget { border-top: 1px solid var(--border); padding-top: .75rem; display: grid; gap: .35rem; }
+.st-winget p { margin: 0; }
+.st-cmd { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; }
+.st-cmd code { font-size: .85rem; background: var(--tint); padding: .15rem .45rem; border-radius: 6px; color: var(--text); }
+.st-cmd code span { white-space: nowrap; } /* wrap only between "winget install" and "--id <ID> -e" */
+.st-soon-app .st-cmd code { background: var(--surface); }
 
 /* ---------- reveal on scroll ---------- */
 html.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }

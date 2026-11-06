@@ -499,57 +499,127 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
 /* ---------- 9b. Microsoft Store page (DRAFT): store/ and ar/store/ ----------
    STORE_DRAFT: until the first Store approval these pages are noindex, left out of sitemap.xml and not linked from any other page.
    This is a deliberate, documented exception to "every page is in the sitemap". On launch: remove the noindex meta, add both
-   pages to sitemap.xml, link them, and set STORE_DRAFT = false so the checks below flip. */
+   pages to sitemap.xml, link them, and set STORE_DRAFT = false so the checks below flip.
+   ACCEPTED: the Store apps Microsoft has accepted. Only these show the badge, the Store link and the share helper; the others
+   show a plain "Coming to Microsoft Store" line. The page's switch is data-accepted="yes|no" on each card (documented at the top
+   of both page sources): when an app is accepted, flip it in store/ and ar/store/ and add the app's id here.
+   Also checked: Lemon's direct download (the site's data-dl convention), InstaConvert "coming soon" without links, one winget line
+   per app with a copy button (submissions pending), and no external scripts or third-party requests. */
 {
   const STORE_DRAFT = true;
-  const IDS = { instawords: '9P62P4WQSQNK', 'remember-me': '9NGB1F7T7JGN', instafind: '9MTK4KMFQ657' };
+  const ACCEPTED = ['remember-me'];
+  const IDS = { 'remember-me': '9NGB1F7T7JGN', instawords: '9P62P4WQSQNK', instafind: '9MTK4KMFQ657' };
+  const ORDER = ['remember-me', 'instawords', 'instafind', 'lemon', 'instaconvert'];
+  /* winget package IDs; every submission is still a pending PR in microsoft/winget-pkgs (RememberMe #461102, InstaFind #468100,
+     Lemon #469478, InstaWords #469481). InstaConvert has no manifest, so no winget line. */
+  const WINGET = { 'remember-me': 'Sarmad.RememberMe', instawords: 'Sarmad.InstaWords', instafind: 'Sarmad.InstaFind', lemon: 'Sarmad.Lemon' };
+  const LEMON_DL = STATIC_DL['local-ai-chat']; // the asset local-ai-chat's release.yml publishes: local-ai-chat.exe
   /* official artwork from https://get.microsoft.com/images/en-us%20dark.svg and .../ar%20dark.svg, kept byte-for-byte (never altered) */
   const BADGES = { en: ['img/store/get-it-from-microsoft-en-us-dark.svg', '0e0cd666d0b351bc2680658faf8485a5d2d78d2ab14086d37fca7f0e8c12fa69'],
     ar: ['img/store/get-it-from-microsoft-ar-dark.svg', '0d15bd9f64ee490c8d451a27f3ab18d6727252062dfe2c5270c83b49fbb8780c'] };
+  const TXT = { en: { soon: 'Coming to Microsoft Store.', soonDl: 'Direct download: coming soon.', wg: 'Submitted to winget, not accepted yet.', copied: 'Copied' },
+    ar: { soon: 'قريباً في Microsoft Store.', soonDl: 'التنزيل المباشر: قريباً.', wg: 'أُرسل إلى winget ولم يُقبل بعد.', copied: 'تم النسخ' } };
   const { createHash } = await import('node:crypto');
   for (const [lang, [file, sha]] of Object.entries(BADGES)) {
     const buf = fs.readFileSync(path.join(ROOT, file));
     ok(createHash('sha256').update(buf).digest('hex') === sha && /^<svg width="161" height="44" viewBox="0 0 161 44"/.test(buf.toString()) && !/<script|https?:\/\/(?!www\.w3\.org)/.test(buf.toString()), `store: ${lang} badge is Microsoft's unaltered self-hosted SVG (${file})`);
   }
-  for (const w of [1366, 390]) for (const [lang, url, other] of [['en', '/store/', '/ar/store/'], ['ar', '/ar/store/', '/store/']]) {
+  /* the sources: the one script is the site's own site.js, no inline or external scripts, no tracker or analytics code */
+  for (const f of ['store/index.html', 'ar/store/index.html']) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8'), scripts = [...src.matchAll(/<script\b[^>]*>/g)].map(m => m[0]);
+    ok(scripts.length === 1 && /^<script src="(\.\.\/)+site\.js" defer>$/.test(scripts[0]), `${f}: only the site's own site.js (${scripts})`);
+    ok(!/googletagmanager|google-analytics|gtag\(|clarity\.ms|facebook\.net|fbq\(|plausible|matomo|hotjar|<iframe|https?:\/\/[^"'\s]*\.js\b/i.test(src), `${f}: no trackers, iframes or external scripts`);
+    ok(/ACCEPT SWITCH/.test(src.split('<title>')[0]) && /data-accepted="no"/.test(src.split('<title>')[0]), `${f}: the accept switch is documented at the top of the source`);
+  }
+  for (const w of [1366, 390]) for (const [lang, url, other] of [['ar', '/ar/store/', '/store/'], ['en', '/store/', '/ar/store/']]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce', permissions: ['clipboard-read', 'clipboard-write'] });
     await offline(ctx);
     const page = await ctx.newPage(), offsite = [];
     page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
-    const S = await page.evaluate(() => ({
-      robots: [...document.querySelectorAll('meta[name=robots]')].map(m => m.content),
-      draftNote: [...document.head.childNodes].some(n => n.nodeType === 8 && /remove this noindex/.test(n.textContent)),
-      canonical: document.querySelector('link[rel=canonical]').href,
-      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
-      cards: [...document.querySelectorAll('.st-app')].map(c => { const b = c.querySelector('a.ms-badge'), i = b?.querySelector('img'), r = i?.getBoundingClientRect(), br = b?.getBoundingClientRect();
-        return { id: c.id, sid: c.dataset.storeId, href: b?.href, store: b?.hasAttribute('data-store'), img: i && new URL(i.src).pathname, alt: i?.alt, w: r?.width, h: r?.height, nat: i && i.naturalWidth / i.naturalHeight,
-          pad: r && Math.min(r.top - br.top, br.bottom - r.bottom), share: [...c.querySelectorAll('.st-share li')].map(li => li.querySelector('.st-url').textContent),
-          copies: [...c.querySelectorAll('.st-share button[data-copy]')].map(x => x.dataset.copy) }; })
-    }));
-    const tag = `store ${lang}@${w}`;
+    const S = await page.evaluate(() => {
+      const shown = e => !!e && e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden';
+      return {
+        robots: [...document.querySelectorAll('meta[name=robots]')].map(m => m.content),
+        draftNote: [...document.head.childNodes].some(n => n.nodeType === 8 && /remove this noindex/.test(n.textContent)),
+        canonical: document.querySelector('link[rel=canonical]').href,
+        lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+        scripts: [...document.scripts].map(s => s.src),
+        storeLinks: [...document.querySelectorAll('a[href^="https://apps.microsoft.com/"]')].filter(shown).map(a => a.closest('.st-app')?.id),
+        focusable: [...document.querySelectorAll('.st-app[data-accepted="no"] a, .st-app[data-accepted="no"] button, .st-app[data-accepted="no"] summary')].filter(e => { e.focus(); return document.activeElement === e && e.closest('.st-in-store'); }).length,
+        cards: [...document.querySelectorAll('.st-app')].map(c => { const b = c.querySelector('a.ms-badge'), i = b?.querySelector('img'), r = i?.getBoundingClientRect(), br = b?.getBoundingClientRect();
+          return { id: c.id, sid: c.dataset.storeId, acc: c.dataset.accepted, href: b?.href, store: b?.hasAttribute('data-store'), img: i && new URL(i.src).pathname, alt: i?.alt, w: r?.width, h: r?.height, nat: i && i.naturalWidth / i.naturalHeight,
+            pad: r && Math.min(r.top - br.top, br.bottom - r.bottom), badgeShown: shown(i), shareShown: shown(c.querySelector('.st-share')),
+            soon: shown(c.querySelector('.st-soon')) ? c.querySelector('.st-soon').textContent.trim() : null, stid: c.querySelector('.st-id code')?.textContent,
+            share: [...c.querySelectorAll('.st-share li')].map(li => li.querySelector('.st-url').textContent),
+            copies: [...c.querySelectorAll('.st-share button[data-copy]')].map(x => x.dataset.copy),
+            dl: [...c.querySelectorAll('a[data-dl]')].map(a => [a.dataset.dl, a.getAttribute('href'), !!a.querySelector('[data-dl-ver]'), shown(a)]),
+            soonDl: c.querySelector('.st-soon-dl')?.textContent.trim(),
+            winget: [...c.querySelectorAll('.st-winget')].map(x => ({ cmd: x.querySelector('code')?.textContent, copy: x.querySelector('button[data-copy]')?.dataset.copy, btn: shown(x.querySelector('button[data-copy]')), state: x.querySelector('.st-state')?.textContent })),
+            links: [...c.querySelectorAll('a')].filter(shown).map(a => a.href) }; })
+      };
+    });
+    const tag = `store ${lang}@${w}`, T = TXT[lang];
     ok(STORE_DRAFT ? JSON.stringify(S.robots) === '["noindex"]' && S.draftNote : S.robots.length === 0, `${tag}: draft is noindex with a "remove on launch" comment (${S.robots})`);
     ok(S.canonical === 'https://fastkiwi.app' + url && S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: canonical and language switch`);
-    ok(JSON.stringify(S.cards.map(c => [c.id, c.sid])) === JSON.stringify(Object.entries(IDS)), `${tag}: one card per app with its Store ID ${JSON.stringify(S.cards.map(c => c.sid))}`);
+    ok(JSON.stringify(S.cards.map(c => c.id)) === JSON.stringify(ORDER), `${tag}: a card per app (${S.cards.map(c => c.id)})`);
+    ok(JSON.stringify(S.cards.filter(c => c.sid).map(c => [c.id, c.sid])) === JSON.stringify(Object.entries(IDS)), `${tag}: the Store apps carry their Store IDs ${JSON.stringify(S.cards.map(c => c.sid))}`);
+    ok(JSON.stringify([...new Set(S.storeLinks)]) === JSON.stringify(ACCEPTED), `${tag}: Store links shown only for accepted apps (${[...new Set(S.storeLinks)]})`);
+    ok(S.focusable === 0, `${tag}: nothing of a not-yet-accepted app's Store block can take focus`);
     for (const c of S.cards) {
-      const base = `https://apps.microsoft.com/detail/${IDS[c.id]}?referrer=appbadge&cid=`, tail = '&mode=full';
-      ok(c.store && c.href === base + 'fastkiwi-site' + tail, `${tag} ${c.id}: badge links to ${base}fastkiwi-site${tail} (${c.href})`);
-      ok(c.img === '/' + BADGES[lang][0] && /Microsoft Store/.test(c.alt), `${tag} ${c.id}: the self-hosted ${lang} badge with alt text (${c.img})`);
-      ok(c.h >= 32 && Math.abs(c.w / c.h - c.nat) < 0.02 && c.pad >= c.h / 4 - 0.5, `${tag} ${c.id}: badge ≥ 32 px tall, aspect ratio kept, quarter-height clear space (${c.w?.toFixed(1)}×${c.h?.toFixed(1)}, pad ${c.pad?.toFixed(1)})`);
-      const want = ['whatsapp', 'telegram', 'groups'].map(x => base + x + tail);
-      ok(JSON.stringify(c.share) === JSON.stringify(want) && JSON.stringify(c.copies) === JSON.stringify(want), `${tag} ${c.id}: share links for WhatsApp, Telegram and groups with copy buttons`);
+      if (c.sid) {
+        const acc = ACCEPTED.includes(c.id), base = `https://apps.microsoft.com/detail/${IDS[c.id]}?referrer=appbadge&cid=`, tail = '&mode=full';
+        ok(c.acc === (acc ? 'yes' : 'no'), `${tag} ${c.id}: data-accepted="${c.acc}" matches ACCEPTED`);
+        ok(c.stid === IDS[c.id], `${tag} ${c.id}: Store ID ${c.stid} shown`);
+        /* the markup is the same for every Store app, so flipping the switch is all it takes */
+        ok(c.store && c.href === base + 'fastkiwi-site' + tail && c.img === '/' + BADGES[lang][0] && /Microsoft Store/.test(c.alt), `${tag} ${c.id}: badge markup links to ${base}fastkiwi-site${tail} with the self-hosted ${lang} badge (${c.href})`);
+        const want = ['whatsapp', 'telegram', 'groups'].map(x => base + x + tail);
+        ok(JSON.stringify(c.share) === JSON.stringify(want) && JSON.stringify(c.copies) === JSON.stringify(want), `${tag} ${c.id}: share links for WhatsApp, Telegram and groups with copy buttons`);
+        if (acc) {
+          ok(c.badgeShown && c.shareShown && c.soon === null, `${tag} ${c.id}: accepted: badge and share helper shown, no coming-soon line`);
+          ok(c.h >= 32 && Math.abs(c.w / c.h - c.nat) < 0.02 && c.pad >= c.h / 4 - 0.5, `${tag} ${c.id}: badge ≥ 32 px tall, aspect ratio kept, quarter-height clear space (${c.w?.toFixed(1)}×${c.h?.toFixed(1)}, pad ${c.pad?.toFixed(1)})`);
+        } else ok(!c.badgeShown && !c.shareShown && c.soon === T.soon && c.links.length === 0, `${tag} ${c.id}: not accepted yet: only "${T.soon}" (${c.soon}), no badge, Store link or share helper`);
+      } else ok(c.acc === undefined && !c.href && c.share.length === 0, `${tag} ${c.id}: no Store ID, no Store block`);
+      if (c.id === 'lemon') ok(c.dl.length === 1 && c.dl[0][0] === 'local-ai-chat' && c.dl[0][1] === LEMON_DL && DIRECT.test(new URL(LEMON_DL).pathname) && c.dl[0][2] && c.dl[0][3], `${tag} lemon: direct download ${LEMON_DL} with the site's data-dl convention ${JSON.stringify(c.dl)}`);
+      else ok(c.dl.length === 0, `${tag} ${c.id}: no direct-download button`);
+      if (c.id === 'instaconvert') ok(c.links.length === 0 && c.soonDl === T.soonDl && c.winget.length === 0, `${tag} instaconvert: "${T.soonDl}", no link and no winget line`);
+      const wg = WINGET[c.id];
+      if (wg) ok(c.winget.length === 1 && c.winget[0].cmd === `winget install --id ${wg} -e` && c.winget[0].copy === c.winget[0].cmd && c.winget[0].btn && c.winget[0].state.startsWith(T.wg), `${tag} ${c.id}: winget line "winget install --id ${wg} -e" with a copy button, marked as pending ${JSON.stringify(c.winget)}`);
     }
-    /* open one share helper and copy a link */
-    await page.click('#remember-me .st-share summary');
-    const btn = page.locator('#remember-me .st-share button[data-copy]').nth(1);
+    /* open the share helper of an accepted app and copy a link; copy a winget command */
+    const first = ACCEPTED[0];
+    await page.click(`#${first} .st-share summary`);
+    const btn = page.locator(`#${first} .st-share button[data-copy]`).nth(1);
     ok(await btn.isVisible(), `${tag}: copy button shown once the helper is open`);
     await btn.click(); await page.waitForTimeout(150);
-    ok(await page.evaluate(() => navigator.clipboard.readText()) === 'https://apps.microsoft.com/detail/9NGB1F7T7JGN?referrer=appbadge&cid=telegram&mode=full' && await btn.textContent() === (lang === 'en' ? 'Copied' : 'تم النسخ'), `${tag}: copy puts the Telegram link on the clipboard and says so`);
+    ok(await page.evaluate(() => navigator.clipboard.readText()) === `https://apps.microsoft.com/detail/${IDS[first]}?referrer=appbadge&cid=telegram&mode=full` && await btn.textContent() === T.copied, `${tag}: copy puts the Telegram link on the clipboard and says so`);
+    const wbtn = page.locator('#instafind .st-winget button[data-copy]');
+    await wbtn.click(); await page.waitForTimeout(150);
+    ok(await page.evaluate(() => navigator.clipboard.readText()) === 'winget install --id Sarmad.InstaFind -e' && await wbtn.textContent() === T.copied, `${tag}: copy puts the winget command on the clipboard`);
     const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
     ok(m.sw <= m.cw, `${tag}: no horizontal scroll with a share helper open`);
-    ok(offsite.length === 0, `${tag}: no third-party requests, badges are self-hosted (${offsite})`);
+    ok(S.scripts.length === 1 && S.scripts[0] === BASE + '/site.js', `${tag}: no external scripts (${S.scripts})`);
+    /* the only request off the site is site.js asking GitHub's API for Lemon's latest version (the site's download-button convention) */
+    ok(offsite.every(u => /^https:\/\/api\.github\.com\/repos\/sarmadiq9090-coder\/local-ai-chat(\/releases(\?per_page=\d+)?)?$/.test(u)), `${tag}: no third-party requests, badges are self-hosted (${offsite})`);
     await checkLinks(page, tag);
+    await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(150);
     if (SHOTS) await page.screenshot({ path: `${OUT}after-store-${lang}-${w}-share.png`, fullPage: true, animations: 'disabled' });
+    await ctx.close();
+  }
+  /* with the API answering (mocked): Lemon's button resolves to the latest installer and downloads without leaving the page */
+  for (const [lang, url] of [['ar', '/ar/store/'], ['en', '/store/']]) {
+    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+    await mockApi(ctx); await blockGithubNav(ctx);
+    const page = await ctx.newPage();
+    await page.goto(BASE + url, { waitUntil: 'networkidle' }); await page.waitForTimeout(300);
+    const a = page.locator('#lemon a[data-dl]');
+    const [href, ver] = [await a.getAttribute('href'), await a.locator('[data-dl-ver]').textContent()];
+    ok(/\/local-ai-chat\/releases\/download\/v2\.2\.0\/local-ai-chat\.exe$/.test(href) && ver === 'v2.2.0', `store ${lang}: Lemon's button resolves to the latest installer (${href} ${ver})`);
+    const dlEvt = page.waitForEvent('download', { timeout: 3000 }).catch(() => null);
+    await a.click();
+    const got = await dlEvt;
+    ok(got && /\/v2\.2\.0\/local-ai-chat\.exe$/.test(got.url()) && page.url().startsWith(BASE), `store ${lang}: Lemon's download gets the file and stays on the page`);
+    await checkLinks(page, `store ${lang} live`);
     await ctx.close();
   }
   /* draft: not in the sitemap and not linked from anywhere else on the site */
