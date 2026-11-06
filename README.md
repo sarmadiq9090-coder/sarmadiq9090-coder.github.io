@@ -18,6 +18,8 @@ npm run test:live                           # checks the live site, with the rea
 - `tests/qa.mjs`: every page at 12 widths, the hero, dialogs, releases and Lemon pages, redirects and feeds,
   with the GitHub API mocked from the apps' real release-note formats (`tests/fixtures/`).
 - `tests/tools.test.mjs`: the feed generator and the InstaWords fallback updater.
+- `tests/pdf-kit.mjs`: the FastKiwi Toolbox (`tools/`): PDF Kit's merge, split, images→PDF and PDF→images in a real browser,
+  no request to other hosts, en/ar + RTL, offline via the service worker, strings, sitemap and the vendored files' sha256 (`npm run test:pdf`).
 - `tests/live-check.mjs`: pages, links, images, download assets and versions on https://fastkiwi.app.
 
 ## Automation (`.github/workflows/`)

@@ -10,7 +10,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'tools/**'
+      - 'tools/*.mjs' # the sync scripts only; the web tools (tools/pdf/, tools/vendor/...) don't need a sync
       - '.github/workflows/sync.yml'
 
 permissions:
