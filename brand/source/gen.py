@@ -2,14 +2,18 @@
 
 Usage:  python3 gen.py <fonts-dir> <brand-dir>
 
-<fonts-dir> must hold IBMPlexSans-SemiBold.woff, IBMPlexSansArabic-SemiBold.woff and
-IBMPlexSansArabic-Bold.woff (IBM Plex 1.1.0, SIL OFL 1.1). Text is shaped with HarfBuzz and
-outlined with fontTools, so no SVG needs a font. export.py imports this module for the
-per-size icon drawings.
+<fonts-dir> must hold IBMPlexSans-SemiBold.woff and IBMPlexSansArabic-SemiBold.woff
+(IBM Plex 1.1.0, SIL OFL 1.1). Text is shaped with HarfBuzz and outlined with fontTools, so no
+SVG needs a font. export.py imports this module for the per-size icon drawings.
+
+InstaWords keeps its own owner-approved icon, the pen nib writing a stroke (see PEN_NIB): its
+master is source/instawords.svg and its renderer source/brandicon.py, both verbatim copies of the
+InstaWords repo's windows/branding/instawords.svg and brandicon.py (Pillow needed).
 """
 import io
 import math
 import os
+import re
 import sys
 
 # ---------------------------------------------------------------- palette
@@ -21,7 +25,7 @@ EDGE = "#2F6249"      # 1 px lighter tile edge (2.30:1 against a #202020 taskbar
 SKY = "#78CFFF"       # InstaFind
 LAVENDER = "#C5B3FF"  # Remember Me
 YELLOW = "#FFD85A"    # Lemon
-CORAL = "#FFAA8E"     # InstaWords
+NIB_LIME = "#D9F99D"  # InstaWords (pen nib; its own icon, see PEN_NIB below)
 MINT = "#4FE0B0"      # InstaConvert
 
 APPS = {  # file id: (name, accent)
@@ -29,7 +33,7 @@ APPS = {  # file id: (name, accent)
     "instafind": ("InstaFind", SKY),
     "remember-me": ("Remember Me", LAVENDER),
     "lemon": ("Lemon", YELLOW),
-    "instawords": ("InstaWords", CORAL),
+    "instawords": ("InstaWords", NIB_LIME),
     "instaconvert": ("InstaConvert", MINT),
 }
 
@@ -296,20 +300,6 @@ def g_lemon_full():
     return out
 
 
-def g_instawords():
-    x0, y0, x1, y1 = 46.0, 62.0, 206.0, 182.0
-    out = [el(rrect(x0, y0, x1, y1, 16), CORAL)]
-    ar = font("IBMPlexSansArabic-Bold.woff")
-    # amount box at the top right with «١٢٣»; the amount in words as bars underneath (right-aligned)
-    bx0, by0, bx1, by1, sw = 112.0, 76.0, 192.0, 120.0, 6.0
-    box = rrect(bx0, by0, bx1, by1, 9) + rrect(bx0 + sw, by0 + sw, bx1 - sw, by1 - sw, 4)
-    out.append(el(box, FOREST, ' fill-rule="evenodd"'))
-    d, _ = ar.fit("١٢٣", 40, (bx0 + bx1) / 2, (by0 + by1) / 2, direction="ltr")
-    out.append(el(d, FOREST))
-    out.append(el(bar(62, 192, 140, 13) + bar(104, 192, 163, 13), FOREST))
-    return out
-
-
 def g_instaconvert():
     x0, x1, y0, y1 = 62.0, 186.0, 58.0, 182.0
     g = 10.0
@@ -333,7 +323,7 @@ def g_fastkiwi():
 
 
 GLYPHS = {"fastkiwi": g_fastkiwi, "instafind": g_instafind, "remember-me": g_remember,
-          "lemon": g_lemon_full, "instawords": g_instawords, "instaconvert": g_instaconvert}
+          "lemon": g_lemon_full, "instaconvert": g_instaconvert}
 
 
 # ---- hand-tuned small glyphs, drawn on the real pixel grid (n = 16, 20, 24, 32)
@@ -376,34 +366,6 @@ def s_lemon(n):
     return out
 
 
-def s_instawords(n):
-    p = {16: (2, 4, 14, 12, 1.2), 20: (2.5, 5, 17.5, 15, 1.5), 24: (3, 6, 21, 18, 1.8),
-         32: (4, 8, 28, 24, 2.2)}[n]
-    x0, y0, x1, y1, r = p
-    out = [el(rrect(x0, y0, x1, y1, r), CORAL)]
-    h = y1 - y0
-    m = (x1 - x0) * 0.13
-    if n == 16:  # snapped: amount bar 2 px at the top right, words bar 2 px underneath
-        out.append(el(rrect(9, 5, 12, 7, 1) + rrect(4, 9, 12, 11, 1), FOREST))
-        return out
-    if n <= 24:
-        bh = {20: 2.2, 24: 2.6}[n]
-        # amount (short, thick) at the top right, words underneath
-        d = bar(x1 - m - (x1 - x0) * 0.32, x1 - m, y0 + h * 0.3, bh + 0.4)
-        d += bar(x0 + m, x1 - m, y0 + h * 0.7, bh)
-        out.append(el(d, FOREST))
-    else:
-        dg = font("IBMPlexSansArabic-Bold.woff")
-        size = 9.6 if n == 24 else 12.6
-        _, _, b = dg.path("١٢٣", size, 0, 0, direction="ltr")
-        w = b[2] - b[0]
-        d, b = dg.fit("١٢٣", size, x1 - m - w / 2, y0 + h * 0.32, direction="ltr")
-        bh = 1.8 if n == 24 else 2.3
-        out.append(el(d, FOREST))
-        out.append(el(bar(x0 + m, x1 - m, y0 + h * 0.74, bh), FOREST))
-    return out
-
-
 def s_instaconvert(n):
     if n == 16:  # snapped to whole pixels: header 3 px, two rows of 3 px, 1 px gaps
         return [el(rrect(3, 3, 14, 14, 1), MINT),
@@ -435,7 +397,7 @@ def s_fastkiwi(n):
 
 
 SMALL = {"fastkiwi": s_fastkiwi, "instafind": s_instafind, "remember-me": s_remember,
-         "lemon": s_lemon, "instawords": s_instawords, "instaconvert": s_instaconvert}
+         "lemon": s_lemon, "instaconvert": s_instaconvert}
 SMALL_SIZES = (16, 20, 24, 32)
 
 
@@ -457,6 +419,40 @@ def icon_svg(app, size=256, edge=True):
         if app != "fastkiwi":
             els += seed_signature()
     return svg(size, size, els, APPS[app][0], vb=f"0 0 {f(grid)} {f(grid)}")
+
+
+# ---------------------------------------------------------------- InstaWords: the pen nib
+# Not drawn here: the InstaWords repo owns the icon (green gradient tile, white nib, lime stroke).
+# brandicon.py rasterizes it for export.py; the SVGs below are the same drawing, written so that a
+# browser shows what brandicon.py renders: the stroke kept 1.2 px wide and, up to 32 px, the glyph
+# moved by brandicon.hint()'s pixel alignment.
+PEN_NIB = ("instawords",)
+
+
+def nib_svg(size=256):
+    sys.dont_write_bytecode = True  # no __pycache__ in brand/source
+    import brandicon as b
+    with open(b.MASTER, encoding="utf-8") as fh:
+        text = fh.read()
+    vb, _, _ = b.load(b.MASTER)
+    text = text.replace(f'viewBox="0 0 {f(vb)} {f(vb)}"',
+                        f'viewBox="0 0 {f(vb)} {f(vb)}" width="{size}" height="{size}"', 1)
+    if size > b.HINT_UP_TO:
+        return text
+    _, _, shapes = b.load(b.MASTER, b.MIN_WRITING_PX * vb / size)
+    dx, dy = b.hint([s for s in shapes if not s["paint"].startswith("url(")], size, (0.0, 0.0), vb)
+
+    def width(m):
+        return m.group(1) + f(max(float(m.group(2)), b.MIN_WRITING_PX * vb / size)) + '"'
+
+    text = re.sub(r'(stroke="' + b.WRITING + r'" stroke-width=")([\d.]+)"', width, text, flags=re.I)
+    if dx or dy:
+        lines = text.splitlines()
+        i = next(k for k, ln in enumerate(lines) if ln.lstrip().startswith("<rect")) + 1
+        j = next(k for k, ln in enumerate(lines) if ln.startswith("</svg>"))
+        lines[i:j] = [f'  <g transform="translate({f(dx)} {f(dy)})">'] + ["  " + ln for ln in lines[i:j]] + ["  </g>"]
+        text = "\n".join(lines) + "\n"
+    return text
 
 
 # ---------------------------------------------------------------- lockups
@@ -559,9 +555,10 @@ def main(fonts_dir, out):
         write(os.path.join(lg, f"fastkiwi-{name}-mono-white.svg"), fn("mono-white"))
     for app in APPS:
         d = os.path.join(out, "icons", app)
-        write(os.path.join(d, f"{app}.svg"), icon_svg(app, 256))
+        draw = nib_svg if app in PEN_NIB else lambda n: icon_svg(app, n)
+        write(os.path.join(d, f"{app}.svg"), draw(256))
         for n in SMALL_SIZES:
-            write(os.path.join(d, f"{app}-{n}.svg"), icon_svg(app, n))
+            write(os.path.join(d, f"{app}-{n}.svg"), draw(n))
     print("svg ok")
 
 
