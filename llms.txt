@@ -14,3 +14,4 @@
 - What's new (latest versions, release notes, checksums): https://fastkiwi.app/releases/
 - Release feed (Atom): https://fastkiwi.app/releases.xml (Arabic: https://fastkiwi.app/ar/releases.xml)
 - Privacy: https://fastkiwi.app/privacy/
+- Support (report a problem or suggest an idea, with or without a GitHub account): https://fastkiwi.app/support/

@@ -1,4 +1,4 @@
-// FastKiwi site QA (home, releases, Lemon, privacy policy, 404, redirects, feeds) in a real browser.
+// FastKiwi site QA (home, releases, Lemon, privacy policy, support, 404, redirects, feeds) in a real browser.
 // Run from the repo root: npm test   (or: node tests/qa.mjs [--no-shots])
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
@@ -16,6 +16,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const { server, base: BASE } = await startServer(ROOT, +process.env.QA_PORT || 0);
 const SHOTS = !process.argv.includes('--no-shots');
 const PAGES = [['home-en', '/'], ['home-ar', '/ar/'], ['releases-en', '/releases/'], ['releases-ar', '/ar/releases/'], ['lemon-en', '/lemon/'], ['lemon-ar', '/ar/lemon/'], ['privacy-en', '/privacy/'], ['privacy-ar', '/ar/privacy/'], ['404', '/no-such-page/']];
+PAGES.push(['support-en', '/support/'], ['support-ar', '/ar/support/']); // the Windows apps link to these exact paths
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
 const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/tafket\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
@@ -67,6 +68,8 @@ async function checkLinks(page, name, scope = 'body') {
       const download = DIRECT.test(u.pathname);
       const rmFallback = l.dl === 'Remember-Me' && /\/releases\/latest$/.test(u.pathname); // intercepted by site.js -> on-site dialog
       ok(download || rmFallback || (l.gh && /GitHub/.test(l.text)), `${name}: github link not an explicit GitHub button: ${l.text} -> ${l.href}`);
+    } else if (u.protocol === 'mailto:') {
+      ok(u.pathname === 'support@fastkiwi.app' && !u.search, `${name}: mailto only to support@fastkiwi.app: ${l.href}`);
     } else ok(false, `${name}: off-site link ${l.href}`);
   }
   return github;
@@ -551,6 +554,85 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   for (const u of ['https://fastkiwi.app/privacy/', 'https://fastkiwi.app/ar/privacy/']) {
     const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
     ok(/<lastmod>2026-11-06<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/privacy/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/privacy/"'), `sitemap: ${u} with lastmod and hreflang`);
+  }
+}
+
+/* ---------- 11. support pages: reach us without GitHub (one config spot in site.js), what to include, per-app GitHub issue links, privacy link ---------- */
+{
+  const SITE_JS = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8');
+  const cfg = SITE_JS.match(/var SUPPORT_CONTACT = \{ email: '([^']*)', telegram: '([^']*)' \};/);
+  ok(cfg && (SITE_JS.match(/SUPPORT_CONTACT = /g) || []).length === 1, 'support: site.js has exactly one SUPPORT_CONTACT = { email, telegram } config');
+  const ISSUES = { InstaFind: 'arabic-file-search', 'Remember Me': 'Remember-Me', 'ذكرني': 'Remember-Me', Lemon: 'local-ai-chat', InstaWords: 'tafket' };
+  const read = page => page.evaluate(() => {
+    const vis = e => !!e && !e.closest('[hidden]') && !!e.getClientRects().length;
+    return {
+      canonical: document.querySelector('link[rel=canonical]').href,
+      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
+      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      ids: ['contact', 'include', 'github', 'privacy'].filter(id => document.getElementById(id)),
+      soon: vis(document.querySelector('[data-support-soon]')),
+      contact: [...document.querySelectorAll('[data-support-contact] a[data-contact]')].filter(vis).map(a => [a.dataset.contact, a.getAttribute('href'), a.textContent.trim()]),
+      steps: [...document.querySelectorAll('#include ~ .card .steps li')].map(li => li.textContent),
+      never: document.querySelector('.sp-never')?.textContent || '',
+      issues: [...document.querySelectorAll('#github ~ .sp-apps .card')].map(c => ({ app: c.querySelector('h3').textContent, href: c.querySelector('a[data-github]')?.href, text: c.querySelector('a[data-github]')?.textContent })),
+      privacy: [...document.querySelectorAll('#privacy ~ p a')].map(a => a.getAttribute('href')),
+      footer: [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname)
+    };
+  });
+  for (const js of [true, false]) for (const w of [1366, 390]) for (const [lang, url, other] of [['en', '/support/', '/ar/support/'], ['ar', '/ar/support/', '/support/']]) {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce', javaScriptEnabled: js });
+    await offline(ctx);
+    const page = await ctx.newPage(); let offsite = [];
+    page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const S = await read(page), tag = `support ${lang}@${w}${js ? '' : ' (no JS)'}`;
+    ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
+    ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/support/', 'en https://fastkiwi.app/support/', 'x-default https://fastkiwi.app/support/']), `${tag}: hreflang ${S.hreflang}`);
+    ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
+    ok(S.ids.length === 4, `${tag}: contact, what-to-include, GitHub and privacy sections (${S.ids})`);
+    /* support@fastkiwi.app is live: the email card is in the HTML (shown with or without JavaScript), and it matches site.js */
+    ok(!S.soon && S.contact.length === 1 && S.contact[0][0] === 'email' && S.contact[0][1] === 'mailto:support@fastkiwi.app' && S.contact[0][1] === 'mailto:' + (cfg && cfg[1]), `${tag}: the support email (mailto:support@fastkiwi.app, same as SUPPORT_CONTACT) shows, no "coming soon" note ${JSON.stringify(S.contact)}`);
+    ok(S.steps.length === 4 && [/InstaWords/, lang === 'en' ? /version/ : /إصدار البرنامج/, /winver/, lang === 'en' ? /step by step/ : /خطوة بخطوة/].every((re, i) => re.test(S.steps[i])), `${tag}: what to include: app, version, Windows version, steps`);
+    ok(lang === 'en' ? /Amounts/.test(S.never) && /personal/.test(S.never) : /المبالغ/.test(S.never) && /شخصية/.test(S.never), `${tag}: "never include" names amounts and personal data`);
+    ok(S.issues.length === 4 && S.issues.every(x => x.href === `${GH}${ISSUES[x.app]}/issues/new` && (lang === 'en' ? x.text === 'Open a GitHub issue (needs a GitHub account)' : /GitHub/.test(x.text) && /يحتاج حساباً على GitHub/.test(x.text))), `${tag}: a labelled "needs a GitHub account" issue link per app ${JSON.stringify(S.issues)}`);
+    ok(S.privacy.includes('../privacy/'), `${tag}: links to the privacy policy (${S.privacy})`);
+    ok(S.footer.includes(url) && S.footer.includes(url.replace('support', 'privacy')), `${tag}: footer links Support and Privacy`);
+    ok(offsite.length === 0, `${tag}: no third-party requests (${offsite})`);
+    if (js) await checkLinks(page, tag);
+    if (SHOTS && js) await page.screenshot({ path: `${OUT}after-support-${lang}-${w}.png`, fullPage: true, animations: 'disabled' });
+    await ctx.close();
+  }
+  /* the same pages once a Telegram link is filled in too (site.js served with the config set) */
+  for (const [lang, url] of [['en', '/support/'], ['ar', '/ar/support/']]) for (const w of [1366, 390]) {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
+    await offline(ctx);
+    await ctx.route(/\/site\.js$/, r => r.fulfill({ contentType: 'text/javascript', body: SITE_JS.replace(/var SUPPORT_CONTACT = \{[^}]*\};/, "var SUPPORT_CONTACT = { email: 'help@example.org', telegram: 'https://t.me/example_support' };") }));
+    const page = await ctx.newPage(), errs = [];
+    page.on('pageerror', e => errs.push(e.message));
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const S = await read(page), tag = `support ${lang}@${w} (configured)`;
+    ok(!S.soon && JSON.stringify(S.contact.map(c => c.slice(0, 2))) === JSON.stringify([['email', 'mailto:support@fastkiwi.app'], ['telegram', 'https://t.me/example_support']]) && /Telegram/.test(S.contact[1][2]), `${tag}: the page's email card stays (no duplicate) and a labelled Telegram card is added once configured ${JSON.stringify(S.contact)}`);
+    const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
+    ok(m.sw <= m.cw && !errs.length, `${tag}: no horizontal scroll, no errors ${errs}`);
+    if (SHOTS) await page.locator('#contact + [data-support-contact]').screenshot({ path: `${OUT}after-support-${lang}-${w}-configured.png` });
+    await ctx.close();
+  }
+  /* reached from the home Support section, the home footer and the other pages' footers */
+  const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 } });
+  await offline(ctx);
+  const page = await ctx.newPage();
+  for (const [u, want] of [['/', '/support/'], ['/ar/', '/ar/support/'], ['/releases/', '/support/'], ['/ar/releases/', '/ar/support/'], ['/lemon/', '/support/'], ['/ar/lemon/', '/ar/support/'], ['/privacy/', '/support/'], ['/ar/privacy/', '/ar/support/']]) {
+    await page.goto(BASE + u, { waitUntil: 'domcontentloaded' });
+    const f = await page.evaluate(() => ({ foot: [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname).filter(p => /\/support\/$/.test(p)),
+      section: [...document.querySelectorAll('#support a')].map(a => new URL(a.href).pathname).filter(p => /\/support\/$/.test(p)), home: !!document.getElementById('support') }));
+    ok(f.foot.length === 1 && f.foot[0] === want, `footer ${u}: Support link to ${want} (${f.foot})`);
+    if (f.home) ok(f.section.length >= 2 && f.section.every(p => p === want), `home ${u}: #support section links to ${want} (${f.section})`);
+  }
+  await ctx.close();
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const u of ['https://fastkiwi.app/support/', 'https://fastkiwi.app/ar/support/']) {
+    const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
+    ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/support/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/support/"'), `sitemap: ${u} with lastmod and hreflang`);
   }
 }
 
