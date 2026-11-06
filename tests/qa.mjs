@@ -1,4 +1,4 @@
-// FastKiwi site QA (home, releases, Lemon, privacy policy, support, 404, redirects, feeds) in a real browser.
+// FastKiwi site QA (home, releases, Lemon, privacy policy, support, official downloads, 404, redirects, feeds) in a real browser.
 // Run from the repo root: npm test   (or: node tests/qa.mjs [--no-shots])
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
@@ -17,6 +17,7 @@ const { server, base: BASE } = await startServer(ROOT, +process.env.QA_PORT || 0
 const SHOTS = !process.argv.includes('--no-shots');
 const PAGES = [['home-en', '/'], ['home-ar', '/ar/'], ['releases-en', '/releases/'], ['releases-ar', '/ar/releases/'], ['lemon-en', '/lemon/'], ['lemon-ar', '/ar/lemon/'], ['privacy-en', '/privacy/'], ['privacy-ar', '/ar/privacy/'], ['404', '/no-such-page/']];
 PAGES.push(['support-en', '/support/'], ['support-ar', '/ar/support/']); // the Windows apps link to these exact paths
+PAGES.push(['downloads-en', '/downloads/'], ['downloads-ar', '/ar/downloads/']); // TRADEMARKS.md in the app repos links here
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
 const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/tafket\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
@@ -466,7 +467,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
   await offline(ctx);
   const page = await ctx.newPage();
-  for (const [lang, pages, feed] of [['en', ['/', '/releases/', '/lemon/', '/privacy/'], '/releases.xml'], ['ar', ['/ar/', '/ar/releases/', '/ar/lemon/', '/ar/privacy/'], '/ar/releases.xml']]) {
+  for (const [lang, pages, feed] of [['en', ['/', '/releases/', '/lemon/', '/privacy/', '/downloads/'], '/releases.xml'], ['ar', ['/ar/', '/ar/releases/', '/ar/lemon/', '/ar/privacy/', '/ar/downloads/'], '/ar/releases.xml']]) {
     for (const u of pages) {
       await page.goto(BASE + u, { waitUntil: 'networkidle' });
       const f = await page.evaluate(() => ({ head: [...document.querySelectorAll('link[rel=alternate][type="application/atom+xml"]')].map(l => l.getAttribute('href')),
@@ -574,7 +575,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       contact: [...document.querySelectorAll('[data-support-contact] a[data-contact]')].filter(vis).map(a => [a.dataset.contact, a.getAttribute('href'), a.textContent.trim()]),
       steps: [...document.querySelectorAll('#include ~ .card .steps li')].map(li => li.textContent),
       never: document.querySelector('.sp-never')?.textContent || '',
-      issues: [...document.querySelectorAll('#github ~ .sp-apps .card')].map(c => ({ app: c.querySelector('h3').textContent, href: c.querySelector('a[data-github]')?.href, text: c.querySelector('a[data-github]')?.textContent })),
+      issues: [...document.querySelectorAll('#github ~ .sp-apps .card')].map(c => ({ app: c.querySelector('h3').textContent.replace('™', ''), href: c.querySelector('a[data-github]')?.href, text: c.querySelector('a[data-github]')?.textContent })),
       privacy: [...document.querySelectorAll('#privacy ~ p a')].map(a => a.getAttribute('href')),
       footer: [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname)
     };
@@ -633,6 +634,87 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   for (const u of ['https://fastkiwi.app/support/', 'https://fastkiwi.app/ar/support/']) {
     const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
     ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/support/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/support/"'), `sitemap: ${u} with lastmod and hreflang`);
+  }
+}
+
+/* ---------- 11b. official downloads: per app its fastkiwi.app page, labelled GitHub releases link, checksum, Store / winget / Scoop status; verify, warning, trademarks ---------- */
+{
+  const SRC = { // what each app really has (checked against its repo and release assets): checksum file, Store ID, winget ID, Scoop
+    instawords: { repo: 'tafket', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
+    instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: null, store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
+    'remember-me': { repo: 'Remember-Me', site: { en: '/Remember-Me/', ar: '/Remember-Me/ar/' }, sha: 'SHA256SUMS.txt', store: '9NGB1F7T7JGN', winget: 'Sarmad.RememberMe', scoop: false },
+    lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false }
+  };
+  const TM_EN = 'InstaWords™, InstaFind™, Remember Me™, Lemon™, InstaConvert™ and FastKiwi™ are trademarks of FastKiwi (Sarmad). The open-source licences grant no trademark rights.';
+  const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+  await offline(ctx);
+  const page = await ctx.newPage();
+  let offsite = [];
+  page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
+  for (const [lang, url, other] of [['en', '/downloads/', '/ar/downloads/'], ['ar', '/ar/downloads/', '/downloads/']]) {
+    offsite = [];
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const D = await page.evaluate(() => ({
+      canonical: document.querySelector('link[rel=canonical]').href,
+      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
+      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      apps: [...document.querySelectorAll('.od-app[id]')].map(s => ({ id: s.id, title: s.querySelector('h3').textContent,
+        rows: Object.fromEntries([...s.querySelectorAll('.od-src > div[data-src]')].map(d => [d.dataset.src, { text: d.querySelector('dd').textContent, links: [...d.querySelectorAll('a')].map(a => ({ href: a.href, gh: a.hasAttribute('data-github'), text: a.textContent })) }])),
+        links: s.querySelectorAll('a').length })),
+      verify: document.querySelector('#verify + .card')?.textContent || '',
+      warn: document.querySelector('#warning + .od-warn')?.textContent || '',
+      tm: [...document.querySelectorAll('#trademarks ~ p')].map(p => p.textContent),
+      tmLink: [...document.querySelectorAll('#trademarks ~ p a[data-github]')].map(a => [a.href, a.textContent]),
+      footer: [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname),
+      scripts: document.scripts.length
+    }));
+    const tag = `downloads ${lang}`;
+    ok(D.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${D.canonical}`);
+    ok(JSON.stringify(D.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/downloads/', 'en https://fastkiwi.app/downloads/', 'x-default https://fastkiwi.app/downloads/']), `${tag}: hreflang ${D.hreflang}`);
+    ok(D.lang.length === 2 && D.lang.every(x => x === other), `${tag}: language switches go to ${other} (${D.lang})`);
+    ok(JSON.stringify(D.apps.map(a => a.id)) === JSON.stringify(['instawords', 'instafind', 'remember-me', 'lemon', 'instaconvert']), `${tag}: a card per app, InstaConvert last (${D.apps.map(a => a.id)})`);
+    for (const a of D.apps) {
+      ok(/™/.test(a.title), `${tag} ${a.id}: ™ in the heading (${a.title})`);
+      const want = SRC[a.id];
+      if (!want) { ok(a.links === 0 && Object.keys(a.rows).length === 0 && (lang === 'en' ? /coming soon/i : /قريباً/).test(a.title), `${tag} instaconvert: "coming soon", no links`); continue; }
+      const R = a.rows, site = R.site?.links || [];
+      ok(site.length === 2 && new URL(site[0].href).origin === BASE && new URL(site[0].href).pathname === want.site[lang] && new URL(site[1].href).pathname + new URL(site[1].href).hash === (lang === 'en' ? '/releases/#' : '/ar/releases/#') + a.id, `${tag} ${a.id}: its fastkiwi.app page and release notes ${JSON.stringify(site.map(l => l.href))}`);
+      ok(R.github?.links.length === 1 && R.github.links[0].href === `${GH}${want.repo}/releases` && R.github.links[0].gh && /GitHub/.test(R.github.links[0].text), `${tag} ${a.id}: labelled GitHub releases link ${JSON.stringify(R.github)}`);
+      if (want.sha) ok(R.sha256?.links.length === 1 && R.sha256.links[0].href === `${GH}${want.repo}/releases/latest/download/${want.sha}` && R.sha256.links[0].text === want.sha, `${tag} ${a.id}: direct link to the release's ${want.sha}`);
+      else ok(R.sha256 && !R.sha256.links.some(l => /\/releases\/(latest\/)?download\//.test(l.href)) && R.sha256.links.some(l => new URL(l.href).hash === '#' + a.id), `${tag} ${a.id}: no checksum file, points to the SHA-256 shown on the site`);
+      if (want.store) ok(R.store && R.store.links.length === 0 && R.store.text.includes(want.store) && (lang === 'en' ? /Coming to Microsoft Store/ : /قريباً في Microsoft Store/).test(R.store.text), `${tag} ${a.id}: "coming to Microsoft Store" with its Store ID, no link or badge yet`);
+      else ok(!R.store, `${tag} ${a.id}: no Store row`);
+      ok(R.winget && R.winget.text.includes(`winget install ${want.winget}`) && (lang === 'en' ? /not accepted yet/ : /لم يُقبل بعد/).test(R.winget.text), `${tag} ${a.id}: winget ID ${want.winget}, marked as submitted, not accepted yet`);
+      ok(!!R.scoop === want.scoop && (!want.scoop || (R.scoop.text.includes('scoop bucket add instafind https://github.com/sarmadiq9090-coder/arabic-file-search') && R.scoop.text.includes('scoop install instafind/instafind'))), `${tag} ${a.id}: Scoop only where a bucket exists`);
+    }
+    ok(D.verify.includes('Get-FileHash .\\file.exe -Algorithm SHA256') && (lang === 'en' ? /Compare/.test(D.verify) : /قارن/.test(D.verify)), `${tag}: how to verify with Get-FileHash`);
+    ok(lang === 'en' ? ['other sites', 'cracked', 'pro', 'not ours', 'may be harmful', 'free', 'never ask for payment or personal data'].every(x => D.warn.includes(x))
+      : ['مواقع أخرى', 'المكرَكة', 'pro', 'ليست منا', 'ضارة', 'مجانية', 'لا نطلب أبداً أي مبلغ أو بيانات شخصية'].every(x => D.warn.includes(x)), `${tag}: warning about other copies, cracked/pro versions, free, no payment or personal data`);
+    ok(lang === 'en' ? D.tm[0] === TM_EN : /علامات تجارية لـ FastKiwi \(Sarmad\)/.test(D.tm[0]) && ['InstaWords™', 'InstaFind™', 'Remember Me™', 'Lemon™', 'InstaConvert™', 'FastKiwi™'].every(x => D.tm[0].includes(x)) && /لا تمنح أي حق في العلامات التجارية/.test(D.tm[0]), `${tag}: trademark note (${D.tm[0]})`);
+    ok(D.tmLink.length === 1 && D.tmLink[0][0] === GH + 'tafket/blob/HEAD/TRADEMARKS.md' && /GitHub/.test(D.tmLink[0][1]), `${tag}: labelled link to InstaWords' TRADEMARKS.md ${JSON.stringify(D.tmLink)}`);
+    ok(D.footer.includes(url) && D.footer.includes(url.replace('downloads', 'support')) && D.footer.includes(url.replace('downloads', 'privacy')), `${tag}: footer links Official downloads, Support and Privacy`);
+    ok(D.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
+    await checkLinks(page, tag);
+    for (const w of [1366, 390]) if (SHOTS) { await page.setViewportSize({ width: w, height: 900 }); await page.screenshot({ path: `${OUT}after-downloads-${lang}-${w}.png`, fullPage: true, animations: 'disabled' }); }
+    await page.setViewportSize({ width: 1366, height: 900 });
+  }
+  /* every full page links to the official downloads page of its language from the footer */
+  for (const [u, want] of [['/', '/downloads/'], ['/ar/', '/ar/downloads/'], ['/releases/', '/downloads/'], ['/ar/releases/', '/ar/downloads/'], ['/lemon/', '/downloads/'], ['/ar/lemon/', '/ar/downloads/'], ['/privacy/', '/downloads/'], ['/ar/privacy/', '/ar/downloads/'], ['/support/', '/downloads/'], ['/ar/support/', '/ar/downloads/']]) {
+    await page.goto(BASE + u, { waitUntil: 'domcontentloaded' });
+    const f = await page.evaluate(() => [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname).filter(p => /\/downloads\/$/.test(p)));
+    ok(f.length === 1 && f[0] === want, `footer ${u}: Official downloads link to ${want} (${f})`);
+  }
+  /* ™ after the app names in headings only: never in JSON-LD names */
+  for (const [f, sel] of [['index.html', /<h3>(InstaFind|Remember Me|Lemon|InstaWords)™ <span class="sub">/g], ['ar/index.html', /<h3><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> <span class="sub">|<span class="sub" lang="en"><bdi>Remember Me™<\/bdi><\/span>/g], ['releases/index.html', /-title">(InstaFind|Remember Me|Lemon|InstaWords)™ </g], ['ar/releases/index.html', /-title"><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> |<span class="sub"><bdi>Remember Me™<\/bdi><\/span>/g]]) {
+    const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    ok((html.match(sel) || []).length === 4, `${f}: ™ after the four app names in their headings`);
+    ok(![...html.matchAll(/"(?:name|alternateName)":\s*"([^"]*)"/g)].some(m => m[1].includes('™')), `${f}: JSON-LD names without ™`);
+  }
+  await ctx.close();
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const u of ['https://fastkiwi.app/downloads/', 'https://fastkiwi.app/ar/downloads/']) {
+    const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
+    ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/downloads/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/downloads/"') && entry.includes('hreflang="x-default" href="https://fastkiwi.app/downloads/"'), `sitemap: ${u} with lastmod and hreflang`);
   }
 }
 

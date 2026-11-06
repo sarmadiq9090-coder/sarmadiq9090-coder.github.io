@@ -5,10 +5,19 @@
   <id>https://fastkiwi.app/ar/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/ar/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="ar" href="https://fastkiwi.app/ar/releases/"/>
-  <updated>2026-11-06T05:35:48.000Z</updated>
+  <updated>2026-11-06T05:50:12.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
   <rights>برامج مجانية ومفتوحة المصدر (MIT)</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:Remember-Me/v1.7.0</id>
+    <title>ذكرني · Remember Me v1.7.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#remember-me"/>
+    <published>2026-11-06T05:50:12.000Z</published>
+    <updated>2026-11-06T05:50:12.000Z</updated>
+    <category term="remember-me" label="Remember Me"/>
+    <summary type="text">Add CLAUDE.md: owner rules and repo guide · Add ROADMAP.md: phase plan, train milestones, rollback · Quick add from anywhere with a global shortcut · Microsoft Store: MSIX build, Store-mode updater off, listing kit</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:tafket/v2.2.0</id>
     <title>InstaWords · تفقيط v2.2.0</title>
@@ -82,21 +91,12 @@
     <summary type="text">إصلاح توقف البرنامج فجأة على بعض الأجهزة عند الضغط المتكرر على خانة البحث العائمة أو عند ضغط زر الإغلاق، فتختفي الخانة والأيقونة بجانب الساعة. كل توقف مفاجئ يُسجَّل الآن في تقرير الخطأ، فإذا حدث يسألك البرنامج عند الفتح التالي إن كنت تريد إرساله. البحث من الهاتف لا يتوقف عند ضغط…</summary>
   </entry>
   <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.1</id>
-    <title>InstaFind · بحث سريع v0.8.1</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-02T07:41:36.000Z</published>
-    <updated>2026-11-02T07:41:36.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">زر الإغلاق (X) يخفي البرنامج إلى الأيقونة بجانب الساعة بدل إغلاقه، وتبقى خانة البحث العائمة وCtrl+Alt+F تعمل. للخروج فعلاً: «خروج» من قائمة الأيقونة أو من «خيارات». التشغيل مع ويندوز يُفعَّل من جديد، حتى لو كان مدير المهام قد أوقفه. إصلاح تعطل بعد مدة من التشغيل كانت تبقى بعده…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.0</id>
-    <title>InstaFind · بحث سريع v0.8.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-01T22:25:57.000Z</published>
-    <updated>2026-11-01T22:25:57.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">شفافة وتكاد لا تُرى حتى تقرّب المؤشر، فتظهر بنعومة. لا تغطيها الإشعارات، وتختفي مع الألعاب والفيديو بملء الشاشة، وتسحبها لأي مكان. في أول تشغيل يسألك البرنامج إن كنت تريدها، وتقدر تخفيها أو تطفيها في أي وقت من «خيارات ← البحث من أي مكان». البرامج المثبتة بأسمائها العربية: اكتب…</summary>
+    <id>tag:fastkiwi.app,2026:Remember-Me/v1.6.1</id>
+    <title>ذكرني · Remember Me v1.6.1</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#remember-me"/>
+    <published>2026-11-01T18:13:54.000Z</published>
+    <updated>2026-11-01T18:13:54.000Z</updated>
+    <category term="remember-me" label="Remember Me"/>
+    <summary type="text">A small release with fixes for the v1.6.0 snooze choices and overdue wording, and clearer Hindi. Your tasks, notes, attachments, settings and snooze choices load unchanged. Snooze choices for today show their time, such as &quot;Today 9:00 PM&quot;, and Settings refuses a time today…</summary>
   </entry>
 </feed>

@@ -407,6 +407,26 @@ html[dir="rtl"] .table-wrap[data-more-end] { -webkit-mask-image: linear-gradient
 .sp .steps code { white-space: nowrap; }
 .sp-apps { margin-top: 1rem; }
 .sp-apps .btn { white-space: normal; text-align: center; }
+/* official downloads: one card per app, a list of its official sources */
+.od-apps { display: grid; gap: 1rem; margin-top: 1rem; }
+.od-app .app-top { margin-bottom: 1rem; }
+.od-app .app-top h3 { font-size: 1.25rem; }
+.od-app p { margin: 0; color: var(--muted); }
+.od-soon { background: var(--tint); }
+.od-src { display: grid; gap: .65rem; margin: 0; }
+.od-src > div { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: .25rem 1rem; padding-top: .65rem; border-top: 1px solid var(--border); }
+.od-src dt { font-weight: 700; }
+.od-src dd { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.od-src dd a { font-weight: 700; }
+.od-src dd .btn { margin-top: .1rem; }
+.od-src code { color: var(--text); }
+.od-state { font-size: .9rem; }
+.od-cmd { margin: .6rem 0 0; padding: .7rem .9rem; background: var(--tint); border: 1px solid var(--border); border-radius: 10px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text); text-align: left; }
+.steps .od-cmd code { white-space: inherit; overflow-wrap: anywhere; }
+.od .btn { white-space: normal; text-align: center; }
+.od-warn { border-inline-start: 4px solid var(--amber, #d97706); }
+.od-warn p + p { margin-top: .75rem; }
+@media (max-width: 560px) { .od-src > div { grid-template-columns: 1fr; } }
 
 /* ---------- FAQ ---------- */
 .faq-grid { display: grid; gap: clamp(2rem, 4vw, 4rem); }
