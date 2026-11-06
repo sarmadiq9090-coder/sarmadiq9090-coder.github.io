@@ -313,7 +313,7 @@ section('offline');
   const cached = await page.evaluate(async () => { const k = (await caches.keys()).find(x => x.startsWith('fk-tools-')); return k ? (await (await caches.open(k)).keys()).map(r => new URL(r.url).pathname) : []; });
   const sw = read('tools/sw.js'), pre = JSON.parse(sw.match(/const PRECACHE = (\[[\s\S]*?\]);/)[1].replace(/'/g, '"'));
   ok(pre.every(p => cached.includes(p)), `offline: everything precached (${pre.filter(p => !cached.includes(p)).join(' ')})`);
-  ok(cached.every(p => p.startsWith('/tools/') || p.startsWith('/fonts/') || ['/style.css', '/img/logo.svg', '/favicon.ico'].includes(p)), 'offline: caches only the tool’s files');
+  ok(cached.every(p => p.startsWith('/tools/') || p.startsWith('/fonts/') || ['/style.css', '/img/logo.svg', '/favicon.ico'].includes(p) || /^\/img\/fastkiwi-(latin|arabic)(-dark)?\.svg$/.test(p)), 'offline: caches only the tool’s files');
   await ctx.setOffline(true);
   const off = await ctx.newPage(), offDone = watch(off, 'offline');
   await off.goto(BASE + '/tools/pdf/ar/#merge', { waitUntil: 'load' });

@@ -1,9 +1,9 @@
 /* FastKiwi Toolbox service worker (scope /tools/). It caches ONLY the files the tools need to work offline
-   (their pages, scripts, strings, the vendored libraries and the few shared site files they use: style, fonts, logo)
+   (their pages, scripts, strings, the vendored libraries and the few shared site files they use: style, fonts, logo and lockups)
    and leaves every other request alone. Bump VERSION when you change any file in PRECACHE.
    Pages, scripts and strings: network first (3 s, then the cached copy), so updates show up when online.
    Vendored libraries and fonts (versioned, never change): cache first; pdf.js's optional data files are cached on first use. */
-const VERSION = '2026-11-03.1';
+const VERSION = '2026-11-06.1';
 const CACHE = 'fk-tools-' + VERSION;
 const PRECACHE = [
   '/tools/pdf/', '/tools/pdf/ar/',
@@ -15,6 +15,7 @@ const PRECACHE = [
   '/tools/vendor/pdf-lib-1.17.1/pdf-lib.esm.min.js',
   '/tools/vendor/pdfjs-dist-6.4.299/pdf.min.mjs', '/tools/vendor/pdfjs-dist-6.4.299/pdf.worker.min.mjs',
   '/style.css', '/img/logo.svg', '/favicon.ico',
+  '/img/fastkiwi-latin.svg', '/img/fastkiwi-arabic.svg', '/img/fastkiwi-latin-dark.svg', '/img/fastkiwi-arabic-dark.svg',
   '/fonts/plex-arabic-latin-400.woff2', '/fonts/plex-arabic-latin-700.woff2',
   '/fonts/plex-arabic-arabic-400.woff2', '/fonts/plex-arabic-arabic-700.woff2'
 ];
