@@ -498,7 +498,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   await offline(ctx);
   const page = await ctx.newPage();
   const APPS = ['instafind', 'remember-me', 'lemon', 'instawords', 'site'];
-  const ISSUES = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'].map(r => GH + r + '/issues/new');
+  const ISSUES = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'InstaWords'].map(r => GH + r + '/issues/new');
   let offsite = [];
   page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
   for (const [lang, url, other] of [['en', '/privacy/', '/ar/privacy/'], ['ar', '/ar/privacy/', '/privacy/']]) {
@@ -562,7 +562,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   const SITE_JS = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8');
   const cfg = SITE_JS.match(/var SUPPORT_CONTACT = \{ email: '([^']*)', telegram: '([^']*)' \};/);
   ok(cfg && (SITE_JS.match(/SUPPORT_CONTACT = /g) || []).length === 1, 'support: site.js has exactly one SUPPORT_CONTACT = { email, telegram } config');
-  const ISSUES = { InstaFind: 'arabic-file-search', 'Remember Me': 'Remember-Me', 'ذكرني': 'Remember-Me', Lemon: 'local-ai-chat', InstaWords: 'tafket' };
+  const ISSUES = { InstaFind: 'arabic-file-search', 'Remember Me': 'Remember-Me', 'ذكرني': 'Remember-Me', Lemon: 'local-ai-chat', InstaWords: 'InstaWords' };
   const read = page => page.evaluate(() => {
     const vis = e => !!e && !e.closest('[hidden]') && !!e.getClientRects().length;
     return {
