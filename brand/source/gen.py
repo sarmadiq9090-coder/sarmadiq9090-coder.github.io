@@ -2,15 +2,19 @@
 
 Usage:  python3 gen.py <fonts-dir> <brand-dir>
 
-<fonts-dir> must hold IBMPlexSans-SemiBold.woff, IBMPlexSansArabic-SemiBold.woff and
-IBMPlexSansArabic-Bold.woff (IBM Plex 1.1.0, SIL OFL 1.1). Text is shaped with HarfBuzz and
+<fonts-dir> must hold IBMPlexSans-SemiBold.woff and IBMPlexSansArabic-SemiBold.woff
+(IBM Plex 1.1.0, SIL OFL 1.1). Text is shaped with HarfBuzz and
 outlined with fontTools, so no SVG needs a font. export.py imports this module for the
-per-size icon drawings.
+per-size icon drawings. InstaWords and InstaConvert are drawn by insta.py instead (InstaFind
+style, owner decision D-049, 2026-11-09).
 """
 import io
 import math
 import os
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import insta  # noqa: E402  InstaWords and InstaConvert (owner decision D-049)
 
 # ---------------------------------------------------------------- palette
 FOREST = "#123B2A"
@@ -21,16 +25,14 @@ EDGE = "#2F6249"      # 1 px lighter tile edge (2.30:1 against a #202020 taskbar
 SKY = "#78CFFF"       # InstaFind
 LAVENDER = "#C5B3FF"  # Remember Me
 YELLOW = "#FFD85A"    # Lemon
-CORAL = "#FFAA8E"     # InstaWords
-MINT = "#4FE0B0"      # InstaConvert
 
 APPS = {  # file id: (name, accent)
     "fastkiwi": ("FastKiwi", LIME),
     "instafind": ("InstaFind", SKY),
     "remember-me": ("Remember Me", LAVENDER),
     "lemon": ("Lemon", YELLOW),
-    "instawords": ("InstaWords", CORAL),
-    "instaconvert": ("InstaConvert", MINT),
+    "instawords": ("InstaWords", insta.APPS["instawords"]["c1"]),      # D-049: insta.py
+    "instaconvert": ("InstaConvert", insta.APPS["instaconvert"]["c1"]),  # D-049: insta.py
 }
 
 
@@ -296,44 +298,12 @@ def g_lemon_full():
     return out
 
 
-def g_instawords():
-    x0, y0, x1, y1 = 46.0, 62.0, 206.0, 182.0
-    out = [el(rrect(x0, y0, x1, y1, 16), CORAL)]
-    ar = font("IBMPlexSansArabic-Bold.woff")
-    # amount box at the top right with «١٢٣»; the amount in words as bars underneath (right-aligned)
-    bx0, by0, bx1, by1, sw = 112.0, 76.0, 192.0, 120.0, 6.0
-    box = rrect(bx0, by0, bx1, by1, 9) + rrect(bx0 + sw, by0 + sw, bx1 - sw, by1 - sw, 4)
-    out.append(el(box, FOREST, ' fill-rule="evenodd"'))
-    d, _ = ar.fit("١٢٣", 40, (bx0 + bx1) / 2, (by0 + by1) / 2, direction="ltr")
-    out.append(el(d, FOREST))
-    out.append(el(bar(62, 192, 140, 13) + bar(104, 192, 163, 13), FOREST))
-    return out
-
-
-def g_instaconvert():
-    x0, x1, y0, y1 = 62.0, 186.0, 58.0, 182.0
-    g = 10.0
-    out = [el(rrect(x0, y0, x1, y1, 12), MINT)]
-    head = y0 + 28
-    r1 = (head + g, 124.0)
-    band = (124.0, 150.0)
-    cw = (x1 - x0 - 2 * g) / 3
-    cuts = rrect(x0 - 1, head, x1 + 1, head + g, 0)
-    for k in (1, 2):
-        cx = x0 + k * cw + (k - 1) * g
-        cuts += rrect(cx, head, cx + g, y1 + 1, 0)
-    cuts += rrect(x0 - 12, band[0], x1 + 12, band[1], 0)
-    out.append(el(cuts, FOREST))
-    out.append(el(bar(x0 - 11, x1 + 11, (band[0] + band[1]) / 2, 10), MINT))
-    return out
-
-
 def g_fastkiwi():
     return kiwi(116, 128, 76, rim=False)
 
 
 GLYPHS = {"fastkiwi": g_fastkiwi, "instafind": g_instafind, "remember-me": g_remember,
-          "lemon": g_lemon_full, "instawords": g_instawords, "instaconvert": g_instaconvert}
+          "lemon": g_lemon_full}
 
 
 # ---- hand-tuned small glyphs, drawn on the real pixel grid (n = 16, 20, 24, 32)
@@ -376,53 +346,6 @@ def s_lemon(n):
     return out
 
 
-def s_instawords(n):
-    p = {16: (2, 4, 14, 12, 1.2), 20: (2.5, 5, 17.5, 15, 1.5), 24: (3, 6, 21, 18, 1.8),
-         32: (4, 8, 28, 24, 2.2)}[n]
-    x0, y0, x1, y1, r = p
-    out = [el(rrect(x0, y0, x1, y1, r), CORAL)]
-    h = y1 - y0
-    m = (x1 - x0) * 0.13
-    if n == 16:  # snapped: amount bar 2 px at the top right, words bar 2 px underneath
-        out.append(el(rrect(9, 5, 12, 7, 1) + rrect(4, 9, 12, 11, 1), FOREST))
-        return out
-    if n <= 24:
-        bh = {20: 2.2, 24: 2.6}[n]
-        # amount (short, thick) at the top right, words underneath
-        d = bar(x1 - m - (x1 - x0) * 0.32, x1 - m, y0 + h * 0.3, bh + 0.4)
-        d += bar(x0 + m, x1 - m, y0 + h * 0.7, bh)
-        out.append(el(d, FOREST))
-    else:
-        dg = font("IBMPlexSansArabic-Bold.woff")
-        size = 9.6 if n == 24 else 12.6
-        _, _, b = dg.path("١٢٣", size, 0, 0, direction="ltr")
-        w = b[2] - b[0]
-        d, b = dg.fit("١٢٣", size, x1 - m - w / 2, y0 + h * 0.32, direction="ltr")
-        bh = 1.8 if n == 24 else 2.3
-        out.append(el(d, FOREST))
-        out.append(el(bar(x0 + m, x1 - m, y0 + h * 0.74, bh), FOREST))
-    return out
-
-
-def s_instaconvert(n):
-    if n == 16:  # snapped to whole pixels: header 3 px, two rows of 3 px, 1 px gaps
-        return [el(rrect(3, 3, 14, 14, 1), MINT),
-                el(rrect(2.5, 6, 14.5, 7, 0) + rrect(8, 6, 9, 14.5, 0) + rrect(2.5, 10, 14.5, 11, 0), FOREST)]
-    p = {16: (3, 3, 13, 13, 1.0, 3.0), 20: (4, 3.5, 16, 16.5, 1.2, 3.5), 24: (4.5, 4, 19.5, 19.5, 1.4, 4.0),
-         32: (6, 5.5, 26, 26.5, 1.8, 5.5)}[n]
-    x0, y0, x1, y1, r, head = p
-    g = 1.0 if n <= 20 else (1.25 if n == 24 else 1.6)
-    out = [el(rrect(x0, y0, x1, y1, r), MINT)]
-    mx = (x0 + x1) / 2
-    hy = y0 + head
-    my = (hy + g + y1) / 2
-    cuts = rrect(x0 - 0.5, hy, x1 + 0.5, hy + g, 0)
-    cuts += rrect(mx - g / 2, hy, mx + g / 2, y1 + 0.5, 0)
-    cuts += rrect(x0 - 0.5, my - g / 2, x1 + 0.5, my + g / 2, 0)
-    out.append(el(cuts, FOREST))
-    return out
-
-
 def s_fastkiwi(n):
     p = {16: (7.4, 8.0, 5.6), 20: (9.2, 10.0, 7.0), 24: (11.1, 12.0, 8.4), 32: (14.8, 16.0, 11.2)}[n]
     cx, cy, r = p
@@ -435,7 +358,7 @@ def s_fastkiwi(n):
 
 
 SMALL = {"fastkiwi": s_fastkiwi, "instafind": s_instafind, "remember-me": s_remember,
-         "lemon": s_lemon, "instawords": s_instawords, "instaconvert": s_instaconvert}
+         "lemon": s_lemon}
 SMALL_SIZES = (16, 20, 24, 32)
 
 
@@ -448,6 +371,8 @@ def svg(w, h, body, title, vb=None):
 
 def icon_svg(app, size=256, edge=True):
     """The icon as drawn for `size` px: hand-tuned grid up to 40 px, full master above."""
+    if app in insta.APPS:  # InstaWords, InstaConvert: InstaFind-style icons (D-049)
+        return insta.icon_svg(app, size)
     if size <= 40:
         grid = 16 if size <= 17 else 20 if size <= 21 else 24 if size <= 27 else 32
         els = tile(grid, edge_px=grid / size, edge=edge) + SMALL[app](grid)
@@ -559,7 +484,8 @@ def main(fonts_dir, out):
         write(os.path.join(lg, f"fastkiwi-{name}-mono-white.svg"), fn("mono-white"))
     for app in APPS:
         d = os.path.join(out, "icons", app)
-        write(os.path.join(d, f"{app}.svg"), icon_svg(app, 256))
+        # D-049 apps: <app>.svg is the approved 1024 master (insta.py)
+        write(os.path.join(d, f"{app}.svg"), insta.master_svg(app) if app in insta.APPS else icon_svg(app, 256))
         for n in SMALL_SIZES:
             write(os.path.join(d, f"{app}-{n}.svg"), icon_svg(app, n))
     print("svg ok")
