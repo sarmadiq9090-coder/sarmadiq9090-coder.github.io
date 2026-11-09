@@ -1,5 +1,6 @@
 # Daily: rebuild instawords/ from the InstaWords repo, point the static InstaWords download at its latest installer,
-# regenerate the release feeds (releases.xml, ar/releases.xml), run the QA suite, and push to main only if something changed.
+# regenerate the release feeds (releases.xml, ar/releases.xml), run the QA suite, and, if something changed, open a pull
+# request (never a direct push to main: GitHub safety rule 7, D-046). At most one open sync PR at a time.
 # Also runs when the sync tools change on main (so the first feeds appear right after this workflow is merged).
 name: Sync InstaWords and release feeds
 
@@ -15,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: sync
@@ -84,13 +86,22 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
-      - name: Commit and push if anything changed
+      - name: Commit to a sync branch and open a pull request if anything changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add -A instawords releases.xml ar/releases.xml index.html ar/index.html releases ar/releases lemon ar/lemon site.js
           if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
           git diff --cached --stat
+          open=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --search 'head:sync/' --json number --jq 'length')
+          if [ "$open" != "0" ]; then echo "A sync PR is already open; merge it first. Nothing pushed."; exit 0; fi
+          branch="sync/$(date -u +%Y-%m-%d)-${GITHUB_RUN_ID}"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$branch"
           git commit -m "Sync InstaWords site and release feeds" -m "From sarmadiq9090-coder/InstaWords@${TAFKET_SHA} and the GitHub releases of the four apps."
-          git pull --rebase origin main
-          git push origin HEAD:main
+          git push origin "$branch"
+          gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" \
+            --title "Sync InstaWords site and release feeds" \
+            --body "مزامنة يومية تلقائية لصفحات InstaWords وملفات «ما الجديد». Automatic daily sync; QA passed in the sync run. Merge when green (site publishes immediately, D-046)." \
+            || echo "::warning::Could not open the PR (Settings → Actions → 'Allow GitHub Actions to create pull requests' may be off). Branch $branch was pushed; open the PR by hand."
