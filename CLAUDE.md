@@ -70,12 +70,13 @@ No lint script.
   updates the issue "Live site check failed", and closes it when a later run passes.
 - `sync.yml` (daily 03:43 UTC, manual, and on main pushes touching `tools/**`): rebuilds
   `instawords/` from tafket's default branch, refreshes the InstaWords download link and the
-  release feeds (`tools/sync-releases.mjs`), runs the QA and **pushes to main** if anything changed.
+  release feeds (`tools/sync-releases.mjs`), runs the QA and, if anything changed, pushes a `sync/<date>-<run>` branch and **opens a PR**
+  (never a direct push to main; at most one open sync PR).
 
 ## Release
 
 There are no versions or tags: every push to `main` is live. So merge site PRs only on release day.
-`sync.yml` is the one automatic pusher to main; it reflects what the app repos already published
+`sync.yml` opens the one automatic PR; it reflects what the app repos already published
 (and tafket's default branch), so the app repos must follow the train for it to stay on schedule.
 
 ## Do not move or rename
