@@ -25,7 +25,7 @@
         "en": "Reminders that stay on screen until you deal with them, with flexible repeats and verified backups."
       },
       "url": { "ar": "https://fastkiwi.app/Remember-Me/ar/", "en": "https://fastkiwi.app/Remember-Me/" },
-      "store": { "id": "9NGB1F7T7JGN", "live": false },
+      "store": { "id": "9NGB1F7T7JGN", "live": true },
       "winget": { "id": "Sarmad.RememberMe", "live": false },
       "icon": "img/remember-me.png"
     },
