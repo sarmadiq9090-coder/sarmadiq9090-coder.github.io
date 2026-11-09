@@ -1,7 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="InstaConvert">
-<title>InstaConvert</title>
-<path fill="#2F6249" d="M7.04 0H24.96A7.04 7.04 0 0 1 32 7.04V24.96A7.04 7.04 0 0 1 24.96 32H7.04A7.04 7.04 0 0 1 0 24.96V7.04A7.04 7.04 0 0 1 7.04 0Z"/>
-<path fill="#123B2A" d="M7.04 1H24.96A6.04 6.04 0 0 1 31 7.04V24.96A6.04 6.04 0 0 1 24.96 31H7.04A6.04 6.04 0 0 1 1 24.96V7.04A6.04 6.04 0 0 1 7.04 1Z"/>
-<path fill="#4FE0B0" d="M7.8 5.5H24.2A1.8 1.8 0 0 1 26 7.3V24.7A1.8 1.8 0 0 1 24.2 26.5H7.8A1.8 1.8 0 0 1 6 24.7V7.3A1.8 1.8 0 0 1 7.8 5.5Z"/>
-<path fill="#123B2A" d="M5.5 11H26.5V12.6H5.5ZM15.2 11H16.8V27H15.2ZM5.5 18.75H26.5V20.35H5.5Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32" role="img" aria-label="InstaConvert"><title>InstaConvert</title><defs>
+<linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#4f46e5"/><stop offset="0.20" stop-color="#5d42e6"/><stop offset="0.40" stop-color="#6a3ee7"/><stop offset="0.60" stop-color="#783be8"/><stop offset="0.80" stop-color="#8537e9"/><stop offset="1.00" stop-color="#9333ea"/></linearGradient>
+<radialGradient id="ih" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="0.6" stop-color="#fff" stop-opacity="0.10"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<clipPath id="ic"><rect width="1024" height="1024" rx="225.28"/></clipPath>
+</defs>
+<g clip-path="url(#ic)">
+<rect width="1024" height="1024" fill="url(#ig)"/>
+<ellipse cx="512.0" cy="-281.6" rx="972.8" ry="768.0" fill="url(#ih)"/>
+</g>
+<g transform="translate(-9 -9)"><rect x="236" y="236" width="420" height="420" rx="72" fill="#fff" fill-opacity="0.157"/><g stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="236" y="236" width="420" height="420" rx="72" stroke-width="84"/><line x1="236" y1="380" x2="656" y2="380" stroke-width="60"/><line x1="236" y1="518" x2="656" y2="518" stroke-width="60"/><line x1="400" y1="380" x2="400" y2="656" stroke-width="60"/><line x1="640" y1="640" x2="770" y2="770" stroke-width="120"/></g><path d="M820 650 L820 820 L650 820 Z" fill="#fff" stroke="#fff" stroke-linejoin="round" stroke-width="46"/></g>
 </svg>

@@ -68,8 +68,8 @@ no links, no newlines.
 | InstaFind | `img/instafind.svg` | legacy icon (owner decision, 2026-11-06); not brand v2 |
 | Remember Me | `img/remember-me.png` | |
 | Lemon | `img/lemon.png` | legacy icon (owner decision, 2026-11-06); not brand v2 |
-| InstaWords | `img/instawords.svg` | the brand icon, a copy of `brand/icons/instawords/instawords.svg` (the pen nib) |
-| InstaConvert | `img/instaconvert.svg` | |
+| InstaWords | `img/instawords.svg` | pen nib in InstaFind's style (owner decision D-049, 2026-11-09), a copy of `brand/icons/instawords/instawords.svg` |
+| InstaConvert | `img/instaconvert.svg` | table with a convert arrow in InstaFind's style (D-049), a copy of `brand/icons/instaconvert/instaconvert.svg` |
 
 An app that needs other sizes or formats (ICO, small PNGs) rasterises these at build time, or uses its
 own icon set for itself; for InstaWords, Remember Me and InstaConvert, `brand/icons/<id>/` has the full set.
