@@ -114,7 +114,7 @@ export function buildFeed(releasesByRepo, lang = 'en', { limit = 10 } = {}) {
     `  <updated>${updated}</updated>`,
     `  <author><name>FastKiwi</name><uri>${SITE}/</uri></author>`,
     `  <icon>${SITE}/img/icon-192.png</icon>`,
-    `  <rights>${xml(ar ? 'برامج مجانية ومفتوحة المصدر (MIT)' : 'Free, open-source software (MIT)')}</rights>`
+    `  <rights>${xml(ar ? 'برامج ويندوز مجانية' : 'Free Windows apps')}</rights>`
   ];
   const body = top.map(({ repo, app, r }) => {
     const tag = verTag(r.tag_name), when = new Date(Date.parse(r.published_at)).toISOString();
