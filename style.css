@@ -671,7 +671,17 @@ html[dir="rtl"] .ap-rel { text-align: right; }
 .nf .lead { margin-inline: auto; }
 .nf .code { font-size: clamp(5rem, 3rem + 10vw, 9rem); font-weight: 700; line-height: 1; color: var(--tint-2); -webkit-text-stroke: 2px var(--brand-light); margin-bottom: .5rem; }
 .nf .cta { justify-content: center; margin-top: 2rem; }
-/* Microsoft Store page (store/, ar/store/; draft) */
+/* Where an app is in the Microsoft Store, its official badge (img/store/) is the first, recommended download and the direct installer the second. */
+.store-badge { display: inline-flex; flex: none; border-radius: 5px; line-height: 0; }
+.store-badge img { display: block; width: auto; height: 44px; }
+.cta .store-badge img { height: 48px; }
+.store-badge:focus-visible { outline: 3px solid var(--brand-dark); outline-offset: 3px; }
+.dl-opts { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .75rem 1rem; }
+.dl-opt { display: grid; gap: .3rem; justify-items: start; }
+.dl-opt-label { display: block; font-size: .82rem; font-weight: 700; color: var(--muted); letter-spacing: .01em; }
+.od-src dd .store-badge { margin: .35rem 0; }
+.od-src dd .od-state { display: block; }
+/* Microsoft Store page (store/, ar/store/) */
 .st .wrap { max-width: 64rem; }
 .st-apps { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); align-items: start; margin-top: .5rem; }
 .st-app { display: flex; flex-direction: column; gap: .9rem; }

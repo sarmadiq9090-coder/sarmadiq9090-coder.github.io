@@ -47,7 +47,7 @@ because the site already holds every app's name, page, icon and package ids.
       "tagline":     { "ar": "…", "en": "Tasks & reminders" },        // short label, ≤ 40 characters
       "description": { "ar": "…", "en": "…" },                        // one plain line, ≤ 160 characters
       "url":   { "ar": "https://fastkiwi.app/Remember-Me/ar/", "en": "https://fastkiwi.app/Remember-Me/" },
-      "store":  { "id": "9NGB1F7T7JGN", "live": false },             // Microsoft Store ID, or null
+      "store":  { "id": "9NGB1F7T7JGN", "live": true },              // Microsoft Store ID, or null
       "winget": { "id": "Sarmad.RememberMe", "live": false },        // winget package id, or null
       "icon": "img/remember-me.png"            // path in this repo (the site's own copy)
     }
