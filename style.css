@@ -671,6 +671,41 @@ html[dir="rtl"] .ap-rel { text-align: right; }
 .nf .lead { margin-inline: auto; }
 .nf .code { font-size: clamp(5rem, 3rem + 10vw, 9rem); font-weight: 700; line-height: 1; color: var(--tint-2); -webkit-text-stroke: 2px var(--brand-light); margin-bottom: .5rem; }
 .nf .cta { justify-content: center; margin-top: 2rem; }
+/* Microsoft Store page (store/, ar/store/; draft) */
+.st .wrap { max-width: 64rem; }
+.st-apps { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); align-items: start; margin-top: .5rem; }
+.st-app { display: flex; flex-direction: column; gap: .9rem; }
+.st-app .app-top h2 { margin: 0; font-size: 1.3rem; }
+.st-app .benefit { margin: 0; color: var(--muted); }
+/* the official badge, unaltered: aspect ratio kept, 200 px wide (55 px tall, above the 32 px minimum), clear space of a quarter of its height */
+.ms-badge { display: inline-block; align-self: flex-start; padding: 14px 0; line-height: 0; border-radius: 6px; }
+.ms-badge img { width: 200px; max-width: 100%; height: auto; }
+.ms-badge:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.st-id { margin: 0; }
+.st-id code { direction: ltr; unicode-bidi: isolate; }
+.st-share { border-top: 1px solid var(--border); padding-top: .75rem; font-size: .92rem; }
+.st-share summary { cursor: pointer; font-weight: 700; color: var(--brand-dark); }
+.st-share p { color: var(--muted); margin: .6rem 0; }
+.st-share ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .55rem; }
+.st-share li { display: grid; grid-template-columns: 1fr auto; gap: .2rem .5rem; align-items: center; }
+.st-chan { grid-column: 1 / -1; font-weight: 700; font-size: .85rem; }
+.st-url { font-size: .78rem; background: var(--tint); padding: .15rem .4rem; border-radius: 6px; direction: ltr; text-align: left; overflow-wrap: anywhere; }
+.st-after { margin-top: 2rem; color: var(--muted); }
+/* accept switch: data-accepted on each Store card ("no" = the coming-soon line only, "yes" = badge, Store link and share helper) */
+.st-app[data-accepted="no"] .st-in-store, .st-app[data-accepted="yes"] .st-soon { display: none; }
+.st-soon { margin: 0; font-weight: 700; color: var(--brand-dark); }
+.st-soon-app { background: var(--tint); }
+.st-label { font-weight: 700; }
+.st-direct { display: grid; gap: .55rem; margin: 0; }
+.st-direct p { margin: 0; }
+.st-direct .fine code, .st-cmd code { direction: ltr; unicode-bidi: isolate; }
+.st-soon-dl { font-weight: 700; }
+.st-winget { border-top: 1px solid var(--border); padding-top: .75rem; display: grid; gap: .35rem; }
+.st-winget p { margin: 0; }
+.st-cmd { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; }
+.st-cmd code { font-size: .85rem; background: var(--tint); padding: .15rem .45rem; border-radius: 6px; color: var(--text); }
+.st-cmd code span { white-space: nowrap; } /* wrap only between "winget install" and "--id <ID> -e" */
+.st-soon-app .st-cmd code { background: var(--surface); }
 
 /* ---------- reveal on scroll ---------- */
 html.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
