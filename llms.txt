@@ -1,6 +1,6 @@
 # FastKiwi
 
-> FastKiwi makes free, open-source (MIT) Windows 10/11 apps that are fast, light, work offline, keep data on the user's PC and support Arabic and English.
+> FastKiwi makes free Windows 10/11 apps that are fast, light, work offline, keep data on the user's PC and support Arabic and English.
 
 ## Apps
 - [InstaFind](https://fastkiwi.app/arabic-file-search/en/): instant file search for Windows that understands Arabic spelling, searches inside PDF/Word/Excel, opens with Ctrl+Alt+F. Arabic page: https://fastkiwi.app/arabic-file-search/
