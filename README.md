@@ -5,6 +5,9 @@ Every project repo with GitHub Pages turned on appears automatically at `https:/
 
 Rule for every page: visitors stay on fastkiwi.app for every action. The only links to github.com are
 explicit, labelled GitHub buttons (`data-github`, text containing "GitHub") and direct release-asset downloads.
+The one other off-site link is Microsoft's official Store badge (`data-store`, self-hosted `img/store/get-it-from-microsoft-en-us-dark.svg` / `-ar.svg`,
+copied unchanged from get.microsoft.com) to `https://apps.microsoft.com/detail/<id>`, only for an app that `data/apps.json` marks
+`store.live`, with no tracking parameters. `store/` and `ar/store/` list each app's Store, direct-download and winget status.
 
 ## Tests
 

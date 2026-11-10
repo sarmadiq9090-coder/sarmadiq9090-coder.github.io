@@ -44,11 +44,13 @@ The FastKiwi home site, https://fastkiwi.app/, a static site (plain HTML/CSS/JS,
 served by GitHub Pages straight from `main` of this repo. Every project repo with Pages turned on
 also appears at `https://fastkiwi.app/<repo>/` (e.g. `/arabic-file-search/`, `/Remember-Me/`).
 Pages here: home (`index.html`, `ar/`, `en/`), `lemon/`, `releases/` (What's new + Atom feeds),
-`privacy/`, `instawords/` (synced from tafket). Details: [README.md](README.md).
+`privacy/`, `downloads/`, `store/` (Store, direct download and winget per app), `instawords/` (synced
+from tafket). Details: [README.md](README.md).
 
 Site rule (README): visitors stay on fastkiwi.app for every action. The only links to github.com
 are explicit, labelled GitHub buttons (`data-github`, text containing "GitHub") and direct
-release-asset downloads.
+release-asset downloads. The one other off-site link is the official Microsoft Store badge
+(`data-store`) for an app that `data/apps.json` marks live in the Store.
 
 ## Build and test
 
