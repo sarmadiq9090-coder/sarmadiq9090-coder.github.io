@@ -876,19 +876,18 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   }
 }
 
-/* ---------- 12. InstaWords in two languages: English home → instawords/en/, Arabic home → instawords/; sitemap alternates ---------- */
+/* ---------- 12. InstaWords: both homes link to instawords/ (one page with a language choice) until InstaWords publishes
+   English pages (instawords/en/); then restore the en/ links, the sitemap alternates and these checks. ---------- */
 {
   const html = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
   const iwLinks = f => [...html(f).matchAll(/<a\b[^>]*href="((?:\.\.\/)?instawords\/[^"#]*)"/g)].map(m => m[1]);
   const en = iwLinks('index.html'), ar = iwLinks('ar/index.html');
-  ok(en.length >= 4 && en.every(h => h === 'instawords/en/'), `home-en: InstaWords links open the English pages (${en})`);
+  ok(en.length >= 4 && en.every(h => h === 'instawords/'), `home-en: InstaWords links open instawords/ (${en})`);
   ok(ar.length >= 4 && ar.every(h => h === '../instawords/'), `home-ar: InstaWords links open the Arabic pages (${ar})`);
-  ok(html('index.html').includes('"url": "https://fastkiwi.app/instawords/en/"') && html('ar/index.html').includes('"url": "https://fastkiwi.app/instawords/"'), 'home JSON-LD: InstaWords URL in the page language');
+  ok(html('index.html').includes('"url": "https://fastkiwi.app/instawords/"') && html('ar/index.html').includes('"url": "https://fastkiwi.app/instawords/"'), 'home JSON-LD: InstaWords URL');
   const sm = html('sitemap.xml'), B = 'https://fastkiwi.app/instawords/';
-  for (const page of ['', 'bulk.html', 'excel.html']) for (const loc of [`${B}${page}`, `${B}en/${page}`]) {
-    const entry = sm.match(new RegExp(`<url><loc>${loc.replace(/[.]/g, '\\.')}</loc>.*?</url>`))?.[0] ?? '';
-    ok([`hreflang="en" href="${B}en/${page}"`, `hreflang="ar" href="${B}${page}"`, `hreflang="x-default" href="${B}en/${page}"`].every(x => entry.includes(x)), `sitemap: ${loc} with en/ar/x-default alternates`);
-  }
+  for (const page of ['', 'bulk.html', 'excel.html']) ok(sm.includes(`<loc>${B}${page}</loc>`), `sitemap: ${B}${page}`);
+  ok(!sm.includes(`${B}en/`), 'sitemap: no instawords/en/ URL while those pages do not exist');
   if (IW_EN) for (const f of ['index.html', 'bulk.html', 'excel.html']) {
     const p = path.join(ROOT, 'instawords', 'en', f);
     if (fs.existsSync(p)) ok(/<html lang="en" dir="ltr">/.test(fs.readFileSync(p, 'utf8')), `instawords/en/${f}: English page synced from tafket`);

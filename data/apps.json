@@ -52,7 +52,7 @@
         "ar": "اكتب أي مبلغ بالحروف للشيكات والفواتير، بالعربية أو الإنجليزية أو الفرنسية. في المتصفح أو كبرنامج ويندوز، وحتى بلا إنترنت.",
         "en": "Write any amount in words for cheques and invoices, in Arabic, English or French. In your browser or as a Windows app, even offline."
       },
-      "url": { "ar": "https://fastkiwi.app/instawords/", "en": "https://fastkiwi.app/instawords/en/" },
+      "url": { "ar": "https://fastkiwi.app/instawords/", "en": "https://fastkiwi.app/instawords/" },
       "store": { "id": "9P62P4WQSQNK", "live": false },
       "winget": { "id": "Sarmad.InstaWords", "live": false },
       "icon": "img/instawords.svg"
