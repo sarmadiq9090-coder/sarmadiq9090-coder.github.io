@@ -146,18 +146,18 @@ export function latestInstaWords(rels) {
 /** Rewrites every static InstaWords installer link, version label and JSON-LD version to `latest`. Returns the changed files. */
 export function applyInstaWordsFallback(root, latest) {
   if (!latest || !/^[\w.-]+$/.test(latest.tag) || !INSTAWORDS_SETUP.test(latest.name)) throw new Error('bad InstaWords release');
-  const url = `https://github.com/${OWNER}/tafket/releases/download/${latest.tag}/${latest.name}`;
+  const url = `https://github.com/${OWNER}/InstaWords/releases/download/${latest.tag}/${latest.name}`;
   const changed = [];
   for (const f of FALLBACK_FILES) {
     const p = path.join(root, f);
     if (!fs.existsSync(p)) continue;
     const before = fs.readFileSync(p, 'utf8');
     const after = before
-      .replace(/https:\/\/github\.com\/sarmadiq9090-coder\/tafket\/releases\/download\/[\w.-]+\/InstaWords_[\d.]+_x64-setup\.exe/g, url)
-      .replace(/'https:\/\/github\.com\/' \+ OWNER \+ '\/tafket\/releases\/download\/[\w.-]+\/InstaWords_[\d.]+_x64-setup\.exe'/g,
-        `'https://github.com/' + OWNER + '/tafket/releases/download/${latest.tag}/${latest.name}'`)
+      .replace(/https:\/\/github\.com\/sarmadiq9090-coder\/(?:tafket|InstaWords)\/releases\/download\/[\w.-]+\/InstaWords_[\d.]+_x64-setup\.exe/g, url)
+      .replace(/'https:\/\/github\.com\/' \+ OWNER \+ '\/(?:tafket|InstaWords)\/releases\/download\/[\w.-]+\/InstaWords_[\d.]+_x64-setup\.exe'/g,
+        `'https://github.com/' + OWNER + '/InstaWords/releases/download/${latest.tag}/${latest.name}'`)
       .replace(/(data-dl="tafket">[^<]*(?:<[^>]+>[^<]*)*?<span class="dl-ver" data-dl-ver>)[^<]*(<\/span>)/g, `$1${verTag(latest.version)}$2`)
-      .replace(/("softwareVersion": ")[\d.]+(", "downloadUrl": "https:\/\/github\.com\/sarmadiq9090-coder\/tafket\/)/g, `$1${latest.version}$2`)
+      .replace(/("softwareVersion": ")[\d.]+(", "downloadUrl": "https:\/\/github\.com\/sarmadiq9090-coder\/(?:tafket|InstaWords)\/)/g, `$1${latest.version}$2`)
       .replace(/>InstaWords_[\d.]+_x64-setup\.exe</g, `>${latest.name}<`);
     if (after !== before) { fs.writeFileSync(p, after); changed.push(f); }
   }

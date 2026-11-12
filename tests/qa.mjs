@@ -20,9 +20,9 @@ PAGES.push(['support-en', '/support/'], ['support-ar', '/ar/support/']); // the 
 PAGES.push(['downloads-en', '/downloads/'], ['downloads-ar', '/ar/downloads/']); // TRADEMARKS.md in the app repos links here
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
-const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/tafket\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
+const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/InstaWords\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
 const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/latest/download/bahth.exe', 'Remember-Me': GH + 'Remember-Me/releases/latest',
-  'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}tafket/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
+  'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}InstaWords/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
 const FEED = { en: fs.existsSync(path.join(ROOT, 'releases.xml')), ar: fs.existsSync(path.join(ROOT, 'ar', 'releases.xml')) };
 const WIDTHS = [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360];
 PAGES.push(['store-en', '/store/'], ['store-ar', '/ar/store/']); // draft Microsoft Store page (see section 9b)
@@ -360,7 +360,7 @@ for (const lang of ['en', 'ar']) {
     await page.goto(BASE + url, { waitUntil: 'networkidle' }); await page.waitForTimeout(300);
     const r = await page.evaluate(() => [...document.querySelectorAll('[data-release]')].map(sec => ({ id: sec.id, msg: !!sec.querySelector('.dl-msg'), main: sec.querySelector('.dl-main')?.href || null,
       gh: [...sec.querySelectorAll('a[data-github]')].map(a => [a.textContent, a.href]) })));
-    const fb = { instafind: /\/arabic-file-search\/releases\/latest\/download\/bahth\.exe$/, lemon: /\/local-ai-chat\/releases\/latest\/download\/local-ai-chat\.exe$/, instawords: new RegExp(`/tafket/releases/download/v${IW_V.replace(/\./g, '\\.')}/InstaWords_${IW_V.replace(/\./g, '\\.')}_x64-setup\\.exe$`) };
+    const fb = { instafind: /\/arabic-file-search\/releases\/latest\/download\/bahth\.exe$/, lemon: /\/local-ai-chat\/releases\/latest\/download\/local-ai-chat\.exe$/, instawords: new RegExp(`/InstaWords/releases/download/v${IW_V.replace(/\./g, '\\.')}/InstaWords_${IW_V.replace(/\./g, '\\.')}_x64-setup\\.exe$`) };
     for (const x of r) {
       ok(x.msg && x.gh.length === 1 && /GitHub/.test(x.gh[0][0]), `releases offline ${lang} ${x.id}: message + one explicit GitHub button`);
       ok(x.id === 'remember-me' ? x.main === null : fb[x.id].test(x.main || ''), `releases offline ${lang} ${x.id}: static direct link ${x.main}`);
@@ -797,7 +797,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
 /* ---------- 11b. official downloads: per app its fastkiwi.app page, labelled GitHub releases link, checksum, Store / winget / Scoop status; verify, warning, trademarks ---------- */
 {
   const SRC = { // what each app really has (checked against its repo and release assets): checksum file, Store ID, winget ID, Scoop
-    instawords: { repo: 'tafket', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
+    instawords: { repo: 'InstaWords', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
     instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: null, store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
     'remember-me': { repo: 'Remember-Me', site: { en: '/Remember-Me/', ar: '/Remember-Me/ar/' }, sha: 'SHA256SUMS.txt', store: '9NGB1F7T7JGN', winget: 'Sarmad.RememberMe', scoop: false },
     lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false }
@@ -849,7 +849,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(lang === 'en' ? ['other sites', 'cracked', 'pro', 'not ours', 'may be harmful', 'free', 'never ask for payment or personal data'].every(x => D.warn.includes(x))
       : ['مواقع أخرى', 'المكرَكة', 'pro', 'ليست منا', 'ضارة', 'مجانية', 'لا نطلب أبداً أي مبلغ أو بيانات شخصية'].every(x => D.warn.includes(x)), `${tag}: warning about other copies, cracked/pro versions, free, no payment or personal data`);
     ok(lang === 'en' ? D.tm[0] === TM_EN : /علامات تجارية لـ FastKiwi \(Sarmad\)/.test(D.tm[0]) && ['InstaWords™', 'InstaFind™', 'Remember Me™', 'Lemon™', 'InstaConvert™', 'FastKiwi™'].every(x => D.tm[0].includes(x)) && /لا تمنح أي حق في العلامات التجارية/.test(D.tm[0]), `${tag}: trademark note (${D.tm[0]})`);
-    ok(D.tmLink.length === 1 && D.tmLink[0][0] === GH + 'tafket/blob/HEAD/TRADEMARKS.md' && /GitHub/.test(D.tmLink[0][1]), `${tag}: labelled link to InstaWords' TRADEMARKS.md ${JSON.stringify(D.tmLink)}`);
+    ok(D.tmLink.length === 1 && D.tmLink[0][0] === GH + 'InstaWords/blob/HEAD/TRADEMARKS.md' && /GitHub/.test(D.tmLink[0][1]), `${tag}: labelled link to InstaWords' TRADEMARKS.md ${JSON.stringify(D.tmLink)}`);
     ok(D.footer.includes(url) && D.footer.includes(url.replace('downloads', 'support')) && D.footer.includes(url.replace('downloads', 'privacy')), `${tag}: footer links Official downloads, Support and Privacy`);
     ok(D.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
     await checkLinks(page, tag);
