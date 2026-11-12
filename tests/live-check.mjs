@@ -18,8 +18,7 @@ const REPORT = opt('--report');
 const OUT = path.resolve(process.env.QA_OUT || path.join(path.dirname(fileURLToPath(import.meta.url)), 'output')) + path.sep;
 fs.mkdirSync(OUT, { recursive: true });
 const TOKEN = process.env.GITHUB_TOKEN;
-const OWN = ['/', '/ar/', '/releases/', '/ar/releases/', '/lemon/', '/ar/lemon/', '/privacy/', '/ar/privacy/', '/instawords/', '/instawords/bulk.html', '/instawords/excel.html',
-  '/instawords/en/', '/instawords/en/bulk.html', '/instawords/en/excel.html'];
+const OWN = ['/', '/ar/', '/releases/', '/ar/releases/', '/lemon/', '/ar/lemon/', '/privacy/', '/ar/privacy/', '/instawords/', '/instawords/bulk.html', '/instawords/excel.html'];
 const REDIRECTS = ['/local-ai-chat/', '/instafind/', '/remember-me/', '/tafqit/', '/en/'];
 const INSTALLER = { 'arabic-file-search': /^bahth\.exe$/, 'Remember-Me': /^Remember-Me-Setup-.*\.exe$/i, 'local-ai-chat': /^local-ai-chat\.exe$/, 'tafket': /^InstaWords_[\d.]+_x64-setup\.exe$/ };
 const problems = [];

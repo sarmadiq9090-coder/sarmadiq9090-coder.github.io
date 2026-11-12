@@ -6,7 +6,7 @@
 - [InstaFind](https://fastkiwi.app/arabic-file-search/en/): instant file search for Windows that understands Arabic spelling, searches inside PDF/Word/Excel, opens with Ctrl+Alt+F. Arabic page: https://fastkiwi.app/arabic-file-search/
 - [Remember Me](https://fastkiwi.app/Remember-Me/): tasks, notes and reminders that stay on screen until handled; 12 languages.
 - [Lemon](https://fastkiwi.app/lemon/): offline ChatGPT-style Windows app for local Ollama models (single .exe, Arabic and English), with assistants that answer only from your files and a live HTML/JS preview. Needs Ollama. Arabic page: https://fastkiwi.app/ar/lemon/
-- [InstaWords](https://fastkiwi.app/instawords/en/): free amount-in-words (tafqit) tool for cheques and invoices in English, Arabic and French; 100+ currencies and units, bulk/CSV mode (https://fastkiwi.app/instawords/en/bulk.html), works offline in the browser, as a Windows app with an English or Arabic interface (https://github.com/sarmadiq9090-coder/InstaWords/releases/latest) and in Excel (=TAFQIT(A1, "USD", , , , , "en"); https://fastkiwi.app/instawords/en/excel.html). Arabic page: https://fastkiwi.app/instawords/
+- [InstaWords](https://fastkiwi.app/instawords/): free amount-in-words (tafqit) tool for cheques and invoices in English, Arabic and French; 100+ currencies and units, bulk/CSV mode (https://fastkiwi.app/instawords/bulk.html), works offline in the browser, as a Windows app with an English or Arabic interface (https://github.com/sarmadiq9090-coder/InstaWords/releases/latest) and in Excel (=TAFQIT(A1, "USD", , , , , "en"); https://fastkiwi.app/instawords/excel.html). Arabic page: https://fastkiwi.app/instawords/
 
 ## Links
 - Source code: https://github.com/sarmadiq9090-coder
