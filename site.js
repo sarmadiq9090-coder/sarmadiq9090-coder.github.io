@@ -40,7 +40,7 @@
       fallback: 'https://github.com/' + OWNER + '/local-ai-chat/releases/latest/download/local-ai-chat.exe' },
     'tafket': { slug: 'instawords', icon: 'img/instawords.svg', name: ar ? 'InstaWords · تفقيط' : 'InstaWords',
       req: ar ? 'ويندوز 10 أو 11 · تثبيت للمستخدم دون صلاحيات المدير' : 'Windows 10 or 11 · per-user install, no admin rights',
-      fallback: 'https://github.com/' + OWNER + '/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe' }
+      fallback: 'https://github.com/' + OWNER + '/InstaWords/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe' }
   };
   var T = ar ? {
     title: 'التنزيل وملاحظات الإصدار', close: 'إغلاق', loading: 'جارٍ جلب آخر إصدار…', version: 'الإصدار', date: 'تاريخ النشر',

@@ -73,12 +73,12 @@ test('sync tool: updates the InstaWords fallback, writes the feeds, shows the li
   assert.match(out, /releases\.xml/);
   for (const f of ['index.html', 'ar/index.html']) {
     const s = fs.readFileSync(path.join(dir, f), 'utf8');
-    assert.equal((s.match(/tafket\/releases\/download\/v2\.0\.1\/InstaWords_2\.0\.1_x64-setup\.exe" data-dl="tafket"/g) || []).length, 2, f);
+    assert.equal((s.match(/InstaWords\/releases\/download\/v2\.0\.1\/InstaWords_2\.0\.1_x64-setup\.exe" data-dl="tafket"/g) || []).length, 2, f);
     assert.equal((s.match(/data-dl-ver>v2\.0\.1</g) || []).length, 2, f);
-    assert.match(s, /"softwareVersion": "2\.0\.1", "downloadUrl": "https:\/\/github\.com\/sarmadiq9090-coder\/tafket\/releases\/download\/v2\.0\.1\/InstaWords_2\.0\.1_x64-setup\.exe"/);
+    assert.match(s, /"softwareVersion": "2\.0\.1", "downloadUrl": "https:\/\/github\.com\/sarmadiq9090-coder\/InstaWords\/releases\/download\/v2\.0\.1\/InstaWords_2\.0\.1_x64-setup\.exe"/);
     assert.doesNotMatch(s, /InstaWords_2\.0\.0/);
   }
-  assert.match(fs.readFileSync(path.join(dir, 'site.js'), 'utf8'), /'\/tafket\/releases\/download\/v2\.0\.1\/InstaWords_2\.0\.1_x64-setup\.exe'/);
+  assert.match(fs.readFileSync(path.join(dir, 'site.js'), 'utf8'), /'\/InstaWords\/releases\/download\/v2\.0\.1\/InstaWords_2\.0\.1_x64-setup\.exe'/);
   for (const f of ['releases/index.html', 'ar/releases/index.html']) assert.match(fs.readFileSync(path.join(dir, f), 'utf8'), /download\/v2\.0\.1\/InstaWords_2\.0\.1_x64-setup\.exe">InstaWords_2\.0\.1_x64-setup\.exe</);
   for (const [f, feed] of Object.entries(FEED_PAGES)) {
     const s = fs.readFileSync(path.join(dir, f), 'utf8');
