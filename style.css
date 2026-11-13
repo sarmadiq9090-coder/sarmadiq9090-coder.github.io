@@ -121,6 +121,9 @@ html[lang="ar"] .brand::before { width: 179px; background-image: url(img/fastkiw
 .nav a:hover { color: var(--text); background: var(--tint); }
 .nav .lang { margin-inline-start: .5rem; color: var(--text); border: 1px solid var(--border-2); border-radius: 999px; padding: .35rem .95rem; background: var(--surface); }
 .nav .lang:hover { border-color: var(--brand); background: var(--surface); }
+/* small phones: the tools pages show a nav link ("أدوات PDF") and the language link next to the wordmark; they must fit in 320 px */
+@media (max-width: 400px) { .site-header .wrap { gap: .5rem; } .nav a { padding-inline: .55rem; } .nav .lang { margin-inline-start: .25rem; padding-inline: .7rem; } }
+@media (max-width: 359px) { .brand::before { display: none; } .brand > img { display: block; } } /* logo only; the link keeps its aria-label */
 @media (max-width: 940px) { .nav .opt { display: none; } }
 
 /* ---------- section scaffolding ---------- */
