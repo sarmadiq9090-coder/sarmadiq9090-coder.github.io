@@ -798,10 +798,11 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
 {
   const SRC = { // what each app really has (checked against its repo and release assets): checksum file, Store ID, winget ID, Scoop
     instawords: { repo: 'InstaWords', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
-    instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: null, store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
+    instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: 'SHA256SUMS.txt', store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
     'remember-me': { repo: 'Remember-Me', site: { en: '/Remember-Me/', ar: '/Remember-Me/ar/' }, sha: 'SHA256SUMS.txt', store: '9NGB1F7T7JGN', winget: 'Sarmad.RememberMe', scoop: false },
     lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false }
   };
+  const STORE_LIVE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.filter(a => a.store?.live).map(a => a.id);
   const TM_EN = 'InstaWords™, InstaFind™, Remember Me™, Lemon™, InstaConvert™ and FastKiwi™ are trademarks of FastKiwi (Sarmad). The licences grant no trademark rights.';
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
   await offline(ctx);
@@ -817,6 +818,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
       apps: [...document.querySelectorAll('.od-app[id]')].map(s => ({ id: s.id, title: s.querySelector('h3').textContent,
         rows: Object.fromEntries([...s.querySelectorAll('.od-src > div[data-src]')].map(d => [d.dataset.src, { text: d.querySelector('dd').textContent, links: [...d.querySelectorAll('a')].map(a => ({ href: a.href, gh: a.hasAttribute('data-github'), store: a.hasAttribute('data-store'), text: a.textContent })) }])),
+        order: [...s.querySelectorAll('.od-src > div[data-src]')].map(d => d.dataset.src),
         links: s.querySelectorAll('a').length })),
       verify: document.querySelector('#verify + .card')?.textContent || '',
       warn: document.querySelector('#warning + .od-warn')?.textContent || '',
@@ -835,6 +837,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       const want = SRC[a.id];
       if (!want) { ok(a.links === 0 && Object.keys(a.rows).length === 0 && (lang === 'en' ? /coming soon/i : /قريباً/).test(a.title), `${tag} instaconvert: "coming soon", no links`); continue; }
       const R = a.rows, site = R.site?.links || [];
+      const live = STORE_LIVE.includes(a.id);  /* owner's store-first rule: a live Store listing is the first source */
+      ok(live ? a.order[0] === 'store' : a.order[0] === 'site', `${tag} ${a.id}: ${live ? 'Microsoft Store first (live in the Store)' : 'this site first'} (${a.order})`);
       ok(site.length === 2 && new URL(site[0].href).origin === BASE && new URL(site[0].href).pathname === want.site[lang] && new URL(site[1].href).pathname + new URL(site[1].href).hash === (lang === 'en' ? '/releases/#' : '/ar/releases/#') + a.id, `${tag} ${a.id}: its fastkiwi.app page and release notes ${JSON.stringify(site.map(l => l.href))}`);
       ok(R.github?.links.length === 1 && R.github.links[0].href === `${GH}${want.repo}/releases` && R.github.links[0].gh && /GitHub/.test(R.github.links[0].text), `${tag} ${a.id}: labelled GitHub releases link ${JSON.stringify(R.github)}`);
       if (want.sha) ok(R.sha256?.links.length === 1 && R.sha256.links[0].href === `${GH}${want.repo}/releases/latest/download/${want.sha}` && R.sha256.links[0].text === want.sha, `${tag} ${a.id}: direct link to the release's ${want.sha}`);
