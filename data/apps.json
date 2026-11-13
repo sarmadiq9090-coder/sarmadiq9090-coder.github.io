@@ -7,7 +7,7 @@
       "name": { "ar": "InstaFind", "en": "InstaFind" },
       "tagline": { "ar": "بحث سريع", "en": "Instant file search" },
       "description": {
-        "ar": "ابحث عن أي ملف على جهازك أثناء الكتابة، بالعربية أو الإنجليزية، وحتى داخل ملفات PDF وWord.",
+        "ar": "ابحث عن أي ملف على جهازك أثناء الكتابة، بالعربية أو الإنكليزية، وحتى داخل ملفات PDF وWord.",
         "en": "Find any file on your PC as you type, in English or Arabic, even inside PDF and Word documents."
       },
       "url": { "ar": "https://fastkiwi.app/arabic-file-search/", "en": "https://fastkiwi.app/arabic-file-search/en/" },

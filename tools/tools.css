@@ -1,11 +1,37 @@
-/* FastKiwi Toolbox: shared look of /tools/ pages, on top of /style.css (same kiwi-green tokens and dark mode).
-   Adds the tool hero, trust strip, install/how cards and the "request a tool" band.
+/* FastKiwi Toolbox: shared look of /tools/ pages, on top of /style.css (same kiwi-green tokens).
+   Adds dark mode (follows the system), the tool hero, trust strip, install/how cards and the "request a tool" band.
    Logical properties throughout, so the same rules serve LTR and RTL pages. */
 
 [hidden] { display: none !important; }
-/* light and dark tokens come from /style.css (the site's design); only tool-specific bits here */
 @media (prefers-color-scheme: dark) {
-  .btn-primary:disabled { background: #2e3b17; color: #a3ad96; }
+  .brand::before { background-image: url(../img/fastkiwi-latin-dark.svg); }
+  html[lang="ar"] .brand::before { background-image: url(../img/fastkiwi-arabic-dark.svg); }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0f1610;
+    --surface: #162017;
+    --tint: #1a281a;
+    --tint-2: #213421;
+    --border: #283a27;
+    --border-2: #36502f;
+    --text: #e6f0dd;
+    --muted: #a9baa0;
+    --brand: #7bc043;
+    --brand-dark: #9bd46b;
+    --brand-deep: #b5e38d;
+    --brand-light: #8fd45a;
+    --shadow-xs: 0 1px 2px rgb(0 0 0 / .4);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / .35), 0 2px 8px -2px rgb(0 0 0 / .4);
+    --shadow: 0 1px 2px rgb(0 0 0 / .35), 0 12px 28px -10px rgb(0 0 0 / .6);
+  }
+  .site-header { background: rgb(15 22 16 / .82); }
+  .btn-primary { background: #7bc043; color: #0f1a0a; box-shadow: 0 1px 2px rgb(0 0 0 / .4); }
+  .btn-primary:hover { background: #8fd45a; }
+  .btn-primary:disabled { background: #3b4f36; color: #a9baa0; }
+  .skip { background: var(--brand); color: #0f1a0a; }
   .squircle { box-shadow: 0 0 0 1px rgb(255 255 255 / .08); }
 }
 
@@ -23,8 +49,9 @@ html[dir="rtl"] .tb-hero::before { transform: scaleX(-1); }
 .tb-trust { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem .6rem; }
 .tb-trust li { display: inline-flex; align-items: center; gap: .45rem; padding: .35rem .85rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); font-size: .92rem; font-weight: 700; color: var(--text); }
 .tb-trust svg { width: 18px; height: 18px; flex: none; color: var(--brand); }
-.tb-trust .tb-trust-main { background: var(--btn); border-color: var(--btn); color: var(--on-kiwi); font-size: 1rem; padding: .5rem 1.05rem; }
-.tb-trust .tb-trust-main svg { color: var(--on-kiwi); }
+.tb-trust .tb-trust-main { background: var(--brand-dark); border-color: var(--brand-dark); color: #fff; font-size: 1rem; padding: .5rem 1.05rem; }
+.tb-trust .tb-trust-main svg { color: #fff; }
+@media (prefers-color-scheme: dark) { .tb-trust .tb-trust-main { background: #7bc043; border-color: #7bc043; color: #0f1a0a; } .tb-trust .tb-trust-main svg { color: #0f1a0a; } }
 
 /* ---------- tool area + side cards ---------- */
 .tb-tool { padding-block: 0 clamp(2.5rem, 5vw, 4rem); }
@@ -61,4 +88,4 @@ html[dir="rtl"] .tb-hero::before { transform: scaleX(-1); }
 .tb-card .squircle { width: 48px; height: 48px; border-radius: 13px; }
 .tb-soon { border-style: dashed; background: transparent; box-shadow: none; justify-content: center; }
 .tb-soon h2 { color: var(--muted); }
-.tb-badge { display: inline-block; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; background: var(--tint-2); color: var(--brand-deep); }
+.tb-badge { display: inline-block; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; background: var(--tint-2); color: var(--brand-dark); }
