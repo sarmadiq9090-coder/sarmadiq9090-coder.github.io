@@ -113,8 +113,8 @@
               <li data-k="ahmed احمد meeting notes"><span class="f-ico">TXT</span><span class="f-main"><span class="f-name">Ahmed – meeting notes.txt</span><span class="f-snip">…call Ahmed about tomorrow’s meeting at ten…</span></span><span class="f-path">Documents</span></li>
               <li data-k="invoice فاتوره"><span class="f-ico">PDF</span><span class="f-main"><span class="f-name">invoice-2026-114.pdf</span><span class="f-snip">Invoice total: 1,250.75 SAR, due in 14 days</span></span><span class="f-path">Downloads</span></li>
               <li data-k="report sales"><span class="f-ico">XLSX</span><span class="f-main"><span class="f-name">quarterly-report.xlsx</span><span class="f-snip">Q3 sales summary and forecast</span></span><span class="f-path">Work</span></li>
-              <li data-k="report sales"><span class="f-ico">DOCX</span><span class="f-main"><span class="f-name" lang="ar">تقرير المبيعات.docx</span><span class="f-snip" lang="ar">ملخص مبيعات الربع الثالث</span></span><span class="f-path">Work</span></li>
-              <li data-k="contract عقد"><span class="f-ico">DOCX</span><span class="f-main"><span class="f-name">contract-final.docx</span><span class="f-snip">…the second party delivers the work within thirty days…</span></span><span class="f-path">Work</span></li>
+              <li data-k="report sales"><span class="f-ico">DOCX</span><span class="f-main"><span class="f-name" lang="ar"><bdi class="fname" dir="rtl"><bdi class="base">تقرير المبيعات</bdi><bdi class="ext" dir="ltr">.docx</bdi></bdi></span><span class="f-snip" lang="ar">ملخص مبيعات الربع الثالث</span></span><span class="f-path">Work</span></li>
+              <li data-k="contract عقد العقد النهائي"><span class="f-ico">DOCX</span><span class="f-main"><span class="f-name">contract-final.docx</span><span class="f-snip">…the second party delivers the work within thirty days…</span></span><span class="f-path">Work</span></li>
               <li data-k="photo صوره"><span class="f-ico">JPG</span><span class="f-main"><span class="f-name">family-photo.jpg</span><span class="f-snip">4032 × 3024</span></span><span class="f-path">Pictures</span></li>
             </ul>
             <p class="search-status" data-find-status role="status">6 sample files, searched by name and content.</p>
@@ -248,11 +248,13 @@
       <div class="reveal">
         <p class="app-label"><img src="img/instafind.svg" width="36" height="36" alt="">InstaFind <span>· file search</span></p>
         <h2 id="instafind-title">Find any file in a second</h2>
-        <p class="intro">It indexes all your drives once, then shows results while you type. And it understands Arabic the way people actually write it.</p>
+        <p class="intro">It indexes all your drives once, then shows results while you type. And it understands Arabic the way people actually write it. Version 1.0 brings a clearer new look, with thumbnails (<kbd>Ctrl</kbd>+<kbd>T</kbd>) and a “How to search” card (<kbd>F1</kbd>).</p>
         <ul class="checks">
-          <li><strong>Forgiving search:</strong> ignores Arabic letter variants, reads Franco-Arabic and text typed on the wrong keyboard layout.</li>
-          <li><strong>Search inside documents:</strong> PDF, Word, Excel, images and archives, with a snippet of the matching text.</li>
+          <li><strong>Forgiving search, in more scripts:</strong> ignores Arabic letter and hamza variants, finds Kurdish, Persian and Urdu letters and accents (“cafe” finds “Café”), and reads Franco-Arabic and text typed on another keyboard layout.</li>
+          <li><strong>Search inside documents, much faster:</strong> PDF, Word, Excel, images and archives, with a snippet of the matching text. A word index answers in 0.2–1.1 seconds instead of 7–32 seconds across 300,000 test documents, with the same results.</li>
           <li><strong>Faster than searching with <code>dir /s</code>:</strong> 1 second versus 73–108 seconds across 1.2 million files in our test on Windows.</li>
+          <li><strong>40 interface languages:</strong> Arabic and English, plus 38 more in machine translation, marked as such in the language list. The quick-search popup works with screen readers.</li>
+          <li><strong>Careful with your PC:</strong> it doesn’t download cloud-only OneDrive files to read them unless you allow it (off by default), and starting a newer copy replaces an older one that is running.</li>
         </ul>
         <p class="hotkey">Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> anywhere to open the search box.</p>
         <div class="cta">
@@ -262,7 +264,7 @@
           </a>
           <a class="btn btn-ghost" href="arabic-file-search/en/">Learn more<span class="sr-only"> about InstaFind</span></a>
         </div>
-        <p class="sublinks"><a href="releases/#instafind"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><a href="https://github.com/sarmadiq9090-coder/arabic-file-search" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
+        <p class="sublinks"><a href="releases/#instafind"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><a href="https://github.com/sarmadiq9090-coder/arabic-file-search" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Project on GitHub</a></p>
       </div>
       <figure class="shot reveal">
         <div class="win">
@@ -294,6 +296,7 @@
         <li><strong>Flexible repeats:</strong> daily, weekly, monthly or chosen days, with one-click snooze.</li>
         <li><strong>12 languages and 6 themes:</strong> including right-to-left Arabic and dark mode.</li>
         <li><strong>Verified backups:</strong> every backup is checked before it is trusted.</li>
+        <li><strong>Quick add from anywhere:</strong> turn it on in Settings, then press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> (or a shortcut you choose) in any app to add a task.</li>
       </ul>
       <div class="cta dl-opts">
         <div class="dl-opt"><span class="dl-opt-label">Recommended: updates itself through Windows</span><a class="store-badge" href="https://apps.microsoft.com/detail/9NGB1F7T7JGN?referrer=appbadge&amp;cid=fastkiwi-site&amp;mode=full" data-store><img src="img/store/get-it-from-microsoft-en-us-dark.svg" width="161" height="44" alt="Get Remember Me from Microsoft Store"></a></div>
@@ -303,7 +306,7 @@
         </a></div>
         <a class="btn btn-ghost" href="Remember-Me/">Learn more<span class="sr-only"> about Remember Me</span></a>
       </div>
-      <p class="sublinks"><a href="releases/#remember-me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><a href="https://github.com/sarmadiq9090-coder/Remember-Me" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
+      <p class="sublinks"><a href="releases/#remember-me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><a href="https://github.com/sarmadiq9090-coder/Remember-Me" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Project on GitHub</a></p>
     </div>
     <figure class="shot reveal">
       <div class="win">
@@ -333,7 +336,7 @@
         </a>
         <a class="btn btn-ghost" href="lemon/">Learn more<span class="sr-only"> about Lemon</span></a>
       </div>
-      <p class="sublinks"><a href="releases/#lemon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><span>Needs <a href="#faq-offline">Ollama</a> for the AI models.</span><a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
+      <p class="sublinks"><a href="releases/#lemon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Release notes &amp; all versions</a><span>Needs <a href="#faq-offline">Ollama</a> for the AI models.</span><a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Project on GitHub</a></p>
     </div>
     <figure class="shot reveal">
       <div class="win dark">
@@ -364,7 +367,7 @@
         <a class="btn btn-ghost" href="instawords/">Use it in the browser</a>
       </div>
       <p class="fine">Windows 10/11 · 2.5 MB · per-user install, no admin rights · <a href="releases/#instawords">portable version &amp; release notes</a></p>
-      <p class="sublinks"><a href="https://github.com/sarmadiq9090-coder/InstaWords" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a></p>
+      <p class="sublinks"><a href="https://github.com/sarmadiq9090-coder/InstaWords" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Project on GitHub</a></p>
     </div>
     <figure class="shot reveal">
       <div class="win">
@@ -404,7 +407,7 @@
       <p>Can’t find your answer? <a href="#support">Get help</a>.</p>
     </div>
     <div class="faq">
-      <details id="faq-smartscreen"><summary>Windows says “Unknown publisher” or “Windows protected your PC”. Is it safe?</summary><div><p>The files are not code-signed yet, so Windows SmartScreen doesn’t recognise the publisher. Click “More info”, then “Run anyway”. All the code is public for review, and every release is built automatically from it.</p></div></details>
+      <details id="faq-smartscreen"><summary>Windows says “Unknown publisher” or “Windows protected your PC”. Is it safe?</summary><div><p>The files are not code-signed yet, so Windows SmartScreen doesn’t recognise the publisher. Click “More info”, then “Run anyway”. Every release is built automatically, and the <a href="downloads/">official downloads page</a> shows how to check that your file is genuine with its SHA-256 fingerprint.</p></div></details>
       <details id="faq-antivirus"><summary>My antivirus flagged the download. What should I do?</summary><div><p>New programs that aren’t code-signed are sometimes flagged by mistake (a “false positive”), especially small single-file apps. Download only from this site, check the file with a second scanner such as VirusTotal if you like, and <a href="#support">tell us</a> so we can report it to the antivirus maker.</p></div></details>
       <details id="faq-offline"><summary>Do they really work without the internet?</summary><div><p>Yes. Everything runs on your PC. The internet is used only to check for updates, to download an AI model in Lemon (Lemon talks to Ollama, which runs on your own PC) and for InstaFind’s exchange rates. The <a href="privacy/">privacy page</a> lists every connection.</p></div></details>
       <details id="faq-uninstall"><summary>How do I uninstall an app?</summary><div><p>Apps that come with an installer, like Remember Me and InstaWords, are removed from Windows Settings › Apps › Installed apps, like any other program. Single-file apps such as InstaFind and Lemon don’t install anything: close the app and delete the .exe file.</p></div></details>

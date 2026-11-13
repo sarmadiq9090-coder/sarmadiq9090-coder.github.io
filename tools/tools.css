@@ -61,4 +61,4 @@ html[dir="rtl"] .tb-hero::before { transform: scaleX(-1); }
 .tb-card .squircle { width: 48px; height: 48px; border-radius: 13px; }
 .tb-soon { border-style: dashed; background: transparent; box-shadow: none; justify-content: center; }
 .tb-soon h2 { color: var(--muted); }
-.tb-badge { display: inline-block; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; background: var(--tint-2); color: var(--brand-dark); }
+.tb-badge { display: inline-block; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; background: var(--tint-2); color: var(--brand-deep); }

@@ -187,6 +187,9 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
 .lang-toggle .lang { color: var(--muted); text-decoration: none; background: transparent; }
 .lang-toggle .lang:hover { color: var(--text); background: var(--tint); }
 .lang-toggle .lang-cur { background: var(--inverse); color: var(--on-inverse); }
+/* small phones: a header with a visible nav link (tools pages: "أدوات PDF") plus the language switch must still fit in 360 px */
+@media (max-width: 400px) { .site-header .wrap { gap: .5rem; } .nav a { padding-inline: .55rem; } .lang-toggle > * { min-width: 40px; padding: 0 .6rem !important; } }
+@media (max-width: 359px) { .site-header .brand > span { display: none; } } /* the logo stays; the link keeps its aria-label */
 
 /* ---------- section scaffolding ---------- */
 .section { padding-block: clamp(3.5rem, 7vw, 5.5rem); }
@@ -312,6 +315,10 @@ select { min-height: 46px; padding: .5rem .7rem; border: 1.5px solid var(--line)
 .f-name, .f-snip { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .f-name { font-weight: 600; font-size: .95rem; line-height: 1.35; }
 .f-snip { color: var(--muted); font-size: .82rem; line-height: 1.4; }
+/* An Arabic file name, as InstaFind shows it: the base, then the extension as a left-to-right isolate at the
+   logical end («.txt» whole on the left of an Arabic name, never «txt.»), a little apart and quieter. */
+.fname .ext { color: var(--muted); font-weight: 400; }
+.fname[dir="rtl"] > .ext { margin-right: .25em; } /* physical on purpose: the ltr extension sits left of the rtl base */
 .f-path { color: var(--muted); font-size: .78rem; flex: none; }
 .search-status { margin: .6rem 0 0; font-size: .86rem; color: var(--muted); }
 @media (max-width: 420px) { .f-path { display: none; } }
