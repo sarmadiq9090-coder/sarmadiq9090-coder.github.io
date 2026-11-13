@@ -8,8 +8,8 @@
   "start_url": "/tools/pdf/ar/",
   "scope": "/tools/pdf/",
   "display": "standalone",
-  "background_color": "#f6f7f1",
-  "theme_color": "#f6f7f1",
+  "background_color": "#fbfdf8",
+  "theme_color": "#3f8a1c",
   "categories": ["productivity", "utilities"],
   "icons": [
     { "src": "/tools/icons/pdf-kit-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

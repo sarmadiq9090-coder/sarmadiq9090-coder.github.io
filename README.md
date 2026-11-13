@@ -18,7 +18,7 @@ npm run test:quick                          # the same without screenshots
 npm run test:live                           # checks the live site, with the real GitHub API
 ```
 
-- `tests/qa.mjs`: every page at 12 widths, the home hero and its app demos (light and dark), dialogs, releases and Lemon pages, redirects and feeds,
+- `tests/qa.mjs`: every page at 12 widths, the hero, dialogs, releases and Lemon pages, redirects and feeds,
   with the GitHub API mocked from the apps' real release-note formats (`tests/fixtures/`).
 - `tests/tools.test.mjs`: the feed generator and the InstaWords fallback updater.
 - `tests/apps-data.test.mjs`: the schema of `data/apps.json`, the "More from FastKiwi" list the apps copy at build time

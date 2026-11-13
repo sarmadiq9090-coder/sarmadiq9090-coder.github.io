@@ -1,5 +1,5 @@
 /* FastKiwi site script: live release info from the GitHub API (no tracking, cached for an hour),
-   the on-site download dialog, the "What's new" releases page, the home tiles' small demos and scroll reveals.
+   the on-site download dialog, the "What's new" releases page, the hero app stage and scroll reveals.
    Remote text (release notes) is only ever inserted as text nodes, never as HTML. */
 (function () {
   window.FK = 1; /* tells the inline fallback in <head> that scroll reveals are handled */
@@ -487,113 +487,82 @@
     reveals.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- home: the small demos in the app tiles ---------- */
-  /* InstaFind: filters the sample files by name and content and forgives Arabic spelling the way the app does
-     (أ/إ/آ = ا, ة = ه, ى = ي, no diacritics). The files are fixed sample data in the page; nothing on the PC is read. */
-  function fold(s) {
-    return String(s).toLowerCase().replace(/[ً-ٰٟـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي');
+  /* ---------- hero: the four app windows ---------- */
+  var stage = doc.querySelector('[data-stage]');
+  if (!stage) return;
+  var tabs = Array.prototype.slice.call(doc.querySelectorAll('.tablist [role="tab"]'));
+  var wins = tabs.map(function (t) { return doc.getElementById(t.getAttribute('aria-controls')); });
+  var bar = doc.querySelector('.tabs'), pp = bar.querySelector('.playpause');
+  var n = tabs.length, active = 0, carousel = matchMedia('(max-width: 719px)');
+  var playing = !reduce, hover = false, focusIn = false, elapsed = 0, last = 0, DUR = 5000;
+
+  /* centre a window in the phone carousel without moving the page vertically (works in RTL too) */
+  function centre(i, smooth) {
+    var w = wins[i].getBoundingClientRect(), s = stage.getBoundingClientRect();
+    var delta = (w.left + w.width / 2) - (s.left + s.width / 2);
+    if (Math.abs(delta) > 1) stage.scrollBy({ left: delta, behavior: smooth && !reduce ? 'smooth' : 'auto' });
   }
-  var findIn = doc.querySelector('[data-find-input]'), findList = doc.querySelector('[data-find-list]');
-  if (findIn && findList) {
-    var files = Array.prototype.slice.call(findList.children), findStatus = doc.querySelector('[data-find-status]'), idleText = findStatus ? findStatus.textContent : '';
-    var hay = files.map(function (li) { return fold(li.textContent + ' ' + (li.getAttribute('data-k') || '')); });
-    findIn.addEventListener('input', function () {
-      var q = fold(findIn.value.trim()), n = 0;
-      files.forEach(function (li, i) { var on = !q || hay[i].indexOf(q) !== -1; li.hidden = !on; if (on) n++; });
-      if (!findStatus) return;
-      findStatus.textContent = !q ? idleText : !n ? (ar ? 'لا نتائج. جرّب كلمة أخرى.' : 'No results. Try another word.')
-        : ar ? 'النتائج: ' + n + ' من ' + files.length + ' ملفات نموذجية.' : n + ' of ' + files.length + ' sample files match.';
+  function select(i, opts) {
+    opts = opts || {};
+    active = (i + n) % n; elapsed = 0;
+    tabs.forEach(function (t, j) {
+      var on = j === active;
+      t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; t.style.setProperty('--p', 0);
+      wins[j].setAttribute('data-pos', (j - active + n) % n);
+      if (on) { wins[j].removeAttribute('aria-hidden'); } else wins[j].setAttribute('aria-hidden', 'true');
     });
+    if (opts.focus) tabs[active].focus();
+    if (opts.scroll && carousel.matches) centre(active, true);
   }
-
-  /* InstaWords: the real engine of the InstaWords web app (instawords/lib/, synced from its repo), loaded read-only.
-     Decimals the currency cannot hold are an error, never rounded silently. If the engine cannot load, the tile keeps
-     its plain link to /instawords/. The engine (~140 KB) loads only when its tile comes within 600 px of the screen,
-     or when focus enters the tile, so the first view of the page does not pay for it. */
-  var iwBox = doc.querySelector('[data-iw-demo]');
-  if (iwBox && base) {
-    var IW_UNITS = ['SAR', 'IQD', 'AED', 'KWD', 'EGP', 'USD'];
-    var IW_EN = { EMPTY: 'Enter an amount.', INVALID_FORMAT: 'That is not a number InstaWords can read.', NEGATIVE: 'Negative amounts are not supported.',
-      TOO_LARGE: 'The number is too large (the limit is 999 trillion).', TOO_MANY_DECIMALS: 'Too many decimal places for this currency.',
-      FRACTION_NOT_SUPPORTED: 'This unit has no fractions.', other: 'This amount cannot be written in words.' };
-    var iwTile = iwBox.closest('.tile') || iwBox.parentNode, iwStarted = false;
-    var startIW = function () {
-      if (iwStarted) return; iwStarted = true;
-      if (iwIO) iwIO.disconnect(); iwTile.removeEventListener('focusin', startIW);
-      loadIW();
-    };
-    var iwIO = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
-      if (entries.some(function (en) { return en.isIntersecting; })) startIW();
-    }, { rootMargin: '600px 0px' }) : null;
-    iwTile.addEventListener('focusin', startIW);
-    if (iwIO) iwIO.observe(iwTile); else startIW();
-  }
-  function loadIW() {
-    import(base + 'instawords/lib/index.js').then(function (iw) {
-      if (!iw || typeof iw.tryTafqit !== 'function' || !iw.units) throw new Error('InstaWords engine');
-      var lang = ar ? 'ar' : 'en', onlyOn = false, current = '';
-      var amount = doc.getElementById('iw-amount'), unit = doc.getElementById('iw-unit'), out = doc.getElementById('iw-out'),
-        read = doc.getElementById('iw-read'), only = doc.getElementById('iw-only'), copy = doc.getElementById('iw-copy');
-      IW_UNITS.forEach(function (id) {
-        var u = iw.units.filter(function (x) { return x.id === id; })[0];
-        var en = u && u.i18n && u.i18n.en && u.i18n.en.singular;
-        if (u && (ar || en)) unit.appendChild(h('option', { value: id, text: ar ? u.label : en }));
-      });
-      if (!unit.options.length) throw new Error('InstaWords units');
-      function render() {
-        var raw = amount.value;
-        current = ''; copy.disabled = true; out.dir = ar ? 'rtl' : 'ltr'; out.lang = lang;
-        if (!raw.trim()) { out.dataset.state = 'empty'; read.hidden = true; out.textContent = ar ? 'اكتب مبلغاً فيظهر هنا بالحروف.' : 'Type an amount to see it in words.'; return; }
-        var r = iw.tryTafqit(raw, { unit: unit.value, language: lang, decimals: 'error', prefix: onlyOn && ar ? 'فقط' : '', suffix: onlyOn ? (ar ? 'لا غير' : 'Only') : '' });
-        /* show how the input was read whenever it differs from what was typed (e.g. Arabic digits, thousands separators) */
-        if (r.cleaned !== undefined && r.cleaned !== raw.trim()) {
-          read.textContent = ar ? 'قُرئ الرقم هكذا: ' : 'Read as: ';
-          read.appendChild(h('bdi', { dir: 'ltr', text: r.cleaned })); read.hidden = false;
-        } else read.hidden = true;
-        if (r.ok) { out.dataset.state = 'ok'; out.textContent = r.result; current = r.result; copy.disabled = false; }
-        else { out.dataset.state = 'error'; out.textContent = ar ? r.error.message : (IW_EN[r.error.code] || IW_EN.other); }
-      }
-      amount.addEventListener('input', render);
-      unit.addEventListener('change', render);
-      only.addEventListener('click', function () { onlyOn = !onlyOn; only.setAttribute('aria-pressed', onlyOn); render(); });
-      var copyLabel = copy.textContent;
-      copy.addEventListener('click', function () {
-        if (!current) return;
-        var done = function (ok) { copy.textContent = ok ? T.copied : (ar ? 'تعذّر النسخ' : 'Could not copy'); setTimeout(function () { copy.textContent = copyLabel; }, 1600); };
-        if (navigator.clipboard) navigator.clipboard.writeText(current).then(function () { done(true); }, function () { done(false); }); else done(false);
-      });
-      render();
-      iwBox.hidden = false;
-      var fb = doc.querySelector('[data-iw-fallback]');
-      if (fb) { var hadFocus = fb.contains(doc.activeElement); fb.hidden = true; if (hadFocus) amount.focus(); } /* never strand keyboard focus on the hidden link */
-      iwBox.setAttribute('data-ready', '');
-    }).catch(function () { /* the plain link to /instawords/ stays */ });
-  }
-
-  /* Lemon: an example conversation (canned answers, clearly labelled "Example"; no AI runs on this page) */
-  var chat = doc.querySelector('[data-chat]'), chatChips = doc.querySelector('[data-chat-chips]');
-  if (chat && chatChips) {
-    var ANSWERS = ar ? ['إليك مسودة: «أعتذر عن تأخري في الرد على رسالتكم…». عدّلها كما تشاء قبل الإرسال.',
-      'هذا الكود يقرأ ملفاً نصياً سطراً سطراً، ويطبع الأسطر التي فيها كلمة معيّنة.',
-      'ثلاث أفكار: كتاب في موضوع يحبه، أو نبتة مكتب صغيرة، أو بطاقة بخط اليد مع قهوته المفضلة.']
-      : ['Here is a draft: “I’m sorry for the late reply to your message…”. Edit it as you like before sending.',
-      'This code reads a text file line by line and prints the lines that contain a given word.',
-      'Three ideas: a book on a topic they love, a small desk plant, or a handwritten card with their favourite coffee.'];
-    chatChips.hidden = false;
-    chatChips.querySelectorAll('button[data-q]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        chat.appendChild(h('p', { class: 'msg user', text: b.textContent }));
-        chat.appendChild(h('p', { class: 'msg bot' }, [h('span', { class: 'who', text: ar ? 'Lemon · على هذا الجهاز' : 'Lemon · on this PC' }), ANSWERS[+b.getAttribute('data-q')] || '']));
-        while (chat.children.length > 4) chat.removeChild(chat.firstChild);
-      });
-    });
-  }
-
-  /* Remember Me: example reminders that can be ticked off */
-  doc.querySelectorAll('.rem-done').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var on = b.getAttribute('aria-pressed') !== 'true';
-      b.setAttribute('aria-pressed', on); b.closest('li').classList.toggle('done', on);
+  function userPick(i, focus) { setPlaying(false); select(i, { focus: focus, scroll: true }); }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { userPick(i); });
+    t.addEventListener('keydown', function (e) {
+      var rtl = getComputedStyle(t).direction === 'rtl', k = e.key, to = null;
+      if (k === 'ArrowRight') to = i + (rtl ? -1 : 1);
+      else if (k === 'ArrowLeft') to = i + (rtl ? 1 : -1);
+      else if (k === 'Home') to = 0; else if (k === 'End') to = n - 1;
+      if (to !== null) { e.preventDefault(); userPick(to, true); }
     });
   });
+  wins.forEach(function (w, i) { w.addEventListener('click', function () { if (i !== active && !carousel.matches) userPick(i); }); });
+
+  /* phones: a swipeable carousel; start on the first window, keep the tabs in sync with the window in view */
+  if (carousel.matches) centre(active, false);
+  carousel.addEventListener && carousel.addEventListener('change', function (e) { if (e.matches) centre(active, false); });
+  if ('IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function (entries) {
+      if (!carousel.matches) return;
+      entries.forEach(function (en) { if (en.isIntersecting && en.intersectionRatio > 0.6) { var i = wins.indexOf(en.target); if (i !== active) select(i); } });
+    }, { root: stage, threshold: [0.6] });
+    wins.forEach(function (w) { cio.observe(w); });
+  }
+
+  /* auto-rotation: every 5 s on wide screens; pauses on hover, focus or a hidden tab; off with reduced motion */
+  function setPlaying(on) {
+    playing = on; elapsed = 0;
+    if (on) bar.setAttribute('data-playing', ''); else bar.removeAttribute('data-playing');
+    pp.setAttribute('aria-label', pp.getAttribute(on ? 'data-label-pause' : 'data-label-play'));
+    tabs[active].style.setProperty('--p', 0);
+  }
+  if (!reduce) {
+    bar.setAttribute('data-auto', ''); setPlaying(true);
+    pp.addEventListener('click', function () { setPlaying(!playing); });
+    var zone = stage.parentNode;
+    zone.addEventListener('mouseenter', function () { hover = true; });
+    zone.addEventListener('mouseleave', function () { hover = false; });
+    zone.addEventListener('focusin', function (e) { if (e.target !== pp) focusIn = true; });
+    zone.addEventListener('focusout', function () { focusIn = false; });
+    var tick = function (now) {
+      var dt = Math.min(now - (last || now), 100); last = now;
+      var run = playing && !hover && !focusIn && !doc.hidden && !carousel.matches && !(dlg && dlg.open);
+      if (run) {
+        elapsed += dt;
+        if (elapsed >= DUR) select(active + 1);
+        tabs[active].style.setProperty('--p', Math.min(elapsed / DUR, 1));
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
 })();

@@ -3,7 +3,7 @@
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import { FIX, mockApi } from './fixtures.mjs';
 import { startServer } from './server.mjs';
 import { loadPlaywright } from './lib/playwright.mjs';
@@ -96,7 +96,7 @@ for (const w of WIDTHS) {
     await scrollThrough(page);
     const m = await page.evaluate(() => ({
       sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
-      wide: [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(); return r.width && (r.right > innerWidth + 1 || r.left < -1) && !e.closest('.marquee, .rp-switch ul, .md-table, .table-wrap, pre, .sr-only, .skip'); }).slice(0, 3).map(e => e.tagName + '.' + e.className),
+      wide: [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(); return r.width && (r.right > innerWidth + 1 || r.left < -1) && !e.closest('.stage, .rp-switch ul, .md-table, .table-wrap, pre, .sr-only, .skip'); }).slice(0, 3).map(e => e.tagName + '.' + e.className),
       hiddenReveal: document.querySelectorAll('.reveal:not(.in)').length,
       badImgs: [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src),
       lang: document.documentElement.lang, dir: document.documentElement.dir,
@@ -121,6 +121,7 @@ for (const w of WIDTHS) {
     if (name.startsWith('lemon')) ok(m.dl.length === 2 && m.dl.every(([r, h]) => r === 'local-ai-chat' && h === STATIC_DL[r]), `${name}: Lemon download buttons ${JSON.stringify(m.dl)}`);
     if (w === 1366) report.github[name] = (await checkLinks(page, name)).map(l => `${l.text} -> ${l.href}`);
     if (SHOTS) {
+      if (name.startsWith('home') && w >= 720) { await page.evaluate(() => document.querySelector('.stage-wrap').dispatchEvent(new MouseEvent('mouseenter'))); await page.waitForTimeout(900); } // hold the rotation still for the picture
       await page.screenshot({ path: `${OUT}after-${name}-${w}.png`, fullPage: true, animations: 'disabled' });
     }
     report.pages[`${name}@${w}`] = { scrollWidth: m.sw, errors: errs.length };
@@ -129,113 +130,74 @@ for (const w of WIDTHS) {
   await ctx.close();
 }
 
-/* ---------- 2. home (owner's design, 2026-11): hero facts, marquee, the tiles' demos, light + dark ----------
-   The hero's app count comes from data/apps.json; the InstaWords tile runs the real engine synced in instawords/lib/
-   (compared here with the same engine in Node); the Lemon and Remember Me tiles are labelled examples. */
-{
-  const APPS_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8'));
-  const RELEASED = APPS_DATA.apps.filter(a => a.status === 'released').length;
-  const IW_LIB = path.join(ROOT, 'instawords', 'lib', 'index.js');
-  const iwEngine = fs.existsSync(IW_LIB) ? await import(pathToFileURL(IW_LIB).href) : null;
-  if (!iwEngine) console.log('  NOTE instawords/lib/ is missing: the InstaWords tile must show its plain link instead of the demo');
-  const lum = rgb => { const [r, g, b] = rgb.match(/\d+(\.\d+)?/g).slice(0, 3).map(v => +v / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * b; };
-  for (const lang of ['en', 'ar']) for (const [w, scheme] of [[1366, 'light'], [390, 'dark']]) {
-    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce', colorScheme: scheme, permissions: ['clipboard-read', 'clipboard-write'] });
+/* ---------- 2. hero stage geometry (desktop deck + phone carousel), incl. Windows zoom 125%/150% ---------- */
+for (const lang of ['en', 'ar']) {
+  for (const w of [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360]) {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx);
-    const page = await ctx.newPage(), errs = [], offsite = [];
-    page.on('pageerror', e => errs.push(e.message));
-    page.on('console', m => { if (m.type() === 'error' && !/ERR_FAILED/.test(m.text())) errs.push(m.text()); });
-    let iwLoads = 0;
-    page.on('request', r => { if (!r.url().startsWith(BASE) && !r.url().startsWith('https://api.github.com/')) offsite.push(r.url()); if (r.url().endsWith('/instawords/lib/index.js')) iwLoads++; });
+    const page = await ctx.newPage();
     await page.goto(BASE + (lang === 'en' ? '/' : '/ar/'), { waitUntil: 'networkidle' });
-    if (iwEngine) {
-      /* the engine is lazy: on a phone its tile starts far below the screen, so nothing is loaded until it comes near */
-      if (w === 390) ok(iwLoads === 0 && await page.evaluate(() => document.querySelector('.tile-instawords').getBoundingClientRect().top > innerHeight + 600),
-        `home ${lang}@${w} ${scheme}: the InstaWords engine is not loaded while its tile is far below the screen (${iwLoads} loads)`);
-      await page.locator('.tile-instawords').scrollIntoViewIfNeeded();
-      await page.waitForSelector('[data-iw-demo][data-ready]', { timeout: 5000 }).catch(() => {});
-    }
-    const H = await page.evaluate(() => ({
-      h1: document.querySelector('.hero h1').textContent, hl: document.querySelector('.hero h1 .hl')?.textContent,
-      count: document.querySelector('[data-count="released-apps"]')?.textContent,
-      marquee: document.querySelector('.marquee')?.getAttribute('aria-hidden'), anim: getComputedStyle(document.querySelector('.marquee-track')).animationName,
-      tiles: [...document.querySelectorAll('#apps .tile')].length,
-      examples: [...document.querySelectorAll('.tile-lemon .demo-tag, .tile-remember .demo-tag')].map(e => e.textContent.trim()),
-      findTag: document.querySelector('.tile-instafind .demo-tag')?.textContent || '',
-      font: getComputedStyle(document.body).fontFamily, bg: getComputedStyle(document.body).backgroundColor, fg: getComputedStyle(document.body).color,
-      fonts: [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family.replace(/"/g, '')),
-      iwShown: !document.querySelector('[data-iw-demo]').hidden, fbShown: !document.querySelector('[data-iw-fallback]').hidden,
-      soon: document.querySelector('#soon')?.textContent.replace(/\s+/g, ' ') || '',
-      openSource: /open[ -]?source|مفتوح|\bMIT\b/i.test(document.body.innerText)
-    }));
-    const tag = `home ${lang}@${w} ${scheme}`;
-    ok(H.hl && H.h1.includes(H.hl), `${tag}: headline with the highlighted word (${H.h1})`);
-    ok(+H.count === RELEASED, `${tag}: hero app count ${H.count} = released apps in data/apps.json (${RELEASED})`);
-    ok(H.marquee === 'true' && H.anim === 'none', `${tag}: marquee is decorative (aria-hidden) and stands still with reduced motion (${H.anim})`);
-    ok(H.tiles === 5, `${tag}: four app tiles and the in-development tile (${H.tiles})`);
-    ok(H.examples.length === 2 && H.examples.every(t => t === (lang === 'en' ? 'Example' : 'مثال')) && (lang === 'en' ? /Demo/ : /تجربة/).test(H.findTag), `${tag}: Lemon and Remember Me labelled as examples, InstaFind as a demo (${H.examples} / ${H.findTag})`);
-    ok(/^"?Rubik"?,/.test(H.font) && H.fonts.includes('Rubik'), `${tag}: self-hosted Rubik in use (${H.font}; loaded ${H.fonts})`);
-    ok(scheme === 'dark' ? lum(H.bg) < .02 && lum(H.fg) > .8 : lum(H.bg) > .9 && lum(H.fg) < .02, `${tag}: ${scheme} theme colours (${H.bg} / ${H.fg})`);
-    ok(!H.openSource, `${tag}: no open-source or MIT wording (D-051)`);
-    ok(/InstaConvert/.test(H.soon) && /PDF Kit/.test(H.soon), `${tag}: in-development tile names InstaConvert and the live PDF Kit`);
-    if (iwEngine) {
-      ok(H.iwShown && !H.fbShown, `${tag}: InstaWords demo loaded the real engine`);
-      for (const [input, unit] of [['1250.75', 'SAR'], ['12.345', 'KWD'], ['٣٠٠', 'IQD'], ['1,250.75', 'USD']]) {
-        await page.selectOption('#iw-unit', unit); await page.fill('#iw-amount', input);
-        const got = await page.evaluate(() => ({ t: document.getElementById('iw-out').textContent, s: document.getElementById('iw-out').dataset.state, copy: document.getElementById('iw-copy').disabled }));
-        const want = iwEngine.tryTafqit(input, { unit, language: lang, decimals: 'error' });
-        ok(want.ok && got.s === 'ok' && got.t === want.result && !got.copy, `${tag}: InstaWords ${input} ${unit} = the engine's "${want.result}" (${got.t})`);
+    const geo = async () => page.evaluate(() => {
+      const r = e => e.getBoundingClientRect(), s = r(document.querySelector('.stage')), tl = r(document.querySelector('.tablist')), tb = r(document.querySelector('.tabs'));
+      const wins = [...document.querySelectorAll('.stage .win')].map(e => r(e));
+      const copy = r(document.querySelector('.hero-copy')), wrap = r(document.querySelector('.stage-wrap'));
+      return { s: { l: s.left, r: s.right, t: s.top, b: s.bottom, h: s.height }, wins: wins.map(x => ({ l: x.left, r: x.right, t: x.top, b: x.bottom })), tl: { l: tl.left, r: tl.right }, tabs: { l: tb.left, r: tb.right },
+        overlap: !(copy.right <= wrap.left || wrap.right <= copy.left || copy.bottom <= wrap.top || wrap.bottom <= copy.top), vw: innerWidth };
+    });
+    if (w >= 720) {
+      const heights = new Set();
+      for (let i = 0; i < 4; i++) {
+        await page.click(`.tablist [role=tab] >> nth=${i}`); await page.waitForTimeout(80);
+        const g = await geo(); heights.add(Math.round(g.s.h));
+        const pads = g.wins.map(x => Math.min(x.l - g.s.l, g.s.r - x.r, x.t - g.s.t, g.s.b - x.b));
+        ok(Math.min(...pads) >= 10, `hero ${lang}@${w} tab ${i}: deck inside its backdrop (min gap ${Math.min(...pads).toFixed(1)})`);
+        const front = g.wins[i];
+        const gaps = [front.l - g.s.l, g.s.r - front.r, front.b > 0 ? g.s.b - front.b : 0];
+        ok(Math.abs(gaps[0] - gaps[1]) < 2 && Math.abs(gaps[0] - gaps[2]) < 3, `hero ${lang}@${w}: even padding around the front window ${gaps.map(x => x.toFixed(1))}`);
+        ok(Math.abs(g.wins.reduce((a, x) => Math.min(a, x.t), 1e9) - g.s.t - gaps[0]) < 3, `hero ${lang}@${w}: top padding matches`);
+        ok(Math.abs((g.tl.l + g.tl.r) / 2 - (g.s.l + g.s.r) / 2) < 30 && g.tabs.l >= g.s.l - 1 && g.tabs.r <= g.s.r + 1, `hero ${lang}@${w}: tab bar centred under the stage`);
+        ok(!g.overlap, `hero ${lang}@${w}: stage does not overlap the text`);
+        if (SHOTS && (w === 1366 || w === 1024)) await page.screenshot({ path: `${OUT}after-hero-${lang}-${w}-${i + 1}.png`, clip: { x: 0, y: 0, width: w, height: 900 } });
       }
-      for (const input of ['1.005', '12abc', '-5']) { /* never a silent result: extra decimals are an error, not rounded */
-        await page.selectOption('#iw-unit', 'SAR'); await page.fill('#iw-amount', input);
-        const got = await page.evaluate(() => ({ t: document.getElementById('iw-out').textContent, s: document.getElementById('iw-out').dataset.state, copy: document.getElementById('iw-copy').disabled }));
-        ok(got.s === 'error' && got.t.length > 5 && got.copy, `${tag}: InstaWords "${input}" shows an error and nothing to copy (${got.t})`);
-      }
-      await page.selectOption('#iw-unit', 'USD'); await page.fill('#iw-amount', '100'); await page.click('#iw-only');
-      const only = iwEngine.tryTafqit('100', { unit: 'USD', language: lang, decimals: 'error', prefix: lang === 'ar' ? 'فقط' : '', suffix: lang === 'ar' ? 'لا غير' : 'Only' }).result;
-      ok(await page.textContent('#iw-out') === only, `${tag}: InstaWords "only" wording (${only})`);
-      await page.click('#iw-copy'); await page.waitForTimeout(150);
-      ok(await page.evaluate(() => navigator.clipboard.readText()) === only, `${tag}: InstaWords copies the result`);
-    } else ok(!H.iwShown && H.fbShown, `${tag}: without the engine the InstaWords tile shows its link`);
-    // InstaFind demo: forgiving Arabic search over the sample files
-    const visible = () => page.evaluate(() => [...document.querySelectorAll('[data-find-list] li')].filter(li => !li.hidden).length);
-    await page.fill('#find-input', 'أحمد'); const n1 = await visible();
-    await page.fill('#find-input', 'فاتورة'); const n2 = await visible();
-    await page.fill('#find-input', 'zzzz'); const n0 = await visible(), st0 = await page.textContent('[data-find-status]');
-    await page.fill('#find-input', ''); const nAll = await visible();
-    ok(n1 === 1 && n2 === 1 && n0 === 0 && st0.trim().length > 5 && nAll === 6, `${tag}: InstaFind demo: أحمد finds the احمد file, فاتورة the invoice, nonsense nothing (${n1}/${n2}/${n0}/${nAll})`);
-    // Remember Me example: tick a reminder; Lemon example: a canned answer per chip
-    await page.locator('.rem-done').first().click();
-    ok(await page.evaluate(() => { const b = document.querySelector('.rem-done'); return b.getAttribute('aria-pressed') === 'true' && b.closest('li').classList.contains('done'); }), `${tag}: Remember Me example reminder can be ticked off`);
-    await page.locator('[data-chat-chips] button').first().click();
-    ok(await page.evaluate(() => document.querySelectorAll('[data-chat] .msg').length) === 4, `${tag}: Lemon example answers a chip`);
-    ok(offsite.length === 0, `${tag}: no third-party requests (${offsite})`);
-    ok(!errs.length, `${tag}: errors ${errs}`);
-    if (SHOTS) await page.locator('#apps').screenshot({ path: `${OUT}after-apps-${lang}-${w}-${scheme}.png` });
-    await ctx.close();
-  }
-  if (iwEngine) { // keyboard: tabbing into the InstaWords tile loads the engine and moves focus from the fallback link to the amount
-    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
-    await offline(ctx);
-    const page = await ctx.newPage();
-    await page.goto(BASE + '/', { waitUntil: 'networkidle' });
-    await page.focus('[data-iw-fallback] a');
-    const ready = await page.waitForSelector('[data-iw-demo][data-ready]', { timeout: 5000 }).then(() => true, () => false);
-    const f = await page.evaluate(() => document.activeElement?.id || document.activeElement?.tagName);
-    ok(ready && f === 'iw-amount', `home en@390: focus in the InstaWords tile loads the engine, and focus moves to the amount (${ready} ${f})`);
-    await ctx.close();
-  }
-  { // the marquee moves when motion is allowed; without JavaScript the InstaWords tile is a plain link
-    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'no-preference', javaScriptEnabled: false });
-    const page = await ctx.newPage();
-    for (const [u, want] of [['/', 'instawords/'], ['/ar/', '../instawords/']]) {
-      await page.goto(BASE + u, { waitUntil: 'load' });
-      const m = await page.evaluate(() => ({ anim: getComputedStyle(document.querySelector('.marquee-track')).animationName, demo: !!document.querySelector('[data-iw-demo]').getClientRects().length,
-        link: document.querySelector('[data-iw-fallback] a')?.getAttribute('href'), linkShown: !!document.querySelector('[data-iw-fallback]').getClientRects().length }));
-      ok(m.anim === 'fk-tick' && !m.demo && m.linkShown && m.link === want, `home ${u} without JS: marquee runs, InstaWords tile links to ${want} ${JSON.stringify(m)}`);
+      ok(heights.size === 1, `hero ${lang}@${w}: no layout shift between tabs (${[...heights]})`);
+    } else {
+      const g = await geo(), first = g.wins[0];
+      const left = first.l - g.s.l, right = g.s.r - first.r;
+      ok(Math.abs(left - right) < 2, `carousel ${lang}@${w}: first window centred (${left.toFixed(1)} / ${right.toFixed(1)})`);
+      ok(Math.abs((g.tl.l + g.tl.r) / 2 - w / 2) < 2, `carousel ${lang}@${w}: tabs centred`);
+      const peek = await page.evaluate(() => { const s = document.querySelector('.stage').getBoundingClientRect(), n = document.querySelector('#win-remember').getBoundingClientRect(); return document.documentElement.dir === 'rtl' ? n.right - s.left : s.right - n.left; });
+      ok(peek > 8 && peek < 50, `carousel ${lang}@${w}: deliberate small peek of the next window (${peek.toFixed(1)}px)`);
+      // tap the 3rd tab: that window is centred, the page does not jump
+      const y0 = await page.evaluate(() => scrollY);
+      await page.locator('#tab-lemon').dispatchEvent('click'); await page.waitForTimeout(700);
+      const g2 = await geo(), lw = g2.wins[2];
+      ok(Math.abs((lw.l - g2.s.l) - (g2.s.r - lw.r)) < 3 && await page.evaluate(() => scrollY) === y0, `carousel ${lang}@${w}: tab centres its window without page jump`);
+      await page.evaluate(() => document.querySelector('.stage').scrollBy({ left: document.documentElement.dir === 'rtl' ? 400 : -400 })); await page.waitForTimeout(500);
+      ok(await page.evaluate(() => document.querySelector('#tab-remember').getAttribute('aria-selected')) === 'true', `carousel ${lang}@${w}: tabs follow a swipe`);
+      if (SHOTS) { const st = page.locator('.stage-wrap'); await page.evaluate(() => document.querySelector('.stage').scrollTo({ left: 0 })); await page.waitForTimeout(400); await st.screenshot({ path: `${OUT}after-carousel-${lang}-${w}.png` }); }
     }
     await ctx.close();
   }
+}
+{ // keyboard + rotation behaviour
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
+  await offline(ctx);
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/ar/', { waitUntil: 'networkidle' });
+  await page.mouse.move(5, 890);
+  const front = () => page.evaluate(() => document.querySelector('.stage .win[data-pos="0"]').id);
+  ok(await front() === 'win-instafind', 'rotation: starts on InstaFind');
+  await page.waitForTimeout(5600);
+  ok(await front() === 'win-remember', 'rotation: advanced after ~5 s');
+  await page.hover('.stage'); await page.waitForTimeout(5600);
+  ok(await front() === 'win-remember', 'rotation: paused on hover');
+  await page.mouse.move(5, 890); await page.click('.playpause'); await page.mouse.move(5, 890); await page.waitForTimeout(5600);
+  ok(await front() === 'win-remember', 'rotation: pause button stops it');
+  await page.focus('#tab-remember'); await page.keyboard.press('ArrowLeft');
+  ok(await page.evaluate(() => document.activeElement.id) === 'tab-lemon', 'hero ar: ArrowLeft moves forward in RTL');
+  await page.keyboard.press('End'); ok(await front() === 'win-instawords', 'hero: End key');
+  await page.keyboard.press('Home'); ok(await front() === 'win-instafind', 'hero: Home key');
+  await ctx.close();
 }
 
 /* ---------- 3. comparison table: cards on phones, no clipping; table fits or shows a scroll hint ---------- */
@@ -482,7 +444,24 @@ for (const [locale, want] of [['en-US', '/lemon/'], ['ar-IQ', '/ar/lemon/'], ['a
   await ctx.close();
 }
 
-/* ---------- 8. the real InstaFind captures stay on the site (the app section and its demo video use them) ---------- */
+/* ---------- 8. hero InstaFind window: the richer real capture, whole (nothing cropped) and sharp ---------- */
+for (const lang of ['en', 'ar']) for (const w of [1366, 1024, 390]) {
+  const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
+  await offline(ctx);
+  const page = await ctx.newPage();
+  await page.goto(BASE + (lang === 'en' ? '/' : '/ar/'), { waitUntil: 'networkidle' });
+  const s = await page.evaluate(() => {
+    const i = document.querySelector('#win-instafind .screen img'), b = i.parentElement.getBoundingClientRect(), r = i.getBoundingClientRect();
+    return { src: i.currentSrc, nw: i.naturalWidth, nh: i.naturalHeight, ok: i.complete, box: [b.left, b.top, b.width, b.height], img: [r.left, r.top, r.width, r.height], fp: i.getAttribute('fetchpriority'), lazy: i.loading };
+  });
+  const tag = `hero InstaFind ${lang}@${w}`;
+  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 571) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
+  ok(s.img.every((v, k) => Math.abs(v - s.box[k]) < 1.5), `${tag}: whole capture visible (img ${s.img.map(Math.round)} in ${s.box.map(Math.round)})`);
+  ok(s.nw >= s.box[2] * 0.98, `${tag}: sharp (${s.nw}px source for ${Math.round(s.box[2])}px)`);
+  ok(s.fp === 'high' && s.lazy !== 'lazy', `${tag}: hero image loads first`);
+  if (SHOTS && w !== 1024) await page.locator('.stage-wrap').screenshot({ path: `${OUT}after-hero-instafind-${lang}-${w}.png` });
+  await ctx.close();
+}
 for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, `img/instafind-${lang}-640.webp`, `img/instafind-${lang}.png`, `img/instafind-demo-${lang}.mp4`])
   ok(fs.existsSync(path.join(ROOT, f)), `${f} exists (the PNG stays as the demo video's poster)`);
 
