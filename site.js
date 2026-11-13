@@ -508,13 +508,27 @@
 
   /* InstaWords: the real engine of the InstaWords web app (instawords/lib/, synced from its repo), loaded read-only.
      Decimals the currency cannot hold are an error, never rounded silently. If the engine cannot load, the tile keeps
-     its plain link to /instawords/. */
+     its plain link to /instawords/. The engine (~140 KB) loads only when its tile comes within 600 px of the screen,
+     or when focus enters the tile, so the first view of the page does not pay for it. */
   var iwBox = doc.querySelector('[data-iw-demo]');
   if (iwBox && base) {
     var IW_UNITS = ['SAR', 'IQD', 'AED', 'KWD', 'EGP', 'USD'];
     var IW_EN = { EMPTY: 'Enter an amount.', INVALID_FORMAT: 'That is not a number InstaWords can read.', NEGATIVE: 'Negative amounts are not supported.',
       TOO_LARGE: 'The number is too large (the limit is 999 trillion).', TOO_MANY_DECIMALS: 'Too many decimal places for this currency.',
       FRACTION_NOT_SUPPORTED: 'This unit has no fractions.', other: 'This amount cannot be written in words.' };
+    var iwTile = iwBox.closest('.tile') || iwBox.parentNode, iwStarted = false;
+    var startIW = function () {
+      if (iwStarted) return; iwStarted = true;
+      if (iwIO) iwIO.disconnect(); iwTile.removeEventListener('focusin', startIW);
+      loadIW();
+    };
+    var iwIO = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+      if (entries.some(function (en) { return en.isIntersecting; })) startIW();
+    }, { rootMargin: '600px 0px' }) : null;
+    iwTile.addEventListener('focusin', startIW);
+    if (iwIO) iwIO.observe(iwTile); else startIW();
+  }
+  function loadIW() {
     import(base + 'instawords/lib/index.js').then(function (iw) {
       if (!iw || typeof iw.tryTafqit !== 'function' || !iw.units) throw new Error('InstaWords engine');
       var lang = ar ? 'ar' : 'en', onlyOn = false, current = '';
@@ -550,7 +564,8 @@
       });
       render();
       iwBox.hidden = false;
-      var fb = doc.querySelector('[data-iw-fallback]'); if (fb) fb.hidden = true;
+      var fb = doc.querySelector('[data-iw-fallback]');
+      if (fb) { var hadFocus = fb.contains(doc.activeElement); fb.hidden = true; if (hadFocus) amount.focus(); } /* never strand keyboard focus on the hidden link */
       iwBox.setAttribute('data-ready', '');
     }).catch(function () { /* the plain link to /instawords/ stays */ });
   }

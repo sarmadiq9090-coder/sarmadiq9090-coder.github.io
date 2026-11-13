@@ -145,9 +145,16 @@ for (const w of WIDTHS) {
     const page = await ctx.newPage(), errs = [], offsite = [];
     page.on('pageerror', e => errs.push(e.message));
     page.on('console', m => { if (m.type() === 'error' && !/ERR_FAILED/.test(m.text())) errs.push(m.text()); });
-    page.on('request', r => { if (!r.url().startsWith(BASE) && !r.url().startsWith('https://api.github.com/')) offsite.push(r.url()); });
+    let iwLoads = 0;
+    page.on('request', r => { if (!r.url().startsWith(BASE) && !r.url().startsWith('https://api.github.com/')) offsite.push(r.url()); if (r.url().endsWith('/instawords/lib/index.js')) iwLoads++; });
     await page.goto(BASE + (lang === 'en' ? '/' : '/ar/'), { waitUntil: 'networkidle' });
-    if (iwEngine) await page.waitForSelector('[data-iw-demo][data-ready]', { timeout: 5000 }).catch(() => {});
+    if (iwEngine) {
+      /* the engine is lazy: on a phone its tile starts far below the screen, so nothing is loaded until it comes near */
+      if (w === 390) ok(iwLoads === 0 && await page.evaluate(() => document.querySelector('.tile-instawords').getBoundingClientRect().top > innerHeight + 600),
+        `home ${lang}@${w} ${scheme}: the InstaWords engine is not loaded while its tile is far below the screen (${iwLoads} loads)`);
+      await page.locator('.tile-instawords').scrollIntoViewIfNeeded();
+      await page.waitForSelector('[data-iw-demo][data-ready]', { timeout: 5000 }).catch(() => {});
+    }
     const H = await page.evaluate(() => ({
       h1: document.querySelector('.hero h1').textContent, hl: document.querySelector('.hero h1 .hl')?.textContent,
       count: document.querySelector('[data-count="released-apps"]')?.textContent,
@@ -205,6 +212,17 @@ for (const w of WIDTHS) {
     ok(offsite.length === 0, `${tag}: no third-party requests (${offsite})`);
     ok(!errs.length, `${tag}: errors ${errs}`);
     if (SHOTS) await page.locator('#apps').screenshot({ path: `${OUT}after-apps-${lang}-${w}-${scheme}.png` });
+    await ctx.close();
+  }
+  if (iwEngine) { // keyboard: tabbing into the InstaWords tile loads the engine and moves focus from the fallback link to the amount
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+    await offline(ctx);
+    const page = await ctx.newPage();
+    await page.goto(BASE + '/', { waitUntil: 'networkidle' });
+    await page.focus('[data-iw-fallback] a');
+    const ready = await page.waitForSelector('[data-iw-demo][data-ready]', { timeout: 5000 }).then(() => true, () => false);
+    const f = await page.evaluate(() => document.activeElement?.id || document.activeElement?.tagName);
+    ok(ready && f === 'iw-amount', `home en@390: focus in the InstaWords tile loads the engine, and focus moves to the amount (${ready} ${f})`);
     await ctx.close();
   }
   { // the marquee moves when motion is allowed; without JavaScript the InstaWords tile is a plain link
@@ -805,6 +823,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     'remember-me': { repo: 'Remember-Me', site: { en: '/Remember-Me/', ar: '/Remember-Me/ar/' }, sha: 'SHA256SUMS.txt', store: '9NGB1F7T7JGN', winget: 'Sarmad.RememberMe', scoop: false },
     lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false }
   };
+  const STORE_LIVE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.filter(a => a.store?.live).map(a => a.id);
   const TM_EN = 'InstaWords™, InstaFind™, Remember Me™, Lemon™, InstaConvert™ and FastKiwi™ are trademarks of FastKiwi (Sarmad). The licences grant no trademark rights.';
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
   await offline(ctx);
@@ -820,6 +839,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
       apps: [...document.querySelectorAll('.od-app[id]')].map(s => ({ id: s.id, title: s.querySelector('h3').textContent,
         rows: Object.fromEntries([...s.querySelectorAll('.od-src > div[data-src]')].map(d => [d.dataset.src, { text: d.querySelector('dd').textContent, links: [...d.querySelectorAll('a')].map(a => ({ href: a.href, gh: a.hasAttribute('data-github'), store: a.hasAttribute('data-store'), text: a.textContent })) }])),
+        order: [...s.querySelectorAll('.od-src > div[data-src]')].map(d => d.dataset.src),
         links: s.querySelectorAll('a').length })),
       verify: document.querySelector('#verify + .card')?.textContent || '',
       warn: document.querySelector('#warning + .od-warn')?.textContent || '',
@@ -838,6 +858,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       const want = SRC[a.id];
       if (!want) { ok(a.links === 0 && Object.keys(a.rows).length === 0 && (lang === 'en' ? /coming soon/i : /قريباً/).test(a.title), `${tag} instaconvert: "coming soon", no links`); continue; }
       const R = a.rows, site = R.site?.links || [];
+      const live = STORE_LIVE.includes(a.id);  /* owner's store-first rule: a live Store listing is the first source */
+      ok(live ? a.order[0] === 'store' : a.order[0] === 'site', `${tag} ${a.id}: ${live ? 'Microsoft Store first (live in the Store)' : 'this site first'} (${a.order})`);
       ok(site.length === 2 && new URL(site[0].href).origin === BASE && new URL(site[0].href).pathname === want.site[lang] && new URL(site[1].href).pathname + new URL(site[1].href).hash === (lang === 'en' ? '/releases/#' : '/ar/releases/#') + a.id, `${tag} ${a.id}: its fastkiwi.app page and release notes ${JSON.stringify(site.map(l => l.href))}`);
       ok(R.github?.links.length === 1 && R.github.links[0].href === `${GH}${want.repo}/releases` && R.github.links[0].gh && /GitHub/.test(R.github.links[0].text), `${tag} ${a.id}: labelled GitHub releases link ${JSON.stringify(R.github)}`);
       if (want.sha) ok(R.sha256?.links.length === 1 && R.sha256.links[0].href === `${GH}${want.repo}/releases/latest/download/${want.sha}` && R.sha256.links[0].text === want.sha, `${tag} ${a.id}: direct link to the release's ${want.sha}`);
