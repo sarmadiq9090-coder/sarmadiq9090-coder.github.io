@@ -130,6 +130,7 @@ ul, ol { margin: 0; }
 code, kbd, pre { font-family: var(--mono); font-size: .9em; }
 kbd { display: inline-block; min-width: 1.9em; padding: .05rem .45rem; border: 1px solid var(--border-2); border-bottom-width: 2px; border-radius: 7px; background: var(--surface); font-weight: 700; font-size: .8rem; line-height: 1.6; color: var(--text); text-align: center; direction: ltr; unicode-bidi: isolate; }
 .ltr { direction: ltr; unicode-bidi: isolate; }
+.nowrap { white-space: nowrap; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .muted { color: var(--muted); }
 svg.i { width: 20px; height: 20px; flex: none; }
