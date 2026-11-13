@@ -3,7 +3,7 @@
    and leaves every other request alone. Bump VERSION when you change any file in PRECACHE.
    Pages, scripts and strings: network first (3 s, then the cached copy), so updates show up when online.
    Vendored libraries and fonts (versioned, never change): cache first; pdf.js's optional data files are cached on first use. */
-const VERSION = '2026-11-06.2';
+const VERSION = '2026-11-13.4';
 const CACHE = 'fk-tools-' + VERSION;
 const PRECACHE = [
   '/tools/pdf/', '/tools/pdf/ar/',
