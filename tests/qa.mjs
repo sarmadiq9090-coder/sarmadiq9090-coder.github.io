@@ -819,7 +819,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
 {
   const SRC = { // what each app really has (checked against its repo and release assets): checksum file, Store ID, winget ID, Scoop
     instawords: { repo: 'InstaWords', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
-    instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: null, store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
+    instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: 'SHA256SUMS.txt', store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
     'remember-me': { repo: 'Remember-Me', site: { en: '/Remember-Me/', ar: '/Remember-Me/ar/' }, sha: 'SHA256SUMS.txt', store: '9NGB1F7T7JGN', winget: 'Sarmad.RememberMe', scoop: false },
     lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false }
   };
