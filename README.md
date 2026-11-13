@@ -9,6 +9,13 @@ The one other off-site link is Microsoft's official Store badge (`data-store`, s
 copied unchanged from get.microsoft.com) to `https://apps.microsoft.com/detail/<id>`, only for an app that `data/apps.json` marks
 `store.live`, with no tracking parameters. `store/` and `ar/store/` list each app's Store, direct-download and winget status.
 
+## Shared data (`data/`)
+
+- `data/arabic-numbers.json` («قاموس عربي موحّد»): the Arabic number words, digits, separators and the digit rule
+  (123 by default, ١٢٣ as an option) that every FastKiwi app copies at build time from
+  https://fastkiwi.app/data/arabic-numbers.json. Generated from InstaWords (`scripts/export-dictionary.mjs`), never
+  hand-edited; schema `data/arabic-numbers.schema.json`; details in [data/README.md](data/README.md).
+
 ## Tests
 
 ```sh
@@ -19,7 +26,8 @@ npm run test:live                           # checks the live site, with the rea
 ```
 
 - `tests/qa.mjs`: every page at 12 widths, the hero, dialogs, releases and Lemon pages, redirects and feeds,
-  with the GitHub API mocked from the apps' real release-note formats (`tests/fixtures/`).
+  with the GitHub API mocked from the apps' real release-note formats (`tests/fixtures/`), and `data/arabic-numbers.json`
+  against its schema (`tests/lib/json-schema.mjs`).
 - `tests/tools.test.mjs`: the feed generator and the InstaWords fallback updater.
 - `tests/apps-data.test.mjs`: the schema of `data/apps.json`, the "More from FastKiwi" list the apps copy at build time
   ([docs/apps-data.md](docs/apps-data.md)).

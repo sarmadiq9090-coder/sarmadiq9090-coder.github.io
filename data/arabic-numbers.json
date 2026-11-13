@@ -1,0 +1,538 @@
+{
+  "$schema": "./arabic-numbers.schema.json",
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "title": {
+    "ar": "قاموس عربي موحّد لألفاظ الأعداد",
+    "en": "FastKiwi unified Arabic number-word dictionary"
+  },
+  "description": "Data only, no grammar engine: the number words, digits and separators that every FastKiwi app shares. Generated from InstaWords; do not edit by hand. Grammar rules: docs/SPEC.md in InstaWords.",
+  "source": {
+    "repository": "https://github.com/sarmadiq9090-coder/InstaWords",
+    "commit": "6c6add627ce6fe0b9bd942be1e7180e19eca535e",
+    "files": [
+      "src/lexicon.ts",
+      "src/normalize.ts",
+      "tests/golden/cases.json"
+    ],
+    "spec": "docs/SPEC.md",
+    "generator": "scripts/export-dictionary.mjs"
+  },
+  "words": {
+    "zero": "صفر",
+    "ones": {
+      "m": {
+        "1": "واحد",
+        "2": "اثنان",
+        "3": "ثلاثة",
+        "4": "أربعة",
+        "5": "خمسة",
+        "6": "ستة",
+        "7": "سبعة",
+        "8": "ثمانية",
+        "9": "تسعة",
+        "10": "عشرة"
+      },
+      "f": {
+        "1": "واحدة",
+        "2": "اثنتان",
+        "3": "ثلاث",
+        "4": "أربع",
+        "5": "خمس",
+        "6": "ست",
+        "7": "سبع",
+        "8": "ثماني",
+        "9": "تسع",
+        "10": "عشر"
+      }
+    },
+    "teens": {
+      "m": {
+        "11": "أحد عشر",
+        "12": "اثنا عشر",
+        "13": "ثلاثة عشر",
+        "14": "أربعة عشر",
+        "15": "خمسة عشر",
+        "16": "ستة عشر",
+        "17": "سبعة عشر",
+        "18": "ثمانية عشر",
+        "19": "تسعة عشر"
+      },
+      "f": {
+        "11": "إحدى عشرة",
+        "12": "اثنتا عشرة",
+        "13": "ثلاث عشرة",
+        "14": "أربع عشرة",
+        "15": "خمس عشرة",
+        "16": "ست عشرة",
+        "17": "سبع عشرة",
+        "18": "ثماني عشرة",
+        "19": "تسع عشرة"
+      }
+    },
+    "compoundOnes": {
+      "m": {
+        "1": "واحد",
+        "2": "اثنان",
+        "3": "ثلاثة",
+        "4": "أربعة",
+        "5": "خمسة",
+        "6": "ستة",
+        "7": "سبعة",
+        "8": "ثمانية",
+        "9": "تسعة"
+      },
+      "f": {
+        "1": "إحدى",
+        "2": "اثنتان",
+        "3": "ثلاث",
+        "4": "أربع",
+        "5": "خمس",
+        "6": "ست",
+        "7": "سبع",
+        "8": "ثماني",
+        "9": "تسع"
+      }
+    },
+    "tens": {
+      "20": "عشرون",
+      "30": "ثلاثون",
+      "40": "أربعون",
+      "50": "خمسون",
+      "60": "ستون",
+      "70": "سبعون",
+      "80": "ثمانون",
+      "90": "تسعون"
+    },
+    "hundreds": {
+      "default": "مائة",
+      "forms": {
+        "مائة": {
+          "words": {
+            "100": "مائة",
+            "200": "مائتان",
+            "300": "ثلاثمائة",
+            "400": "أربعمائة",
+            "500": "خمسمائة",
+            "600": "ستمائة",
+            "700": "سبعمائة",
+            "800": "ثمانمائة",
+            "900": "تسعمائة"
+          },
+          "dualConstruct": "مائتا"
+        },
+        "مئة": {
+          "words": {
+            "100": "مئة",
+            "200": "مئتان",
+            "300": "ثلاثمئة",
+            "400": "أربعمئة",
+            "500": "خمسمئة",
+            "600": "ستمئة",
+            "700": "سبعمئة",
+            "800": "ثمانمئة",
+            "900": "تسعمئة"
+          },
+          "dualConstruct": "مئتا"
+        }
+      }
+    },
+    "scales": {
+      "thousand": {
+        "exponent": 3,
+        "singular": "ألف",
+        "dual": "ألفان",
+        "plural": "آلاف",
+        "accusative": "ألفاً"
+      },
+      "million": {
+        "exponent": 6,
+        "singular": "مليون",
+        "dual": "مليونان",
+        "plural": "ملايين",
+        "accusative": "مليوناً"
+      },
+      "billion": {
+        "exponent": 9,
+        "singular": "مليار",
+        "dual": "ملياران",
+        "plural": "مليارات",
+        "accusative": "ملياراً"
+      },
+      "trillion": {
+        "exponent": 12,
+        "singular": "تريليون",
+        "dual": "تريليونان",
+        "plural": "تريليونات",
+        "accusative": "تريليوناً"
+      }
+    },
+    "decimalPoint": "فاصلة"
+  },
+  "conjunction": {
+    "word": "و",
+    "joiner": " و"
+  },
+  "digits": {
+    "toLatin": {
+      "arabic-indic": {
+        "٠": "0",
+        "١": "1",
+        "٢": "2",
+        "٣": "3",
+        "٤": "4",
+        "٥": "5",
+        "٦": "6",
+        "٧": "7",
+        "٨": "8",
+        "٩": "9"
+      },
+      "persian": {
+        "۰": "0",
+        "۱": "1",
+        "۲": "2",
+        "۳": "3",
+        "۴": "4",
+        "۵": "5",
+        "۶": "6",
+        "۷": "7",
+        "۸": "8",
+        "۹": "9"
+      }
+    },
+    "separators": {
+      "thousands": [
+        ",",
+        "٬"
+      ],
+      "decimal": [
+        ".",
+        "٫"
+      ]
+    },
+    "ignored": [
+      "U+0009",
+      "U+000A",
+      "U+000D",
+      "U+0020",
+      "U+00A0",
+      "U+2009",
+      "U+202F"
+    ]
+  },
+  "digitDisplay": {
+    "default": "latin",
+    "options": [
+      "latin",
+      "arabic-indic"
+    ],
+    "decision": "D-012",
+    "note": {
+      "ar": "تعرض تطبيقات FastKiwi الأرقام بالأرقام الغربية 123 افتراضياً، والأرقام العربية الهندية ١٢٣ خيار يختاره المستخدم فقط ولا تُفرض عليه. تطبيق «ذكّرني» يعرض 123 فقط بلا خيار. وينبغي أن يقبل كل حقل إدخال الأرقام الغربية والعربية الهندية والفارسية والفواصل المذكورة في digits.",
+      "en": "FastKiwi apps display numbers with Western digits (123) by default; Arabic-Indic digits (١٢٣) are only a user option, never forced. Remember Me shows 123 only, with no option. Every input field should accept Western, Arabic-Indic and Persian digits and the separators listed under digits."
+    }
+  },
+  "examples": [
+    {
+      "id": "G01",
+      "number": "0",
+      "cleaned": "0",
+      "unit": "riyal",
+      "expected": "صفر ريال"
+    },
+    {
+      "id": "G02",
+      "number": "1",
+      "cleaned": "1",
+      "unit": "riyal",
+      "expected": "ريال واحد"
+    },
+    {
+      "id": "G03",
+      "number": "2",
+      "cleaned": "2",
+      "unit": "riyal",
+      "expected": "ريالان"
+    },
+    {
+      "id": "G04",
+      "number": "3",
+      "cleaned": "3",
+      "unit": "riyal",
+      "expected": "ثلاثة ريالات"
+    },
+    {
+      "id": "G05",
+      "number": "10",
+      "cleaned": "10",
+      "unit": "riyal",
+      "expected": "عشرة ريالات"
+    },
+    {
+      "id": "G06",
+      "number": "11",
+      "cleaned": "11",
+      "unit": "riyal",
+      "expected": "أحد عشر ريالاً"
+    },
+    {
+      "id": "G07",
+      "number": "12",
+      "cleaned": "12",
+      "unit": "riyal",
+      "expected": "اثنا عشر ريالاً"
+    },
+    {
+      "id": "G08",
+      "number": "13",
+      "cleaned": "13",
+      "unit": "riyal",
+      "expected": "ثلاثة عشر ريالاً"
+    },
+    {
+      "id": "G09",
+      "number": "19",
+      "cleaned": "19",
+      "unit": "riyal",
+      "expected": "تسعة عشر ريالاً"
+    },
+    {
+      "id": "G10",
+      "number": "20",
+      "cleaned": "20",
+      "unit": "riyal",
+      "expected": "عشرون ريالاً"
+    },
+    {
+      "id": "G11",
+      "number": "21",
+      "cleaned": "21",
+      "unit": "riyal",
+      "expected": "واحد وعشرون ريالاً"
+    },
+    {
+      "id": "G12",
+      "number": "100",
+      "cleaned": "100",
+      "unit": "riyal",
+      "expected": "مائة ريال"
+    },
+    {
+      "id": "G13",
+      "number": "101",
+      "cleaned": "101",
+      "unit": "riyal",
+      "expected": "مائة وواحد ريال"
+    },
+    {
+      "id": "G14",
+      "number": "200",
+      "cleaned": "200",
+      "unit": "riyal",
+      "expected": "مائتان ريال"
+    },
+    {
+      "id": "G15",
+      "number": "1000",
+      "cleaned": "1000",
+      "unit": "riyal",
+      "expected": "ألف ريال"
+    },
+    {
+      "id": "G16",
+      "number": "2000",
+      "cleaned": "2000",
+      "unit": "riyal",
+      "expected": "ألفان ريال"
+    },
+    {
+      "id": "G17",
+      "number": "3000",
+      "cleaned": "3000",
+      "unit": "riyal",
+      "expected": "ثلاثة آلاف ريال"
+    },
+    {
+      "id": "G18",
+      "number": "11000",
+      "cleaned": "11000",
+      "unit": "riyal",
+      "expected": "أحد عشر ألف ريال"
+    },
+    {
+      "id": "G19",
+      "number": "1000000",
+      "cleaned": "1000000",
+      "unit": "riyal",
+      "expected": "مليون ريال"
+    },
+    {
+      "id": "G20",
+      "number": "1001000",
+      "cleaned": "1001000",
+      "unit": "riyal",
+      "expected": "مليون وألف ريال"
+    },
+    {
+      "id": "G21",
+      "number": "1",
+      "cleaned": "1",
+      "unit": "lira",
+      "expected": "ليرة واحدة"
+    },
+    {
+      "id": "G22",
+      "number": "2",
+      "cleaned": "2",
+      "unit": "lira",
+      "expected": "ليرتان"
+    },
+    {
+      "id": "G23",
+      "number": "3",
+      "cleaned": "3",
+      "unit": "lira",
+      "expected": "ثلاث ليرات"
+    },
+    {
+      "id": "G24",
+      "number": "8",
+      "cleaned": "8",
+      "unit": "lira",
+      "expected": "ثماني ليرات"
+    },
+    {
+      "id": "G25",
+      "number": "11",
+      "cleaned": "11",
+      "unit": "lira",
+      "expected": "إحدى عشرة ليرة"
+    },
+    {
+      "id": "G26",
+      "number": "13",
+      "cleaned": "13",
+      "unit": "lira",
+      "expected": "ثلاث عشرة ليرة"
+    },
+    {
+      "id": "G27",
+      "number": "21",
+      "cleaned": "21",
+      "unit": "lira",
+      "expected": "إحدى وعشرون ليرة"
+    },
+    {
+      "id": "G28",
+      "number": "1001005",
+      "cleaned": "1001005",
+      "unit": "riyal",
+      "expected": "مليون وألف وخمسة ريالات"
+    },
+    {
+      "id": "G29",
+      "number": "125",
+      "cleaned": "125",
+      "unit": "riyal",
+      "options": {
+        "hundredsForm": "مئة"
+      },
+      "expected": "مئة وخمسة وعشرون ريالاً"
+    },
+    {
+      "id": "G30",
+      "number": "200000",
+      "cleaned": "200000",
+      "unit": "riyal",
+      "expected": "مائتا ألف ريال"
+    },
+    {
+      "id": "G31",
+      "number": "11000",
+      "cleaned": "11000",
+      "unit": "none",
+      "expected": "أحد عشر ألفاً"
+    },
+    {
+      "id": "G32",
+      "number": "1250.75",
+      "cleaned": "1250.75",
+      "unit": "SAR",
+      "expected": "ألف ومائتان وخمسون ريالاً سعودياً وخمس وسبعون هللة"
+    },
+    {
+      "id": "G33",
+      "number": "0.50",
+      "cleaned": "0.5",
+      "unit": "SAR",
+      "expected": "خمسون هللة"
+    },
+    {
+      "id": "G34",
+      "number": "15.00",
+      "cleaned": "15",
+      "unit": "SAR",
+      "expected": "خمسة عشر ريالاً سعودياً"
+    },
+    {
+      "id": "G35",
+      "number": "2.01",
+      "cleaned": "2.01",
+      "unit": "SAR",
+      "expected": "ريالان سعوديان وهللة واحدة"
+    },
+    {
+      "id": "G36",
+      "number": "١٢٣٫٤٥",
+      "cleaned": "123.45",
+      "unit": "SAR",
+      "expected": "مائة وثلاثة وعشرون ريالاً سعودياً وخمس وأربعون هللة"
+    },
+    {
+      "id": "G37",
+      "number": "5.250",
+      "cleaned": "5.25",
+      "unit": "KWD",
+      "expected": "خمسة دنانير كويتية ومائتان وخمسون فلساً"
+    },
+    {
+      "id": "G38",
+      "number": "1500.125",
+      "cleaned": "1500.125",
+      "unit": "IQD",
+      "expected": "ألف وخمسمائة دينار عراقي ومائة وخمسة وعشرون فلساً"
+    },
+    {
+      "id": "G39",
+      "number": "0.003",
+      "cleaned": "0.003",
+      "unit": "OMR",
+      "expected": "ثلاث بيسات"
+    },
+    {
+      "id": "G40",
+      "number": "2,500",
+      "cleaned": "2500",
+      "unit": "SAR",
+      "options": {
+        "prefix": "فقط",
+        "suffix": "لا غير"
+      },
+      "expected": "فقط ألفان وخمسمائة ريال سعودي لا غير"
+    },
+    {
+      "id": "G41",
+      "number": "10.125",
+      "cleaned": "10.125",
+      "unit": "SAR",
+      "expected": "عشرة ريالات سعودية وثلاث عشرة هللة"
+    },
+    {
+      "id": "G42",
+      "number": "0.999",
+      "cleaned": "0.999",
+      "unit": "SAR",
+      "expected": "ريال سعودي واحد"
+    }
+  ]
+}
