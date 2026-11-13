@@ -180,7 +180,7 @@
       </div>
       <p class="fine ap-verify">The <a href="../releases/#lemon">release notes</a> show the file’s SHA-256 fingerprint. To compare it, run <code>Get-FileHash .\local-ai-chat.exe</code> in PowerShell.</p>
       <p class="sublinks ap-gh">
-        <a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Source on GitHub</a>
+        <a href="https://github.com/sarmadiq9090-coder/local-ai-chat" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>Project on GitHub</a>
         <a href="https://github.com/sarmadiq9090-coder/local-ai-chat/issues/new" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Report a problem on GitHub</a>
       </p>
     </div>
@@ -200,7 +200,7 @@
       <details id="faq-models"><summary>Which model should I start with?</summary><div><p>Open Models in Lemon: the catalog rates each model against your graphics card and memory. A small Qwen or Gemma model is a good start. Models with 1 to 4 billion parameters also run without a graphics card, only more slowly.</p></div></details>
       <details id="faq-data"><summary>Where are my chats stored?</summary><div><p>In <code>%APPDATA%\LocalAiChat</code> on your PC: one file per conversation, plus settings and assistants. Exports go to <code>Documents\LocalAiChat</code>. To keep everything in one folder instead, set the <code>LOCALAI_DATA_DIR</code> environment variable.</p></div></details>
       <details id="faq-pdf"><summary>Can an assistant read scanned PDFs?</summary><div><p>Not yet. A scanned page is only an image, so there is no text to read. Give the assistant a copy of the PDF with OCR text and it works as usual.</p></div></details>
-      <details id="faq-smartscreen"><summary>Windows says “Windows protected your PC”. Is it safe?</summary><div><p>Lemon is not code-signed yet, so SmartScreen doesn’t recognise the publisher. Click “More info”, then “Run anyway”. The code is public, every release is built automatically from it, and you can compare the file’s SHA-256 fingerprint with the one on the <a href="../releases/#lemon">release notes</a>.</p></div></details>
+      <details id="faq-smartscreen"><summary>Windows says “Windows protected your PC”. Is it safe?</summary><div><p>Lemon is not code-signed yet, so SmartScreen doesn’t recognise the publisher. Click “More info”, then “Run anyway”. Every release is built automatically, and you can compare the file’s SHA-256 fingerprint with the one on the <a href="../releases/#lemon">release notes</a>.</p></div></details>
       <details id="faq-remove"><summary>How do I remove it?</summary><div><p>Close Lemon and delete <code>local-ai-chat.exe</code>. To also delete your chats and settings, remove the <code>LocalAiChat</code> folders. Your models stay in Ollama until you delete them there or in Lemon’s Models page.</p></div></details>
     </div>
   </div>

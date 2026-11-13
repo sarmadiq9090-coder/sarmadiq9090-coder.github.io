@@ -9,7 +9,7 @@
 - [InstaWords](https://fastkiwi.app/instawords/): free amount-in-words (tafqit) tool for cheques and invoices in English, Arabic and French; 100+ currencies and units, bulk/CSV mode (https://fastkiwi.app/instawords/bulk.html), works offline in the browser, as a Windows app with an English or Arabic interface (https://github.com/sarmadiq9090-coder/InstaWords/releases/latest) and in Excel (=TAFQIT(A1, "USD", , , , , "en"); https://fastkiwi.app/instawords/excel.html). Arabic page: https://fastkiwi.app/instawords/
 
 ## Links
-- Source code: https://github.com/sarmadiq9090-coder
+- GitHub (releases and issues): https://github.com/sarmadiq9090-coder
 - Arabic home page: https://fastkiwi.app/ar/
 - What's new (latest versions, release notes, checksums): https://fastkiwi.app/releases/
 - Release feed (Atom): https://fastkiwi.app/releases.xml (Arabic: https://fastkiwi.app/ar/releases.xml)
