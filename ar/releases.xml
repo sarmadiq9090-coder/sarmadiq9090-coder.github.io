@@ -5,10 +5,28 @@
   <id>https://fastkiwi.app/ar/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/ar/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="ar" href="https://fastkiwi.app/ar/releases/"/>
-  <updated>2026-11-11T12:41:58.000Z</updated>
+  <updated>2026-11-13T18:42:30.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
   <rights>برامج ويندوز مجانية</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.1.0</id>
+    <title>InstaFind · بحث سريع v1.1.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-13T18:42:30.000Z</published>
+    <updated>2026-11-13T18:42:30.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">واجهة أهدأ وأصغر بشكل ويندوز 11: خانة بحث واحدة بزر مسح، وبجانبها السجل والإعدادات وقائمة ⋮ «المزيد». تحتها سطر واحد فيه «التصفية» و«كل الأقراص» و«داخل المستندات» وأزرار العرض والترتيب. الجدول «الاسم | الحجم | تاريخ التعديل» بأيقونة ملوّنة لكل نوع، والمسار تحت الاسم. كل اختصارات…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.0.0</id>
+    <title>InstaFind · بحث سريع v1.0.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-13T13:20:17.000Z</published>
+    <updated>2026-11-13T13:20:17.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">شكل جديد للبرنامج: أوضح وأسهل، وهو الآن شكل البرنامج لكل المستخدمين، ومعه عرض المصغرات (Ctrl+T) وبطاقة «كيف أبحث؟» (F1). إذا كان مكوّن WebView2 في ويندوز مفقوداً أو لا يعمل، يعمل البرنامج بالشكل البسيط في تلك المرة فقط ويقول لك السبب، ثم يجرّب الشكل الجديد في التشغيل التالي. 38…</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:arabic-file-search/v0.10.0</id>
     <title>InstaFind · بحث سريع v0.10.0</title>
@@ -80,23 +98,5 @@
     <updated>2026-11-03T08:44:40.000Z</updated>
     <category term="instawords" label="InstaWords"/>
     <summary type="text">تطبيق Windows لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية ولغات أخرى. يعمل دون إنترنت، ونتائجه مطابقة للموقع. InstaWords_…_x64-setup.exe: المثبّت (موصى به). يثبّت للمستخدم الحالي دون صلاحيات المسؤول. InstaWords_…_x64-portable.exe: نسخة محمولة تعمل دون تثبيت (تتطلب…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.0</id>
-    <title>InstaFind · بحث سريع v0.9.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-02T13:03:22.000Z</published>
-    <updated>2026-11-02T13:03:22.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">البرامج بأسمائها العربية كما تكتبها: أكثر من 45 برنامجاً ولعبة جديدة، وحرف غلط واحد مقبول («ديسكود» تجد Discord)، والبرنامج يتعلّم من اختيارك، وتظهر البرامج في النافذة الرئيسية أيضاً. تحويل العملات: «100 دولار»، «100 usd to iqd»، «50 يورو بالدينار» لـ 24 عملة، بأسعار تتحدث كل 12…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.2</id>
-    <title>InstaFind · بحث سريع v0.8.2</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-02T11:19:20.000Z</published>
-    <updated>2026-11-02T11:19:20.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">إصلاح توقف البرنامج فجأة على بعض الأجهزة عند الضغط المتكرر على خانة البحث العائمة أو عند ضغط زر الإغلاق، فتختفي الخانة والأيقونة بجانب الساعة. كل توقف مفاجئ يُسجَّل الآن في تقرير الخطأ، فإذا حدث يسألك البرنامج عند الفتح التالي إن كنت تريد إرساله. البحث من الهاتف لا يتوقف عند ضغط…</summary>
   </entry>
 </feed>
