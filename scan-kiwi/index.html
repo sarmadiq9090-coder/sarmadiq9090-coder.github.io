@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-<!-- RELEASE PLACEHOLDERS: before this page goes live, replace every {{APK_SIZE_MB}}, {{APK_SHA256}} and {{SIGNING_CERT_SHA256}}
-     with the values of the signed v1.2.0 build, swap img/scan-kiwi-placeholder.svg for the synthetic 1.2.0 screenshots
-     from kiwi-scan/screenshots/, and set SCAN_KIWI_PLACEHOLDERS = false in tests/qa.mjs. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scan Kiwi: offline document scanner for Android | FastKiwi</title>
@@ -63,15 +60,15 @@
       <div class="cta">
         <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v1.2.0/ScanKiwi-1.2.0.apk" data-apk>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
-          Download Scan Kiwi 1.2.0 (APK, ~{{APK_SIZE_MB}} MB)
+          Download Scan Kiwi 1.2.0 (APK, ~14.6 MB)
         </a>
         <a class="btn btn-ghost" href="#install">How to install</a>
       </div>
       <p class="fine ap-facts">Free · Android 7.0 or later · Arabic and English · not on Google Play</p>
     </div>
     <figure class="shot ap-shot">
-      <div class="phone"><img src="../img/scan-kiwi-placeholder.svg" width="600" height="1290" fetchpriority="high" alt="Placeholder drawing of a phone screen with a document list; the real Scan Kiwi 1.2.0 screenshot will replace it" data-placeholder></div>
-      <figcaption>Screenshot placeholder until the 1.2.0 release.</figcaption>
+      <div class="phone"><img src="../img/scan-kiwi-en.webp" width="600" height="1290" fetchpriority="high" alt="Scan Kiwi in English: a three-page document shown as page thumbnails, with the Add pages and Export buttons at the bottom"></div>
+      <figcaption>Scan Kiwi 1.2.0 in English, with synthetic test pages.</figcaption>
     </figure>
   </div>
 </section>
@@ -182,13 +179,13 @@
       <div class="cta">
         <a class="btn btn-primary" href="https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v1.2.0/ScanKiwi-1.2.0.apk" data-apk>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
-          Download Scan Kiwi 1.2.0 (APK, ~{{APK_SIZE_MB}} MB)
+          Download Scan Kiwi 1.2.0 (APK, ~14.6 MB)
         </a>
         <a class="btn btn-ghost" href="https://github.com/sarmadiq9090-coder/scan-kiwi/releases/tag/v1.2.0" data-github>Release notes on GitHub</a>
       </div>
       <div class="fine ap-verify" id="verify">
-        <p>SHA-256 of <code>ScanKiwi-1.2.0.apk</code>: <code class="hash" data-placeholder>{{APK_SHA256}}</code>, also in <a href="https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v1.2.0/SHA256SUMS.txt">SHA256SUMS.txt</a>. To compare on a computer, run <code>Get-FileHash .\ScanKiwi-1.2.0.apk</code> (Windows) or <code>sha256sum ScanKiwi-1.2.0.apk</code> (Linux, macOS).</p>
-        <p>Signing certificate SHA-256: <code class="hash" data-placeholder>{{SIGNING_CERT_SHA256}}</code>. Android refuses any update that is not signed with this certificate.</p>
+        <p>SHA-256 of <code>ScanKiwi-1.2.0.apk</code>: <code class="hash">b463d736a3184cd30c20921af89ed5eff937713f6c74b71ab8cbfd701a3b6b60</code>, also in <a href="https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v1.2.0/SHA256SUMS.txt">SHA256SUMS.txt</a>. To compare on a computer, run <code>Get-FileHash .\ScanKiwi-1.2.0.apk</code> (Windows) or <code>sha256sum ScanKiwi-1.2.0.apk</code> (Linux, macOS).</p>
+        <p>Signing certificate SHA-256: <code class="hash">26e5ed001c7343de4eac67086be4ddade5b39cae8029c72b552b057bdf2dcce6</code>. Android refuses any update that is not signed with this certificate.</p>
         <p>The APK is built and signed on the developer’s PC, not on GitHub, so it has no GitHub attestation. The release includes a parts list (SBOM) and an unsigned SLSA Build L1 provenance file that says exactly that.</p>
       </div>
       <p class="sublinks ap-gh">

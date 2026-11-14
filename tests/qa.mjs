@@ -912,7 +912,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
    {{SIGNING_CERT_SHA256}} in the four HTML files, swap img/scan-kiwi-placeholder.svg for the synthetic 1.2.0 screenshots, and set
    it to false: the checks then fail on any placeholder left. ---------- */
 {
-  const SCAN_KIWI_PLACEHOLDERS = true;
+  const SCAN_KIWI_PLACEHOLDERS = false; /* filled from the signed v1.2.0 build (kiwi-scan 9089fc2) */
   const SK_APK = 'https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v1.2.0/ScanKiwi-1.2.0.apk';
   const UPDATE_TEXT = { /* D-077 "Required wording", verbatim */
     en: 'Scan Kiwi has no internet permission and never connects to the internet. It does not update itself. To get updates automatically, you can use Obtainium, a free open-source app by an independent developer (not FastKiwi): it checks our GitHub releases and installs new versions, and Android may ask you to confirm. When Obtainium or your browser checks GitHub, GitHub sees your IP address, as with any website. You can also update by hand from the releases page.',
