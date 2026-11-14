@@ -1,4 +1,4 @@
-// FastKiwi site QA (home, releases, Lemon, privacy policy, support, official downloads, 404, redirects, feeds) in a real browser.
+// FastKiwi site QA (home, releases, Lemon, Scan Kiwi, privacy policy, support, official downloads, 404, redirects, feeds) in a real browser.
 // Run from the repo root: npm test   (or: node tests/qa.mjs [--no-shots])
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
@@ -18,6 +18,7 @@ const SHOTS = !process.argv.includes('--no-shots');
 const PAGES = [['home-en', '/'], ['home-ar', '/ar/'], ['releases-en', '/releases/'], ['releases-ar', '/ar/releases/'], ['lemon-en', '/lemon/'], ['lemon-ar', '/ar/lemon/'], ['privacy-en', '/privacy/'], ['privacy-ar', '/ar/privacy/'], ['404', '/no-such-page/']];
 PAGES.push(['support-en', '/support/'], ['support-ar', '/ar/support/']); // the Windows apps link to these exact paths
 PAGES.push(['downloads-en', '/downloads/'], ['downloads-ar', '/ar/downloads/']); // TRADEMARKS.md in the app repos links here
+PAGES.push(['scan-kiwi-en', '/scan-kiwi/'], ['scan-kiwi-ar', '/ar/scan-kiwi/']); // the Android app, open source (D-076); section 13
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
 const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/InstaWords\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
@@ -800,10 +801,12 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     instawords: { repo: 'InstaWords', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
     instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: 'SHA256SUMS.txt', store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
     'remember-me': { repo: 'Remember-Me', site: { en: '/Remember-Me/', ar: '/Remember-Me/ar/' }, sha: 'SHA256SUMS.txt', store: '9NGB1F7T7JGN', winget: 'Sarmad.RememberMe', scoop: false },
-    lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false }
+    lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false },
+    /* Android: no Store, winget or Scoop; not in the releases/ feed yet (a later site PR), so the second site link is its own #verify */
+    'scan-kiwi': { repo: 'scan-kiwi', site: { en: '/scan-kiwi/', ar: '/ar/scan-kiwi/' }, notes: { en: '/scan-kiwi/#verify', ar: '/ar/scan-kiwi/#verify' }, sha: 'SHA256SUMS.txt', store: null, winget: null, scoop: false, android: true }
   };
   const STORE_LIVE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.filter(a => a.store?.live).map(a => a.id);
-  const TM_EN = 'InstaWords™, InstaFind™, Remember Me™, Lemon™, InstaConvert™ and FastKiwi™ are trademarks of FastKiwi (Sarmad). The licences grant no trademark rights.';
+  const TM_EN = 'InstaWords™, InstaFind™, Remember Me™, Lemon™, Scan Kiwi™, InstaConvert™ and FastKiwi™ are trademarks of FastKiwi (Sarmad). The licences grant no trademark rights.';
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
   await offline(ctx);
   const page = await ctx.newPage();
@@ -831,7 +834,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(D.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${D.canonical}`);
     ok(JSON.stringify(D.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/downloads/', 'en https://fastkiwi.app/downloads/', 'x-default https://fastkiwi.app/downloads/']), `${tag}: hreflang ${D.hreflang}`);
     ok(D.lang.length === 2 && D.lang.every(x => x === other), `${tag}: language switches go to ${other} (${D.lang})`);
-    ok(JSON.stringify(D.apps.map(a => a.id)) === JSON.stringify(['instawords', 'instafind', 'remember-me', 'lemon', 'instaconvert']), `${tag}: a card per app, InstaConvert last (${D.apps.map(a => a.id)})`);
+    ok(JSON.stringify(D.apps.map(a => a.id)) === JSON.stringify(['instawords', 'instafind', 'remember-me', 'lemon', 'scan-kiwi', 'instaconvert']), `${tag}: a card per app, InstaConvert last (${D.apps.map(a => a.id)})`);
     for (const a of D.apps) {
       ok(/™/.test(a.title), `${tag} ${a.id}: ™ in the heading (${a.title})`);
       const want = SRC[a.id];
@@ -839,20 +842,22 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       const R = a.rows, site = R.site?.links || [];
       const live = STORE_LIVE.includes(a.id);  /* owner's store-first rule: a live Store listing is the first source */
       ok(live ? a.order[0] === 'store' : a.order[0] === 'site', `${tag} ${a.id}: ${live ? 'Microsoft Store first (live in the Store)' : 'this site first'} (${a.order})`);
-      ok(site.length === 2 && new URL(site[0].href).origin === BASE && new URL(site[0].href).pathname === want.site[lang] && new URL(site[1].href).pathname + new URL(site[1].href).hash === (lang === 'en' ? '/releases/#' : '/ar/releases/#') + a.id, `${tag} ${a.id}: its fastkiwi.app page and release notes ${JSON.stringify(site.map(l => l.href))}`);
+      ok(site.length === 2 && new URL(site[0].href).origin === BASE && new URL(site[0].href).pathname === want.site[lang] && new URL(site[1].href).pathname + new URL(site[1].href).hash === (want.notes ? want.notes[lang] : (lang === 'en' ? '/releases/#' : '/ar/releases/#') + a.id), `${tag} ${a.id}: its fastkiwi.app page and release notes ${JSON.stringify(site.map(l => l.href))}`);
       ok(R.github?.links.length === 1 && R.github.links[0].href === `${GH}${want.repo}/releases` && R.github.links[0].gh && /GitHub/.test(R.github.links[0].text), `${tag} ${a.id}: labelled GitHub releases link ${JSON.stringify(R.github)}`);
       if (want.sha) ok(R.sha256?.links.length === 1 && R.sha256.links[0].href === `${GH}${want.repo}/releases/latest/download/${want.sha}` && R.sha256.links[0].text === want.sha, `${tag} ${a.id}: direct link to the release's ${want.sha}`);
       else ok(R.sha256 && !R.sha256.links.some(l => /\/releases\/(latest\/)?download\//.test(l.href)) && R.sha256.links.some(l => new URL(l.href).hash === '#' + a.id), `${tag} ${a.id}: no checksum file, points to the SHA-256 shown on the site`);
       if (want.store && a.id === 'remember-me') ok(R.store && R.store.links.length === 1 && R.store.links[0].href === `https://apps.microsoft.com/detail/${want.store}?referrer=appbadge&cid=fastkiwi-site&mode=full` && R.store.links[0].store && R.store.text.includes(want.store), `${tag} ${a.id}: live in Microsoft Store, the official badge links to its Store page`);
       else if (want.store) ok(R.store && R.store.links.length === 0 && R.store.text.includes(want.store) && (lang === 'en' ? /Coming to Microsoft Store/ : /قريباً في Microsoft Store/).test(R.store.text), `${tag} ${a.id}: "coming to Microsoft Store" with its Store ID, no link or badge yet`);
       else ok(!R.store, `${tag} ${a.id}: no Store row`);
-      ok(R.winget && R.winget.text.includes(`winget install ${want.winget}`) && (lang === 'en' ? /not accepted yet/ : /لم يُقبل بعد/).test(R.winget.text), `${tag} ${a.id}: winget ID ${want.winget}, marked as submitted, not accepted yet`);
+      if (want.winget) ok(R.winget && R.winget.text.includes(`winget install ${want.winget}`) && (lang === 'en' ? /not accepted yet/ : /لم يُقبل بعد/).test(R.winget.text), `${tag} ${a.id}: winget ID ${want.winget}, marked as submitted, not accepted yet`);
+      else ok(!R.winget, `${tag} ${a.id}: no winget row`);
+      if (want.android) ok(R.android && /Android 7\.0|أندرويد 7\.0/.test(R.android.text) && /Google Play/.test(R.android.text) && /Obtainium/.test(R.android.text) && R.android.links.length === 0, `${tag} ${a.id}: Android row: 7.0+, not on Google Play, Obtainium (${R.android?.text})`);
       ok(!!R.scoop === want.scoop && (!want.scoop || (R.scoop.text.includes('scoop bucket add instafind https://github.com/sarmadiq9090-coder/arabic-file-search') && R.scoop.text.includes('scoop install instafind/instafind'))), `${tag} ${a.id}: Scoop only where a bucket exists`);
     }
     ok(D.verify.includes('Get-FileHash .\\file.exe -Algorithm SHA256') && (lang === 'en' ? /Compare/.test(D.verify) : /قارن/.test(D.verify)), `${tag}: how to verify with Get-FileHash`);
     ok(lang === 'en' ? ['other sites', 'cracked', 'pro', 'not ours', 'may be harmful', 'free', 'never ask for payment or personal data'].every(x => D.warn.includes(x))
       : ['مواقع أخرى', 'المكرَكة', 'pro', 'ليست منا', 'ضارة', 'مجانية', 'لا نطلب أبداً أي مبلغ أو بيانات شخصية'].every(x => D.warn.includes(x)), `${tag}: warning about other copies, cracked/pro versions, free, no payment or personal data`);
-    ok(lang === 'en' ? D.tm[0] === TM_EN : /علامات تجارية لـ FastKiwi \(Sarmad\)/.test(D.tm[0]) && ['InstaWords™', 'InstaFind™', 'Remember Me™', 'Lemon™', 'InstaConvert™', 'FastKiwi™'].every(x => D.tm[0].includes(x)) && /لا تمنح أي حق في العلامات التجارية/.test(D.tm[0]), `${tag}: trademark note (${D.tm[0]})`);
+    ok(lang === 'en' ? D.tm[0] === TM_EN : /علامات تجارية لـ FastKiwi \(Sarmad\)/.test(D.tm[0]) && ['InstaWords™', 'InstaFind™', 'Remember Me™', 'Lemon™', 'Scan Kiwi™', 'InstaConvert™', 'FastKiwi™'].every(x => D.tm[0].includes(x)) && /لا تمنح أي حق في العلامات التجارية/.test(D.tm[0]), `${tag}: trademark note (${D.tm[0]})`);
     ok(D.tmLink.length === 1 && D.tmLink[0][0] === GH + 'InstaWords/blob/HEAD/TRADEMARKS.md' && /GitHub/.test(D.tmLink[0][1]), `${tag}: labelled link to InstaWords' TRADEMARKS.md ${JSON.stringify(D.tmLink)}`);
     ok(D.footer.includes(url) && D.footer.includes(url.replace('downloads', 'support')) && D.footer.includes(url.replace('downloads', 'privacy')), `${tag}: footer links Official downloads, Support and Privacy`);
     ok(D.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
@@ -861,7 +866,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     await page.setViewportSize({ width: 1366, height: 900 });
   }
   /* every full page links to the official downloads page of its language from the footer */
-  for (const [u, want] of [['/', '/downloads/'], ['/ar/', '/ar/downloads/'], ['/releases/', '/downloads/'], ['/ar/releases/', '/ar/downloads/'], ['/lemon/', '/downloads/'], ['/ar/lemon/', '/ar/downloads/'], ['/privacy/', '/downloads/'], ['/ar/privacy/', '/ar/downloads/'], ['/support/', '/downloads/'], ['/ar/support/', '/ar/downloads/']]) {
+  for (const [u, want] of [['/', '/downloads/'], ['/ar/', '/ar/downloads/'], ['/releases/', '/downloads/'], ['/ar/releases/', '/ar/downloads/'], ['/lemon/', '/downloads/'], ['/ar/lemon/', '/ar/downloads/'], ['/privacy/', '/downloads/'], ['/ar/privacy/', '/ar/downloads/'], ['/support/', '/downloads/'], ['/ar/support/', '/ar/downloads/'], ['/scan-kiwi/', '/downloads/'], ['/ar/scan-kiwi/', '/ar/downloads/']]) {
     await page.goto(BASE + u, { waitUntil: 'domcontentloaded' });
     const f = await page.evaluate(() => [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname).filter(p => /\/downloads\/$/.test(p)));
     ok(f.length === 1 && f[0] === want, `footer ${u}: Official downloads link to ${want} (${f})`);
@@ -896,6 +901,107 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const p = path.join(ROOT, 'instawords', 'en', f);
     if (fs.existsSync(p)) ok(/<html lang="en" dir="ltr">/.test(fs.readFileSync(p, 'utf8')), `instawords/en/${f}: English page synced from tafket`);
   }
+}
+
+/* ---------- 13. Scan Kiwi (Android, open source; D-076 site plan and standards, D-077 update wording) ----------
+   Both pages: canonical, hreflang, language switch, the one direct APK link (text names file type and size), D-077's required
+   update wording verbatim, the honest claims only, JSON-LD, targets >= 24 px (WCAG 2.5.8), focus never hidden under the sticky
+   header (2.4.11), no horizontal scroll at 320 px, and axe-core with wcag2a/wcag2aa/wcag21aa/wcag22aa: zero violations on both
+   pages and on the Scan Kiwi cards of the home and downloads pages.
+   SCAN_KIWI_PLACEHOLDERS: true until the signed 1.2.0 build exists. Then replace {{APK_SIZE_MB}}, {{APK_SHA256}} and
+   {{SIGNING_CERT_SHA256}} in the four HTML files, swap img/scan-kiwi-placeholder.svg for the synthetic 1.2.0 screenshots, and set
+   it to false: the checks then fail on any placeholder left. ---------- */
+{
+  const SCAN_KIWI_PLACEHOLDERS = false; /* filled from the signed v1.2.0 build (kiwi-scan 9089fc2) */
+  const SK_APK = 'https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v1.2.0/ScanKiwi-1.2.0.apk';
+  const UPDATE_TEXT = { /* D-077 "Required wording", verbatim */
+    en: 'Scan Kiwi has no internet permission and never connects to the internet. It does not update itself. To get updates automatically, you can use Obtainium, a free open-source app by an independent developer (not FastKiwi): it checks our GitHub releases and installs new versions, and Android may ask you to confirm. When Obtainium or your browser checks GitHub, GitHub sees your IP address, as with any website. You can also update by hand from the releases page.',
+    ar: 'لا يملك ماسح كيوي إذن الإنترنت ولا يتصل به أبداً، ولا يحدّث نفسه. للتحديث التلقائي يمكنك استعمال Obtainium، وهو تطبيق مجاني مفتوح المصدر من مطوّر مستقل (ليس من FastKiwi)، يتابع إصداراتنا على GitHub ويثبّت الجديد، وقد يطلب أندرويد تأكيدك. حين يتصل Obtainium أو المتصفح بـ GitHub يرى GitHub عنوان IP الخاص بك كأي موقع. ويمكنك التحديث يدوياً من صفحة الإصدارات.' };
+  const CLAIMS = { /* the claims the council allowed (D-076 Standards ▸ Site), each one must be on the page */
+    en: ['Android 7.0', 'no internet permission', 'Apache-2.0', 'not on Google Play', 'Arabic accuracy is lower than English'],
+    ar: ['أندرويد 7.0', 'لا يملك إذن الإنترنت', 'Apache-2.0', 'ليس على Google Play', 'دقة العربية أقل من الإنجليزية'] };
+  const BANNED = /\b(secure|safest|best|Google[- ]verified|Play Protect|virus[- ]free|auto-updates)\b|الأفضل|آمن تماماً|خالٍ من الفيروسات/i;
+  const PH = /\{\{([A-Z0-9_]+)\}\}/g, PH_OK = ['APK_SIZE_MB', 'APK_SHA256', 'SIGNING_CERT_SHA256'];
+  for (const f of ['scan-kiwi/index.html', 'ar/scan-kiwi/index.html', 'index.html', 'ar/index.html']) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8'), names = [...src.matchAll(PH)].map(m => m[1]);
+    const shot = /scan-kiwi-placeholder\.svg/.test(src);
+    if (SCAN_KIWI_PLACEHOLDERS) { ok(names.every(n => PH_OK.includes(n)), `${f}: only the documented release placeholders (${names})`); if (names.length || shot) console.log(`  NOTE ${f}: release placeholders left (${[...new Set(names)]}${shot ? ', screenshot' : ''}) until the signed 1.2.0 build`); }
+    else ok(!names.length && !shot, `${f}: no release placeholder or placeholder screenshot left (${names})`);
+  }
+  const { default: axeDefault, AxeBuilder: axeNamed } = await import('@axe-core/playwright');
+  const AxeBuilder = axeNamed || axeDefault;
+  const TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
+  const axe = async (page, include) => { let b = new AxeBuilder({ page }).withTags(TAGS); if (include) b = b.include(include); const r = await b.analyze(); return r.violations.map(v => `${v.id} (${v.impact}): ${v.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ')}`); };
+  for (const [lang, url, other] of [['en', '/scan-kiwi/', '/ar/scan-kiwi/'], ['ar', '/ar/scan-kiwi/', '/scan-kiwi/']]) {
+    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+    await offline(ctx); await blockGithubNav(ctx);
+    const page = await ctx.newPage(), tag = `scan-kiwi ${lang}`;
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const S = await page.evaluate(() => ({
+      canonical: document.querySelector('link[rel=canonical]').href,
+      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
+      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      apk: [...document.querySelectorAll('a[data-apk]')].map(a => [a.href, a.textContent.replace(/\s+/g, ' ').trim()]),
+      dl: document.querySelectorAll('a[data-dl]').length,
+      updates: document.querySelector('#updates .card p')?.textContent.replace(/\s+/g, ' ').trim(),
+      text: document.body.innerText.replace(/\s+/g, ' '),
+      ld: JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent),
+      verify: !!document.getElementById('verify')
+    }));
+    ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
+    ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/scan-kiwi/', 'en https://fastkiwi.app/scan-kiwi/', 'x-default https://fastkiwi.app/scan-kiwi/']), `${tag}: hreflang ${S.hreflang}`);
+    ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
+    ok(S.apk.length === 2 && S.apk.every(([h, t]) => h === SK_APK && /1\.2\.0/.test(t) && /APK/.test(t) && (lang === 'en' ? /MB\)$/ : /ميغابايت\)$/).test(t)), `${tag}: two direct APK links whose text names the file, its type and size ${JSON.stringify(S.apk)}`);
+    ok(S.dl === 0, `${tag}: no data-dl buttons (site.js resolves those through the releases API, which has no Scan Kiwi entry yet)`);
+    ok(S.updates === UPDATE_TEXT[lang], `${tag}: D-077 update wording verbatim (${S.updates})`);
+    for (const c of CLAIMS[lang]) ok(S.text.includes(c), `${tag}: says "${c}"`);
+    ok(!BANNED.test(S.text), `${tag}: no unallowed claim (${S.text.match(BANNED)})`);
+    ok(/Android 7\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === SK_APK && S.ld.softwareVersion === '1.2.0' && !/™/.test(S.ld.name + S.ld.alternateName) && S.verify, `${tag}: JSON-LD (Android, APK, 1.2.0) and the #verify block`);
+    /* 2.5.8 target size: buttons, nav, summaries and link rows (inline links inside sentences are exempt) */
+    const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, .lang-switch, .foot-links a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
+    ok(!small.length, `${tag}: targets at least 24×24 px ${JSON.stringify(small)}`);
+    /* 2.4.11 focus not obscured: tab through the page, every focused element below the sticky header (or inside it) */
+    const hidden = [];
+    for (let i = 0; i < 60; i++) {
+      await page.keyboard.press('Tab'); await page.waitForTimeout(30);
+      const f = await page.evaluate(() => { const e = document.activeElement, h = document.querySelector('.site-header'); if (!e || e === document.body) return null; const r = e.getBoundingClientRect(), hb = h.getBoundingClientRect().bottom; return { t: e.textContent.trim().slice(0, 30), ok: h.contains(e) || r.top >= hb - 1 || e.classList.contains('skip'), vis: r.bottom > 0 && r.top < innerHeight }; });
+      if (f && (!f.ok || !f.vis)) hidden.push(f.t);
+    }
+    ok(!hidden.length, `${tag}: keyboard focus never hidden under the sticky header ${JSON.stringify(hidden)}`);
+    const v = await axe(page);
+    ok(!v.length, `${tag}: axe-core WCAG 2.2 AA, zero violations ${JSON.stringify(v)}`);
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.waitForTimeout(200);
+    const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    ok(sw <= 0, `${tag}@320: no horizontal scroll (${sw} px)`);
+    if (SHOTS) await page.screenshot({ path: `${OUT}after-scan-kiwi-${lang}-320.png`, fullPage: true, animations: 'disabled' });
+    /* the APK button downloads the file and stays on the page */
+    await page.setViewportSize({ width: 1366, height: 900 });
+    const [got] = await Promise.all([page.waitForEvent('download', { timeout: 5000 }).catch(() => null), page.locator('#download a[data-apk]').click()]);
+    ok(got && got.url() === SK_APK && page.url().startsWith(BASE), `${tag}: APK button downloads ${got?.url()} and stays on site`);
+    await ctx.close();
+  }
+  /* the Scan Kiwi cards on the home and downloads pages: axe-core on the card itself, the direct APK link, outside the Windows hero */
+  for (const [url, sel, apks] of [['/', '#apps .bento', 1], ['/ar/', '#apps .bento', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
+    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+    await offline(ctx);
+    const page = await ctx.newPage();
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a[data-apk]')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel.startsWith('#scan') ? sel : sel + ' img[src$="scan-kiwi.svg"]'), inHero: !!document.querySelector('.hero [href*="scan-kiwi"], .hero img[src*="scan-kiwi"]') }), sel);
+    ok(C.card && !C.inHero && C.apk.length === apks && C.apk.every(h => h === SK_APK), `${url}: Scan Kiwi card (${sel}), not in the Windows hero, ${apks} direct APK link ${JSON.stringify(C)}`);
+    const v = await axe(page, sel.startsWith('#scan') ? sel : '#apps');
+    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#apps'} ${JSON.stringify(v)}`);
+    await ctx.close();
+  }
+  /* data, sitemap and llms.txt */
+  const app = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.find(a => a.id === 'scan-kiwi');
+  ok(app && app.store === null && app.winget === null && /Android/.test(app.tagline.en) && /أندرويد/.test(app.tagline.ar), `apps.json: scan-kiwi with store and winget null and a tagline that says Android`);
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const u of ['https://fastkiwi.app/scan-kiwi/', 'https://fastkiwi.app/ar/scan-kiwi/']) {
+    const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
+    ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/scan-kiwi/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/scan-kiwi/"') && entry.includes('hreflang="x-default" href="https://fastkiwi.app/scan-kiwi/"'), `sitemap: ${u} with lastmod and hreflang`);
+  }
+  ok(/\[Scan Kiwi\]\(https:\/\/fastkiwi\.app\/scan-kiwi\/\)/.test(fs.readFileSync(path.join(ROOT, 'llms.txt'), 'utf8')), 'llms.txt: Scan Kiwi entry');
 }
 
 await browser.close();
