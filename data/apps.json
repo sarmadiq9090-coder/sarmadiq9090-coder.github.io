@@ -72,6 +72,20 @@
       "icon": "img/scan-kiwi.svg"
     },
     {
+      "id": "remember-me-android",
+      "status": "released",
+      "name": { "ar": "ذكرني لأندرويد", "en": "Remember Me for Android" },
+      "tagline": { "ar": "تذكيرات لأندرويد", "en": "Reminders for Android" },
+      "description": {
+        "ar": "تذكيرات تبقى على هاتف أندرويد حتى تتعامل معها، بلا حساب ولا إعلانات. مجاني ومفتوح المصدر.",
+        "en": "Reminders that stay on your Android phone until you deal with them, with no account or ads. Free and open source."
+      },
+      "url": { "ar": "https://fastkiwi.app/ar/remember-me-android/", "en": "https://fastkiwi.app/remember-me-android/" },
+      "store": null,
+      "winget": null,
+      "icon": "img/remember-me.png"
+    },
+    {
       "id": "instaconvert",
       "status": "coming-soon",
       "name": { "ar": "InstaConvert", "en": "InstaConvert" },

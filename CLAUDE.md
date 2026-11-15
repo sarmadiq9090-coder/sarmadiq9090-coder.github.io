@@ -28,7 +28,8 @@ through Claude sessions, with no fixed computer.
 - **Closed source (D-051, 2026-11-09).** FastKiwi apps are proprietary (free to use; pricing
   undecided). Don't add "open source"/MIT wording; keep third-party notices. Code published before
   2026-11-09 stays under its MIT licence. **Exception (D-076): Scan Kiwi (Android, `scan-kiwi/`,
-  `ar/scan-kiwi/`) is open source under Apache-2.0**; its pages, cards and downloads entry say so.
+  `ar/scan-kiwi/`) is open source under Apache-2.0**; its pages, cards and downloads entry say so. **Remember Me for Android** (`remember-me-android/`,
+  `ar/remember-me-android/`, D-079) is open source under Apache-2.0 too; Remember Me for Windows stays proprietary.
 - **Mirror.** `.github/workflows/mirror.yml` pushes main, tags and claude/* daily to GitLab
   (`fastkiwi1/fastkiwi-site`), no force, no prune; it skips until the owner adds the `GITLAB_DEPLOY_KEY` secret.
 - Things only the owner can do: repo settings, deleting branches or repos, money decisions, secrets,
