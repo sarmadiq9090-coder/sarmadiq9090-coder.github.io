@@ -63,8 +63,8 @@
       "name": { "ar": "ماسح كيوي", "en": "Scan Kiwi" },
       "tagline": { "ar": "ماسح مستندات لأندرويد", "en": "Document scanner for Android" },
       "description": {
-        "ar": "امسح الورق إلى ملفات PDF واضحة على هاتف أندرويد، بلا إنترنت ولا إذن إنترنت. مجاني ومفتوح المصدر.",
-        "en": "Scan paper to clean PDFs on your Android phone, offline and with no internet permission. Free and open source."
+        "ar": "امسح الورق إلى PDF على أندرويد. يعمل دون اتصال، ولا يتصل إلا للتحقق من التحديثات وتنزيلها من GitHub. مجاني ومفتوح المصدر.",
+        "en": "Scan paper to PDFs on Android. Works offline; online only to check for and download updates from GitHub. Free, open source."
       },
       "url": { "ar": "https://fastkiwi.app/ar/scan-kiwi/", "en": "https://fastkiwi.app/scan-kiwi/" },
       "store": null,
