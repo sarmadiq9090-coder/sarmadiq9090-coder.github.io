@@ -851,7 +851,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       else ok(!R.store, `${tag} ${a.id}: no Store row`);
       if (want.winget) ok(R.winget && R.winget.text.includes(`winget install ${want.winget}`) && (lang === 'en' ? /not accepted yet/ : /لم يُقبل بعد/).test(R.winget.text), `${tag} ${a.id}: winget ID ${want.winget}, marked as submitted, not accepted yet`);
       else ok(!R.winget, `${tag} ${a.id}: no winget row`);
-      if (want.android) ok(R.android && /Android 7\.0|أندرويد 7\.0/.test(R.android.text) && /Google Play/.test(R.android.text) && /Obtainium/.test(R.android.text) && R.android.links.length === 0, `${tag} ${a.id}: Android row: 7.0+, not on Google Play, Obtainium (${R.android?.text})`);
+      if (want.android) ok(R.android && /Android 7\.0|أندرويد 7\.0/.test(R.android.text) && /Google Play/.test(R.android.text) && /GitHub/.test(R.android.text) && /(weekly|once a week|مرة في الأسبوع)/.test(R.android.text) && R.android.links.length === 0, `${tag} ${a.id}: Android row: 7.0+, not on Google Play, weekly update check from GitHub (${R.android?.text})`);
       ok(!!R.scoop === want.scoop && (!want.scoop || (R.scoop.text.includes('scoop bucket add instafind https://github.com/sarmadiq9090-coder/arabic-file-search') && R.scoop.text.includes('scoop install instafind/instafind'))), `${tag} ${a.id}: Scoop only where a bucket exists`);
     }
     ok(D.verify.includes('Get-FileHash .\\file.exe -Algorithm SHA256') && (lang === 'en' ? /Compare/.test(D.verify) : /قارن/.test(D.verify)), `${tag}: how to verify with Get-FileHash`);
@@ -913,13 +913,14 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
    it to false: the checks then fail on any placeholder left. ---------- */
 {
   const SCAN_KIWI_PLACEHOLDERS = false; /* filled from the signed v1.2.0 build (kiwi-scan 9089fc2) */
-  const SK_APK = 'https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v1.2.0/ScanKiwi-1.2.0.apk';
-  const UPDATE_TEXT = { /* D-077 "Required wording", verbatim */
-    en: 'Scan Kiwi has no internet permission and never connects to the internet. It does not update itself. To get updates automatically, you can use Obtainium, a free open-source app by an independent developer (not FastKiwi): it checks our GitHub releases and installs new versions, and Android may ask you to confirm. When Obtainium or your browser checks GitHub, GitHub sees your IP address, as with any website. You can also update by hand from the releases page.',
-    ar: 'لا يملك ماسح كيوي إذن الإنترنت ولا يتصل به أبداً، ولا يحدّث نفسه. للتحديث التلقائي يمكنك استعمال Obtainium، وهو تطبيق مجاني مفتوح المصدر من مطوّر مستقل (ليس من FastKiwi)، يتابع إصداراتنا على GitHub ويثبّت الجديد، وقد يطلب أندرويد تأكيدك. حين يتصل Obtainium أو المتصفح بـ GitHub يرى GitHub عنوان IP الخاص بك كأي موقع. ويمكنك التحديث يدوياً من صفحة الإصدارات.' };
-  const CLAIMS = { /* the claims the council allowed (D-076 Standards ▸ Site), each one must be on the page */
-    en: ['Android 7.0', 'no internet permission', 'Apache-2.0', 'not on Google Play', 'Arabic accuracy is lower than English'],
-    ar: ['أندرويد 7.0', 'لا يملك إذن الإنترنت', 'Apache-2.0', 'ليس على Google Play', 'دقة العربية أقل من الإنجليزية'] };
+  const SK_APK = 'https://github.com/sarmadiq9090-coder/scan-kiwi/releases/latest'; /* 2.0: the button opens the latest release page (no APK hash is hard-coded) */
+  const UPDATE_TEXT = { /* D-080 wording: the internet is used only to check for and download updates from GitHub (replaces D-077's "no internet") */
+    en: 'Scan Kiwi connects to the internet only to check for and download updates from GitHub (weekly, can be turned off). You can check by hand in Settings ▸ Updates ▸ Check for updates, or the app checks automatically at most once every 7 days when you open it. Downloads use Wi-Fi only by default. An update is installed only if it matches the SHA256SUMS file published with the release and is signed with the same certificate as the installed app, and Android asks you to confirm the install. When the app or your browser contacts GitHub, GitHub sees your IP address, as with any website. You can also update by hand from the releases page.',
+    ar: 'لا يتصل ماسح كيوي بالإنترنت إلا للتحقق من التحديثات وتنزيلها من GitHub (مرة في الأسبوع، ويمكنك إيقاف ذلك). يمكنك التحقق يدوياً من الإعدادات ◂ «التحديثات» ◂ «ابحث عن تحديث»، أو يتحقق التطبيق تلقائياً مرة كل 7 أيام على الأكثر عند فتحه. ويكون التنزيل عبر Wi-Fi فقط افتراضياً. ولا يُثبَّت التحديث إلا إذا طابق ملف SHA256SUMS المنشور مع الإصدار وكان موقّعاً بشهادة التطبيق المثبّت نفسها، ويطلب أندرويد تأكيدك للتثبيت. وحين يتصل التطبيق أو المتصفح بـ GitHub يرى GitHub عنوان IP الخاص بك كأي موقع. ويمكنك التحديث يدوياً من صفحة الإصدارات.' };
+  const CLAIMS = { /* the claims allowed by D-076 and D-080, each one must be on the page */
+    en: ['Android 7.0', 'only to check for and download updates from GitHub', 'can be turned off', 'Apache-2.0', 'not on Google Play', 'Four permissions', 'install packages', 'character error of 9.0 %'],
+    ar: ['أندرويد 7.0', 'إلا للتحقق من التحديثات وتنزيلها من GitHub', 'ويمكنك إيقاف ذلك', 'Apache-2.0', 'ليس على Google Play', 'أربعة أذونات', 'تثبيت الحزم', 'خطأ الحروف 9.0٪'] };
+  const OLD_CLAIMS = /no internet permission|never connects to the internet|Obtainium|إذن الإنترنت|بلا إنترنت|لا يتصل به أبداً/i; /* the 1.2.0 claims must be gone from both pages */
   const BANNED = /\b(secure|safest|best|Google[- ]verified|Play Protect|virus[- ]free|auto-updates)\b|الأفضل|آمن تماماً|خالٍ من الفيروسات/i;
   const PH = /\{\{([A-Z0-9_]+)\}\}/g, PH_OK = ['APK_SIZE_MB', 'APK_SHA256', 'SIGNING_CERT_SHA256'];
   for (const f of ['scan-kiwi/index.html', 'ar/scan-kiwi/index.html', 'index.html', 'ar/index.html']) {
@@ -941,7 +942,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       canonical: document.querySelector('link[rel=canonical]').href,
       hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
       lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
-      apk: [...document.querySelectorAll('a[data-apk]')].map(a => [a.href, a.textContent.replace(/\s+/g, ' ').trim()]),
+      apk: [...document.querySelectorAll('a.btn-primary[data-github][href$="/scan-kiwi/releases/latest"]')].map(a => [a.href, a.textContent.replace(/\s+/g, ' ').trim()]),
       dl: document.querySelectorAll('a[data-dl]').length,
       updates: document.querySelector('#updates .card p')?.textContent.replace(/\s+/g, ' ').trim(),
       text: document.body.innerText.replace(/\s+/g, ' '),
@@ -951,12 +952,13 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
     ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/scan-kiwi/', 'en https://fastkiwi.app/scan-kiwi/', 'x-default https://fastkiwi.app/scan-kiwi/']), `${tag}: hreflang ${S.hreflang}`);
     ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
-    ok(S.apk.length === 2 && S.apk.every(([h, t]) => h === SK_APK && /1\.2\.0/.test(t) && /APK/.test(t) && (lang === 'en' ? /MB\)$/ : /ميغابايت\)$/).test(t)), `${tag}: two direct APK links whose text names the file, its type and size ${JSON.stringify(S.apk)}`);
+    ok(S.apk.length === 2 && S.apk.every(([h, t]) => h === SK_APK && /GitHub/.test(t) && (lang === 'en' ? /MB\)$/ : /ميغابايت\)$/).test(t)), `${tag}: two direct APK links whose text names the file, its type and size ${JSON.stringify(S.apk)}`);
     ok(S.dl === 0, `${tag}: no data-dl buttons (site.js resolves those through the releases API, which has no Scan Kiwi entry yet)`);
     ok(S.updates === UPDATE_TEXT[lang], `${tag}: D-077 update wording verbatim (${S.updates})`);
     for (const c of CLAIMS[lang]) ok(S.text.includes(c), `${tag}: says "${c}"`);
     ok(!BANNED.test(S.text), `${tag}: no unallowed claim (${S.text.match(BANNED)})`);
-    ok(/Android 7\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === SK_APK && S.ld.softwareVersion === '1.2.0' && !/™/.test(S.ld.name + S.ld.alternateName) && S.verify, `${tag}: JSON-LD (Android, APK, 1.2.0) and the #verify block`);
+    ok(!OLD_CLAIMS.test(S.text), `${tag}: the 1.2.0 "no internet" claim is gone (${S.text.match(OLD_CLAIMS)})`);
+    ok(/Android 7\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === SK_APK && S.ld.softwareVersion === '2.0.1' && !/™/.test(S.ld.name + S.ld.alternateName) && S.verify, `${tag}: JSON-LD (Android, latest release, 2.0.1) and the #verify block`);
     /* 2.5.8 target size: buttons, nav, summaries and link rows (inline links inside sentences are exempt) */
     const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, .lang-switch, .foot-links a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
     ok(!small.length, `${tag}: targets at least 24×24 px ${JSON.stringify(small)}`);
@@ -975,10 +977,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     ok(sw <= 0, `${tag}@320: no horizontal scroll (${sw} px)`);
     if (SHOTS) await page.screenshot({ path: `${OUT}after-scan-kiwi-${lang}-320.png`, fullPage: true, animations: 'disabled' });
-    /* the APK button downloads the file and stays on the page */
-    await page.setViewportSize({ width: 1366, height: 900 });
-    const [got] = await Promise.all([page.waitForEvent('download', { timeout: 5000 }).catch(() => null), page.locator('#download a[data-apk]').click()]);
-    ok(got && got.url() === SK_APK && page.url().startsWith(BASE), `${tag}: APK button downloads ${got?.url()} and stays on site`);
+    /* the download button is a plain link to the latest release page on GitHub (no APK hash or file name is hard-coded) */
+    ok(await page.locator('#download a.btn-primary[data-github][href$="/scan-kiwi/releases/latest"]').getAttribute('href') === SK_APK, `${tag}: download button points to ${SK_APK}`);
     await ctx.close();
   }
   /* the Scan Kiwi cards on the home and downloads pages: axe-core on the card itself, the direct APK link, outside the Windows hero */
@@ -987,7 +987,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     await offline(ctx);
     const page = await ctx.newPage();
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
-    const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a[data-apk]')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel.startsWith('#scan') ? sel : sel + ' img[src$="scan-kiwi.svg"]'), inHero: !!document.querySelector('.hero [href*="scan-kiwi"], .hero img[src*="scan-kiwi"]') }), sel);
+    const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a.btn-primary[data-github][href$="/scan-kiwi/releases/latest"]')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel.startsWith('#scan') ? sel : sel + ' img[src$="scan-kiwi.svg"]'), inHero: !!document.querySelector('.hero [href*="scan-kiwi"], .hero img[src*="scan-kiwi"]') }), sel);
     ok(C.card && !C.inHero && C.apk.length === apks && C.apk.every(h => h === SK_APK), `${url}: Scan Kiwi card (${sel}), not in the Windows hero, ${apks} direct APK link ${JSON.stringify(C)}`);
     const v = await axe(page, sel.startsWith('#scan') ? sel : '#apps');
     ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#apps'} ${JSON.stringify(v)}`);
