@@ -23,7 +23,7 @@ PAGES.push(['remember-me-android-en', '/remember-me-android/'], ['remember-me-an
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
 const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/InstaWords\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
-const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/latest/download/bahth.exe', 'Remember-Me': GH + 'Remember-Me/releases/latest',
+const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/latest/download/bahth.exe', 'Remember-Me': GH + 'Remember-Me/releases/download/v1.8.0/Remember-Me-Setup-1.8.0-x64.exe' /* direct installer, bumped with each release (owner 2026-11-18) */,
   'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}InstaWords/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
 const FEED = { en: fs.existsSync(path.join(ROOT, 'releases.xml')), ar: fs.existsSync(path.join(ROOT, 'ar', 'releases.xml')) };
 const WIDTHS = [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360];
@@ -272,32 +272,13 @@ for (const lang of ['en', 'ar']) {
     ok(!errs.length, `mock ${lang}@${w}: page errors ${errs}`);
     await ctx.close();
   }
-  { // Remember Me clicked before the API answered: the dialog resolves it (never a silent jump to GitHub)
-    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
-    await mockApi(ctx, 1500); await blockGithubNav(ctx);
-    const page = await ctx.newPage(); let navigated = false;
-    page.on('framenavigated', f => { if (f === page.mainFrame() && !f.url().startsWith(BASE)) navigated = true; });
-    await page.goto(BASE + url, { waitUntil: 'domcontentloaded' });
-    await page.locator('#remember-me a[data-dl]').click();
-    await page.waitForSelector('dialog.dl[open] .dl-loading', { timeout: 1000 });
-    await page.waitForSelector('dialog.dl[open] .dl-main', { timeout: 5000 });
-    ok(!navigated && /Remember-Me-Setup-1\.6\.1\.exe$/.test(await page.getAttribute('dialog.dl .dl-main', 'href')), `pending ${lang}: Remember Me resolves inside the dialog`);
-    await ctx.close();
-  }
-  { // API unreachable
+  { // API unreachable: Remember Me's button is already a direct installer link (owner 2026-11-18), so no dialog and no GitHub page
     const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx); await blockGithubNav(ctx);
-    const page = await ctx.newPage(); let navigated = false;
-    page.on('framenavigated', f => { if (f === page.mainFrame() && !f.url().startsWith(BASE)) navigated = true; });
+    const page = await ctx.newPage();
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
-    const btn = page.locator('#remember-me a[data-dl]');
-    await btn.scrollIntoViewIfNeeded(); await btn.click();
-    await page.waitForSelector('dialog.dl[open] .dl-msg');
-    const f = await page.evaluate(() => { const dl = document.querySelector('dialog.dl'); return { gh: [...dl.querySelectorAll('a[data-github]')].map(a => [a.textContent, a.href]), main: dl.querySelector('.dl-main') }; });
-    ok(!navigated && f.gh.length === 1 && /GitHub/.test(f.gh[0][0]) && /Remember-Me\/releases\/latest$/.test(f.gh[0][1]) && !f.main, `offline ${lang}: Remember Me opens dialog with a labelled GitHub fallback`);
-    if (SHOTS) await page.screenshot({ path: `${OUT}after-dialog-${lang}-offline.png` });
-    await page.keyboard.press('Escape');
-    ok(await page.evaluate(() => document.activeElement.matches('a[data-dl="Remember-Me"]')), `offline ${lang}: focus back on the Remember Me button`);
+    const hrefs = await page.$$eval('a[data-dl="Remember-Me"]', as => as.map(a => a.getAttribute('href')));
+    ok(hrefs.length >= 1 && hrefs.every(h => h === STATIC_DL['Remember-Me'] && /\/releases\/download\//.test(h)), `offline ${lang}: Remember Me buttons are direct installer links ${JSON.stringify(hrefs)}`);
     await ctx.close();
   }
 }
@@ -457,7 +438,7 @@ for (const lang of ['en', 'ar']) for (const w of [1366, 1024, 390]) {
     return { src: i.currentSrc, nw: i.naturalWidth, nh: i.naturalHeight, ok: i.complete, box: [b.left, b.top, b.width, b.height], img: [r.left, r.top, r.width, r.height], fp: i.getAttribute('fetchpriority'), lazy: i.loading };
   });
   const tag = `hero InstaFind ${lang}@${w}`;
-  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 571) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
+  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 600) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
   ok(s.img.every((v, k) => Math.abs(v - s.box[k]) < 1.5), `${tag}: whole capture visible (img ${s.img.map(Math.round)} in ${s.box.map(Math.round)})`);
   ok(s.nw >= s.box[2] * 0.98, `${tag}: sharp (${s.nw}px source for ${Math.round(s.box[2])}px)`);
   ok(s.fp === 'high' && s.lazy !== 'lazy', `${tag}: hero image loads first`);
@@ -877,7 +858,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   /* ™ after the app names in headings only: never in JSON-LD names */
   for (const [f, sel] of [['index.html', /<h3>(InstaFind|Remember Me|Lemon|InstaWords)™ <span class="sub">/g], ['ar/index.html', /<h3><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> <span class="sub">|<span class="sub" lang="en"><bdi>Remember Me™<\/bdi><\/span>/g], ['releases/index.html', /-title">(InstaFind|Remember Me|Lemon|InstaWords)™ </g], ['ar/releases/index.html', /-title"><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> |<span class="sub"><bdi>Remember Me™<\/bdi><\/span>/g]]) {
     const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
-    ok((html.match(sel) || []).length === 4, `${f}: ™ after the four app names in their headings`);
+    ok((html.match(sel) || []).length === (f === 'index.html' ? 5 : 4), `${f}: ™ after the app names in their headings (index.html also has Remember Me for Android)`);
     ok(![...html.matchAll(/"(?:name|alternateName)":\s*"([^"]*)"/g)].some(m => m[1].includes('™')), `${f}: JSON-LD names without ™`);
   }
   await ctx.close();
@@ -985,15 +966,15 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     await ctx.close();
   }
   /* the Scan Kiwi cards on the home and downloads pages: axe-core on the card itself, the direct APK link, outside the Windows hero */
-  for (const [url, sel, apks] of [['/', '#apps .bento', 1], ['/ar/', '#apps .bento', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
+  for (const [url, sel, apks] of [['/', '#phone .bento', 1], ['/ar/', '#phone .bento', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
     const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx);
     const page = await ctx.newPage();
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
     const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a.btn-primary[data-github][href$="/ScanKiwi-2.0.2.apk"]')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel.startsWith('#scan') ? sel : sel + ' img[src$="scan-kiwi.svg"]'), inHero: !!document.querySelector('.hero [href*="scan-kiwi"], .hero img[src*="scan-kiwi"]') }), sel);
     ok(C.card && !C.inHero && C.apk.length === apks && C.apk.every(h => h === SK_APK), `${url}: Scan Kiwi card (${sel}), not in the Windows hero, ${apks} direct APK link ${JSON.stringify(C)}`);
-    const v = await axe(page, sel.startsWith('#scan') ? sel : '#apps');
-    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#apps'} ${JSON.stringify(v)}`);
+    const v = await axe(page, sel.startsWith('#scan') ? sel : '#phone');
+    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#phone'} ${JSON.stringify(v)}`);
     await ctx.close();
   }
   /* data, sitemap and llms.txt */

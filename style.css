@@ -120,9 +120,11 @@ html[lang="ar"] .brand::before { width: 179px; background-image: url(img/fastkiw
 .nav a { color: var(--muted); text-decoration: none; font-size: .95rem; font-weight: 700; padding: .45rem .75rem; border-radius: 10px; }
 .nav a:hover { color: var(--text); background: var(--tint); }
 .nav .lang { margin-inline-start: .5rem; color: var(--text); border: 1px solid var(--border-2); border-radius: 999px; padding: .35rem .95rem; background: var(--surface); }
+.nav .home { color: var(--text); white-space: nowrap; }
 .nav .lang:hover { border-color: var(--brand); background: var(--surface); }
 /* small phones: the tools pages show a nav link ("أدوات PDF") and the language link next to the wordmark; they must fit in 320 px */
 @media (max-width: 400px) { .site-header .wrap { gap: .5rem; } .nav a { padding-inline: .55rem; } .nav .lang { margin-inline-start: .25rem; padding-inline: .7rem; } }
+@media (max-width: 400px) { .site-header:has(.nav .home) .brand::before { display: none; } .site-header:has(.nav .home) .brand > img { display: block; } .nav .home { padding-inline: .45rem; } }
 @media (max-width: 359px) { .brand::before { display: none; } .brand > img { display: block; } } /* logo only; the link keeps its aria-label */
 @media (max-width: 940px) { .nav .opt { display: none; } }
 
@@ -178,11 +180,13 @@ html[dir="rtl"] .hero::before { transform: scaleX(-1); }
 /* the screenshot area: crops each capture's own title bar / scrollbar so every window gets the same frame */
 .screen { position: relative; overflow: hidden; direction: ltr; aspect-ratio: var(--ar); background: var(--sbg, #fff); }
 .screen > img, .screen > video { display: block; max-width: none; height: auto; width: var(--iw, 100%); margin: var(--im, 0); }
-.s-instafind { --ar: 944 / 561; --iw: 100.2119%; --im: -3.2839% 0 0 -.1059%; --sbg: #f0f0f0; }
-.s-remember { --ar: 948 / 631; --iw: 101.2658%; --sbg: #fff; }
-.s-lemon { --ar: 960 / 600; --sbg: #1e1f1c; }
-.s-instafind-r { --ar: 960 / 571; --sbg: #fff; } /* pre-cropped capture: no title bar to hide */
-.s-instawords { --ar: 959 / 712; --iw: 100.1043%; --im: -3.1283% 0 0 0; --sbg: #f7f9f2; }
+.s-instafind { --ar: 944 / 561; --iw: 100.2119%; --im: -3.2839% 0 0 -.1059%; --sbg: #f0f0f0; } /* the demo video */
+/* the app captures: each window's client area at 1280x800, so every one is 16:10 with nothing to crop */
+.s-instafind-r, .s-remember, .s-lemon, .s-instawords { --ar: 16 / 10; }
+.s-instafind-r { --sbg: #fff; }
+.s-remember { --sbg: #f7f7fa; }
+.s-lemon { --sbg: #1e1f1c; }
+.s-instawords { --sbg: #f4f8ee; }
 
 /* ---------- hero stage: the four apps ----------
    A tidy deck on a soft plate: the front window sits at the bottom; the three behind it are
@@ -191,11 +195,11 @@ html[dir="rtl"] .hero::before { transform: scaleX(-1); }
 .stage { --pad: clamp(14px, 2.4vw, 28px); --peek: 30px; position: relative; padding: var(--pad); border-radius: 28px; isolation: isolate;
   background: linear-gradient(165deg, rgb(123 192 67 / .20), rgb(123 192 67 / .07) 55%, rgb(255 255 255 / .4)); border: 1px solid rgb(123 192 67 / .22);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .7); }
-/* reserves the deck's height: three peeks + a title bar + the 944:561 screenshot */
-.stage::before { content: ""; display: block; padding-top: calc(3 * var(--peek) + 36px + 59.43%); }
+/* reserves the deck's height: three peeks + a title bar + the 16:10 screenshot */
+.stage::before { content: ""; display: block; padding-top: calc(3 * var(--peek) + 36px + 62.5%); }
 .stage .win { position: absolute; inset-inline: var(--pad); bottom: var(--pad); transform-origin: top center; cursor: pointer; z-index: var(--z);
   transition: transform .7s var(--ease), box-shadow .7s var(--ease), z-index .7s steps(3, end); }
-.stage .win .screen { --ar: 944 / 561; }
+.stage .win .screen { --ar: 16 / 10; }
 .stage .win::after { content: ""; position: absolute; inset: 0; background: var(--bg); opacity: var(--veil, 0); pointer-events: none; transition: opacity .7s var(--ease); border-radius: inherit; }
 .stage .win[data-pos="0"] { --z: 4; transform: none; cursor: default; box-shadow: var(--shadow-lg); }
 .stage .win[data-pos="1"] { --z: 3; --veil: .06; transform: translateY(calc(-1 * var(--peek))) scale(.94); box-shadow: var(--shadow-sm); }
@@ -265,6 +269,13 @@ html[dir="rtl"] .tab .prog { transform-origin: right; }
 .app-top h3 { margin: 0; font-size: 1.3rem; }
 .app-top .sub { display: block; font-size: .9rem; font-weight: 400; color: var(--muted); letter-spacing: 0; }
 .app .benefit { color: var(--muted); margin: 0; flex: 1; }
+/* each app card shows the app's real window (a second view: the hero shows the main one) */
+.card-shot { box-shadow: var(--shadow-sm); border-color: var(--border); }
+.card-shot .win-bar { height: 30px; font-size: .74rem; }
+.card-shot .win-ctl i { width: 34px; }
+.card-shot .screen > img { width: 100%; }
+.lift:hover .card-shot { border-color: var(--border-2); }
+@media (min-width: 1100px) { .bento .big { justify-content: space-between; } .bento .big .app-foot { margin-top: 0; } } /* the tall InstaFind card: spare height spread evenly, not one gap */
 .app .benefit strong { color: var(--text); }
 .app-foot { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; }
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .75rem; margin: 0; padding-top: .9rem; border-top: 1px solid var(--border); font-size: .85rem; color: var(--muted); }
