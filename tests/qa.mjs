@@ -985,15 +985,15 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     await ctx.close();
   }
   /* the Scan Kiwi cards on the home and downloads pages: axe-core on the card itself, the direct APK link, outside the Windows hero */
-  for (const [url, sel, apks] of [['/', '#apps .bento', 1], ['/ar/', '#apps .bento', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
+  for (const [url, sel, apks] of [['/', '#phone .bento', 1], ['/ar/', '#phone .bento', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
     const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx);
     const page = await ctx.newPage();
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
     const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a.btn-primary[data-github][href$="/ScanKiwi-2.0.2.apk"]')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel.startsWith('#scan') ? sel : sel + ' img[src$="scan-kiwi.svg"]'), inHero: !!document.querySelector('.hero [href*="scan-kiwi"], .hero img[src*="scan-kiwi"]') }), sel);
     ok(C.card && !C.inHero && C.apk.length === apks && C.apk.every(h => h === SK_APK), `${url}: Scan Kiwi card (${sel}), not in the Windows hero, ${apks} direct APK link ${JSON.stringify(C)}`);
-    const v = await axe(page, sel.startsWith('#scan') ? sel : '#apps');
-    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#apps'} ${JSON.stringify(v)}`);
+    const v = await axe(page, sel.startsWith('#scan') ? sel : '#phone');
+    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#phone'} ${JSON.stringify(v)}`);
     await ctx.close();
   }
   /* data, sitemap and llms.txt */
