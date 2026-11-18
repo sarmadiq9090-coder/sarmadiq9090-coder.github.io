@@ -961,7 +961,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     for (const c of CLAIMS[lang]) ok(S.text.includes(c), `${tag}: says "${c}"`);
     ok(!BANNED.test(S.text), `${tag}: no unallowed claim (${S.text.match(BANNED)})`);
     ok(!OLD_CLAIMS.test(S.text), `${tag}: the 1.2.0 "no internet" claim is gone (${S.text.match(OLD_CLAIMS)})`);
-    ok(/Android 7\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === SK_APK && S.ld.softwareVersion === '2.0.1' && !/™/.test(S.ld.name + S.ld.alternateName) && S.verify, `${tag}: JSON-LD (Android, latest release, 2.0.1) and the #verify block`);
+    ok(/Android 7\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === SK_APK && S.ld.softwareVersion === '2.0.2' && !/™/.test(S.ld.name + S.ld.alternateName) && S.verify, `${tag}: JSON-LD (Android, latest release, 2.0.2) and the #verify block`);
     /* 2.5.8 target size: buttons, nav, summaries and link rows (inline links inside sentences are exempt) */
     const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, .lang-switch, .foot-links a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
     ok(!small.length, `${tag}: targets at least 24×24 px ${JSON.stringify(small)}`);
