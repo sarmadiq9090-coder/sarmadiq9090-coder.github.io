@@ -108,11 +108,11 @@
     },
     "examples": {
       "type": "array",
-      "description": "Arabic golden cases of InstaWords (tests/golden/cases.json) for self-tests. `unit` is an InstaWords unit id (data/units.json).",
+      "description": "Arabic golden cases of InstaWords (tests/golden/cases.json) for self-tests. `unit` is an InstaWords unit id (data/units.json). `cleaned` is the normalised number; it is absent for refusal cases (ambiguous separators), whose `expected` is the message InstaWords shows instead of words.",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "number", "cleaned", "unit", "expected"],
+        "required": ["id", "number", "unit", "expected"],
         "properties": {
           "id": { "type": "string", "pattern": "^G\\d+$" },
           "number": { "type": "string", "minLength": 1 },
