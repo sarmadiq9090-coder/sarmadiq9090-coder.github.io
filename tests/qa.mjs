@@ -272,32 +272,13 @@ for (const lang of ['en', 'ar']) {
     ok(!errs.length, `mock ${lang}@${w}: page errors ${errs}`);
     await ctx.close();
   }
-  { // Remember Me clicked before the API answered: the dialog resolves it (never a silent jump to GitHub)
-    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
-    await mockApi(ctx, 1500); await blockGithubNav(ctx);
-    const page = await ctx.newPage(); let navigated = false;
-    page.on('framenavigated', f => { if (f === page.mainFrame() && !f.url().startsWith(BASE)) navigated = true; });
-    await page.goto(BASE + url, { waitUntil: 'domcontentloaded' });
-    await page.locator('#remember-me a[data-dl]').click();
-    await page.waitForSelector('dialog.dl[open] .dl-loading', { timeout: 1000 });
-    await page.waitForSelector('dialog.dl[open] .dl-main', { timeout: 5000 });
-    ok(!navigated && /Remember-Me-Setup-1\.6\.1\.exe$/.test(await page.getAttribute('dialog.dl .dl-main', 'href')), `pending ${lang}: Remember Me resolves inside the dialog`);
-    await ctx.close();
-  }
-  { // API unreachable
+  { // API unreachable: Remember Me's button is already a direct installer link (owner 2026-11-18), so no dialog and no GitHub page
     const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx); await blockGithubNav(ctx);
-    const page = await ctx.newPage(); let navigated = false;
-    page.on('framenavigated', f => { if (f === page.mainFrame() && !f.url().startsWith(BASE)) navigated = true; });
+    const page = await ctx.newPage();
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
-    const btn = page.locator('#remember-me a[data-dl]');
-    await btn.scrollIntoViewIfNeeded(); await btn.click();
-    await page.waitForSelector('dialog.dl[open] .dl-msg');
-    const f = await page.evaluate(() => { const dl = document.querySelector('dialog.dl'); return { gh: [...dl.querySelectorAll('a[data-github]')].map(a => [a.textContent, a.href]), main: dl.querySelector('.dl-main') }; });
-    ok(!navigated && f.gh.length === 1 && /GitHub/.test(f.gh[0][0]) && /Remember-Me\/releases\/latest$/.test(f.gh[0][1]) && !f.main, `offline ${lang}: Remember Me opens dialog with a labelled GitHub fallback`);
-    if (SHOTS) await page.screenshot({ path: `${OUT}after-dialog-${lang}-offline.png` });
-    await page.keyboard.press('Escape');
-    ok(await page.evaluate(() => document.activeElement.matches('a[data-dl="Remember-Me"]')), `offline ${lang}: focus back on the Remember Me button`);
+    const hrefs = await page.$$eval('a[data-dl="Remember-Me"]', as => as.map(a => a.getAttribute('href')));
+    ok(hrefs.length >= 1 && hrefs.every(h => h === STATIC_DL['Remember-Me'] && /\/releases\/download\//.test(h)), `offline ${lang}: Remember Me buttons are direct installer links ${JSON.stringify(hrefs)}`);
     await ctx.close();
   }
 }
