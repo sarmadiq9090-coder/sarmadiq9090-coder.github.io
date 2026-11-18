@@ -438,7 +438,7 @@ for (const lang of ['en', 'ar']) for (const w of [1366, 1024, 390]) {
     return { src: i.currentSrc, nw: i.naturalWidth, nh: i.naturalHeight, ok: i.complete, box: [b.left, b.top, b.width, b.height], img: [r.left, r.top, r.width, r.height], fp: i.getAttribute('fetchpriority'), lazy: i.loading };
   });
   const tag = `hero InstaFind ${lang}@${w}`;
-  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 571) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
+  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 600) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
   ok(s.img.every((v, k) => Math.abs(v - s.box[k]) < 1.5), `${tag}: whole capture visible (img ${s.img.map(Math.round)} in ${s.box.map(Math.round)})`);
   ok(s.nw >= s.box[2] * 0.98, `${tag}: sharp (${s.nw}px source for ${Math.round(s.box[2])}px)`);
   ok(s.fp === 'high' && s.lazy !== 'lazy', `${tag}: hero image loads first`);
