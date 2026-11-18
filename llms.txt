@@ -1,18 +1,21 @@
 # FastKiwi
 
-> FastKiwi makes free, open-source (MIT) Windows 10/11 apps that are fast, light, work offline, keep data on the user's PC and support Arabic and English.
+> FastKiwi makes free Windows 10/11 apps, and Android apps, that are fast, light, work offline, keep data on the user's device and support Arabic and English.
 
 ## Apps
-- [InstaFind](https://fastkiwi.app/arabic-file-search/en/): instant file search for Windows that understands Arabic spelling, searches inside PDF/Word/Excel, opens with Ctrl+Alt+F. Arabic page: https://fastkiwi.app/arabic-file-search/
-- [Remember Me](https://fastkiwi.app/Remember-Me/): tasks, notes and reminders that stay on screen until handled; 12 languages.
+- [InstaFind](https://fastkiwi.app/arabic-file-search/en/): instant file search for Windows that understands Arabic spelling and more scripts and keyboard layouts, searches inside PDF/Word/Excel through a word index, opens with Ctrl+Alt+F; version 1.0 has a new look and 40 interface languages (Arabic, English and 38 machine-translated). Arabic page: https://fastkiwi.app/arabic-file-search/
+- [Remember Me](https://fastkiwi.app/Remember-Me/): tasks, notes and reminders that stay on screen until handled; quick add from any app (Ctrl+Alt+R); 12 languages; also in Microsoft Store.
 - [Lemon](https://fastkiwi.app/lemon/): offline ChatGPT-style Windows app for local Ollama models (single .exe, Arabic and English), with assistants that answer only from your files and a live HTML/JS preview. Needs Ollama. Arabic page: https://fastkiwi.app/ar/lemon/
-- [InstaWords](https://fastkiwi.app/instawords/en/): free amount-in-words (tafqit) tool for cheques and invoices in English, Arabic and French; 100+ currencies and units, bulk/CSV mode (https://fastkiwi.app/instawords/en/bulk.html), works offline in the browser, as a Windows app with an English or Arabic interface (https://github.com/sarmadiq9090-coder/tafket/releases/latest) and in Excel (=TAFQIT(A1, "USD", , , , , "en"); https://fastkiwi.app/instawords/en/excel.html). Arabic page: https://fastkiwi.app/instawords/
+- [InstaWords](https://fastkiwi.app/instawords/): free amount-in-words (tafqit) tool for cheques and invoices in English, Arabic and French; 100+ currencies and units, bulk/CSV mode (https://fastkiwi.app/instawords/bulk.html), works offline in the browser, as a Windows app with an English or Arabic interface (https://github.com/sarmadiq9090-coder/InstaWords/releases/latest) and in Excel (=TAFQIT(A1, "USD", , , , , "en"); https://fastkiwi.app/instawords/excel.html). Arabic page: https://fastkiwi.app/instawords/
+- [Scan Kiwi](https://fastkiwi.app/scan-kiwi/): document scanner for Android 7.0+ (Arabic name ماسح كيوي), version 2.0.2: live edge detection and auto-capture, book mode, glare removal from two shots, quality warnings, improved on-device Arabic text recognition ("Accurate" mode), search across all documents, folders and favourites, PDF tools (merge, split, extract, reorder, rotate, target size, page numbers, watermark, AES-256 password). Every feature works offline; the app connects to the internet only to check for and download updates from GitHub (once a week at most, Wi-Fi only by default, can be turned off). Permissions: camera, internet and network state (updates only), install packages (to install an update after you confirm). No account or ads; open source under Apache-2.0 (https://github.com/sarmadiq9090-coder/scan-kiwi). Not on Google Play: install the APK from the latest release (https://github.com/sarmadiq9090-coder/scan-kiwi/releases/latest). Arabic page: https://fastkiwi.app/ar/scan-kiwi/
+- [Remember Me for Android](https://fastkiwi.app/remember-me-android/): reminders app for Android 8.0+ (Arabic name ذكرني), reminders stay until done or snoozed, Quick Add in Arabic and English, flexible repeats (Hijri, prayer-relative), reminder health checks, encrypted backups that move to and from Remember Me for Windows. No account or ads; connects to the internet only to check for and download updates from GitHub; not on Google Play; open source under Apache-2.0 (https://github.com/sarmadiq9090-coder/remember-me-android). A separate app from the proprietary Remember Me for Windows. Arabic page: https://fastkiwi.app/ar/remember-me-android/
 
 ## Links
-- Source code: https://github.com/sarmadiq9090-coder
+- GitHub (releases and issues): https://github.com/sarmadiq9090-coder
 - Arabic home page: https://fastkiwi.app/ar/
 - What's new (latest versions, release notes, checksums): https://fastkiwi.app/releases/
 - Release feed (Atom): https://fastkiwi.app/releases.xml (Arabic: https://fastkiwi.app/ar/releases.xml)
 - Official downloads (the only official sources for each app, SHA-256 checksums, how to verify; copies elsewhere are not ours): https://fastkiwi.app/downloads/ (Arabic: https://fastkiwi.app/ar/downloads/)
+- Microsoft Store (which apps are in the Store, direct downloads for the others, winget ids): https://fastkiwi.app/store/ (Arabic: https://fastkiwi.app/ar/store/)
 - Privacy: https://fastkiwi.app/privacy/
 - Support (report a problem or suggest an idea, with or without a GitHub account): https://fastkiwi.app/support/

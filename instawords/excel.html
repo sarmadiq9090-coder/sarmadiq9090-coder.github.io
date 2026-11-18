@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>التفقيط في Excel: دالة TAFQIT دون إنترنت — InstaWords | FastKiwi</title>
-  <meta name="description" content="إضافة Excel مجانية ومفتوحة المصدر من InstaWords (InstaWords.xlam) تضيف الدالة TAFQIT لتفقيط المبالغ بالحروف العربية، بأكثر من 100 عملة ووحدة، على جهازك دون إنترنت. مع مكتبة JavaScript للمطورين.">
+  <meta name="description" content="إضافة Excel مجانية من InstaWords (InstaWords.xlam) تضيف الدالة TAFQIT لتفقيط المبالغ بالحروف العربية، بأكثر من 100 عملة ووحدة، على جهازك دون إنترنت. مع مكتبة JavaScript للمطورين.">
   <meta name="theme-color" content="#3f8a1c">
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://fastkiwi.app/instawords/excel.html">
@@ -43,6 +43,7 @@
         <li><a href="./">تفقيط رقم</a></li>
         <li><a href="bulk.html">تفقيط متعدد</a></li>
         <li><a href="excel.html" aria-current="page">Excel</a></li>
+        <li><a class="all-apps" href="https://fastkiwi.app/ar/#apps"><span aria-hidden="true">→</span> كل البرامج</a></li>
       </ul>
     </nav>
   </div>
@@ -60,7 +61,7 @@
       <div class="actions hero-cta">
         <a class="btn btn-primary" href="InstaWords.xlam" download="InstaWords.xlam">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
-          تنزيل الإضافة InstaWords.xlam
+          تنزيل الإضافة InstaWords.xlam (تجريبية)
         </a>
         <a class="btn btn-ghost" href="#install">طريقة التثبيت</a>
       </div>
@@ -74,6 +75,8 @@
     <div class="grid two">
       <article class="card prose">
         <h2 id="install-title">تثبيت الإضافة مرة واحدة</h2>
+        <p id="install-easy"><strong>أسهل طريقة: اختر «تثبيت إضافة Excel» أثناء تثبيت برنامج InstaWords.</strong> <a href="https://github.com/sarmadiq9090-coder/InstaWords/releases/download/v3.0.0/InstaWords_3.0.0_x64-setup.exe" data-windows-download>نزّل برنامج ويندوز <span class="ver" data-version>v3.0.0</span></a> وشغّل المثبّت، وفي صفحة «حدد المهام الإضافية» فعّل «تثبيت إضافة Excel <span dir="ltr">(InstaWords.xlam)</span>». يضع المثبّت الإضافة في مجلد إضافات Excel ويفعّلها لك، فلا حاجة إلى «إلغاء الحظر» ولا إلى «استعراض…». أغلق Excel قبل التثبيت، ثم افتحه واكتب <code dir="ltr">=TAFQIT(A1, "SAR")</code>. إن لم تعمل الدالة فحدّد «InstaWords» مرة واحدة في «ملف» ← «خيارات» ← «الوظائف الإضافية» ← «انتقال…». وإلغاء تثبيت البرنامج يزيل الإضافة أيضاً.</p>
+        <h3>أو يدوياً، من الملف الذي نزّلته</h3>
         <ol class="steps">
           <li>ضع الملف <span dir="ltr">InstaWords.xlam</span> الذي نزّلته في مجلد ثابت لن تحذفه، مثل مجلد <span dir="ltr">InstaWords</span> داخل «المستندات». فـ Excel يحمّل الإضافة من مكانها كل مرة.</li>
           <li><strong>إلغاء الحظر أولاً:</strong> انقر الملف بزر الفأرة الأيمن ← «خصائص» ← في أسفل تبويب «عام» فعّل «إلغاء الحظر» <span dir="ltr">(Unblock)</span> ← «موافق». يضع Windows على كل ملف منزَّل من الإنترنت علامة تجعل Excel يحظر الماكرو فيه، فلا تعمل الدالة دون هذه الخطوة. (إن لم يظهر الخيار فالملف غير محظور.)</li>
@@ -119,7 +122,9 @@
 
     <article class="card prose" lang="en" dir="ltr" aria-labelledby="en-title">
       <h2 id="en-title">In English</h2>
-      <p><strong><a href="InstaWords.xlam" download="InstaWords.xlam">InstaWords.xlam</a></strong> is an Excel add-in that adds <code>=TAFQIT(Number, [Unit], [HundredsForm], [Prefix], [Suffix], [Decimals], [Language])</code> to every workbook, offline. <code>=TAFQIT(A1, "SAR", "", "", "Only", "", "en")</code> gives English, <code>"fr"</code> French.</p>
+      <p><strong><a href="InstaWords.xlam" download="InstaWords.xlam">InstaWords.xlam</a></strong> (experimental) is an Excel add-in that adds <code>=TAFQIT(Number, [Unit], [HundredsForm], [Prefix], [Suffix], [Decimals], [Language])</code> to every workbook, offline. <code>=TAFQIT(A1, "SAR", "", "", "Only", "", "en")</code> gives English, <code>"fr"</code> French.</p>
+      <p><strong>Easiest: tick "Install the Excel add-in" while installing the InstaWords app.</strong> <a href="https://github.com/sarmadiq9090-coder/InstaWords/releases/download/v3.0.0/InstaWords_3.0.0_x64-setup.exe" data-windows-download>Download the Windows app <span class="ver" data-version>v3.0.0</span></a>, run the setup and, on the "Select Additional Tasks" page, tick "Install the Excel add-in (InstaWords.xlam)". Setup puts the add-in in Excel's add-ins folder and enables it, so there is no Unblock or Browse step. Close Excel before installing. If TAFQIT does not work when you open Excel, tick InstaWords once under File → Options → Add-ins → Go…. Uninstalling the app removes the add-in too.</p>
+      <p>Or by hand, from the downloaded file:</p>
       <ol class="steps">
         <li>Save the file in a folder you will keep. Right-click it → <b>Properties</b> → tick <b>Unblock</b> → OK (Windows marks downloaded files, and Excel blocks their macros).</li>
         <li>Excel → <b>File → Options → Add-ins</b> → Manage: <b>Excel Add-ins</b> → <b>Go…</b> → <b>Browse…</b> → pick InstaWords.xlam → OK, and make sure InstaWords is ticked.</li>
@@ -154,7 +159,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2 id="dev-title">للمطوّرين: مكتبة JavaScript</h2>
-      <p>النواة نفسها التي تشغّل هذا الموقع مكتبة صغيرة بلا أي اعتماديات، تعمل في المتصفح وفي Node.js. مجلد <span dir="ltr">lib/</span> في هذا الموقع نسخة جاهزة منها، ويمكنك بناؤها من المستودع بالأمر <code dir="ltr">npm run build</code>.</p>
+      <p>النواة نفسها التي تشغّل هذا الموقع مكتبة صغيرة بلا أي اعتماديات، تعمل في المتصفح وفي Node.js. مجلد <span dir="ltr">lib/</span> في هذا الموقع نسخة جاهزة منها.</p>
     </div>
     <div class="code-block">
       <button type="button" class="btn btn-ghost btn-sm" data-copy-from="js-snippet"><span data-label>نسخ</span></button>
@@ -173,7 +178,7 @@ if (!r.ok) console.log(r.error.code, r.error.message);
 const engine = createTafqit(await (await fetch("units.json")).json());
 engine.tafqit("300", { unit: "SAR", hundredsForm: "مئة" });</code></pre>
     </div>
-    <p class="muted">الخيارات: <code dir="ltr">unit</code> و<code dir="ltr">hundredsForm</code> و<code dir="ltr">decimals</code> (<span dir="ltr">"round"</span> للتقريب أو <span dir="ltr">"error"</span>) و<code dir="ltr">prefix</code> و<code dir="ltr">suffix</code>. التفاصيل الكاملة في <a href="https://github.com/sarmadiq9090-coder/tafket" data-github>مستودع المشروع على GitHub</a>.</p>
+    <p class="muted">الخيارات: <code dir="ltr">unit</code> و<code dir="ltr">hundredsForm</code> و<code dir="ltr">decimals</code> (<span dir="ltr">"round"</span> للتقريب أو <span dir="ltr">"error"</span>) و<code dir="ltr">prefix</code> و<code dir="ltr">suffix</code>. التفاصيل الكاملة في <a href="https://github.com/sarmadiq9090-coder/InstaWords" data-github>مستودع المشروع على GitHub</a>.</p>
   </div>
 </section>
 
@@ -182,16 +187,16 @@ engine.tafqit("300", { unit: "SAR", hundredsForm: "مئة" });</code></pre>
 <footer class="site-footer">
   <div class="wrap">
     <div class="foot-meta">
-      <p>© 2026 FastKiwi · InstaWords (تفقيط)، مجاني ومفتوح المصدر</p>
+      <p>© 2026 FastKiwi · InstaWords (تفقيط)، مجاني</p>
       <p class="offline-badge" data-offline-badge>يعمل دون اتصال بعد أول زيارة</p>
     </div>
     <nav aria-label="روابط">
       <a href="https://fastkiwi.app/ar/">FastKiwi</a>
-      <a href="https://github.com/sarmadiq9090-coder/tafket/releases/download/v2.2.0/InstaWords_2.2.0_x64-setup.exe" data-windows-download>برنامج ويندوز <span class="ver" data-version>v2.2.0</span></a>
+      <a href="https://github.com/sarmadiq9090-coder/InstaWords/releases/download/v3.0.0/InstaWords_3.0.0_x64-setup.exe" data-windows-download>برنامج ويندوز <span class="ver" data-version>v3.0.0</span></a>
       <a href="#download" data-release-notes>ما الجديد في برنامج ويندوز</a>
       <a href="#support" data-support>الإبلاغ عن مشكلة أو اقتراح</a>
-      <a href="https://github.com/sarmadiq9090-coder/tafket" data-github>الكود على GitHub</a>
-      <a href="LICENSE.txt">رخصة MIT</a>
+      <a href="https://github.com/sarmadiq9090-coder/InstaWords/releases" data-github>الإصدارات على GitHub</a>
+      <a href="LICENSE.txt">الرخصة</a>
       <a href="https://fastkiwi.app/ar/privacy/">الخصوصية</a>
     </nav>
   </div>
