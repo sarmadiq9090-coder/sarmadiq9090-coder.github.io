@@ -1,17 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="InstaWords">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4c9a1e"/>
-      <stop offset="1" stop-color="#0f766e"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
-  <g transform="translate(0.5 1)">
-    <g transform="rotate(40 38 24)">
-      <path d="M38 6 L48 22 L41 40 L38 44 L35 40 L28 22 Z" fill="#ffffff"/>
-      <path d="M38 27 V42" stroke="#0f766e" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="38" cy="26" r="3" fill="#0f766e"/>
-    </g>
-    <path d="M8 49c4-5 7-5 9 0s5 4.5 8 0 6-4.8 8-.5" fill="none" stroke="#d9f99d" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="16" height="16" role="img" aria-label="InstaWords — تفقيط"><title>InstaWords — تفقيط</title><defs>
+<linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#7c3aed"/><stop offset="0.20" stop-color="#8f36d5"/><stop offset="0.40" stop-color="#a232be"/><stop offset="0.60" stop-color="#b52fa6"/><stop offset="0.80" stop-color="#c82b8f"/><stop offset="1.00" stop-color="#db2777"/></linearGradient>
+<radialGradient id="ih" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="0.6" stop-color="#fff" stop-opacity="0.10"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<clipPath id="ic"><rect width="1024" height="1024" rx="225.28"/></clipPath>
+</defs>
+<g clip-path="url(#ic)">
+<rect width="1024" height="1024" fill="url(#ig)"/>
+<ellipse cx="512.0" cy="-281.6" rx="972.8" ry="768.0" fill="url(#ih)"/>
+</g>
+<g transform="translate(-44 44.5)"><g transform="translate(512 512) scale(1.08) rotate(45) translate(-512 -530)"><path d="M512 800 L372 540 Q352 470 404 400 L620 400 Q672 470 652 540 Z" fill="#fff" fill-opacity="0.157"/><g stroke="#fff" stroke-linejoin="round" stroke-linecap="round" fill="none"><path d="M512 800 L372 540 Q352 470 404 400 L620 400 Q672 470 652 540 Z" stroke-width="120"/><rect x="402" y="236" width="220" height="96" rx="30" stroke-width="110"/></g></g></g>
 </svg>

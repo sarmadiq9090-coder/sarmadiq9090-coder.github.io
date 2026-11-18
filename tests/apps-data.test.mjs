@@ -106,6 +106,9 @@ test('icons follow the owner decisions', () => {
     const icon = bytes(byId[id].icon);
     for (const f of brandFiles(`brand/icons/${id}`)) assert.ok(!icon.equals(bytes(f)), `${id}: legacy icon, not the brand v2 file ${f}`);
   }
-  // InstaWords uses its brand icon (the pen nib): the site copy is the brand master.
-  assert.ok(bytes(byId.instawords.icon).equals(bytes('brand/icons/instawords/instawords.svg')), 'instawords: icon is brand/icons/instawords/instawords.svg');
+  // InstaWords (pen nib) and InstaConvert (table + convert arrow) use the InstaFind-style icons
+  // (owner decision D-049, 2026-11-09): the site copy is the brand master.
+  for (const id of ['instawords', 'instaconvert']) {
+    assert.ok(bytes(byId[id].icon).equals(bytes(`brand/icons/${id}/${id}.svg`)), `${id}: icon is brand/icons/${id}/${id}.svg`);
+  }
 });
