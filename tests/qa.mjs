@@ -23,7 +23,7 @@ PAGES.push(['remember-me-android-en', '/remember-me-android/'], ['remember-me-an
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
 const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/InstaWords\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
-const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/latest/download/bahth.exe', 'Remember-Me': GH + 'Remember-Me/releases/latest',
+const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/latest/download/bahth.exe', 'Remember-Me': GH + 'Remember-Me/releases/download/v1.8.0/Remember-Me-Setup-1.8.0-x64.exe' /* direct installer, bumped with each release (owner 2026-11-18) */,
   'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}InstaWords/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
 const FEED = { en: fs.existsSync(path.join(ROOT, 'releases.xml')), ar: fs.existsSync(path.join(ROOT, 'ar', 'releases.xml')) };
 const WIDTHS = [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360];
