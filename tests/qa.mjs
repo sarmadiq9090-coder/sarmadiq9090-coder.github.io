@@ -858,7 +858,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   /* ™ after the app names in headings only: never in JSON-LD names */
   for (const [f, sel] of [['index.html', /<h3>(InstaFind|Remember Me|Lemon|InstaWords)™ <span class="sub">/g], ['ar/index.html', /<h3><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> <span class="sub">|<span class="sub" lang="en"><bdi>Remember Me™<\/bdi><\/span>/g], ['releases/index.html', /-title">(InstaFind|Remember Me|Lemon|InstaWords)™ </g], ['ar/releases/index.html', /-title"><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> |<span class="sub"><bdi>Remember Me™<\/bdi><\/span>/g]]) {
     const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
-    ok((html.match(sel) || []).length === 4, `${f}: ™ after the four app names in their headings`);
+    ok((html.match(sel) || []).length === (f === 'index.html' ? 5 : 4), `${f}: ™ after the app names in their headings (index.html also has Remember Me for Android)`);
     ok(![...html.matchAll(/"(?:name|alternateName)":\s*"([^"]*)"/g)].some(m => m[1].includes('™')), `${f}: JSON-LD names without ™`);
   }
   await ctx.close();
