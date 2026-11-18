@@ -9,11 +9,20 @@ export const ERROR_MESSAGES = {
     INVALID_OPTION: "خيار غير صالح.",
     INVALID_CATALOG: "ملف الوحدات غير صالح.",
     NO_LANGUAGE_FORMS: "لا تتوفر صيغة لهذه الوحدة باللغة المختارة.",
+    AMBIGUOUS_SEPARATOR: "الفواصل في الرقم تحتمل أكثر من قراءة. اكتبه بلا فواصل للآلاف، وضع قبل الكسر نقطة (أو فاصلة في الفرنسية)، مثل 1250.75.",
+};
+/** The detail of AMBIGUOUS_SEPARATOR: «هل تقصد 12.50 أم 1250؟» (start + readings joined by `or` + end). */
+export const AMBIGUITY_QUESTION = Object.freeze({ start: "هل تقصد ", or: " أم ", end: "؟" });
+/** Warnings: the words were written, but the user should look at them (docs/SPEC.md §13). */
+export const WARNING_MESSAGES = {
+    ROUNDED_TO_ZERO: "المبلغ أصغر من أصغر جزء في الوحدة، فقُرِّب إلى صفر.",
 };
 export class TafqitError extends Error {
-    constructor(code, detail) {
+    constructor(code, detail, readings) {
         super(detail ? `${ERROR_MESSAGES[code]} (${detail})` : ERROR_MESSAGES[code]);
         this.name = "TafqitError";
         this.code = code;
+        if (readings !== undefined)
+            this.readings = Object.freeze([...readings]);
     }
 }

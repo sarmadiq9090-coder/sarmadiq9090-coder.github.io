@@ -5,10 +5,64 @@
   <id>https://fastkiwi.app/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="en" href="https://fastkiwi.app/releases/"/>
-  <updated>2026-11-11T12:41:58.000Z</updated>
+  <updated>2026-11-18T13:45:54.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
   <rights>Free Windows apps</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:Remember-Me/v1.8.0</id>
+    <title>Remember Me v1.8.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#remember-me"/>
+    <published>2026-11-18T13:45:54.000Z</published>
+    <updated>2026-11-18T13:45:54.000Z</updated>
+    <category term="remember-me" label="Remember Me"/>
+    <summary type="text">Nov 13 fixes: Support in About, alert by the clock on RTL Windows, Western digits, roadmap · Ask once for a Store rating; add Store and help links to About · Use the FastKiwi brand v2 icon (bell): app, tray, installer and Store logos · docs: record the first Microsoft Store…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:tafket/v3.0.0</id>
+    <title>InstaWords v3.0.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instawords"/>
+    <published>2026-11-18T12:42:22.000Z</published>
+    <updated>2026-11-18T12:42:22.000Z</updated>
+    <category term="instawords" label="InstaWords"/>
+    <summary type="text">A native Windows app that writes amounts in words for cheques and invoices, in Arabic, English and French, with 100+ currencies and units. Not a website in a window: a real Windows UI, fast and light, that works fully offline and needs nothing extra on Windows 10 (version 1903…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:local-ai-chat/v2.3.0</id>
+    <title>Lemon v2.3.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#lemon"/>
+    <published>2026-11-18T11:57:56.000Z</published>
+    <updated>2026-11-18T11:57:56.000Z</updated>
+    <category term="lemon" label="Lemon"/>
+    <summary type="text">📜 Licence: Lemon is now proprietary (free); third-party notices unchanged. 🧯 Crash log: panics are recorded to crash.txt in the data folder; the next start shows a one-line notice with an &quot;Open folder&quot; button. 🌐 First run follows the Windows display language: Arabic on Arabic…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.2.0</id>
+    <title>InstaFind v1.2.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
+    <published>2026-11-18T11:17:48.000Z</published>
+    <updated>2026-11-18T11:17:48.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">InstaFind 1.2.0 adds a &quot;More from FastKiwi&quot; submenu under Options. It lists the other FastKiwi apps in Arabic or English and opens each app's page on fastkiwi.app; the list is built in and never fetched. When the update server cannot be reached for a while (HTTP 403, 404 or…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.1.0</id>
+    <title>InstaFind v1.1.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
+    <published>2026-11-13T18:42:30.000Z</published>
+    <updated>2026-11-13T18:42:30.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">InstaFind 1.1.0: a calmer, compact Windows 11 layout (one search box, one toolbar row, a Name | Size | Modified table; all shortcuts unchanged); five themes (Automatic, Light, Dark, Midnight blue, Kiwi), switched at once, with Windows high contrast always winning; much faster…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.0.0</id>
+    <title>InstaFind v1.0.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
+    <published>2026-11-13T13:20:17.000Z</published>
+    <updated>2026-11-13T13:20:17.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">InstaFind 1.0: a clearer new look for everyone, with thumbnails (Ctrl+T) and a How to search card (F1) (a one-run simple window if WebView2 fails); 38 more interface languages (machine translations, marked as such); much faster search inside documents through a word index…</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:arabic-file-search/v0.10.0</id>
     <title>InstaFind v0.10.0</title>
@@ -44,59 +98,5 @@
     <updated>2026-11-04T09:43:27.000Z</updated>
     <category term="remember-me" label="Remember Me"/>
     <summary type="text">Point Scoop and Chocolatey at v1.6.1 · Say &quot;Choose a time&quot; for out-of-range time fields · Installer build: exit non-zero on failure; set electron-winstaller build flag · Harden locale rendering and window navigation</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.1</id>
-    <title>InstaFind v0.9.1</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
-    <published>2026-11-03T19:10:18.000Z</published>
-    <updated>2026-11-03T19:10:18.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">Security update. The updater now refuses an update when GitHub publishes no SHA-256 digest for the program file (previously it could install without verification) and shows the manual download link instead. Copies installed with winget or Scoop no longer update themselves; they…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:tafket/v2.1.0</id>
-    <title>InstaWords v2.1.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instawords"/>
-    <published>2026-11-03T14:44:02.000Z</published>
-    <updated>2026-11-03T14:44:02.000Z</updated>
-    <category term="instawords" label="InstaWords"/>
-    <summary type="text">A native Windows app that writes amounts in words for cheques and invoices, in Arabic, English and French, with 100+ currencies and units. Not a website in a window: a real Windows UI, fast and light, that works fully offline and needs nothing extra on Windows 10 and 11.…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:tafket/v2.0.0</id>
-    <title>InstaWords v2.0.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instawords"/>
-    <published>2026-11-03T11:17:02.000Z</published>
-    <updated>2026-11-03T11:17:02.000Z</updated>
-    <category term="instawords" label="InstaWords"/>
-    <summary type="text">A native Windows app that writes amounts in words for cheques and invoices, in Arabic, English and French, with 100+ currencies and units. Not a website in a window: a real Windows UI, fast and light, that works fully offline and needs nothing extra on Windows 10 and 11.…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:tafket/v1.1.0</id>
-    <title>InstaWords v1.1.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instawords"/>
-    <published>2026-11-03T08:44:40.000Z</published>
-    <updated>2026-11-03T08:44:40.000Z</updated>
-    <category term="instawords" label="InstaWords"/>
-    <summary type="text">Windows app that writes amounts in words for cheques and invoices, in Arabic and other languages. Works fully offline; output is identical to the website. InstaWords_…_x64-setup.exe: installer (recommended). Per-user install, no admin rights needed.…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.0</id>
-    <title>InstaFind v0.9.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
-    <published>2026-11-02T13:03:22.000Z</published>
-    <updated>2026-11-02T13:03:22.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">Apps by their Arabic spelling (45+ more apps and games, one wrong letter forgiven, learns from your picks, app buttons in the main window). Currency conversion for 24 currencies with rates refreshed every 12 hours (open.er-api.com, bundled fallback). Recent and favourite files…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.2</id>
-    <title>InstaFind v0.8.2</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#instafind"/>
-    <published>2026-11-02T11:19:20.000Z</published>
-    <updated>2026-11-02T11:19:20.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">Fixes the program suddenly quitting on some PCs when the floating search box was clicked repeatedly or the window was closed (8 MB UI stack instead of 1 MB, and the quick search no longer opens or closes inside its own opening or closing). Crashes that are not Rust panics, such…</summary>
   </entry>
 </feed>
