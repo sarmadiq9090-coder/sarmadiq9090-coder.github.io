@@ -6,6 +6,7 @@ const numberEl = $("number");
 const clearBtn = $("clear-number");
 const panel = $("cheque");
 const resultEl = $("result");
+const warningEl = $("result-warning");
 const emptyEl = $("result-empty");
 const cleanedBox = $("cleaned-box");
 const cleanedEl = $("cleaned");
@@ -38,6 +39,8 @@ function render(force = false) {
   clearBtn.hidden = raw === "";
   const opts = options.get();
   const lang = languageInfo(opts.language);
+  warningEl.hidden = true;
+  warningEl.textContent = "";
 
   if (raw.trim() === "") {
     current = "";
@@ -69,6 +72,11 @@ function render(force = false) {
     resultEl.dir = lang.dir ?? "rtl";
     resultEl.lang = lang.id;
     resultEl.textContent = r.result;
+    // e.g. 0.004 SAR is written «صفر ريال سعودي»: say why instead of a silent zero.
+    if (r.warnings?.length) {
+      warningEl.textContent = r.warnings.map((w) => w.message).join(" ");
+      warningEl.hidden = false;
+    }
     copyBtn.disabled = false;
     reveal(`ok:${lang.id}`, force);
   } else {
