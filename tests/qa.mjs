@@ -1,4 +1,4 @@
-// FastKiwi site QA (home, releases, Lemon, privacy policy, support, official downloads, 404, redirects, feeds, data/) in a real browser.
+// FastKiwi site QA (home, releases, Lemon, Scan Kiwi, privacy policy, support, official downloads, 404, redirects, feeds, data/) in a real browser.
 // Run from the repo root: npm test   (or: node tests/qa.mjs [--no-shots])
 // Screenshots and qa-report.json go to tests/output/ (or $QA_OUT). The site is served from this checkout on a free port.
 import fs from 'node:fs';
@@ -19,13 +19,16 @@ const SHOTS = !process.argv.includes('--no-shots');
 const PAGES = [['home-en', '/'], ['home-ar', '/ar/'], ['releases-en', '/releases/'], ['releases-ar', '/ar/releases/'], ['lemon-en', '/lemon/'], ['lemon-ar', '/ar/lemon/'], ['privacy-en', '/privacy/'], ['privacy-ar', '/ar/privacy/'], ['404', '/no-such-page/']];
 PAGES.push(['support-en', '/support/'], ['support-ar', '/ar/support/']); // the Windows apps link to these exact paths
 PAGES.push(['downloads-en', '/downloads/'], ['downloads-ar', '/ar/downloads/']); // TRADEMARKS.md in the app repos links here
+PAGES.push(['scan-kiwi-en', '/scan-kiwi/'], ['scan-kiwi-ar', '/ar/scan-kiwi/']); // the Android app, open source (D-076); section 13
+PAGES.push(['remember-me-android-en', '/remember-me-android/'], ['remember-me-android-ar', '/ar/remember-me-android/']); // Remember Me for Android, open source (D-079); section 13b
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
-const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/tafket\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
-const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/latest/download/bahth.exe', 'Remember-Me': GH + 'Remember-Me/releases/latest',
-  'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}tafket/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
+const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/InstaWords\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
+const STATIC_DL = { 'arabic-file-search': GH + 'arabic-file-search/releases/latest/download/bahth.exe', 'Remember-Me': GH + 'Remember-Me/releases/download/v1.8.0/Remember-Me-Setup-1.8.0-x64.exe' /* direct installer, bumped with each release (owner 2026-11-18) */,
+  'local-ai-chat': GH + 'local-ai-chat/releases/latest/download/local-ai-chat.exe', 'tafket': `${GH}InstaWords/releases/download/v${IW_V}/InstaWords_${IW_V}_x64-setup.exe` };
 const FEED = { en: fs.existsSync(path.join(ROOT, 'releases.xml')), ar: fs.existsSync(path.join(ROOT, 'ar', 'releases.xml')) };
 const WIDTHS = [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360];
+PAGES.push(['store-en', '/store/'], ['store-ar', '/ar/store/']); // draft Microsoft Store page (see section 9b)
 const PROJECT_SITES = ['/arabic-file-search/', '/Remember-Me/']; // other repos' GitHub Pages, served on fastkiwi.app
 let fails = 0, passes = 0;
 const ok = (c, msg) => { if (c) passes++; else { fails++; console.log('  FAIL', msg); } };
@@ -54,7 +57,7 @@ function exists(p) {
   try { if (fs.statSync(f).isDirectory()) f = path.join(f, 'index.html'); return fs.existsSync(f); } catch { return false; }
 }
 async function checkLinks(page, name, scope = 'body') {
-  const links = await page.$$eval(scope + ' a[href]', as => as.map(a => ({ href: a.href, raw: a.getAttribute('href'), text: a.textContent.replace(/\s+/g, ' ').trim(), gh: a.hasAttribute('data-github'), dl: a.getAttribute('data-dl'),
+  const links = await page.$$eval(scope + ' a[href]', as => as.map(a => ({ href: a.href, raw: a.getAttribute('href'), text: a.textContent.replace(/\s+/g, ' ').trim(), gh: a.hasAttribute('data-github'), store: a.hasAttribute('data-store') && !!a.querySelector('img[alt*="Microsoft Store"]'), dl: a.getAttribute('data-dl'),
     feed: !!a.closest('[data-feed]'), shown: !a.closest('[hidden]') })));
   const ids = new Set(await page.$$eval('[id]', es => es.map(e => e.id)));
   const github = [];
@@ -70,6 +73,8 @@ async function checkLinks(page, name, scope = 'body') {
       const download = DIRECT.test(u.pathname);
       const rmFallback = l.dl === 'Remember-Me' && /\/releases\/latest$/.test(u.pathname); // intercepted by site.js -> on-site dialog
       ok(download || rmFallback || (l.gh && /GitHub/.test(l.text)), `${name}: github link not an explicit GitHub button: ${l.text} -> ${l.href}`);
+    } else if (u.hostname === 'apps.microsoft.com') { // Microsoft Store links: the one allowed exception to staying on the site, always the labelled badge
+      ok(l.store && /^\/detail\/9[A-Z0-9]{11}$/.test(u.pathname) && /^\?referrer=appbadge&cid=[a-z-]+&mode=full$/.test(u.search), `${name}: Microsoft Store link is a badge link with a campaign ID: ${l.href}`);
     } else if (u.protocol === 'mailto:') {
       ok(u.pathname === 'support@fastkiwi.app' && !u.search, `${name}: mailto only to support@fastkiwi.app: ${l.href}`);
     } else ok(false, `${name}: off-site link ${l.href}`);
@@ -268,32 +273,13 @@ for (const lang of ['en', 'ar']) {
     ok(!errs.length, `mock ${lang}@${w}: page errors ${errs}`);
     await ctx.close();
   }
-  { // Remember Me clicked before the API answered: the dialog resolves it (never a silent jump to GitHub)
-    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
-    await mockApi(ctx, 1500); await blockGithubNav(ctx);
-    const page = await ctx.newPage(); let navigated = false;
-    page.on('framenavigated', f => { if (f === page.mainFrame() && !f.url().startsWith(BASE)) navigated = true; });
-    await page.goto(BASE + url, { waitUntil: 'domcontentloaded' });
-    await page.locator('#remember-me a[data-dl]').click();
-    await page.waitForSelector('dialog.dl[open] .dl-loading', { timeout: 1000 });
-    await page.waitForSelector('dialog.dl[open] .dl-main', { timeout: 5000 });
-    ok(!navigated && /Remember-Me-Setup-1\.6\.1\.exe$/.test(await page.getAttribute('dialog.dl .dl-main', 'href')), `pending ${lang}: Remember Me resolves inside the dialog`);
-    await ctx.close();
-  }
-  { // API unreachable
+  { // API unreachable: Remember Me's button is already a direct installer link (owner 2026-11-18), so no dialog and no GitHub page
     const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx); await blockGithubNav(ctx);
-    const page = await ctx.newPage(); let navigated = false;
-    page.on('framenavigated', f => { if (f === page.mainFrame() && !f.url().startsWith(BASE)) navigated = true; });
+    const page = await ctx.newPage();
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
-    const btn = page.locator('#remember-me a[data-dl]');
-    await btn.scrollIntoViewIfNeeded(); await btn.click();
-    await page.waitForSelector('dialog.dl[open] .dl-msg');
-    const f = await page.evaluate(() => { const dl = document.querySelector('dialog.dl'); return { gh: [...dl.querySelectorAll('a[data-github]')].map(a => [a.textContent, a.href]), main: dl.querySelector('.dl-main') }; });
-    ok(!navigated && f.gh.length === 1 && /GitHub/.test(f.gh[0][0]) && /Remember-Me\/releases\/latest$/.test(f.gh[0][1]) && !f.main, `offline ${lang}: Remember Me opens dialog with a labelled GitHub fallback`);
-    if (SHOTS) await page.screenshot({ path: `${OUT}after-dialog-${lang}-offline.png` });
-    await page.keyboard.press('Escape');
-    ok(await page.evaluate(() => document.activeElement.matches('a[data-dl="Remember-Me"]')), `offline ${lang}: focus back on the Remember Me button`);
+    const hrefs = await page.$$eval('a[data-dl="Remember-Me"]', as => as.map(a => a.getAttribute('href')));
+    ok(hrefs.length >= 1 && hrefs.every(h => h === STATIC_DL['Remember-Me'] && /\/releases\/download\//.test(h)), `offline ${lang}: Remember Me buttons are direct installer links ${JSON.stringify(hrefs)}`);
     await ctx.close();
   }
 }
@@ -358,7 +344,7 @@ for (const lang of ['en', 'ar']) {
     await page.goto(BASE + url, { waitUntil: 'networkidle' }); await page.waitForTimeout(300);
     const r = await page.evaluate(() => [...document.querySelectorAll('[data-release]')].map(sec => ({ id: sec.id, msg: !!sec.querySelector('.dl-msg'), main: sec.querySelector('.dl-main')?.href || null,
       gh: [...sec.querySelectorAll('a[data-github]')].map(a => [a.textContent, a.href]) })));
-    const fb = { instafind: /\/arabic-file-search\/releases\/latest\/download\/bahth\.exe$/, lemon: /\/local-ai-chat\/releases\/latest\/download\/local-ai-chat\.exe$/, instawords: new RegExp(`/tafket/releases/download/v${IW_V.replace(/\./g, '\\.')}/InstaWords_${IW_V.replace(/\./g, '\\.')}_x64-setup\\.exe$`) };
+    const fb = { instafind: /\/arabic-file-search\/releases\/latest\/download\/bahth\.exe$/, lemon: /\/local-ai-chat\/releases\/latest\/download\/local-ai-chat\.exe$/, instawords: new RegExp(`/InstaWords/releases/download/v${IW_V.replace(/\./g, '\\.')}/InstaWords_${IW_V.replace(/\./g, '\\.')}_x64-setup\\.exe$`) };
     for (const x of r) {
       ok(x.msg && x.gh.length === 1 && /GitHub/.test(x.gh[0][0]), `releases offline ${lang} ${x.id}: message + one explicit GitHub button`);
       ok(x.id === 'remember-me' ? x.main === null : fb[x.id].test(x.main || ''), `releases offline ${lang} ${x.id}: static direct link ${x.main}`);
@@ -453,7 +439,7 @@ for (const lang of ['en', 'ar']) for (const w of [1366, 1024, 390]) {
     return { src: i.currentSrc, nw: i.naturalWidth, nh: i.naturalHeight, ok: i.complete, box: [b.left, b.top, b.width, b.height], img: [r.left, r.top, r.width, r.height], fp: i.getAttribute('fetchpriority'), lazy: i.loading };
   });
   const tag = `hero InstaFind ${lang}@${w}`;
-  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 571) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
+  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 600) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
   ok(s.img.every((v, k) => Math.abs(v - s.box[k]) < 1.5), `${tag}: whole capture visible (img ${s.img.map(Math.round)} in ${s.box.map(Math.round)})`);
   ok(s.nw >= s.box[2] * 0.98, `${tag}: sharp (${s.nw}px source for ${Math.round(s.box[2])}px)`);
   ok(s.fp === 'high' && s.lazy !== 'lazy', `${tag}: hero image loads first`);
@@ -494,13 +480,167 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   await ctx.close();
 }
 
+/* ---------- 9a. Store first (D-052): Remember Me is in the Store, so its Store badge is the first download on the home page ---------- */
+{
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  for (const [lang, url] of [['en', '/'], ['ar', '/ar/']]) {
+    await page.goto(BASE + url, { waitUntil: 'load' });
+    const R = await page.evaluate(() => [...document.querySelectorAll('.dl-opts')].map(g => [...g.querySelectorAll('a.store-badge, a[data-dl]')].map(a => a.hasAttribute('data-store') ? 'store' : 'direct').join(',')));
+    ok(R.length === 2 && R.every(r => r === 'store,direct'), `home-${lang}: Remember Me shows the Store badge first, then the direct installer (${R})`);
+    const others = await page.evaluate(() => [...document.querySelectorAll('a[data-store]')].length);
+    ok(others === 2, `home-${lang}: only Remember Me has a Store badge (${others})`);
+  }
+  await ctx.close();
+}
+
+/* ---------- 9b. Microsoft Store page (DRAFT): store/ and ar/store/ ----------
+   STORE_DRAFT: until the first Store approval these pages are noindex, left out of sitemap.xml and not linked from any other page.
+   This is a deliberate, documented exception to "every page is in the sitemap". On launch: remove the noindex meta, add both
+   pages to sitemap.xml, link them, and set STORE_DRAFT = false so the checks below flip.
+   ACCEPTED: the Store apps Microsoft has accepted. Only these show the badge, the Store link and the share helper; the others
+   show a plain "Coming to Microsoft Store" line. The page's switch is data-accepted="yes|no" on each card (documented at the top
+   of both page sources): when an app is accepted, flip it in store/ and ar/store/ and add the app's id here.
+   Also checked: Lemon's direct download (the site's data-dl convention), InstaConvert "coming soon" without links, one winget line
+   per app with a copy button (submissions pending), and no external scripts or third-party requests. */
+{
+  const STORE_DRAFT = false;
+  const ACCEPTED = ['remember-me'];
+  const IDS = { 'remember-me': '9NGB1F7T7JGN', instawords: '9P62P4WQSQNK', instafind: '9MTK4KMFQ657' };
+  const ORDER = ['remember-me', 'instawords', 'instafind', 'lemon', 'instaconvert'];
+  /* winget package IDs; every submission is still a pending PR in microsoft/winget-pkgs (RememberMe #461102, InstaFind #468100,
+     Lemon #469478, InstaWords #469481). InstaConvert has no manifest, so no winget line. */
+  const WINGET = { 'remember-me': 'Sarmad.RememberMe', instawords: 'Sarmad.InstaWords', instafind: 'Sarmad.InstaFind', lemon: 'Sarmad.Lemon' };
+  const LEMON_DL = STATIC_DL['local-ai-chat']; // the asset local-ai-chat's release.yml publishes: local-ai-chat.exe
+  /* official artwork from https://get.microsoft.com/images/en-us%20dark.svg and .../ar%20dark.svg, kept byte-for-byte (never altered) */
+  const BADGES = { en: ['img/store/get-it-from-microsoft-en-us-dark.svg', '0e0cd666d0b351bc2680658faf8485a5d2d78d2ab14086d37fca7f0e8c12fa69'],
+    ar: ['img/store/get-it-from-microsoft-ar-dark.svg', '0d15bd9f64ee490c8d451a27f3ab18d6727252062dfe2c5270c83b49fbb8780c'] };
+  const TXT = { en: { soon: 'Coming to Microsoft Store.', soonDl: 'Direct download: coming soon.', wg: 'Submitted to winget, not accepted yet.', copied: 'Copied' },
+    ar: { soon: 'قريباً في Microsoft Store.', soonDl: 'التنزيل المباشر: قريباً.', wg: 'أُرسل إلى winget ولم يُقبل بعد.', copied: 'تم النسخ' } };
+  const { createHash } = await import('node:crypto');
+  for (const [lang, [file, sha]] of Object.entries(BADGES)) {
+    const buf = fs.readFileSync(path.join(ROOT, file));
+    ok(createHash('sha256').update(buf).digest('hex') === sha && /^<svg width="161" height="44" viewBox="0 0 161 44"/.test(buf.toString()) && !/<script|https?:\/\/(?!www\.w3\.org)/.test(buf.toString()), `store: ${lang} badge is Microsoft's unaltered self-hosted SVG (${file})`);
+  }
+  /* the sources: the one script is the site's own site.js, no inline or external scripts, no tracker or analytics code */
+  for (const f of ['store/index.html', 'ar/store/index.html']) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8'), scripts = [...src.matchAll(/<script\b[^>]*>/g)].map(m => m[0]);
+    ok(scripts.length === 1 && /^<script src="(\.\.\/)+site\.js" defer>$/.test(scripts[0]), `${f}: only the site's own site.js (${scripts})`);
+    ok(!/googletagmanager|google-analytics|gtag\(|clarity\.ms|facebook\.net|fbq\(|plausible|matomo|hotjar|<iframe|https?:\/\/[^"'\s]*\.js\b/i.test(src), `${f}: no trackers, iframes or external scripts`);
+    ok(/ACCEPT SWITCH/.test(src.split('<title>')[0]) && /data-accepted="no"/.test(src.split('<title>')[0]), `${f}: the accept switch is documented at the top of the source`);
+  }
+  for (const w of [1366, 390]) for (const [lang, url, other] of [['ar', '/ar/store/', '/store/'], ['en', '/store/', '/ar/store/']]) {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce', permissions: ['clipboard-read', 'clipboard-write'] });
+    await offline(ctx);
+    const page = await ctx.newPage(), offsite = [];
+    page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const S = await page.evaluate(() => {
+      const shown = e => !!e && e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden';
+      return {
+        robots: [...document.querySelectorAll('meta[name=robots]')].map(m => m.content),
+        draftNote: [...document.head.childNodes].some(n => n.nodeType === 8 && /remove this noindex/.test(n.textContent)),
+        canonical: document.querySelector('link[rel=canonical]').href,
+        lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+        scripts: [...document.scripts].map(s => s.src),
+        storeLinks: [...document.querySelectorAll('a[href^="https://apps.microsoft.com/"]')].filter(shown).map(a => a.closest('.st-app')?.id),
+        focusable: [...document.querySelectorAll('.st-app[data-accepted="no"] a, .st-app[data-accepted="no"] button, .st-app[data-accepted="no"] summary')].filter(e => { e.focus(); return document.activeElement === e && e.closest('.st-in-store'); }).length,
+        cards: [...document.querySelectorAll('.st-app')].map(c => { const b = c.querySelector('a.ms-badge'), i = b?.querySelector('img'), r = i?.getBoundingClientRect(), br = b?.getBoundingClientRect();
+          return { id: c.id, sid: c.dataset.storeId, acc: c.dataset.accepted, href: b?.href, store: b?.hasAttribute('data-store'), img: i && new URL(i.src).pathname, alt: i?.alt, w: r?.width, h: r?.height, nat: i && i.naturalWidth / i.naturalHeight,
+            pad: r && Math.min(r.top - br.top, br.bottom - r.bottom), badgeShown: shown(i), shareShown: shown(c.querySelector('.st-share')),
+            soon: shown(c.querySelector('.st-soon')) ? c.querySelector('.st-soon').textContent.trim() : null, stid: c.querySelector('.st-id code')?.textContent,
+            share: [...c.querySelectorAll('.st-share li')].map(li => li.querySelector('.st-url').textContent),
+            copies: [...c.querySelectorAll('.st-share button[data-copy]')].map(x => x.dataset.copy),
+            dl: [...c.querySelectorAll('a[data-dl]')].map(a => [a.dataset.dl, a.getAttribute('href'), !!a.querySelector('[data-dl-ver]'), shown(a)]),
+            soonDl: c.querySelector('.st-soon-dl')?.textContent.trim(),
+            winget: [...c.querySelectorAll('.st-winget')].map(x => ({ cmd: x.querySelector('code')?.textContent, copy: x.querySelector('button[data-copy]')?.dataset.copy, btn: shown(x.querySelector('button[data-copy]')), state: x.querySelector('.st-state')?.textContent })),
+            links: [...c.querySelectorAll('a')].filter(shown).map(a => a.href) }; })
+      };
+    });
+    const tag = `store ${lang}@${w}`, T = TXT[lang];
+    ok(STORE_DRAFT ? JSON.stringify(S.robots) === '["noindex"]' && S.draftNote : S.robots.length === 0, `${tag}: draft is noindex with a "remove on launch" comment (${S.robots})`);
+    ok(S.canonical === 'https://fastkiwi.app' + url && S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: canonical and language switch`);
+    ok(JSON.stringify(S.cards.map(c => c.id)) === JSON.stringify(ORDER), `${tag}: a card per app (${S.cards.map(c => c.id)})`);
+    ok(JSON.stringify(S.cards.filter(c => c.sid).map(c => [c.id, c.sid])) === JSON.stringify(Object.entries(IDS)), `${tag}: the Store apps carry their Store IDs ${JSON.stringify(S.cards.map(c => c.sid))}`);
+    ok(JSON.stringify([...new Set(S.storeLinks)]) === JSON.stringify(ACCEPTED), `${tag}: Store links shown only for accepted apps (${[...new Set(S.storeLinks)]})`);
+    ok(S.focusable === 0, `${tag}: nothing of a not-yet-accepted app's Store block can take focus`);
+    for (const c of S.cards) {
+      if (c.sid) {
+        const acc = ACCEPTED.includes(c.id), base = `https://apps.microsoft.com/detail/${IDS[c.id]}?referrer=appbadge&cid=`, tail = '&mode=full';
+        ok(c.acc === (acc ? 'yes' : 'no'), `${tag} ${c.id}: data-accepted="${c.acc}" matches ACCEPTED`);
+        ok(c.stid === IDS[c.id], `${tag} ${c.id}: Store ID ${c.stid} shown`);
+        /* the markup is the same for every Store app, so flipping the switch is all it takes */
+        ok(c.store && c.href === base + 'fastkiwi-site' + tail && c.img === '/' + BADGES[lang][0] && /Microsoft Store/.test(c.alt), `${tag} ${c.id}: badge markup links to ${base}fastkiwi-site${tail} with the self-hosted ${lang} badge (${c.href})`);
+        const want = ['whatsapp', 'telegram', 'groups'].map(x => base + x + tail);
+        ok(JSON.stringify(c.share) === JSON.stringify(want) && JSON.stringify(c.copies) === JSON.stringify(want), `${tag} ${c.id}: share links for WhatsApp, Telegram and groups with copy buttons`);
+        if (acc) {
+          ok(c.badgeShown && c.shareShown && c.soon === null, `${tag} ${c.id}: accepted: badge and share helper shown, no coming-soon line`);
+          ok(c.h >= 32 && Math.abs(c.w / c.h - c.nat) < 0.02 && c.pad >= c.h / 4 - 0.5, `${tag} ${c.id}: badge ≥ 32 px tall, aspect ratio kept, quarter-height clear space (${c.w?.toFixed(1)}×${c.h?.toFixed(1)}, pad ${c.pad?.toFixed(1)})`);
+        } else ok(!c.badgeShown && !c.shareShown && c.soon === T.soon && c.links.length === 0, `${tag} ${c.id}: not accepted yet: only "${T.soon}" (${c.soon}), no badge, Store link or share helper`);
+      } else ok(c.acc === undefined && !c.href && c.share.length === 0, `${tag} ${c.id}: no Store ID, no Store block`);
+      if (c.id === 'lemon') ok(c.dl.length === 1 && c.dl[0][0] === 'local-ai-chat' && c.dl[0][1] === LEMON_DL && DIRECT.test(new URL(LEMON_DL).pathname) && c.dl[0][2] && c.dl[0][3], `${tag} lemon: direct download ${LEMON_DL} with the site's data-dl convention ${JSON.stringify(c.dl)}`);
+      else ok(c.dl.length === 0, `${tag} ${c.id}: no direct-download button`);
+      if (c.id === 'instaconvert') ok(c.links.length === 0 && c.soonDl === T.soonDl && c.winget.length === 0, `${tag} instaconvert: "${T.soonDl}", no link and no winget line`);
+      const wg = WINGET[c.id];
+      if (wg) ok(c.winget.length === 1 && c.winget[0].cmd === `winget install --id ${wg} -e` && c.winget[0].copy === c.winget[0].cmd && c.winget[0].btn && c.winget[0].state.startsWith(T.wg), `${tag} ${c.id}: winget line "winget install --id ${wg} -e" with a copy button, marked as pending ${JSON.stringify(c.winget)}`);
+    }
+    /* open the share helper of an accepted app and copy a link; copy a winget command */
+    const first = ACCEPTED[0];
+    await page.click(`#${first} .st-share summary`);
+    const btn = page.locator(`#${first} .st-share button[data-copy]`).nth(1);
+    ok(await btn.isVisible(), `${tag}: copy button shown once the helper is open`);
+    await btn.click(); await page.waitForTimeout(150);
+    ok(await page.evaluate(() => navigator.clipboard.readText()) === `https://apps.microsoft.com/detail/${IDS[first]}?referrer=appbadge&cid=telegram&mode=full` && await btn.textContent() === T.copied, `${tag}: copy puts the Telegram link on the clipboard and says so`);
+    const wbtn = page.locator('#instafind .st-winget button[data-copy]');
+    await wbtn.click(); await page.waitForTimeout(150);
+    ok(await page.evaluate(() => navigator.clipboard.readText()) === 'winget install --id Sarmad.InstaFind -e' && await wbtn.textContent() === T.copied, `${tag}: copy puts the winget command on the clipboard`);
+    const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
+    ok(m.sw <= m.cw, `${tag}: no horizontal scroll with a share helper open`);
+    ok(S.scripts.length === 1 && S.scripts[0] === BASE + '/site.js', `${tag}: no external scripts (${S.scripts})`);
+    /* the only request off the site is site.js asking GitHub's API for Lemon's latest version (the site's download-button convention) */
+    ok(offsite.every(u => /^https:\/\/api\.github\.com\/repos\/sarmadiq9090-coder\/local-ai-chat(\/releases(\?per_page=\d+)?)?$/.test(u)), `${tag}: no third-party requests, badges are self-hosted (${offsite})`);
+    await checkLinks(page, tag);
+    await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(150);
+    if (SHOTS) await page.screenshot({ path: `${OUT}after-store-${lang}-${w}-share.png`, fullPage: true, animations: 'disabled' });
+    await ctx.close();
+  }
+  /* with the API answering (mocked): Lemon's button resolves to the latest installer and downloads without leaving the page */
+  for (const [lang, url] of [['ar', '/ar/store/'], ['en', '/store/']]) {
+    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+    await mockApi(ctx); await blockGithubNav(ctx);
+    const page = await ctx.newPage();
+    await page.goto(BASE + url, { waitUntil: 'networkidle' }); await page.waitForTimeout(300);
+    const a = page.locator('#lemon a[data-dl]');
+    const [href, ver] = [await a.getAttribute('href'), await a.locator('[data-dl-ver]').textContent()];
+    ok(/\/local-ai-chat\/releases\/download\/v2\.2\.0\/local-ai-chat\.exe$/.test(href) && ver === 'v2.2.0', `store ${lang}: Lemon's button resolves to the latest installer (${href} ${ver})`);
+    const dlEvt = page.waitForEvent('download', { timeout: 3000 }).catch(() => null);
+    await a.click();
+    const got = await dlEvt;
+    ok(got && /\/v2\.2\.0\/local-ai-chat\.exe$/.test(got.url()) && page.url().startsWith(BASE), `store ${lang}: Lemon's download gets the file and stays on the page`);
+    await checkLinks(page, `store ${lang} live`);
+    await ctx.close();
+  }
+  /* draft: not in the sitemap and not linked from anywhere else on the site */
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  ok(STORE_DRAFT === !/fastkiwi\.app\/(ar\/)?store\//.test(sm), `store: ${STORE_DRAFT ? 'draft left out of' : 'listed in'} sitemap.xml`);
+  const linking = [];
+  (function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const f = path.join(dir, e.name), rel = path.relative(ROOT, f);
+      if (e.isDirectory()) { if (!/^(node_modules|tests|\.git|tools|\.sync)$/.test(rel) && rel !== path.join('store') && rel !== path.join('ar', 'store')) walk(f); }
+      else if (/\.(html|xml|txt|js)$/.test(e.name) && /href="[^"]*\bstore\/"|fastkiwi\.app\/(ar\/)?store\//.test(fs.readFileSync(f, 'utf8'))) linking.push(rel);
+    }
+  })(ROOT);
+  if (STORE_DRAFT) ok(linking.length === 0, `store: draft not linked from other pages (${linking})`);
+}
+
 /* ---------- 10. privacy policy: one section per app + the site, summary table, effective date, contact, SEO, footer links everywhere ---------- */
 {
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
   await offline(ctx);
   const page = await ctx.newPage();
   const APPS = ['instafind', 'remember-me', 'lemon', 'instawords', 'site'];
-  const ISSUES = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'tafket'].map(r => GH + r + '/issues/new');
+  const ISSUES = ['arabic-file-search', 'Remember-Me', 'local-ai-chat', 'InstaWords'].map(r => GH + r + '/issues/new');
   let offsite = [];
   page.on('request', r => { if (!r.url().startsWith(BASE)) offsite.push(r.url()); });
   for (const [lang, url, other] of [['en', '/privacy/', '/ar/privacy/'], ['ar', '/ar/privacy/', '/privacy/']]) {
@@ -564,7 +704,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   const SITE_JS = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8');
   const cfg = SITE_JS.match(/var SUPPORT_CONTACT = \{ email: '([^']*)', telegram: '([^']*)' \};/);
   ok(cfg && (SITE_JS.match(/SUPPORT_CONTACT = /g) || []).length === 1, 'support: site.js has exactly one SUPPORT_CONTACT = { email, telegram } config');
-  const ISSUES = { InstaFind: 'arabic-file-search', 'Remember Me': 'Remember-Me', 'ذكرني': 'Remember-Me', Lemon: 'local-ai-chat', InstaWords: 'tafket' };
+  const ISSUES = { InstaFind: 'arabic-file-search', 'Remember Me': 'Remember-Me', 'ذكرني': 'Remember-Me', Lemon: 'local-ai-chat', InstaWords: 'InstaWords' };
   const read = page => page.evaluate(() => {
     const vis = e => !!e && !e.closest('[hidden]') && !!e.getClientRects().length;
     return {
@@ -641,12 +781,17 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
 /* ---------- 11b. official downloads: per app its fastkiwi.app page, labelled GitHub releases link, checksum, Store / winget / Scoop status; verify, warning, trademarks ---------- */
 {
   const SRC = { // what each app really has (checked against its repo and release assets): checksum file, Store ID, winget ID, Scoop
-    instawords: { repo: 'tafket', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
-    instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: null, store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
+    instawords: { repo: 'InstaWords', site: { en: '/instawords/', ar: '/instawords/' }, sha: 'SHA256SUMS.txt', store: '9P62P4WQSQNK', winget: 'Sarmad.InstaWords', scoop: false },
+    instafind: { repo: 'arabic-file-search', site: { en: '/arabic-file-search/en/', ar: '/arabic-file-search/' }, sha: 'SHA256SUMS.txt', store: '9MTK4KMFQ657', winget: 'Sarmad.InstaFind', scoop: true },
     'remember-me': { repo: 'Remember-Me', site: { en: '/Remember-Me/', ar: '/Remember-Me/ar/' }, sha: 'SHA256SUMS.txt', store: '9NGB1F7T7JGN', winget: 'Sarmad.RememberMe', scoop: false },
-    lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false }
+    lemon: { repo: 'local-ai-chat', site: { en: '/lemon/', ar: '/ar/lemon/' }, sha: 'local-ai-chat.exe.sha256', store: null, winget: 'Sarmad.Lemon', scoop: false },
+    /* Android: no Store, winget or Scoop; not in the releases/ feed yet (a later site PR), so the second site link is its own #verify */
+    'scan-kiwi': { repo: 'scan-kiwi', site: { en: '/scan-kiwi/', ar: '/ar/scan-kiwi/' }, notes: { en: '/scan-kiwi/#verify', ar: '/ar/scan-kiwi/#verify' }, sha: 'SHA256SUMS.txt', store: null, winget: null, scoop: false, android: { min: /Android 7\.0|أندرويد 7\.0/, updates: /^(?=.*GitHub)(?=.*(weekly|once a week|مرة في الأسبوع))/ } },
+    /* Remember Me for Android (D-079): a separate app from Remember Me for Windows; updates itself from GitHub (D-081) */
+    'remember-me-android': { repo: 'remember-me-android', site: { en: '/remember-me-android/', ar: '/ar/remember-me-android/' }, notes: { en: '/remember-me-android/#verify', ar: '/ar/remember-me-android/#verify' }, sha: 'SHA256SUMS.txt', store: null, winget: null, scoop: false, android: { min: /Android 8\.0|أندرويد 8\.0/, updates: /in the app|من داخل التطبيق/ } }
   };
-  const TM_EN = 'InstaWords™, InstaFind™, Remember Me™, Lemon™, InstaConvert™ and FastKiwi™ are trademarks of FastKiwi (Sarmad). The open-source licences grant no trademark rights.';
+  const STORE_LIVE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.filter(a => a.store?.live).map(a => a.id);
+  const TM_EN = 'InstaWords™, InstaFind™, Remember Me™, Lemon™, Scan Kiwi™, InstaConvert™ and FastKiwi™ are trademarks of FastKiwi (Sarmad). The licences grant no trademark rights.';
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
   await offline(ctx);
   const page = await ctx.newPage();
@@ -660,7 +805,8 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
       lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
       apps: [...document.querySelectorAll('.od-app[id]')].map(s => ({ id: s.id, title: s.querySelector('h3').textContent,
-        rows: Object.fromEntries([...s.querySelectorAll('.od-src > div[data-src]')].map(d => [d.dataset.src, { text: d.querySelector('dd').textContent, links: [...d.querySelectorAll('a')].map(a => ({ href: a.href, gh: a.hasAttribute('data-github'), text: a.textContent })) }])),
+        rows: Object.fromEntries([...s.querySelectorAll('.od-src > div[data-src]')].map(d => [d.dataset.src, { text: d.querySelector('dd').textContent, links: [...d.querySelectorAll('a')].map(a => ({ href: a.href, gh: a.hasAttribute('data-github'), store: a.hasAttribute('data-store'), text: a.textContent })) }])),
+        order: [...s.querySelectorAll('.od-src > div[data-src]')].map(d => d.dataset.src),
         links: s.querySelectorAll('a').length })),
       verify: document.querySelector('#verify + .card')?.textContent || '',
       warn: document.querySelector('#warning + .od-warn')?.textContent || '',
@@ -673,26 +819,31 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(D.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${D.canonical}`);
     ok(JSON.stringify(D.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/downloads/', 'en https://fastkiwi.app/downloads/', 'x-default https://fastkiwi.app/downloads/']), `${tag}: hreflang ${D.hreflang}`);
     ok(D.lang.length === 2 && D.lang.every(x => x === other), `${tag}: language switches go to ${other} (${D.lang})`);
-    ok(JSON.stringify(D.apps.map(a => a.id)) === JSON.stringify(['instawords', 'instafind', 'remember-me', 'lemon', 'instaconvert']), `${tag}: a card per app, InstaConvert last (${D.apps.map(a => a.id)})`);
+    ok(JSON.stringify(D.apps.map(a => a.id)) === JSON.stringify(['instawords', 'instafind', 'remember-me', 'lemon', 'scan-kiwi', 'remember-me-android', 'instaconvert']), `${tag}: a card per app, InstaConvert last (${D.apps.map(a => a.id)})`);
     for (const a of D.apps) {
       ok(/™/.test(a.title), `${tag} ${a.id}: ™ in the heading (${a.title})`);
       const want = SRC[a.id];
       if (!want) { ok(a.links === 0 && Object.keys(a.rows).length === 0 && (lang === 'en' ? /coming soon/i : /قريباً/).test(a.title), `${tag} instaconvert: "coming soon", no links`); continue; }
       const R = a.rows, site = R.site?.links || [];
-      ok(site.length === 2 && new URL(site[0].href).origin === BASE && new URL(site[0].href).pathname === want.site[lang] && new URL(site[1].href).pathname + new URL(site[1].href).hash === (lang === 'en' ? '/releases/#' : '/ar/releases/#') + a.id, `${tag} ${a.id}: its fastkiwi.app page and release notes ${JSON.stringify(site.map(l => l.href))}`);
+      const live = STORE_LIVE.includes(a.id);  /* owner's store-first rule: a live Store listing is the first source */
+      ok(live ? a.order[0] === 'store' : a.order[0] === 'site', `${tag} ${a.id}: ${live ? 'Microsoft Store first (live in the Store)' : 'this site first'} (${a.order})`);
+      ok(site.length === 2 && new URL(site[0].href).origin === BASE && new URL(site[0].href).pathname === want.site[lang] && new URL(site[1].href).pathname + new URL(site[1].href).hash === (want.notes ? want.notes[lang] : (lang === 'en' ? '/releases/#' : '/ar/releases/#') + a.id), `${tag} ${a.id}: its fastkiwi.app page and release notes ${JSON.stringify(site.map(l => l.href))}`);
       ok(R.github?.links.length === 1 && R.github.links[0].href === `${GH}${want.repo}/releases` && R.github.links[0].gh && /GitHub/.test(R.github.links[0].text), `${tag} ${a.id}: labelled GitHub releases link ${JSON.stringify(R.github)}`);
       if (want.sha) ok(R.sha256?.links.length === 1 && R.sha256.links[0].href === `${GH}${want.repo}/releases/latest/download/${want.sha}` && R.sha256.links[0].text === want.sha, `${tag} ${a.id}: direct link to the release's ${want.sha}`);
       else ok(R.sha256 && !R.sha256.links.some(l => /\/releases\/(latest\/)?download\//.test(l.href)) && R.sha256.links.some(l => new URL(l.href).hash === '#' + a.id), `${tag} ${a.id}: no checksum file, points to the SHA-256 shown on the site`);
-      if (want.store) ok(R.store && R.store.links.length === 0 && R.store.text.includes(want.store) && (lang === 'en' ? /Coming to Microsoft Store/ : /قريباً في Microsoft Store/).test(R.store.text), `${tag} ${a.id}: "coming to Microsoft Store" with its Store ID, no link or badge yet`);
+      if (want.store && a.id === 'remember-me') ok(R.store && R.store.links.length === 1 && R.store.links[0].href === `https://apps.microsoft.com/detail/${want.store}?referrer=appbadge&cid=fastkiwi-site&mode=full` && R.store.links[0].store && R.store.text.includes(want.store), `${tag} ${a.id}: live in Microsoft Store, the official badge links to its Store page`);
+      else if (want.store) ok(R.store && R.store.links.length === 0 && R.store.text.includes(want.store) && (lang === 'en' ? /Coming to Microsoft Store/ : /قريباً في Microsoft Store/).test(R.store.text), `${tag} ${a.id}: "coming to Microsoft Store" with its Store ID, no link or badge yet`);
       else ok(!R.store, `${tag} ${a.id}: no Store row`);
-      ok(R.winget && R.winget.text.includes(`winget install ${want.winget}`) && (lang === 'en' ? /not accepted yet/ : /لم يُقبل بعد/).test(R.winget.text), `${tag} ${a.id}: winget ID ${want.winget}, marked as submitted, not accepted yet`);
+      if (want.winget) ok(R.winget && R.winget.text.includes(`winget install ${want.winget}`) && (lang === 'en' ? /not accepted yet/ : /لم يُقبل بعد/).test(R.winget.text), `${tag} ${a.id}: winget ID ${want.winget}, marked as submitted, not accepted yet`);
+      else ok(!R.winget, `${tag} ${a.id}: no winget row`);
+      if (want.android) ok(R.android && want.android.min.test(R.android.text) && /Google Play/.test(R.android.text) && want.android.updates.test(R.android.text) && R.android.links.length === 0, `${tag} ${a.id}: Android row: minimum version, not on Google Play, how updates come (${R.android?.text})`);
       ok(!!R.scoop === want.scoop && (!want.scoop || (R.scoop.text.includes('scoop bucket add instafind https://github.com/sarmadiq9090-coder/arabic-file-search') && R.scoop.text.includes('scoop install instafind/instafind'))), `${tag} ${a.id}: Scoop only where a bucket exists`);
     }
     ok(D.verify.includes('Get-FileHash .\\file.exe -Algorithm SHA256') && (lang === 'en' ? /Compare/.test(D.verify) : /قارن/.test(D.verify)), `${tag}: how to verify with Get-FileHash`);
     ok(lang === 'en' ? ['other sites', 'cracked', 'pro', 'not ours', 'may be harmful', 'free', 'never ask for payment or personal data'].every(x => D.warn.includes(x))
       : ['مواقع أخرى', 'المكرَكة', 'pro', 'ليست منا', 'ضارة', 'مجانية', 'لا نطلب أبداً أي مبلغ أو بيانات شخصية'].every(x => D.warn.includes(x)), `${tag}: warning about other copies, cracked/pro versions, free, no payment or personal data`);
-    ok(lang === 'en' ? D.tm[0] === TM_EN : /علامات تجارية لـ FastKiwi \(Sarmad\)/.test(D.tm[0]) && ['InstaWords™', 'InstaFind™', 'Remember Me™', 'Lemon™', 'InstaConvert™', 'FastKiwi™'].every(x => D.tm[0].includes(x)) && /لا تمنح أي حق في العلامات التجارية/.test(D.tm[0]), `${tag}: trademark note (${D.tm[0]})`);
-    ok(D.tmLink.length === 1 && D.tmLink[0][0] === GH + 'tafket/blob/HEAD/TRADEMARKS.md' && /GitHub/.test(D.tmLink[0][1]), `${tag}: labelled link to InstaWords' TRADEMARKS.md ${JSON.stringify(D.tmLink)}`);
+    ok(lang === 'en' ? D.tm[0] === TM_EN : /علامات تجارية لـ FastKiwi \(Sarmad\)/.test(D.tm[0]) && ['InstaWords™', 'InstaFind™', 'Remember Me™', 'Lemon™', 'Scan Kiwi™', 'InstaConvert™', 'FastKiwi™'].every(x => D.tm[0].includes(x)) && /لا تمنح أي حق في العلامات التجارية/.test(D.tm[0]), `${tag}: trademark note (${D.tm[0]})`);
+    ok(D.tmLink.length === 1 && D.tmLink[0][0] === GH + 'InstaWords/blob/HEAD/TRADEMARKS.md' && /GitHub/.test(D.tmLink[0][1]), `${tag}: labelled link to InstaWords' TRADEMARKS.md ${JSON.stringify(D.tmLink)}`);
     ok(D.footer.includes(url) && D.footer.includes(url.replace('downloads', 'support')) && D.footer.includes(url.replace('downloads', 'privacy')), `${tag}: footer links Official downloads, Support and Privacy`);
     ok(D.scripts === 0 && offsite.length === 0, `${tag}: no scripts and no third-party requests (${offsite})`);
     await checkLinks(page, tag);
@@ -700,7 +851,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     await page.setViewportSize({ width: 1366, height: 900 });
   }
   /* every full page links to the official downloads page of its language from the footer */
-  for (const [u, want] of [['/', '/downloads/'], ['/ar/', '/ar/downloads/'], ['/releases/', '/downloads/'], ['/ar/releases/', '/ar/downloads/'], ['/lemon/', '/downloads/'], ['/ar/lemon/', '/ar/downloads/'], ['/privacy/', '/downloads/'], ['/ar/privacy/', '/ar/downloads/'], ['/support/', '/downloads/'], ['/ar/support/', '/ar/downloads/']]) {
+  for (const [u, want] of [['/', '/downloads/'], ['/ar/', '/ar/downloads/'], ['/releases/', '/downloads/'], ['/ar/releases/', '/ar/downloads/'], ['/lemon/', '/downloads/'], ['/ar/lemon/', '/ar/downloads/'], ['/privacy/', '/downloads/'], ['/ar/privacy/', '/ar/downloads/'], ['/support/', '/downloads/'], ['/ar/support/', '/ar/downloads/'], ['/scan-kiwi/', '/downloads/'], ['/ar/scan-kiwi/', '/ar/downloads/'], ['/remember-me-android/', '/downloads/'], ['/ar/remember-me-android/', '/ar/downloads/']]) {
     await page.goto(BASE + u, { waitUntil: 'domcontentloaded' });
     const f = await page.evaluate(() => [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname).filter(p => /\/downloads\/$/.test(p)));
     ok(f.length === 1 && f[0] === want, `footer ${u}: Official downloads link to ${want} (${f})`);
@@ -708,7 +859,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   /* ™ after the app names in headings only: never in JSON-LD names */
   for (const [f, sel] of [['index.html', /<h3>(InstaFind|Remember Me|Lemon|InstaWords)™ <span class="sub">/g], ['ar/index.html', /<h3><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> <span class="sub">|<span class="sub" lang="en"><bdi>Remember Me™<\/bdi><\/span>/g], ['releases/index.html', /-title">(InstaFind|Remember Me|Lemon|InstaWords)™ </g], ['ar/releases/index.html', /-title"><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> |<span class="sub"><bdi>Remember Me™<\/bdi><\/span>/g]]) {
     const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
-    ok((html.match(sel) || []).length === 4, `${f}: ™ after the four app names in their headings`);
+    ok((html.match(sel) || []).length === (f === 'index.html' ? 5 : 4), `${f}: ™ after the app names in their headings (index.html also has Remember Me for Android)`);
     ok(![...html.matchAll(/"(?:name|alternateName)":\s*"([^"]*)"/g)].some(m => m[1].includes('™')), `${f}: JSON-LD names without ™`);
   }
   await ctx.close();
@@ -719,26 +870,187 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   }
 }
 
-/* ---------- 12. InstaWords in two languages: English home → instawords/en/, Arabic home → instawords/; sitemap alternates ---------- */
+/* ---------- 12. InstaWords: both homes link to instawords/ (one page with a language choice) until InstaWords publishes
+   English pages (instawords/en/); then restore the en/ links, the sitemap alternates and these checks. ---------- */
 {
   const html = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
   const iwLinks = f => [...html(f).matchAll(/<a\b[^>]*href="((?:\.\.\/)?instawords\/[^"#]*)"/g)].map(m => m[1]);
   const en = iwLinks('index.html'), ar = iwLinks('ar/index.html');
-  ok(en.length >= 4 && en.every(h => h === 'instawords/en/'), `home-en: InstaWords links open the English pages (${en})`);
+  ok(en.length >= 4 && en.every(h => h === 'instawords/'), `home-en: InstaWords links open instawords/ (${en})`);
   ok(ar.length >= 4 && ar.every(h => h === '../instawords/'), `home-ar: InstaWords links open the Arabic pages (${ar})`);
-  ok(html('index.html').includes('"url": "https://fastkiwi.app/instawords/en/"') && html('ar/index.html').includes('"url": "https://fastkiwi.app/instawords/"'), 'home JSON-LD: InstaWords URL in the page language');
+  ok(html('index.html').includes('"url": "https://fastkiwi.app/instawords/"') && html('ar/index.html').includes('"url": "https://fastkiwi.app/instawords/"'), 'home JSON-LD: InstaWords URL');
   const sm = html('sitemap.xml'), B = 'https://fastkiwi.app/instawords/';
-  for (const page of ['', 'bulk.html', 'excel.html']) for (const loc of [`${B}${page}`, `${B}en/${page}`]) {
-    const entry = sm.match(new RegExp(`<url><loc>${loc.replace(/[.]/g, '\\.')}</loc>.*?</url>`))?.[0] ?? '';
-    ok([`hreflang="en" href="${B}en/${page}"`, `hreflang="ar" href="${B}${page}"`, `hreflang="x-default" href="${B}en/${page}"`].every(x => entry.includes(x)), `sitemap: ${loc} with en/ar/x-default alternates`);
-  }
+  for (const page of ['', 'bulk.html', 'excel.html']) ok(sm.includes(`<loc>${B}${page}</loc>`), `sitemap: ${B}${page}`);
+  ok(!sm.includes(`${B}en/`), 'sitemap: no instawords/en/ URL while those pages do not exist');
   if (IW_EN) for (const f of ['index.html', 'bulk.html', 'excel.html']) {
     const p = path.join(ROOT, 'instawords', 'en', f);
     if (fs.existsSync(p)) ok(/<html lang="en" dir="ltr">/.test(fs.readFileSync(p, 'utf8')), `instawords/en/${f}: English page synced from tafket`);
   }
 }
 
-/* ---------- 13. shared Arabic number dictionary (data/): valid against its schema, served as JSON, not in the sitemap ---------- */
+/* ---------- 13. Scan Kiwi (Android, open source; D-076 site plan and standards, D-077 update wording) ----------
+   Both pages: canonical, hreflang, language switch, the one direct APK link (text names file type and size), D-077's required
+   update wording verbatim, the honest claims only, JSON-LD, targets >= 24 px (WCAG 2.5.8), focus never hidden under the sticky
+   header (2.4.11), no horizontal scroll at 320 px, and axe-core with wcag2a/wcag2aa/wcag21aa/wcag22aa: zero violations on both
+   pages and on the Scan Kiwi cards of the home and downloads pages.
+   SCAN_KIWI_PLACEHOLDERS: true until the signed 1.2.0 build exists. Then replace {{APK_SIZE_MB}}, {{APK_SHA256}} and
+   {{SIGNING_CERT_SHA256}} in the four HTML files, swap img/scan-kiwi-placeholder.svg for the synthetic 1.2.0 screenshots, and set
+   it to false: the checks then fail on any placeholder left. ---------- */
+{
+  const SCAN_KIWI_PLACEHOLDERS = false; /* filled from the signed v1.2.0 build (kiwi-scan 9089fc2) */
+  const SK_APK = 'https://github.com/sarmadiq9090-coder/scan-kiwi/releases/download/v2.0.2/ScanKiwi-2.0.2.apk'; /* 2.0.2: owner asked for a direct download; updated with each release */
+  const UPDATE_TEXT = { /* D-080 wording: the internet is used only to check for and download updates from GitHub (replaces D-077's "no internet") */
+    en: 'Scan Kiwi connects to the internet only to check for and download updates from GitHub (weekly, can be turned off). You can check by hand in Settings ▸ Updates ▸ Check for updates, or the app checks automatically at most once every 7 days when you open it. Downloads use Wi-Fi only by default. An update is installed only if it matches the SHA256SUMS file published with the release and is signed with the same certificate as the installed app, and Android asks you to confirm the install. When the app or your browser contacts GitHub, GitHub sees your IP address, as with any website. You can also update by hand from the releases page.',
+    ar: 'لا يتصل ماسح كيوي بالإنترنت إلا للتحقق من التحديثات وتنزيلها من GitHub (مرة في الأسبوع، ويمكنك إيقاف ذلك). يمكنك التحقق يدوياً من الإعدادات ◂ «التحديثات» ◂ «ابحث عن تحديث»، أو يتحقق التطبيق تلقائياً مرة كل 7 أيام على الأكثر عند فتحه. ويكون التنزيل عبر Wi-Fi فقط افتراضياً. ولا يُثبَّت التحديث إلا إذا طابق ملف SHA256SUMS المنشور مع الإصدار وكان موقّعاً بشهادة التطبيق المثبّت نفسها، ويطلب أندرويد تأكيدك للتثبيت. وحين يتصل التطبيق أو المتصفح بـ GitHub يرى GitHub عنوان IP الخاص بك كأي موقع. ويمكنك التحديث يدوياً من صفحة الإصدارات.' };
+  const CLAIMS = { /* the claims allowed by D-076 and D-080, each one must be on the page */
+    en: ['Android 7.0', 'only to check for and download updates from GitHub', 'can be turned off', 'Apache-2.0', 'not on Google Play', 'Four permissions', 'install packages', 'character error of 9.0 %'],
+    ar: ['أندرويد 7.0', 'إلا للتحقق من التحديثات وتنزيلها من GitHub', 'ويمكنك إيقاف ذلك', 'Apache-2.0', 'ليس على Google Play', 'أربعة أذونات', 'تثبيت الحزم', 'خطأ الحروف 9.0٪'] };
+  const OLD_CLAIMS = /no internet permission|never connects to the internet|Obtainium|إذن الإنترنت|بلا إنترنت|لا يتصل به أبداً/i; /* the 1.2.0 claims must be gone from both pages */
+  const BANNED = /\b(secure|safest|best|Google[- ]verified|Play Protect|virus[- ]free|auto-updates)\b|الأفضل|آمن تماماً|خالٍ من الفيروسات/i;
+  const PH = /\{\{([A-Z0-9_]+)\}\}/g, PH_OK = ['APK_SIZE_MB', 'APK_SHA256', 'SIGNING_CERT_SHA256'];
+  for (const f of ['scan-kiwi/index.html', 'ar/scan-kiwi/index.html', 'index.html', 'ar/index.html']) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8'), names = [...src.matchAll(PH)].map(m => m[1]);
+    const shot = /scan-kiwi-placeholder\.svg/.test(src);
+    if (SCAN_KIWI_PLACEHOLDERS) { ok(names.every(n => PH_OK.includes(n)), `${f}: only the documented release placeholders (${names})`); if (names.length || shot) console.log(`  NOTE ${f}: release placeholders left (${[...new Set(names)]}${shot ? ', screenshot' : ''}) until the signed 1.2.0 build`); }
+    else ok(!names.length && !shot, `${f}: no release placeholder or placeholder screenshot left (${names})`);
+  }
+  const { default: axeDefault, AxeBuilder: axeNamed } = await import('@axe-core/playwright');
+  const AxeBuilder = axeNamed || axeDefault;
+  const TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
+  const axe = async (page, include) => { let b = new AxeBuilder({ page }).withTags(TAGS); if (include) b = b.include(include); const r = await b.analyze(); return r.violations.map(v => `${v.id} (${v.impact}): ${v.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ')}`); };
+  for (const [lang, url, other] of [['en', '/scan-kiwi/', '/ar/scan-kiwi/'], ['ar', '/ar/scan-kiwi/', '/scan-kiwi/']]) {
+    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+    await offline(ctx); await blockGithubNav(ctx);
+    const page = await ctx.newPage(), tag = `scan-kiwi ${lang}`;
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const S = await page.evaluate(() => ({
+      canonical: document.querySelector('link[rel=canonical]').href,
+      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
+      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      apk: [...document.querySelectorAll('a.btn-primary[data-github][href$="/ScanKiwi-2.0.2.apk"]')].map(a => [a.href, a.textContent.replace(/\s+/g, ' ').trim()]),
+      dl: document.querySelectorAll('a[data-dl]').length,
+      updates: document.querySelector('#updates .card p')?.textContent.replace(/\s+/g, ' ').trim(),
+      text: document.body.innerText.replace(/\s+/g, ' '),
+      ld: JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent),
+      verify: !!document.getElementById('verify')
+    }));
+    ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
+    ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/scan-kiwi/', 'en https://fastkiwi.app/scan-kiwi/', 'x-default https://fastkiwi.app/scan-kiwi/']), `${tag}: hreflang ${S.hreflang}`);
+    ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
+    ok(S.apk.length === 2 && S.apk.every(([h, t]) => h === SK_APK && /GitHub/.test(t) && (lang === 'en' ? /MB\)$/ : /ميغابايت\)$/).test(t)), `${tag}: two direct APK links whose text names the file, its type and size ${JSON.stringify(S.apk)}`);
+    ok(S.dl === 0, `${tag}: no data-dl buttons (site.js resolves those through the releases API, which has no Scan Kiwi entry yet)`);
+    ok(S.updates === UPDATE_TEXT[lang], `${tag}: D-077 update wording verbatim (${S.updates})`);
+    for (const c of CLAIMS[lang]) ok(S.text.includes(c), `${tag}: says "${c}"`);
+    ok(!BANNED.test(S.text), `${tag}: no unallowed claim (${S.text.match(BANNED)})`);
+    ok(!OLD_CLAIMS.test(S.text), `${tag}: the 1.2.0 "no internet" claim is gone (${S.text.match(OLD_CLAIMS)})`);
+    ok(/Android 7\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === SK_APK && S.ld.softwareVersion === '2.0.2' && !/™/.test(S.ld.name + S.ld.alternateName) && S.verify, `${tag}: JSON-LD (Android, latest release, 2.0.2) and the #verify block`);
+    /* 2.5.8 target size: buttons, nav, summaries and link rows (inline links inside sentences are exempt) */
+    const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, .lang-switch, .foot-links a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
+    ok(!small.length, `${tag}: targets at least 24×24 px ${JSON.stringify(small)}`);
+    /* 2.4.11 focus not obscured: tab through the page, every focused element below the sticky header (or inside it) */
+    const hidden = [];
+    for (let i = 0; i < 60; i++) {
+      await page.keyboard.press('Tab'); await page.waitForTimeout(30);
+      const f = await page.evaluate(() => { const e = document.activeElement, h = document.querySelector('.site-header'); if (!e || e === document.body) return null; const r = e.getBoundingClientRect(), hb = h.getBoundingClientRect().bottom; return { t: e.textContent.trim().slice(0, 30), ok: h.contains(e) || r.top >= hb - 1 || e.classList.contains('skip'), vis: r.bottom > 0 && r.top < innerHeight }; });
+      if (f && (!f.ok || !f.vis)) hidden.push(f.t);
+    }
+    ok(!hidden.length, `${tag}: keyboard focus never hidden under the sticky header ${JSON.stringify(hidden)}`);
+    const v = await axe(page);
+    ok(!v.length, `${tag}: axe-core WCAG 2.2 AA, zero violations ${JSON.stringify(v)}`);
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.waitForTimeout(200);
+    const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    ok(sw <= 0, `${tag}@320: no horizontal scroll (${sw} px)`);
+    if (SHOTS) await page.screenshot({ path: `${OUT}after-scan-kiwi-${lang}-320.png`, fullPage: true, animations: 'disabled' });
+    /* the download button is a plain link to the latest release page on GitHub (no APK hash or file name is hard-coded) */
+    ok(await page.locator('#download a.btn-primary[data-github][href$="/ScanKiwi-2.0.2.apk"]').getAttribute('href') === SK_APK, `${tag}: download button points to ${SK_APK}`);
+    await ctx.close();
+  }
+  /* the Scan Kiwi cards on the home and downloads pages: axe-core on the card itself, the direct APK link, outside the Windows hero */
+  for (const [url, sel, apks] of [['/', '#phone .bento', 1], ['/ar/', '#phone .bento', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
+    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+    await offline(ctx);
+    const page = await ctx.newPage();
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a.btn-primary[data-github][href$="/ScanKiwi-2.0.2.apk"]')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel.startsWith('#scan') ? sel : sel + ' img[src$="scan-kiwi.svg"]'), inHero: !!document.querySelector('.hero [href*="scan-kiwi"], .hero img[src*="scan-kiwi"]') }), sel);
+    ok(C.card && !C.inHero && C.apk.length === apks && C.apk.every(h => h === SK_APK), `${url}: Scan Kiwi card (${sel}), not in the Windows hero, ${apks} direct APK link ${JSON.stringify(C)}`);
+    const v = await axe(page, sel.startsWith('#scan') ? sel : '#phone');
+    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#phone'} ${JSON.stringify(v)}`);
+    await ctx.close();
+  }
+  /* data, sitemap and llms.txt */
+  const app = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.find(a => a.id === 'scan-kiwi');
+  ok(app && app.store === null && app.winget === null && /Android/.test(app.tagline.en) && /أندرويد/.test(app.tagline.ar), `apps.json: scan-kiwi with store and winget null and a tagline that says Android`);
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const u of ['https://fastkiwi.app/scan-kiwi/', 'https://fastkiwi.app/ar/scan-kiwi/']) {
+    const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
+    ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/scan-kiwi/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/scan-kiwi/"') && entry.includes('hreflang="x-default" href="https://fastkiwi.app/scan-kiwi/"'), `sitemap: ${u} with lastmod and hreflang`);
+  }
+  ok(/\[Scan Kiwi\]\(https:\/\/fastkiwi\.app\/scan-kiwi\/\)/.test(fs.readFileSync(path.join(ROOT, 'llms.txt'), 'utf8')), 'llms.txt: Scan Kiwi entry');
+}
+
+/* ---------- 13b. Remember Me for Android (open source; brain D-079, updates from GitHub D-081) ----------
+   Separate from Remember Me for Windows (proprietary, /Remember-Me/). The download is the labelled GitHub button to
+   the latest release (the APK name changes each version); the honest claims below are required, the old
+   "no internet permission" claim is not allowed (the app checks GitHub for updates since 1.0.5). */
+{
+  const RMA_LATEST = 'https://github.com/sarmadiq9090-coder/remember-me-android/releases/download/v1.0.5/RememberMe-1.0.5.apk'; /* direct APK (owner, 2026-11-18) */
+  const CLAIMS = {
+    en: ['Android 8.0 or later', 'not on Google Play', 'only to check for and download updates from GitHub', 'Apache-2.0', 'Remember Me for Windows is a separate app', 'allow installs'],
+    ar: ['أندرويد 8.0', 'ليس على Google Play', 'فقط للتحقق من التحديثات وتنزيلها من', 'Apache-2.0', 'ذكرني لويندوز تطبيق منفصل', 'السماح بالتثبيت']
+  };
+  const BANNED = /no internet permission|never connects to the internet|لا يملك إذن الإنترنت|Android 7\.0|أندرويد 7\.0|Google Play[^.]*(available|متوفر)/i;
+  const { default: axeDefault, AxeBuilder: axeNamed } = await import('@axe-core/playwright');
+  const AxeBuilder = axeNamed || axeDefault;
+  for (const [lang, url, other] of [['en', '/remember-me-android/', '/ar/remember-me-android/'], ['ar', '/ar/remember-me-android/', '/remember-me-android/']]) {
+    const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
+    await offline(ctx); await blockGithubNav(ctx);
+    const page = await ctx.newPage(), tag = `remember-me-android ${lang}`;
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const S = await page.evaluate(() => ({
+      canonical: document.querySelector('link[rel=canonical]').href,
+      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
+      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      dlButtons: [...document.querySelectorAll('.cta a.btn-primary')].map(a => [a.href, a.hasAttribute('data-github'), a.textContent.replace(/\s+/g, ' ').trim()]),
+      apk: document.querySelectorAll('a[data-apk], a[data-dl]').length,
+      windows: [...document.querySelectorAll('a[href*="Remember-Me/"]')].map(a => new URL(a.href).pathname),
+      text: document.body.innerText.replace(/\s+/g, ' '),
+      ld: JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent),
+      verify: document.getElementById('verify')?.textContent || ''
+    }));
+    ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
+    ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/remember-me-android/', 'en https://fastkiwi.app/remember-me-android/', 'x-default https://fastkiwi.app/remember-me-android/']), `${tag}: hreflang ${S.hreflang}`);
+    ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
+    ok(S.dlButtons.length === 2 && S.dlButtons.every(([h, gh, t]) => h === RMA_LATEST && gh && /GitHub/.test(t) && /APK/.test(t)), `${tag}: two download buttons, labelled GitHub buttons to the latest release ${JSON.stringify(S.dlButtons)}`);
+    ok(S.apk === 0, `${tag}: no data-apk or data-dl links (the APK name changes with each release)`);
+    ok(S.windows.length >= 2 && S.windows.every(p => p === (lang === 'en' ? '/Remember-Me/' : '/Remember-Me/ar/')), `${tag}: links to the Windows app's own page (${S.windows})`);
+    for (const c of CLAIMS[lang]) ok(S.text.includes(c), `${tag}: says "${c}"`);
+    ok(!BANNED.test(S.text), `${tag}: no unallowed claim (${S.text.match(BANNED)})`);
+    ok(/Android 8\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === RMA_LATEST && /apache\.org\/licenses\/LICENSE-2\.0/.test(S.ld.license) && !/™/.test(S.ld.name + S.ld.alternateName), `${tag}: JSON-LD (Android 8.0, latest release, Apache-2.0)`);
+    ok(S.verify.includes('8d3b91dcacced148d11a51fb1333a509581ed2ce04ff362f2882c7cda6ae6e26') && S.verify.includes('SHA256SUMS.txt'), `${tag}: #verify with the signing certificate and SHA256SUMS.txt`);
+    const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, .lang-switch, .foot-links a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
+    ok(!small.length, `${tag}: targets at least 24×24 px ${JSON.stringify(small)}`);
+    const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    const v = r.violations.map(x => `${x.id} (${x.impact}): ${x.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ')}`);
+    ok(!v.length, `${tag}: axe-core WCAG 2.2 AA, zero violations ${JSON.stringify(v)}`);
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.waitForTimeout(200);
+    const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    ok(sw <= 0, `${tag}@320: no horizontal scroll (${sw} px)`);
+    if (SHOTS) await page.screenshot({ path: `${OUT}after-remember-me-android-${lang}-320.png`, fullPage: true, animations: 'disabled' });
+    await ctx.close();
+  }
+  const app = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.find(a => a.id === 'remember-me-android');
+  ok(app && app.status === 'released' && app.store === null && app.winget === null && /Android/.test(app.tagline.en) && /أندرويد/.test(app.tagline.ar), 'apps.json: remember-me-android released, store and winget null, a tagline that says Android');
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const u of ['https://fastkiwi.app/remember-me-android/', 'https://fastkiwi.app/ar/remember-me-android/']) {
+    const entry = sm.split('<url>').find(e => e.includes(`<loc>${u}</loc>`)) || '';
+    ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes('hreflang="en" href="https://fastkiwi.app/remember-me-android/"') && entry.includes('hreflang="ar" href="https://fastkiwi.app/ar/remember-me-android/"'), `sitemap: ${u} with lastmod and hreflang`);
+  }
+  ok(/\[Remember Me for Android\]\(https:\/\/fastkiwi\.app\/remember-me-android\/\)/.test(fs.readFileSync(path.join(ROOT, 'llms.txt'), 'utf8')), 'llms.txt: Remember Me for Android entry');
+}
+
+/* ---------- 14. shared Arabic number dictionary (data/): valid against its schema, served as JSON, not in the sitemap ---------- */
 {
   const rd = f => fs.readFileSync(path.join(ROOT, 'data', f), 'utf8');
   const dict = JSON.parse(rd('arabic-numbers.json')), schema = JSON.parse(rd('arabic-numbers.schema.json'));

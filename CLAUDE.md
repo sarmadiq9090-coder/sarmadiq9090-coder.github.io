@@ -14,27 +14,31 @@ through Claude sessions, with no fixed computer.
   same files.
 - The owner has no fixed computer: never ask them to keep files, keys or tools on a PC. Use GitHub
   (Environments/secrets, Codespaces) or their password manager.
-- **Weekly release train.**
-  - All improvements, additions and changes to a published app ship to users ONCE a week, together.
-    This covers new versions and tags, website (fastkiwi.app) updates, and package-manager
-    (winget/Scoop/Chocolatey) manifest updates.
-  - Release day is Friday 09:00 (Asia/Baghdad). The weekly health check in the owner's manager
-    session runs just before it and prepares the train; the owner approves it.
-  - A release goes out only after CI is green on Linux and Windows.
-  - During the week, work goes to `claude/*` branches or PRs, or is merged to the default branch
-    WITHOUT bumping the version or pushing a tag.
-  - arabic-file-search's build.yml publishes a release automatically when the Cargo.toml version
-    changes on main, so bump the version only on release day.
-  - github.io deploys on every push to main, so merge site PRs only on release day.
-  - Exceptions: mawared-desktop, and new apps that have never been published. These may release
-    whenever needed.
-  - A critical security fix may go out early, only with the owner's explicit approval.
+- **Daily release train (D-035, D-047).** Each app ships once a week on its day at 09:00 Asia/Baghdad:
+  Sat InstaFind, Sun Remember Me, Mon Lemon, Tue InstaWords, Wed InstaConvert (only when complete),
+  Thu QA, Fri rest. ALL of an app's finished, green features merge together on its day (D-032/D-034);
+  nothing is merged on other days. An app not ready on its day rolls to the same day next week; its
+  Store update ships the same day as the release. The site (fastkiwi.app) is exempt: it publishes
+  when green (D-046). A critical security fix may go early with the owner's explicit approval.
+- **One GitHub writer (D-040, core/GITHUB-SAFETY.md in the brain).** Only the manager session pushes,
+  opens PRs, comments, merges or dispatches workflows; other sessions work locally and report to the
+  manager. Serial writes >=2 s apart, <=15 per hour, <=150 per day, <=3 new PRs per repo per day, <=2
+  workflow_dispatch per repo per day, 1 rerun max. On any 403/429/abuse/CAPTCHA signal: stop all
+  writes and tell the owner.
+- **Closed source (D-051, 2026-11-09).** FastKiwi apps are proprietary (free to use; pricing
+  undecided). Don't add "open source"/MIT wording; keep third-party notices. Code published before
+  2026-11-09 stays under its MIT licence. **Exception (D-076): Scan Kiwi (Android, `scan-kiwi/`,
+  `ar/scan-kiwi/`) is open source under Apache-2.0**; its pages, cards and downloads entry say so. **Remember Me for Android** (`remember-me-android/`,
+  `ar/remember-me-android/`, D-079) is open source under Apache-2.0 too; Remember Me for Windows stays proprietary.
+- **Mirror.** `.github/workflows/mirror.yml` pushes main, tags and claude/* daily to GitLab
+  (`fastkiwi1/fastkiwi-site`), no force, no prune; it skips until the owner adds the `GITLAB_DEPLOY_KEY` secret.
 - Things only the owner can do: repo settings, deleting branches or repos, money decisions, secrets,
   merging. Ask, and give exact click-by-click steps in Arabic.
 - Don't enable features that write to third-party systems, or anything security-sensitive, without
   the owner's explicit approval.
 - Commit only your own files (`git add <paths>`).
-- Commit trailer: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+- Commit trailer: `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`
+  and `Claude-Session: https://claude.ai/code/session_01H59LCK6b45r38j6yGz7oef`.
 
 ## What this is
 
@@ -42,11 +46,13 @@ The FastKiwi home site, https://fastkiwi.app/, a static site (plain HTML/CSS/JS,
 served by GitHub Pages straight from `main` of this repo. Every project repo with Pages turned on
 also appears at `https://fastkiwi.app/<repo>/` (e.g. `/arabic-file-search/`, `/Remember-Me/`).
 Pages here: home (`index.html`, `ar/`, `en/`), `lemon/`, `releases/` (What's new + Atom feeds),
-`privacy/`, `instawords/` (synced from tafket). Details: [README.md](README.md).
+`privacy/`, `downloads/`, `store/` (Store, direct download and winget per app), `instawords/` (synced
+from tafket). Details: [README.md](README.md).
 
 Site rule (README): visitors stay on fastkiwi.app for every action. The only links to github.com
 are explicit, labelled GitHub buttons (`data-github`, text containing "GitHub") and direct
-release-asset downloads.
+release-asset downloads. The one other off-site link is the official Microsoft Store badge
+(`data-store`) for an app that `data/apps.json` marks live in the Store.
 
 ## Build and test
 
@@ -56,7 +62,7 @@ No build. Node >= 22, npm; Playwright 1.63.0 (devDependency).
 npm ci && npx playwright install chromium
 npm test              # tools unit tests + browser QA of every page (screenshots in tests/output/)
 npm run test:quick    # the same without screenshots
-npm run test:tools    # feed generator and InstaWords fallback updater only
+npm run test:tools    # feed generator, InstaWords fallback updater, data/apps.json schema
 npm run test:live     # checks the live site with the real GitHub API
 npm run serve         # local server on port 8765
 ```
@@ -70,12 +76,13 @@ No lint script.
   updates the issue "Live site check failed", and closes it when a later run passes.
 - `sync.yml` (daily 03:43 UTC, manual, and on main pushes touching `tools/**`): rebuilds
   `instawords/` from tafket's default branch, refreshes the InstaWords download link and the
-  release feeds (`tools/sync-releases.mjs`), runs the QA and **pushes to main** if anything changed.
+  release feeds (`tools/sync-releases.mjs`), runs the QA and, if anything changed, pushes a `sync/<date>-<run>` branch and **opens a PR**
+  (never a direct push to main; at most one open sync PR).
 
 ## Release
 
-There are no versions or tags: every push to `main` is live. So merge site PRs only on release day.
-`sync.yml` is the one automatic pusher to main; it reflects what the app repos already published
+There are no versions or tags: every push to `main` is live. The site publishes when green (D-046), so merge site PRs once CI passes.
+`sync.yml` opens the one automatic PR; it reflects what the app repos already published
 (and tafket's default branch), so the app repos must follow the train for it to stay on schedule.
 
 ## Do not move or rename

@@ -5,10 +5,73 @@
   <id>https://fastkiwi.app/ar/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/ar/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="ar" href="https://fastkiwi.app/ar/releases/"/>
-  <updated>2026-11-06T05:50:12.000Z</updated>
+  <updated>2026-11-18T13:45:54.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
-  <rights>برامج مجانية ومفتوحة المصدر (MIT)</rights>
+  <rights>برامج ويندوز مجانية</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:Remember-Me/v1.8.0</id>
+    <title>ذكرني · Remember Me v1.8.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#remember-me"/>
+    <published>2026-11-18T13:45:54.000Z</published>
+    <updated>2026-11-18T13:45:54.000Z</updated>
+    <category term="remember-me" label="Remember Me"/>
+    <summary type="text">Nov 13 fixes: Support in About, alert by the clock on RTL Windows, Western digits, roadmap · Ask once for a Store rating; add Store and help links to About · Use the FastKiwi brand v2 icon (bell): app, tray, installer and Store logos · docs: record the first Microsoft Store…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:tafket/v3.0.0</id>
+    <title>InstaWords · تفقيط v3.0.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
+    <published>2026-11-18T12:42:22.000Z</published>
+    <updated>2026-11-18T12:42:22.000Z</updated>
+    <category term="instawords" label="InstaWords"/>
+    <summary type="text">برنامج Windows أصلي لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية، بأكثر من 100 عملة ووحدة. ليس موقعاً داخل نافذة: واجهة Windows حقيقية، سريعة وخفيفة، تعمل كلها دون إنترنت، ولا تحتاج تثبيت أي شيء إضافي على Windows 10 (الإصدار 1903 أو أحدث) وWindows 11.…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:local-ai-chat/v2.3.0</id>
+    <title>Lemon · الذكاء الاصطناعي المحلي v2.3.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#lemon"/>
+    <published>2026-11-18T11:57:56.000Z</published>
+    <updated>2026-11-18T11:57:56.000Z</updated>
+    <category term="lemon" label="Lemon"/>
+    <summary type="text">📜 الرخصة: Lemon أصبح برنامجاً مملوكاً (مجانياً)؛ إشعارات الأطراف الثالثة دون تغيير. 🧯 سجل الأعطال: عند توقّف Lemon بشكل غير متوقع يُحفظ السبب في crash.txt داخل مجلد البيانات، ويظهر تنبيه في التشغيل التالي مع زر لفتح المجلد. 🌐 لغة التشغيل الأول تتبع ويندوز: عربية إن كانت لغة…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.2.0</id>
+    <title>InstaFind · بحث سريع v1.2.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-18T11:17:48.000Z</published>
+    <updated>2026-11-18T11:17:48.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">المزيد من FastKiwi: من «خيارات ← المزيد من FastKiwi» تظهر برامج FastKiwi الأخرى بالعربية أو الإنجليزية، ويفتح كل منها صفحته على fastkiwi.app. القائمة جزء من البرنامج نفسه، ولا تُجلب من الإنترنت. رسالة تحديث أوضح: إذا تعذّر الوصول إلى خادم التحديثات مؤقتاً (رفض أو حدّ طلبات أو…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.1.0</id>
+    <title>InstaFind · بحث سريع v1.1.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-13T18:42:30.000Z</published>
+    <updated>2026-11-13T18:42:30.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">واجهة أهدأ وأصغر بشكل ويندوز 11: خانة بحث واحدة بزر مسح، وبجانبها السجل والإعدادات وقائمة ⋮ «المزيد». تحتها سطر واحد فيه «التصفية» و«كل الأقراص» و«داخل المستندات» وأزرار العرض والترتيب. الجدول «الاسم | الحجم | تاريخ التعديل» بأيقونة ملوّنة لكل نوع، والمسار تحت الاسم. كل اختصارات…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v1.0.0</id>
+    <title>InstaFind · بحث سريع v1.0.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-13T13:20:17.000Z</published>
+    <updated>2026-11-13T13:20:17.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">شكل جديد للبرنامج: أوضح وأسهل، وهو الآن شكل البرنامج لكل المستخدمين، ومعه عرض المصغرات (Ctrl+T) وبطاقة «كيف أبحث؟» (F1). إذا كان مكوّن WebView2 في ويندوز مفقوداً أو لا يعمل، يعمل البرنامج بالشكل البسيط في تلك المرة فقط ويقول لك السبب، ثم يجرّب الشكل الجديد في التشغيل التالي. 38…</summary>
+  </entry>
+  <entry>
+    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.10.0</id>
+    <title>InstaFind · بحث سريع v0.10.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
+    <published>2026-11-11T12:41:58.000Z</published>
+    <updated>2026-11-11T12:41:58.000Z</updated>
+    <category term="instafind" label="InstaFind"/>
+    <summary type="text">جرّب الشكل الجديد (اختياري): «خيارات ← جرّب الشكل الجديد» يفتح الواجهة الجديدة فوراً، و«العودة إلى الشكل القديم» يرجعك متى شئت. الشكل المعتاد يبقى الافتراضي، وإن تعذّر تشغيل الشكل الجديد يعود البرنامج إلى المعتاد تلقائياً. يحتاج WebView2 (موجود في ويندوز 11 وأغلب أجهزة ويندوز…</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:Remember-Me/v1.7.0</id>
     <title>ذكرني · Remember Me v1.7.0</title>
@@ -35,68 +98,5 @@
     <updated>2026-11-04T09:43:27.000Z</updated>
     <category term="remember-me" label="Remember Me"/>
     <summary type="text">Point Scoop and Chocolatey at v1.6.1 · Say &quot;Choose a time&quot; for out-of-range time fields · Installer build: exit non-zero on failure; set electron-winstaller build flag · Harden locale rendering and window navigation</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.1</id>
-    <title>InstaFind · بحث سريع v0.9.1</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-03T19:10:18.000Z</published>
-    <updated>2026-11-03T19:10:18.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">لا تحديث بدون تحقق: إذا لم يجد البرنامج بصمة SHA-256 لملف التحديث على GitHub، يرفض التحديث ويعرض رابط التنزيل اليدوي. نسخ winget و Scoop تُترك لمدير الحزم: يعرض البرنامج أمر التحديث بدل أن يحدّث نفسه.</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:tafket/v2.1.0</id>
-    <title>InstaWords · تفقيط v2.1.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
-    <published>2026-11-03T14:44:02.000Z</published>
-    <updated>2026-11-03T14:44:02.000Z</updated>
-    <category term="instawords" label="InstaWords"/>
-    <summary type="text">برنامج Windows أصلي لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية، بأكثر من 100 عملة ووحدة. ليس موقعاً داخل نافذة: واجهة Windows حقيقية، سريعة وخفيفة، تعمل كلها دون إنترنت، ولا تحتاج تثبيت أي شيء إضافي على Windows 10 و11.…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:tafket/v2.0.0</id>
-    <title>InstaWords · تفقيط v2.0.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
-    <published>2026-11-03T11:17:02.000Z</published>
-    <updated>2026-11-03T11:17:02.000Z</updated>
-    <category term="instawords" label="InstaWords"/>
-    <summary type="text">برنامج Windows أصلي لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية والإنجليزية والفرنسية، بأكثر من 100 عملة ووحدة. ليس موقعاً داخل نافذة: واجهة Windows حقيقية، سريعة وخفيفة، تعمل كلها دون إنترنت، ولا تحتاج تثبيت أي شيء إضافي على Windows 10 و11.…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:tafket/v1.1.0</id>
-    <title>InstaWords · تفقيط v1.1.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instawords"/>
-    <published>2026-11-03T08:44:40.000Z</published>
-    <updated>2026-11-03T08:44:40.000Z</updated>
-    <category term="instawords" label="InstaWords"/>
-    <summary type="text">تطبيق Windows لكتابة المبالغ بالحروف للشيكات والفواتير، بالعربية ولغات أخرى. يعمل دون إنترنت، ونتائجه مطابقة للموقع. InstaWords_…_x64-setup.exe: المثبّت (موصى به). يثبّت للمستخدم الحالي دون صلاحيات المسؤول. InstaWords_…_x64-portable.exe: نسخة محمولة تعمل دون تثبيت (تتطلب…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.9.0</id>
-    <title>InstaFind · بحث سريع v0.9.0</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-02T13:03:22.000Z</published>
-    <updated>2026-11-02T13:03:22.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">البرامج بأسمائها العربية كما تكتبها: أكثر من 45 برنامجاً ولعبة جديدة، وحرف غلط واحد مقبول («ديسكود» تجد Discord)، والبرنامج يتعلّم من اختيارك، وتظهر البرامج في النافذة الرئيسية أيضاً. تحويل العملات: «100 دولار»، «100 usd to iqd»، «50 يورو بالدينار» لـ 24 عملة، بأسعار تتحدث كل 12…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:arabic-file-search/v0.8.2</id>
-    <title>InstaFind · بحث سريع v0.8.2</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#instafind"/>
-    <published>2026-11-02T11:19:20.000Z</published>
-    <updated>2026-11-02T11:19:20.000Z</updated>
-    <category term="instafind" label="InstaFind"/>
-    <summary type="text">إصلاح توقف البرنامج فجأة على بعض الأجهزة عند الضغط المتكرر على خانة البحث العائمة أو عند ضغط زر الإغلاق، فتختفي الخانة والأيقونة بجانب الساعة. كل توقف مفاجئ يُسجَّل الآن في تقرير الخطأ، فإذا حدث يسألك البرنامج عند الفتح التالي إن كنت تريد إرساله. البحث من الهاتف لا يتوقف عند ضغط…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:Remember-Me/v1.6.1</id>
-    <title>ذكرني · Remember Me v1.6.1</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/ar/releases/#remember-me"/>
-    <published>2026-11-01T18:13:54.000Z</published>
-    <updated>2026-11-01T18:13:54.000Z</updated>
-    <category term="remember-me" label="Remember Me"/>
-    <summary type="text">A small release with fixes for the v1.6.0 snooze choices and overdue wording, and clearer Hindi. Your tasks, notes, attachments, settings and snooze choices load unchanged. Snooze choices for today show their time, such as &quot;Today 9:00 PM&quot;, and Settings refuses a time today…</summary>
   </entry>
 </feed>

@@ -105,6 +105,7 @@ pre code { background: none; padding: 0; }
 .tool-nav a { display: block; padding: .3rem .95rem; border-radius: 999px; color: var(--muted); text-decoration: none; font-size: .95rem; font-weight: 700; white-space: nowrap; }
 .tool-nav a:hover { color: var(--text); }
 .tool-nav a[aria-current="page"] { background: var(--surface); color: var(--brand-text); box-shadow: 0 1px 2px rgb(15 23 42 / .08), 0 2px 8px rgb(76 154 30 / .12); }
+.tool-nav .all-apps { color: var(--text); }
 @media (max-width: 860px) { .product { display: none; } }
 @media (max-width: 620px) {
   .site-header { position: static; }
@@ -112,6 +113,7 @@ pre code { background: none; padding: 0; }
   .tool-nav { width: 100%; margin: 0; }
   .tool-nav li { flex: 1; }
   .tool-nav a { text-align: center; padding-inline: .4rem; font-size: .92rem; }
+  .tool-nav .all-apps { white-space: normal; line-height: 1.2; }
 }
 
 /* ---------- Hero ---------- */
@@ -256,6 +258,8 @@ textarea { min-height: 220px; resize: vertical; line-height: 1.65; font-family: 
   color: var(--text);
 }
 .result-text.is-empty { color: var(--muted); font-weight: 400; font-size: 1.05rem; }
+.result-warning { margin: .5rem 0 0; color: var(--danger); font-size: .95rem; font-weight: 600; }
+.results td.c-text .c-warn { display: block; margin-top: .2rem; color: var(--danger); font-weight: 400; font-size: .88rem; }
 .result-text.is-error { color: var(--danger); font-size: 1.05rem; display: flex; gap: .6rem; align-items: flex-start; }
 .result-text.is-error::before { content: "!"; flex: none; display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; margin-top: .15em; border-radius: 50%; background: var(--danger-soft); color: var(--danger); font-weight: 700; line-height: 1; }
 .cheque-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; margin-top: .85rem; }

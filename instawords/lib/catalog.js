@@ -86,6 +86,13 @@ export class Catalog {
                 throw new TafqitError("INVALID_CATALOG", `${where}.subunit.ratio`);
             }
         }
+        // Display precision of whole amounts (apps only): 0..the subunit's digits, and only with a subunit.
+        if (u.displayDigits !== undefined) {
+            const d = u.displayDigits;
+            if (!u.subunit || typeof d !== "number" || !Number.isInteger(d) || d < 0 || d > String(u.subunit.ratio).length - 1) {
+                throw new TafqitError("INVALID_CATALOG", `${where}.displayDigits`);
+            }
+        }
         // id must be unique; other names may repeat only within the same unit.
         const idKey = unitKey(u.id);
         if (this.index.has(idKey))

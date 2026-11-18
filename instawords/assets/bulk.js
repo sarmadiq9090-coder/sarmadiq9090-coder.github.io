@@ -29,7 +29,9 @@ function rowHtml(i, item) {
   const { input, r } = item;
   const cleaned = r.cleaned ?? "";
   const text = r.ok ? escapeHtml(r.result) : escapeHtml(r.error.message);
-  return `<tr${r.ok ? "" : ' class="is-error"'}><td class="c-idx">${i + 1}</td><td class="c-in"><span dir="ltr">${escapeHtml(input)}</span></td><td class="c-clean"><span dir="ltr">${escapeHtml(cleaned)}</span></td><td class="c-text"${r.ok ? textAttrs : ""}>${text}</td></tr>`;
+  // A warning (0.004 rounded to «صفر») is shown under the words.
+  const warn = r.ok && r.warnings?.length ? `<span class="c-warn" dir="rtl" lang="ar">${escapeHtml(r.warnings.map((w) => w.message).join(" "))}</span>` : "";
+  return `<tr${r.ok ? (warn ? ' class="is-warn"' : "") : ' class="is-error"'}><td class="c-idx">${i + 1}</td><td class="c-in"><span dir="ltr">${escapeHtml(input)}</span></td><td class="c-clean"><span dir="ltr">${escapeHtml(cleaned)}</span></td><td class="c-text"${r.ok ? textAttrs : ""}>${text}${warn}</td></tr>`;
 }
 
 function renderRows() {
@@ -130,7 +132,8 @@ const safeCell = (v) => (/^[=+@\t\r]/.test(v) ? `'${v}` : v);
 exportBtn.addEventListener("click", () => {
   const rows = [["الرقم", "الرقم بعد التنقية", "التفقيط", "الخطأ"]];
   for (const { input, r } of results) {
-    rows.push([safeCell(input), r.cleaned ?? "", r.ok ? r.result : "", r.ok ? "" : r.error.message]);
+    const note = r.ok ? (r.warnings ?? []).map((w) => w.message).join(" ") : r.error.message;
+    rows.push([safeCell(input), r.cleaned ?? "", r.ok ? r.result : "", note]);
   }
   const blob = new Blob([toCsv(rows)], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);

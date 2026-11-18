@@ -16,6 +16,8 @@ import cairosvg
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.dont_write_bytecode = True  # no __pycache__ in brand/source
+import brandicon  # noqa: E402  InstaWords' own renderer (the pen nib), see gen.PEN_NIB
 import gen  # noqa: E402
 
 FONTS, OUT, WORK = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -48,6 +50,8 @@ def raster_file(path, w=None, h=None):
 
 
 def icon(app, size, edge=True):
+    if app in gen.PEN_NIB:  # byte-for-byte what the InstaWords repo renders
+        return brandicon.render(size)
     return raster(gen.icon_svg(app, size, edge=edge), size)
 
 
@@ -106,14 +110,18 @@ def canvas(app, w, h, icon_px, dy=0):
 
 # ---------------------------------------------------------------- unplated (taskbar) glyphs
 # The taskbar shows the symbol alone, without the tile (Windows 11 unplated style). Forest details
-# inside a glyph (seeds, lemon lines, cheque bars, table gaps) become real holes. On a light
+# inside a glyph (seeds, lemon lines, table gaps) become real holes. On a light
 # taskbar the pastel accents are too faint (1.3-1.8:1), so altform-lightunplated uses ink tones.
+# InstaWords' pen nib has its own looks in brandicon.py: white nib and lime stroke (unplated),
+# teal #0F766E nib and leaf-green #3F8A1C stroke (lightunplated).
 INK = {gen.LIME: gen.LEAF, gen.SKY: "#0073B3", gen.LAVENDER: "#754AFF", gen.YELLOW: "#8A6A00",
-       gen.CORAL: "#D03400", gen.MINT: "#167D5B"}
+       gen.MINT: "#167D5B"}
 CROP = 200.0  # full glyphs: the middle 200 of the 256 grid fills the canvas
 
 
 def glyph(app, size, light=False):
+    if app in gen.PEN_NIB:
+        return brandicon.render(size, "lightunplated" if light else "unplated")
     if size <= 40:
         grid = 16 if size <= 17 else 20 if size <= 21 else 24 if size <= 27 else 32
         els, vb = gen.SMALL[app](grid), f"0 0 {grid} {grid}"

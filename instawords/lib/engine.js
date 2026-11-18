@@ -27,7 +27,7 @@ export function roundHalfUp(integer, fraction, d) {
     return [int, digits.slice(digits.length - d)];
 }
 /** Full phrase without prefix/suffix. */
-export function phrase({ number, unit, hundredsForm: hf, decimals, language = "ar" }) {
+export function phrase({ number, unit, hundredsForm: hf, decimals, language = "ar", warnings }) {
     const lang = LANGUAGE_MODULES[language];
     let { integer } = number;
     const { fraction } = number;
@@ -51,6 +51,9 @@ export function phrase({ number, unit, hundredsForm: hf, decimals, language = "a
             [integer, subDigits] = roundHalfUp(integer, fraction, d);
         }
         sub = subDigits.replace(/^0+/, "") || "0";
+        // A non-zero amount below half the smallest subunit (0.004 SAR) is written «صفر»: say so.
+        if (integer === "0" && sub === "0")
+            warnings?.push("ROUNDED_TO_ZERO");
     }
     if (sub === "0")
         return lang.count(integer, forms, hf);
