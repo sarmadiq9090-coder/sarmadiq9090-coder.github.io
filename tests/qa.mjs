@@ -19,6 +19,7 @@ const SHOTS = !process.argv.includes('--no-shots');
 const PAGES = [['home-en', '/'], ['home-ar', '/ar/'], ['releases-en', '/releases/'], ['releases-ar', '/ar/releases/'], ['lemon-en', '/lemon/'], ['lemon-ar', '/ar/lemon/'], ['privacy-en', '/privacy/'], ['privacy-ar', '/ar/privacy/'], ['404', '/no-such-page/']];
 PAGES.push(['support-en', '/support/'], ['support-ar', '/ar/support/']); // the Windows apps link to these exact paths
 PAGES.push(['downloads-en', '/downloads/'], ['downloads-ar', '/ar/downloads/']); // TRADEMARKS.md in the app repos links here
+PAGES.push(['game-localizations-en', '/game-localizations/'], ['game-localizations-ar', '/ar/game-localizations/']);
 PAGES.push(['scan-kiwi-en', '/scan-kiwi/'], ['scan-kiwi-ar', '/ar/scan-kiwi/']); // the Android app, open source (D-076); section 13
 PAGES.push(['remember-me-android-en', '/remember-me-android/'], ['remember-me-android-ar', '/ar/remember-me-android/']); // Remember Me for Android, open source (D-079); section 13b
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */

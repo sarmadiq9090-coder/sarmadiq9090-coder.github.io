@@ -248,6 +248,23 @@ html[dir="rtl"] .tab .prog { transform-origin: right; }
 
 /* ---------- cards ---------- */
 .card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(1.25rem, 2.5vw, 1.75rem); box-shadow: var(--shadow-sm); }
+.localization-feature, .localization-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1rem, 3vw, 2rem); align-items: center; }
+.localization-feature p, .localization-copy p { color: var(--muted); }
+.localization-feature p { margin-bottom: 0; }
+.localization-feature .btn, .localization-copy .btn { justify-self: start; }
+.localization-page h1 { margin-block-end: 1.5rem; }
+.localization-logo { max-inline-size: 22rem; aspect-ratio: 640 / 190; overflow: hidden; }
+.localization-logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.localization-shot { display: block; min-width: 0; width: 100%; height: auto; border-radius: var(--radius); }
+.localization-details { max-width: 48rem; margin-block-start: 2.5rem; }
+.localization-details h2 { scroll-margin-top: 6rem; }
+.localization-details .steps code, .localization-file code { white-space: normal; overflow-wrap: anywhere; }
+.localization-file summary { cursor: pointer; }
+.localization-file { margin-block: 1.5rem 2.5rem; }
+@media (min-width: 760px) {
+  .localization-feature { grid-template-columns: minmax(0, 1fr) auto; }
+  .localization-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); }
+}
 .lift { transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s ease; }
 .lift:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--border-2); }
 .squircle { width: 56px; height: 56px; border-radius: 22%; flex: none; box-shadow: 0 0 0 1px rgb(20 32 15 / .06), 0 6px 16px -6px rgb(20 32 15 / .3); }
