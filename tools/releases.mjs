@@ -135,7 +135,7 @@ export function buildFeed(releasesByRepo, lang = 'en', { limit = 10 } = {}) {
 }
 
 /* ---------- InstaWords static fallback (used by the site when the API can't be reached) ---------- */
-export const FALLBACK_FILES = ['index.html', 'ar/index.html', 'releases/index.html', 'ar/releases/index.html', 'site.js'];
+export const FALLBACK_FILES = ['index.html', 'ar/index.html', 'windows/index.html', 'ar/windows/index.html', 'apps/instawords/index.html', 'ar/apps/instawords/index.html', 'releases/index.html', 'ar/releases/index.html', 'site.js'];
 export function latestInstaWords(rels) {
   for (const r of published(rels)) {
     const a = (r.assets || []).find(x => INSTAWORDS_SETUP.test(x.name));

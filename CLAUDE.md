@@ -45,7 +45,8 @@ through Claude sessions, with no fixed computer.
 The FastKiwi home site, https://fastkiwi.app/, a static site (plain HTML/CSS/JS, no build step)
 served by GitHub Pages straight from `main` of this repo. Every project repo with Pages turned on
 also appears at `https://fastkiwi.app/<repo>/` (e.g. `/arabic-file-search/`, `/Remember-Me/`).
-Pages here: home (`index.html`, `ar/`, `en/`), `lemon/`, `releases/` (What's new + Atom feeds),
+Pages here: home (`index.html`, `ar/`, `en/`; hero + three section stickers only), the "scrapbook" pages
+(`fk.css`, `fk.js`): `windows/`, `phone/`, `games/`, `apps/<id>/` and `game-localizations/` (each also under `ar/`), `lemon/`, `releases/` (What's new + Atom feeds),
 `privacy/`, `downloads/`, `store/` (Store, direct download and winget per app), `instawords/` (synced
 from tafket). Details: [README.md](README.md).
 
