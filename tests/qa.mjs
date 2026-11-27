@@ -22,6 +22,13 @@ PAGES.push(['downloads-en', '/downloads/'], ['downloads-ar', '/ar/downloads/']);
 PAGES.push(['game-localizations-en', '/game-localizations/'], ['game-localizations-ar', '/ar/game-localizations/']);
 PAGES.push(['scan-kiwi-en', '/scan-kiwi/'], ['scan-kiwi-ar', '/ar/scan-kiwi/']); // the Android app, open source (D-076); section 13
 PAGES.push(['remember-me-android-en', '/remember-me-android/'], ['remember-me-android-ar', '/ar/remember-me-android/']); // Remember Me for Android, open source (D-079); section 13b
+/* the scrapbook redesign (owner-approved 2026-11): home + three section pages + one detail page per app, each in en and ar (section 2) */
+const SECTIONS = ['windows', 'phone', 'games'];
+const DETAIL_IDS = ['instafind', 'remember-me', 'lemon', 'instawords', 'scan-kiwi', 'remember-me-android'];
+const WIN_REPO = { instafind: 'arabic-file-search', 'remember-me': 'Remember-Me', lemon: 'local-ai-chat', instawords: 'tafket' };
+const NEW_PAGES = [['/', '/ar/'], ...SECTIONS.map(s => [`/${s}/`, `/ar/${s}/`]), ...DETAIL_IDS.map(id => [`/apps/${id}/`, `/ar/apps/${id}/`]), ['/game-localizations/', '/ar/game-localizations/']];
+for (const s of SECTIONS) PAGES.push([`${s}-en`, `/${s}/`], [`${s}-ar`, `/ar/${s}/`]);
+for (const id of DETAIL_IDS) PAGES.push([`app-${id}-en`, `/apps/${id}/`], [`app-${id}-ar`, `/ar/apps/${id}/`]);
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
 const GH = 'https://github.com/sarmadiq9090-coder/';
 const IW_V = fs.readFileSync(path.join(ROOT, 'site.js'), 'utf8').match(/\/InstaWords\/releases\/download\/v([\d.]+)\/InstaWords_\1_x64-setup\.exe/)[1];
@@ -44,6 +51,8 @@ async function scrollThrough(page) { // like a person: wheel down the page, then
   const hgt = await page.evaluate(() => document.documentElement.scrollHeight);
   for (let y = 0; y < hgt; y += 450) { await page.mouse.wheel(0, 450); await page.waitForTimeout(70); }
   await page.waitForTimeout(800);
+  /* sideways screenshot strips (app detail pages): swipe each one to its end, as a person browsing the screenshots would */
+  if (await page.evaluate(async () => { const s = [...document.querySelectorAll('.strip')]; for (const e of s) { e.scrollIntoView(); for (let i = 0; i < 12; i++) { e.scrollBy(document.documentElement.dir === 'rtl' ? -400 : 400, 0); await new Promise(r => setTimeout(r, 80)); } } return s.length; })) await page.waitForTimeout(800);
   await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(200);
 }
 
@@ -100,13 +109,13 @@ for (const w of WIDTHS) {
     await scrollThrough(page);
     const m = await page.evaluate(() => ({
       sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
-      wide: [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(); return r.width && (r.right > innerWidth + 1 || r.left < -1) && !e.closest('.stage, .rp-switch ul, .md-table, .table-wrap, pre, .sr-only, .skip'); }).slice(0, 3).map(e => e.tagName + '.' + e.className),
+      wide: [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(); return r.width && (r.right > innerWidth + 1 || r.left < -1) && !e.closest('.stage, .rp-switch ul, .md-table, .table-wrap, pre, .sr-only, .skip, .strip'); }).slice(0, 3).map(e => e.tagName + '.' + e.className), /* .strip: the screenshot strip scrolls sideways on purpose */
       hiddenReveal: document.querySelectorAll('.reveal:not(.in)').length,
       badImgs: [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src),
       lang: document.documentElement.lang, dir: document.documentElement.dir,
       dl: [...document.querySelectorAll('a[data-dl]')].map(a => [a.dataset.dl, a.getAttribute('href')]),
       h1: document.querySelectorAll('h1').length, alts: [...document.images].filter(i => !i.hasAttribute('alt')).length,
-      navOverflow: (() => { const n = document.querySelector('.site-header .wrap'); return n ? n.scrollWidth > n.clientWidth + 1 : false; })()
+      navOverflow: (() => { const n = document.querySelector('.site-header .wrap, header.nav'); return n ? n.scrollWidth > n.clientWidth + 1 : false; })()
     }));
     ok(m.sw <= m.cw, `${name}@${w}: horizontal scroll ${m.sw} > ${m.cw}`);
     ok(!m.wide.length, `${name}@${w}: elements outside the viewport ${m.wide}`);
@@ -118,14 +127,15 @@ for (const w of WIDTHS) {
     ok(m.h1 === 1, `${name}@${w}: h1 count ${m.h1}`);
     ok(m.alts === 0, `${name}@${w}: images without alt`);
     ok(/ar/.test(name) ? m.lang === 'ar' && m.dir === 'rtl' : m.lang === 'en', `${name}: lang/dir ${m.lang}/${m.dir}`);
-    if (name.startsWith('home')) {
-      ok(m.dl.length === 8 && Object.keys(STATIC_DL).every(r => m.dl.filter(([x]) => x === r).length === 2), `${name}: ${m.dl.length} download buttons, two per app`);
-      ok(m.dl.every(([r, h]) => h === STATIC_DL[r]), `${name}: static download links ${JSON.stringify(m.dl.filter(([r, h]) => h !== STATIC_DL[r]))}`);
-    }
+    /* the download buttons moved from the home (now hero + three section stickers only) to the Windows page and the app detail pages */
+    if (name.startsWith('home')) ok(m.dl.length === 0, `${name}: no download buttons on the redesigned home (${m.dl.length})`);
+    if (name.startsWith('windows')) ok(m.dl.length === 4 && Object.keys(STATIC_DL).every(r => m.dl.filter(([x]) => x === r).length === 1), `${name}: ${m.dl.length} download buttons, one per Windows app`);
+    const appId = (name.match(/^app-(.+)-(en|ar)$/) || [])[1];
+    if (appId) ok(WIN_REPO[appId] ? m.dl.length === 1 && m.dl[0][0] === WIN_REPO[appId] : m.dl.length === 0, `${name}: download button of its own app only ${JSON.stringify(m.dl)}`);
+    if (name.startsWith('windows') || appId) ok(m.dl.every(([r, h]) => h === STATIC_DL[r]), `${name}: static download links ${JSON.stringify(m.dl.filter(([r, h]) => h !== STATIC_DL[r]))}`);
     if (name.startsWith('lemon')) ok(m.dl.length === 2 && m.dl.every(([r, h]) => r === 'local-ai-chat' && h === STATIC_DL[r]), `${name}: Lemon download buttons ${JSON.stringify(m.dl)}`);
     if (w === 1366) report.github[name] = (await checkLinks(page, name)).map(l => `${l.text} -> ${l.href}`);
     if (SHOTS) {
-      if (name.startsWith('home') && w >= 720) { await page.evaluate(() => document.querySelector('.stage-wrap').dispatchEvent(new MouseEvent('mouseenter'))); await page.waitForTimeout(900); } // hold the rotation still for the picture
       await page.screenshot({ path: `${OUT}after-${name}-${w}.png`, fullPage: true, animations: 'disabled' });
     }
     report.pages[`${name}@${w}`] = { scrollWidth: m.sw, errors: errs.length };
@@ -134,97 +144,121 @@ for (const w of WIDTHS) {
   await ctx.close();
 }
 
-/* ---------- 2. hero stage geometry (desktop deck + phone carousel), incl. Windows zoom 125%/150% ---------- */
-for (const lang of ['en', 'ar']) {
-  for (const w of [1920, 1536, 1366, 1280, 1229, 1180, 1024, 820, 768, 414, 390, 360]) {
+/* ---------- 2. the scrapbook pages (owner-approved redesign, 2026-11): home, the three section pages, the app detail pages and the game page ----------
+   Replaces the old home's hero-stage, comparison-table and hero-capture checks (that home no longer exists by design).
+   Checked on every new page: canonical, hreflang, language switch to its counterpart, header with only the logo and the language
+   switch, footer links, JSON-LD names without ™, self-hosted fonts and no third-party request, axe-core WCAG 2.2 AA. */
+{
+  const { default: axeDefault, AxeBuilder: axeNamed } = await import('@axe-core/playwright');
+  const AxeBuilder = axeNamed || axeDefault;
+  const SITE = 'https://fastkiwi.app';
+  const STORE_LIVE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.filter(a => a.store?.live).map(a => a.id);
+  /* home: the hero (title, lead, polaroid "made with love in Iraq") and the three section stickers, nothing else */
+  for (const [lang, url] of [['en', '/'], ['ar', '/ar/']]) for (const w of [1366, 390]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx);
     const page = await ctx.newPage();
-    await page.goto(BASE + (lang === 'en' ? '/' : '/ar/'), { waitUntil: 'networkidle' });
-    const geo = async () => page.evaluate(() => {
-      const r = e => e.getBoundingClientRect(), s = r(document.querySelector('.stage')), tl = r(document.querySelector('.tablist')), tb = r(document.querySelector('.tabs'));
-      const wins = [...document.querySelectorAll('.stage .win')].map(e => r(e));
-      const copy = r(document.querySelector('.hero-copy')), wrap = r(document.querySelector('.stage-wrap'));
-      return { s: { l: s.left, r: s.right, t: s.top, b: s.bottom, h: s.height }, wins: wins.map(x => ({ l: x.left, r: x.right, t: x.top, b: x.bottom })), tl: { l: tl.left, r: tl.right }, tabs: { l: tb.left, r: tb.right },
-        overlap: !(copy.right <= wrap.left || wrap.right <= copy.left || copy.bottom <= wrap.top || wrap.bottom <= copy.top), vw: innerWidth };
-    });
-    if (w >= 720) {
-      const heights = new Set();
-      for (let i = 0; i < 4; i++) {
-        await page.click(`.tablist [role=tab] >> nth=${i}`); await page.waitForTimeout(80);
-        const g = await geo(); heights.add(Math.round(g.s.h));
-        const pads = g.wins.map(x => Math.min(x.l - g.s.l, g.s.r - x.r, x.t - g.s.t, g.s.b - x.b));
-        ok(Math.min(...pads) >= 10, `hero ${lang}@${w} tab ${i}: deck inside its backdrop (min gap ${Math.min(...pads).toFixed(1)})`);
-        const front = g.wins[i];
-        const gaps = [front.l - g.s.l, g.s.r - front.r, front.b > 0 ? g.s.b - front.b : 0];
-        ok(Math.abs(gaps[0] - gaps[1]) < 2 && Math.abs(gaps[0] - gaps[2]) < 3, `hero ${lang}@${w}: even padding around the front window ${gaps.map(x => x.toFixed(1))}`);
-        ok(Math.abs(g.wins.reduce((a, x) => Math.min(a, x.t), 1e9) - g.s.t - gaps[0]) < 3, `hero ${lang}@${w}: top padding matches`);
-        ok(Math.abs((g.tl.l + g.tl.r) / 2 - (g.s.l + g.s.r) / 2) < 30 && g.tabs.l >= g.s.l - 1 && g.tabs.r <= g.s.r + 1, `hero ${lang}@${w}: tab bar centred under the stage`);
-        ok(!g.overlap, `hero ${lang}@${w}: stage does not overlap the text`);
-        if (SHOTS && (w === 1366 || w === 1024)) await page.screenshot({ path: `${OUT}after-hero-${lang}-${w}-${i + 1}.png`, clip: { x: 0, y: 0, width: w, height: 900 } });
-      }
-      ok(heights.size === 1, `hero ${lang}@${w}: no layout shift between tabs (${[...heights]})`);
-    } else {
-      const g = await geo(), first = g.wins[0];
-      const left = first.l - g.s.l, right = g.s.r - first.r;
-      ok(Math.abs(left - right) < 2, `carousel ${lang}@${w}: first window centred (${left.toFixed(1)} / ${right.toFixed(1)})`);
-      ok(Math.abs((g.tl.l + g.tl.r) / 2 - w / 2) < 2, `carousel ${lang}@${w}: tabs centred`);
-      const peek = await page.evaluate(() => { const s = document.querySelector('.stage').getBoundingClientRect(), n = document.querySelector('#win-remember').getBoundingClientRect(); return document.documentElement.dir === 'rtl' ? n.right - s.left : s.right - n.left; });
-      ok(peek > 8 && peek < 50, `carousel ${lang}@${w}: deliberate small peek of the next window (${peek.toFixed(1)}px)`);
-      // tap the 3rd tab: that window is centred, the page does not jump
-      const y0 = await page.evaluate(() => scrollY);
-      await page.locator('#tab-lemon').dispatchEvent('click'); await page.waitForTimeout(700);
-      const g2 = await geo(), lw = g2.wins[2];
-      ok(Math.abs((lw.l - g2.s.l) - (g2.s.r - lw.r)) < 3 && await page.evaluate(() => scrollY) === y0, `carousel ${lang}@${w}: tab centres its window without page jump`);
-      await page.evaluate(() => document.querySelector('.stage').scrollBy({ left: document.documentElement.dir === 'rtl' ? 400 : -400 })); await page.waitForTimeout(500);
-      ok(await page.evaluate(() => document.querySelector('#tab-remember').getAttribute('aria-selected')) === 'true', `carousel ${lang}@${w}: tabs follow a swipe`);
-      if (SHOTS) { const st = page.locator('.stage-wrap'); await page.evaluate(() => document.querySelector('.stage').scrollTo({ left: 0 })); await page.waitForTimeout(400); await st.screenshot({ path: `${OUT}after-carousel-${lang}-${w}.png` }); }
-    }
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const H = await page.evaluate(() => ({
+      stickers: [...document.querySelectorAll('main .peel a.sticker')].map(a => [new URL(a.href).pathname, a.querySelector('small').textContent]),
+      sections: document.querySelectorAll('main section').length, links: document.querySelectorAll('main a').length,
+      lead: !!document.querySelector('.hero .lead'), cap: document.querySelector('.polaroid figcaption')?.textContent,
+      art: document.querySelector('.polaroid svg[role=img]')?.getAttribute('aria-label') || '',
+      overlap: (() => { const a = document.querySelector('.hero > div').getBoundingClientRect(), b = document.querySelector('.polaroid').getBoundingClientRect(); return !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top); })()
+    }));
+    const pre = lang === 'ar' ? '/ar' : '', tag = `home ${lang}@${w}`;
+    ok(JSON.stringify(H.stickers.map(s => s[0])) === JSON.stringify(SECTIONS.map(s => `${pre}/${s}/`)), `${tag}: three stickers to the Windows, phone and games pages ${JSON.stringify(H.stickers)}`);
+    ok(H.stickers.length === 3 && /^5 /.test(H.stickers[0][1]), `${tag}: the Windows sticker counts 5 apps with a Western digit (${H.stickers[0]?.[1]})`);
+    ok(H.sections === 1 && H.links === 3 && H.lead, `${tag}: only the hero and the stickers (${H.sections} sections, ${H.links} links in main)`);
+    ok(H.cap === (lang === 'ar' ? 'صُنع بحب في العراق' : 'Made with love in Iraq') && H.art.length > 20, `${tag}: polaroid with its caption and a described drawing (${H.cap})`);
+    ok(!H.overlap, `${tag}: the polaroid does not overlap the text`);
     await ctx.close();
   }
-}
-{ // keyboard + rotation behaviour
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
+  /* every new page */
+  const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
   await offline(ctx);
-  const page = await ctx.newPage();
-  await page.goto(BASE + '/ar/', { waitUntil: 'networkidle' });
-  await page.mouse.move(5, 890);
-  const front = () => page.evaluate(() => document.querySelector('.stage .win[data-pos="0"]').id);
-  ok(await front() === 'win-instafind', 'rotation: starts on InstaFind');
-  await page.waitForTimeout(5600);
-  ok(await front() === 'win-remember', 'rotation: advanced after ~5 s');
-  await page.hover('.stage'); await page.waitForTimeout(5600);
-  ok(await front() === 'win-remember', 'rotation: paused on hover');
-  await page.mouse.move(5, 890); await page.click('.playpause'); await page.mouse.move(5, 890); await page.waitForTimeout(5600);
-  ok(await front() === 'win-remember', 'rotation: pause button stops it');
-  await page.focus('#tab-remember'); await page.keyboard.press('ArrowLeft');
-  ok(await page.evaluate(() => document.activeElement.id) === 'tab-lemon', 'hero ar: ArrowLeft moves forward in RTL');
-  await page.keyboard.press('End'); ok(await front() === 'win-instawords', 'hero: End key');
-  await page.keyboard.press('Home'); ok(await front() === 'win-instafind', 'hero: Home key');
+  const page = await ctx.newPage(); let offsite = [];
+  page.on('request', r => { if (!r.url().startsWith(BASE) && !r.url().startsWith('https://api.github.com/')) offsite.push(r.url()); });
+  for (const [en, ar] of NEW_PAGES) for (const [lang, url, other] of [['en', en, ar], ['ar', ar, en]]) {
+    offsite = [];
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const P = await page.evaluate(() => ({
+      canonical: document.querySelector('link[rel=canonical]').href,
+      hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
+      header: [...document.querySelectorAll('header.nav a')].map(a => [a.className, new URL(a.href).pathname]),
+      footer: [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname),
+      ld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => s.textContent).join(''),
+      appHeads: [...document.querySelectorAll('.appcard h2, .mcard h2, .dt-head h1')].filter(h => !h.querySelector('img')).map(h => h.textContent),
+      store: [...document.querySelectorAll('a[data-store]')].map(a => a.closest('[id], .appcard, main')?.querySelector('h1, h2')?.textContent || ''),
+      opts: [...document.querySelectorAll('.dl-opts')].map(g => [...g.querySelectorAll('a.store-badge, a[data-dl]')].map(a => a.hasAttribute('data-store') ? 'store' : 'direct').join(',')),
+      vers: [...document.querySelectorAll('.ver b')].map(b => b.textContent),
+      fonts: [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family)
+    }));
+    const tag = `page ${url}`, pre = lang === 'ar' ? '/ar' : '';
+    ok(P.canonical === SITE + url, `${tag}: canonical ${P.canonical}`);
+    ok(JSON.stringify(P.hreflang) === JSON.stringify([`ar ${SITE}${ar}`, `en ${SITE}${en}`, `x-default ${SITE}${en}`]), `${tag}: hreflang ${P.hreflang}`);
+    ok(P.header.length === 2 && P.header[0][0] === 'brand' && P.header[0][1] === pre + '/' && P.header[1][0] === 'lang' && P.header[1][1] === other, `${tag}: header has only the logo (home) and the language switch to ${other} ${JSON.stringify(P.header)}`);
+    ok(['/privacy/', '/support/', '/releases/', '/downloads/'].every(x => P.footer.includes(pre + x)), `${tag}: footer links privacy, support, what's new and downloads (${P.footer})`);
+    ok(!/™/.test(P.ld), `${tag}: JSON-LD names without ™`);
+    ok(P.appHeads.every(h => h.includes('™')), `${tag}: ™ after the app names in their headings ${JSON.stringify(P.appHeads)}`);
+    ok(P.vers.every(v => /^[0-9.]+$/.test(v)), `${tag}: version stamps use Western digits ${P.vers}`);
+    /* the Store badge only for apps data/apps.json marks live, first, then the direct installer (store-first, D-052) */
+    const storeOk = STORE_LIVE.includes('remember-me') && /\/(windows|apps\/remember-me)\/$/.test(url);
+    ok(storeOk ? P.store.length === 1 && P.opts.length === 1 && P.opts[0] === 'store,direct' : P.store.length === 0, `${tag}: Store badge only for live Store apps, before the installer ${JSON.stringify([P.store, P.opts])}`);
+    ok(['Lalezar', 'Mada'].every(f => P.fonts.includes(f)), `${tag}: self-hosted fonts loaded (${P.fonts})`);
+    ok(offsite.length === 0, `${tag}: no third-party requests (${offsite})`);
+    ok(!/fonts\.(googleapis|gstatic)\.com|<iframe|https?:\/\/[^"'\s]*\.js\b/.test(fs.readFileSync(path.join(ROOT, url, 'index.html'), 'utf8')), `${tag}: no Google Fonts, iframes or external scripts in the source`);
+    const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    const v = r.violations.map(x => `${x.id} (${x.impact}): ${x.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ')}`);
+    ok(!v.length, `${tag}: axe-core WCAG 2.2 AA, zero violations ${JSON.stringify(v)}`);
+  }
+  /* phone pages and Android detail pages: the direct APKs, no other stores (Uptodown, APKPure, F-Droid not approved yet) */
+  const APK = { 'scan-kiwi': GH + 'scan-kiwi/releases/download/v2.0.3/ScanKiwi-2.0.3.apk', 'remember-me-android': GH + 'remember-me-android/releases/download/v1.0.6/RememberMe-1.0.6.apk' };
+  for (const url of ['/phone/', '/ar/phone/', '/apps/scan-kiwi/', '/ar/apps/scan-kiwi/', '/apps/remember-me-android/', '/ar/apps/remember-me-android/']) {
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const A = await page.evaluate(() => ({ apk: [...document.querySelectorAll('a[href$=".apk"]')].map(a => a.href), text: document.body.innerText }));
+    const want = url.includes('phone') ? Object.values(APK) : [APK[url.match(/apps\/([^/]+)\//)[1]]];
+    ok(JSON.stringify(A.apk) === JSON.stringify(want), `${url}: direct APK links ${JSON.stringify(A.apk)}`);
+    ok(!/Uptodown|APKPure|F-Droid قريباً|coming soon on F-Droid/i.test(A.text), `${url}: no unapproved store buttons or "coming to F-Droid" line`);
+  }
+  /* lightbox: a screenshot opens enlarged in a modal; Esc closes it and focus goes back to the screenshot */
+  for (const url of ['/ar/apps/remember-me/', '/apps/scan-kiwi/', '/ar/game-localizations/']) {
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const shot = page.locator('button.shot').first();
+    await shot.focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(300);
+    const o = await page.evaluate(() => { const d = document.getElementById('lightbox'), i = d.querySelector('img'); return { open: d.open, modal: d.matches(':modal'), img: i.complete && i.naturalWidth > 0, alt: i.alt, focus: document.activeElement.className }; });
+    ok(o.open && o.modal && o.img && o.alt && o.focus === 'lb-close', `lightbox ${url}: opens with the image, its caption as alt, focus on close ${JSON.stringify(o)}`);
+    await page.keyboard.press('Escape'); await page.waitForTimeout(150);
+    ok(await page.evaluate(() => !document.getElementById('lightbox').open && document.activeElement.classList.contains('shot')), `lightbox ${url}: Esc closes it and focus returns`);
+  }
+  /* games: the before/after example slider works with the keyboard; the game page keeps its real facts */
+  for (const url of ['/games/', '/ar/games/']) {
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    await page.focus('#cmp-range'); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
+    const g = await page.evaluate(() => ({ pos: document.getElementById('compare').style.getPropertyValue('--pos'), ex: document.querySelector('.cmp-ex').textContent, next: !!document.querySelector('.gnext'), logo: new URL(document.querySelector('.glogo').src).pathname }));
+    ok(g.pos === '24%' && /^(مثال|Example)$/.test(g.ex) && g.next && g.logo === '/game-localizations/sardoinky-logo.png', `${url}: slider moves with arrow keys, labelled as an example; Sardoinky + "next game" cards ${JSON.stringify(g)}`);
+  }
+  for (const [url, want] of [['/game-localizations/', ['1.0.7', '26836748', 'Windows 11 25H2', '1703', '1346', 'Verify integrity of game files', 'Browse local files', 'sardoinky.exe', 'unofficial']], ['/ar/game-localizations/', ['1.0.7', '26836748', 'Windows 11 25H2', '1703', '1346', 'التحقق من سلامة ملفات اللعبة', 'استعراض الملفات المحلية', 'sardoinky.exe', 'غير رسمي', 'نزّل ملف التعريب']]]) {
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    const G = await page.evaluate(() => ({ exe: [...document.querySelectorAll('a[href$=".exe"]')].map(a => new URL(a.href).pathname), text: document.body.innerText }));
+    ok(G.exe.length === 1 && G.exe[0] === '/game-localizations/Sardoinky-Arabic-Installer.exe' && exists(G.exe[0]), `${url}: the installer link ${G.exe}`);
+    ok(G.text.includes('4efb322804799e3a7d621cb9c3a5b28c411a68d38da31ec81a58eb4b0082234e'), `${url}: the installer's SHA-256`);
+    for (const x of want) ok(G.text.includes(x), `${url}: says "${x}"`);
+    ok(!/الرقعة/.test(G.text), `${url}: never calls the file "الرقعة"`);
+  }
   await ctx.close();
+  const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const [en, ar] of NEW_PAGES) for (const u of [en, ar]) {
+    const entry = sm.split('<url>').find(e => e.includes(`<loc>${SITE}${u}</loc>`)) || '';
+    ok(/<lastmod>\d{4}-\d\d-\d\d<\/lastmod>/.test(entry) && entry.includes(`hreflang="en" href="${SITE}${en}"`) && entry.includes(`hreflang="ar" href="${SITE}${ar}"`), `sitemap: ${u} with lastmod and hreflang`);
+  }
 }
 
-/* ---------- 3. comparison table: cards on phones, no clipping; table fits or shows a scroll hint ---------- */
-for (const lang of ['en', 'ar']) for (const w of [360, 390, 414, 768, 820, 1024]) {
-  const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
-  await offline(ctx);
-  const page = await ctx.newPage();
-  await page.goto(BASE + (lang === 'en' ? '/' : '/ar/'), { waitUntil: 'networkidle' });
-  const t = await page.evaluate(() => {
-    const wrap = document.querySelector('.table-wrap'), cells = [...wrap.querySelectorAll('tbody th, tbody td')];
-    const clipped = cells.filter(c => { const r = c.getBoundingClientRect(), wr = wrap.getBoundingClientRect(); return r.right > wr.right + 1 || r.left < wr.left - 1 || c.scrollWidth > c.clientWidth + 1; }).length;
-    return { clipped, over: wrap.scrollWidth > wrap.clientWidth + 1, hint: wrap.hasAttribute('data-more-end'), cards: getComputedStyle(wrap.querySelector('tbody tr')).display === 'grid',
-      labels: [...wrap.querySelectorAll('td')].every(td => getComputedStyle(td, '::before').content.length > 2) };
-  });
-  if (w <= 720) ok(t.cards && t.clipped === 0 && !t.over && t.labels, `table ${lang}@${w}: per-feature cards, nothing clipped ${JSON.stringify(t)}`);
-  else ok(!t.over || t.hint, `table ${lang}@${w}: fits, or shows the scroll hint ${JSON.stringify(t)}`);
-  if (SHOTS && w <= 414) await page.locator('#compare').screenshot({ path: `${OUT}after-table-${lang}-${w}.png` });
-  await ctx.close();
-}
-
-/* ---------- 4. live data (mocked from real release-note formats): home buttons, news bar, quick dialog ---------- */
+/* ---------- 4. live data (mocked from real release-note formats): the Windows page's download buttons and the quick dialog ----------
+   The redesigned home has no download buttons, news bar or stats any more (owner design); the buttons and the #download-<app>
+   dialog now live on /windows/ and the app detail pages, which load site.js. */
 for (const lang of ['en', 'ar']) {
-  const url = lang === 'en' ? '/' : '/ar/';
+  const url = lang === 'en' ? '/windows/' : '/ar/windows/';
   for (const w of [1366, 390]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
     await mockApi(ctx); await blockGithubNav(ctx);
@@ -232,23 +266,10 @@ for (const lang of ['en', 'ar']) {
     page.on('pageerror', e => errs.push(e.message));
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
     await page.waitForTimeout(300);
-    const s = await page.evaluate(() => ({
-      dl: [...document.querySelectorAll('a[data-dl]')].map(a => [a.dataset.dl, a.href, a.querySelector('[data-dl-ver]')?.textContent]),
-      rel: [...document.querySelectorAll('.rel[data-repo]')].map(e => e.textContent),
-      news: !document.querySelector('[data-news]').hidden, newsText: document.querySelector('[data-news] span').innerText.replace(/\s+/g, ' '),
-      newsTextContent: document.querySelector('[data-news] span').textContent.replace(/\s+/g, ' '), newsHref: document.querySelector('[data-news-link]').href,
-      relLinks: [...document.querySelectorAll('a[href*="releases/#"]')].map(a => new URL(a.href).pathname + new URL(a.href).hash),
-      stats: [...document.querySelectorAll('[data-stat]')].map(e => [e.dataset.stat, e.hidden])
-    }));
+    const s = await page.evaluate(() => ({ dl: [...document.querySelectorAll('a[data-dl]')].map(a => [a.dataset.dl, a.href, a.querySelector('[data-dl-ver]')?.textContent]) }));
     if (w === 1366) {
-      ok(s.dl.every(([, h, v]) => /\/releases\/download\/v[\d.]+\//.test(h) && /^v/.test(v)), `mock ${lang}: all 8 download buttons resolved to direct assets`);
+      ok(s.dl.length === 4 && s.dl.every(([, h, v]) => /\/releases\/download\/v[\d.]+\//.test(h) && /^v/.test(v)), `mock ${lang}: all 4 download buttons resolved to direct assets`);
       ok(s.dl.some(([r, h]) => r === 'Remember-Me' && h.endsWith('/v1.6.1/Remember-Me-Setup-1.6.1.exe')), `mock ${lang}: Remember Me direct installer (stable, not the beta)`);
-      ok(s.rel.every(t => /v\d/.test(t)), `mock ${lang}: release lines filled`);
-      const want = lang === 'en' ? /^New InstaFind v0\.9\.0 is out\.$/ : /^جديد صدر InstaFind v0\.9\.0\.$/;
-      ok(s.news && want.test(s.newsTextContent.trim()) && want.test(s.newsText.trim()), `mock ${lang}: news bar reads with a real space: "${s.newsTextContent.trim()}"`);
-      ok(new URL(s.newsHref).pathname === (lang === 'en' ? '/releases/' : '/ar/releases/') && new URL(s.newsHref).hash === '#instafind', `mock ${lang}: news link opens the releases page at InstaFind`);
-      for (const slug of ['instafind', 'remember-me', 'lemon', 'instawords']) ok(s.relLinks.some(x => x.endsWith('releases/#' + slug)), `${lang}: release-notes link to releases/#${slug}`);
-      ok(s.stats.find(x => x[0] === 'stars')[1] === false, `mock ${lang}: stars shown when the real number is big enough`);
     }
     // quick dialog by hash; Esc closes; focus returns; hash cleared
     await page.focus('a.lang'); await page.evaluate(() => { location.hash = '#download-instafind'; });
@@ -429,24 +450,7 @@ for (const [locale, want] of [['en-US', '/lemon/'], ['ar-IQ', '/ar/lemon/'], ['a
   await ctx.close();
 }
 
-/* ---------- 8. hero InstaFind window: the richer real capture, whole (nothing cropped) and sharp ---------- */
-for (const lang of ['en', 'ar']) for (const w of [1366, 1024, 390]) {
-  const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
-  await offline(ctx);
-  const page = await ctx.newPage();
-  await page.goto(BASE + (lang === 'en' ? '/' : '/ar/'), { waitUntil: 'networkidle' });
-  const s = await page.evaluate(() => {
-    const i = document.querySelector('#win-instafind .screen img'), b = i.parentElement.getBoundingClientRect(), r = i.getBoundingClientRect();
-    return { src: i.currentSrc, nw: i.naturalWidth, nh: i.naturalHeight, ok: i.complete, box: [b.left, b.top, b.width, b.height], img: [r.left, r.top, r.width, r.height], fp: i.getAttribute('fetchpriority'), lazy: i.loading };
-  });
-  const tag = `hero InstaFind ${lang}@${w}`;
-  ok(s.ok && new RegExp(`/img/instafind-${lang}(-640)?\\.webp$`).test(s.src) && Math.abs(s.nw / s.nh - 960 / 600) < 0.01, `${tag}: new capture ${s.src} ${s.nw}x${s.nh}`);
-  ok(s.img.every((v, k) => Math.abs(v - s.box[k]) < 1.5), `${tag}: whole capture visible (img ${s.img.map(Math.round)} in ${s.box.map(Math.round)})`);
-  ok(s.nw >= s.box[2] * 0.98, `${tag}: sharp (${s.nw}px source for ${Math.round(s.box[2])}px)`);
-  ok(s.fp === 'high' && s.lazy !== 'lazy', `${tag}: hero image loads first`);
-  if (SHOTS && w !== 1024) await page.locator('.stage-wrap').screenshot({ path: `${OUT}after-hero-instafind-${lang}-${w}.png` });
-  await ctx.close();
-}
+/* ---------- 8. (the old home hero's InstaFind capture checks went with that hero; the images stay, other repos link them) ---------- */
 for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, `img/instafind-${lang}-640.webp`, `img/instafind-${lang}.png`, `img/instafind-demo-${lang}.mp4`])
   ok(fs.existsSync(path.join(ROOT, f)), `${f} exists (the PNG stays as the demo video's poster)`);
 
@@ -481,16 +485,24 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   await ctx.close();
 }
 
-/* ---------- 9a. Store first (D-052): Remember Me is in the Store, so its Store badge is the first download on the home page ---------- */
+/* ---------- 9a. Store first (D-052): Remember Me is in the Store, so its Store badge comes before its direct installer on the Windows
+   page and its detail page (the home no longer has downloads; every new page is also checked in section 2). The Windows apps' detail
+   pages link their release notes on the releases page (moved from the old home). ---------- */
 {
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
-  for (const [lang, url] of [['en', '/'], ['ar', '/ar/']]) {
+  for (const [lang, url] of [['en', '/windows/'], ['ar', '/ar/windows/'], ['en', '/apps/remember-me/'], ['ar', '/ar/apps/remember-me/']]) {
     await page.goto(BASE + url, { waitUntil: 'load' });
     const R = await page.evaluate(() => [...document.querySelectorAll('.dl-opts')].map(g => [...g.querySelectorAll('a.store-badge, a[data-dl]')].map(a => a.hasAttribute('data-store') ? 'store' : 'direct').join(',')));
-    ok(R.length === 2 && R.every(r => r === 'store,direct'), `home-${lang}: Remember Me shows the Store badge first, then the direct installer (${R})`);
+    ok(R.length === 1 && R.every(r => r === 'store,direct'), `${url}: Remember Me shows the Store badge first, then the direct installer (${R})`);
     const others = await page.evaluate(() => [...document.querySelectorAll('a[data-store]')].length);
-    ok(others === 2, `home-${lang}: only Remember Me has a Store badge (${others})`);
+    ok(others === 1, `${url}: only Remember Me has a Store badge (${others})`);
+  }
+  for (const lang of ['en', 'ar']) for (const slug of ['instafind', 'remember-me', 'lemon', 'instawords']) {
+    const url = (lang === 'ar' ? '/ar' : '') + `/apps/${slug}/`;
+    await page.goto(BASE + url, { waitUntil: 'load' });
+    const rl = await page.evaluate(() => [...document.querySelectorAll('a[href*="releases/#"]')].map(a => new URL(a.href).pathname + new URL(a.href).hash));
+    ok(rl.length === 1 && rl[0] === (lang === 'ar' ? '/ar' : '') + '/releases/#' + slug, `${url}: release-notes link to releases/#${slug} (${rl})`);
   }
   await ctx.close();
 }
@@ -858,9 +870,10 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(f.length === 1 && f[0] === want, `footer ${u}: Official downloads link to ${want} (${f})`);
   }
   /* ™ after the app names in headings only: never in JSON-LD names */
-  for (const [f, sel] of [['index.html', /<h3>(InstaFind|Remember Me|Lemon|InstaWords)™ <span class="sub">/g], ['ar/index.html', /<h3><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> <span class="sub">|<span class="sub" lang="en"><bdi>Remember Me™<\/bdi><\/span>/g], ['releases/index.html', /-title">(InstaFind|Remember Me|Lemon|InstaWords)™ </g], ['ar/releases/index.html', /-title"><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> |<span class="sub"><bdi>Remember Me™<\/bdi><\/span>/g]]) {
+  /* the redesigned home has no app headings; the Windows, phone and app detail pages are checked in section 2 (™ in every app heading) */
+  for (const [f, sel] of [['windows/index.html', /<h2>(InstaFind|Remember Me|Lemon|InstaWords)™</g], ['ar/windows/index.html', /<h2><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi><|<bdi lang="en">Remember Me™<\/bdi>/g], ['releases/index.html', /-title">(InstaFind|Remember Me|Lemon|InstaWords)™ </g], ['ar/releases/index.html', /-title"><bdi>(InstaFind|Lemon|InstaWords)™<\/bdi> |<span class="sub"><bdi>Remember Me™<\/bdi><\/span>/g]]) {
     const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
-    ok((html.match(sel) || []).length === (f === 'index.html' ? 5 : 4), `${f}: ™ after the app names in their headings (index.html also has Remember Me for Android)`);
+    ok((html.match(sel) || []).length === 4, `${f}: ™ after the app names in their headings`);
     ok(![...html.matchAll(/"(?:name|alternateName)":\s*"([^"]*)"/g)].some(m => m[1].includes('™')), `${f}: JSON-LD names without ™`);
   }
   await ctx.close();
@@ -875,11 +888,14 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
    English pages (instawords/en/); then restore the en/ links, the sitemap alternates and these checks. ---------- */
 {
   const html = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
-  const iwLinks = f => [...html(f).matchAll(/<a\b[^>]*href="((?:\.\.\/)?instawords\/[^"#]*)"/g)].map(m => m[1]);
-  const en = iwLinks('index.html'), ar = iwLinks('ar/index.html');
-  ok(en.length >= 4 && en.every(h => h === 'instawords/'), `home-en: InstaWords links open instawords/ (${en})`);
-  ok(ar.length >= 4 && ar.every(h => h === '../instawords/'), `home-ar: InstaWords links open the Arabic pages (${ar})`);
-  ok(html('index.html').includes('"url": "https://fastkiwi.app/instawords/"') && html('ar/index.html').includes('"url": "https://fastkiwi.app/instawords/"'), 'home JSON-LD: InstaWords URL');
+  /* the redesign moved the InstaWords links from the homes to the Windows pages and InstaWords' detail pages */
+  const iwLinks = f => [...html(f).matchAll(/<a\b[^>]*href="((?:\.\.\/)*instawords\/[^"#]*)"/g)].map(m => new URL(m[1], 'https://fastkiwi.app/' + f).pathname);
+  for (const f of ['windows/index.html', 'ar/windows/index.html', 'apps/instawords/index.html', 'ar/apps/instawords/index.html']) {
+    const l = iwLinks(f);
+    ok(l.length >= 1 && l.every(p => p === '/instawords/'), `${f}: InstaWords links open /instawords/ (${l})`);
+    ok(/data-dl="tafket"/.test(html(f)), `${f}: InstaWords Windows download button`);
+  }
+  for (const f of ['apps/instawords/index.html', 'ar/apps/instawords/index.html']) ok(html(f).includes('"url": "https://fastkiwi.app/' + (f.startsWith('ar') ? 'ar/' : '') + 'apps/instawords/"'), `${f}: JSON-LD URL`);
   const sm = html('sitemap.xml'), B = 'https://fastkiwi.app/instawords/';
   for (const page of ['', 'bulk.html', 'excel.html']) ok(sm.includes(`<loc>${B}${page}</loc>`), `sitemap: ${B}${page}`);
   ok(!sm.includes(`${B}en/`), 'sitemap: no instawords/en/ URL while those pages do not exist');
@@ -967,16 +983,16 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(await page.locator('#download a.btn-primary[data-github][href$="/ScanKiwi-2.0.3.apk"]').getAttribute('href') === SK_APK, `${tag}: download button points to ${SK_APK}`);
     await ctx.close();
   }
-  /* the Scan Kiwi cards on the home and downloads pages: axe-core on the card itself, the direct APK link, outside the Windows hero */
-  for (const [url, sel, apks] of [['/', '#phone .bento', 1], ['/ar/', '#phone .bento', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
+  /* the Scan Kiwi cards on the phone pages (moved from the old home's #phone section) and the downloads pages: axe-core on the card, the direct APK link */
+  for (const [url, sel, apks] of [['/phone/', '#scan-kiwi', 1], ['/ar/phone/', '#scan-kiwi', 1], ['/downloads/', '#scan-kiwi', 0], ['/ar/downloads/', '#scan-kiwi', 0]]) {
     const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, reducedMotion: 'reduce' });
     await offline(ctx);
     const page = await ctx.newPage();
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
-    const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a.btn-primary[data-github][href$="/ScanKiwi-2.0.3.apk"]')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel.startsWith('#scan') ? sel : sel + ' img[src$="scan-kiwi.svg"]'), inHero: !!document.querySelector('.hero [href*="scan-kiwi"], .hero img[src*="scan-kiwi"]') }), sel);
-    ok(C.card && !C.inHero && C.apk.length === apks && C.apk.every(h => h === SK_APK), `${url}: Scan Kiwi card (${sel}), not in the Windows hero, ${apks} direct APK link ${JSON.stringify(C)}`);
-    const v = await axe(page, sel.startsWith('#scan') ? sel : '#phone');
-    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel.startsWith('#scan') ? sel : '#phone'} ${JSON.stringify(v)}`);
+    const C = await page.evaluate(sel => ({ apk: [...document.querySelectorAll(sel + ' a[href$="/ScanKiwi-2.0.3.apk"]:is(.get, .btn-primary)')].map(a => a.getAttribute('href')), card: !!document.querySelector(sel) }), sel);
+    ok(C.card && C.apk.length === apks && C.apk.every(h => h === SK_APK), `${url}: Scan Kiwi card (${sel}), ${apks} direct APK link ${JSON.stringify(C)}`);
+    const v = await axe(page, sel);
+    ok(!v.length, `${url}: axe-core WCAG 2.2 AA on ${sel} ${JSON.stringify(v)}`);
     await ctx.close();
   }
   /* data, sitemap and llms.txt */
