@@ -301,3 +301,7 @@ dialog.dl .btn-primary { background: var(--forest); color: var(--lime); }
   .appcard h2, .mcard h2 { font-size: 30px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* keep the "soon" stamp clear of the text */
+.appcard.soon .desc, .appcard.soon .ticks { padding-inline-end: 96px; }
+@media (max-width: 760px) { .appcard.soon .desc, .appcard.soon .ticks { padding-inline-end: 0; } .appcard.soon { padding-top: 64px; } }
