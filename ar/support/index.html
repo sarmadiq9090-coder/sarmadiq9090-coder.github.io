@@ -10,13 +10,15 @@
 <link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/support/">
 <link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/support/">
 <link rel="alternate" type="application/atom+xml" title="FastKiwi · ما الجديد" href="/ar/releases.xml">
-<meta name="theme-color" content="#3f8a1c">
+<meta name="theme-color" content="#123B2A">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
 <link rel="manifest" href="../../site.webmanifest">
-<link rel="stylesheet" href="../../style.css">
+<link rel="preload" href="../../fonts/lalezar-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../fonts/mada-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../fk.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FastKiwi">
 <meta property="og:locale" content="ar_AR">
@@ -31,23 +33,22 @@
 </head>
 <body>
 <a class="skip" href="#main">تخطَّ إلى المحتوى</a>
-<header class="site-header">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="kiwi" viewBox="-106 -106 239 212"><path fill="#123B2A" d="M127 0L78.74 -61.64A100 100 0 1 0 78.74 61.64Z"/><path fill="#B9F34A" d="M115.57 0L71.65 -56.1A91 91 0 1 0 71.65 56.1Z"/><path fill="#F7FAF2" d="M-27 0A27 17 0 1 0 27 0A27 17 0 1 0 -27 0Z"/><path fill="#123B2A" d="M56.57 56.57L32.17 52.68L28.28 28.28L52.68 32.17ZM-56.57 56.57L-52.68 32.17L-28.28 28.28L-32.17 52.68ZM-56.57 -56.57L-32.17 -52.68L-28.28 -28.28L-52.68 -32.17ZM56.57 -56.57L52.68 -32.17L28.28 -28.28L32.17 -52.68Z"/></symbol>
+</svg>
+<div class="page">
   <div class="wrap">
-    <a class="brand" href="../" aria-label="FastKiwi فاست كيوي، الصفحة الرئيسية"><img src="../../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi <small>فاست كيوي</small></span></a>
-    <nav class="nav" aria-label="القائمة الرئيسية">
-      <a class="opt" href="#contact">التواصل</a>
-      <a class="opt" href="#include">ماذا تذكر</a>
-      <a class="opt" href="#github">GitHub</a>
+    <header class="nav">
+      <a class="brand" href="../../ar/"><svg aria-hidden="true" focusable="false"><use href="#kiwi"/></svg>فاست كيوي</a>
       <a class="lang" href="../../support/" hreflang="en" lang="en">English</a>
-    </nav>
-  </div>
-</header>
-<main id="main">
-<section class="page pv sp"><div class="wrap">
+    </header>
+
+  <main id="main" class="fk-doc pv sp pg-support">
+    <a class="back" href="../../ar/">→ الصفحة الرئيسية</a>
 <p class="kicker">الدعم</p>
 <h1>مساعدة في برامج FastKiwi</h1>
 <p class="lead">وجدت مشكلة، أو عندك فكرة؟ أخبرنا بالعربية أو الإنجليزية. لا تحتاج إلى حساب على GitHub.</p>
-<p>كثير من الأجوبة موجودة في <a href="../#faq">الأسئلة الشائعة</a> وفي <a href="../releases/">ملاحظات الإصدار</a> لكل برنامج.</p>
+<p>كثير من الأجوبة موجودة في <a href="#faq">الأسئلة الشائعة</a> وفي <a href="../releases/">ملاحظات الإصدار</a> لكل برنامج.</p>
 
 <h2 id="contact">تواصل معنا من دون GitHub</h2>
 <div class="sp-contact" data-support-contact>
@@ -96,18 +97,26 @@
   </div>
 </div>
 
+<h2 id="faq">أسئلة شائعة</h2>
+<div class="faq">
+  <details id="faq-smartscreen"><summary>يظهر تحذير «ناشر غير معروف» أو «حمى Windows جهاز الكمبيوتر». هل البرنامج آمن؟</summary><div><p>الملفات غير موقّعة رقمياً بعد، لذلك لا يتعرّف SmartScreen على الناشر. اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال». كل إصدار يُبنى آلياً، و<a href="../downloads/#verify">صفحة التنزيلات الرسمية</a> تشرح كيف تتأكد من أن ملفك أصلي ببصمة SHA-256.</p></div></details>
+  <details id="faq-antivirus"><summary>برنامج الحماية حذّر من الملف. ماذا أفعل؟</summary><div><p>البرامج الجديدة غير الموقّعة تُصنَّف أحياناً كتهديد عن طريق الخطأ (إنذار كاذب)، خصوصاً البرامج الصغيرة المكوّنة من ملف واحد. نزّل البرامج من هذا الموقع فقط، وافحص الملف بماسح ثانٍ مثل VirusTotal إن شئت، ثم <a href="#contact">أخبرنا</a> لنبلّغ الشركة المصنّعة لبرنامج الحماية.</p></div></details>
+  <details id="faq-offline"><summary>هل تعمل البرامج فعلاً بلا إنترنت؟</summary><div><p>نعم. كل البرامج تعمل على جهازك دون اتصال. الإنترنت يُستخدم فقط للتحقق من التحديثات، ولتنزيل نموذج ذكاء اصطناعي في Lemon (يتصل Lemon بـ Ollama الذي يعمل على جهازك أنت)، ولأسعار الصرف في InstaFind. <a href="../privacy/">صفحة الخصوصية</a> تسرد كل اتصال.</p></div></details>
+  <details id="faq-uninstall"><summary>كيف أحذف برنامجاً؟</summary><div><p>البرامج التي تأتي بمثبّت، مثل ذكرني وInstaWords، تُحذف من إعدادات ويندوز › التطبيقات › التطبيقات المثبتة كأي برنامج آخر. أما البرامج المكوّنة من ملف واحد مثل InstaFind وLemon فلا تثبّت شيئاً: أغلق البرنامج واحذف ملف <span class="ltr">.exe</span>. وعلى أندرويد احذف ماسح كيوي أو ذكرني كأي تطبيق آخر.</p></div></details>
+  <details id="faq-free"><summary>هل البرامج مجانية فعلاً؟</summary><div><p>نعم، مجانية، بلا إعلانات ولا اشتراكات.</p></div></details>
+  <details id="faq-windows"><summary>ما إصدارات ويندوز المدعومة؟</summary><div><p>ويندوز 10 و11. InstaFind يعمل أيضاً على أجهزة ARM64 و32 بت، وInstaWords يعمل أيضاً في أي متصفح حديث.</p></div></details>
+  <details id="faq-report"><summary>كيف أبلّغ عن مشكلة أو أقترح ميزة؟</summary><div><p>راسلنا بالبريد (انظر <a href="#contact">راسلنا</a> في الأعلى)، أو افتح Issue في صفحة البرنامج على GitHub إن كان عندك حساب (انظر <a href="#github">افتح Issue على GitHub</a>). واذكر ما في القائمة أعلاه. البلاغات والأفكار مرحّب بها بالعربية أو الإنجليزية.</p></div></details>
+</div>
+
 <h2 id="privacy">خصوصيتك</h2>
 <p>لا نرى إلا ما تختار أن ترسله إلينا. لا يرسل أي برنامج بلاغات أو بيانات أعطال أو إحصاءات استخدام من تلقاء نفسه. وتذكر <a href="../privacy/">سياسة الخصوصية</a> ما يحفظه كل برنامج وكل اتصال بالشبكة يجريه.</p>
-<p><a class="back" href="../">→ الصفحة الرئيسية</a></p>
-</div></section>
-</main>
-<footer class="site-footer">
-  <div class="wrap foot-bottom">
-    <p>© 2026 FastKiwi · برامج ويندوز مجانية</p>
-    <ul class="foot-links"><li><a href="../">الصفحة الرئيسية</a></li><li><a href="../releases/">ما الجديد</a></li><li data-feed><a class="feed-link" href="../releases.xml" type="application/atom+xml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>خلاصة الإصدارات (RSS)</a></li><li><a href="../downloads/">التنزيلات الرسمية</a></li><li><a href="./" aria-current="page">الدعم</a></li><li><a href="../privacy/">الخصوصية</a></li></ul>
-    <a class="lang-switch" href="../../support/" hreflang="en" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>English</a>
+  </main>
+    <footer>
+      <span>© 2026 فاست كيوي — برامج مجانية خفيفة بالعربية</span>
+      <a href="../../ar/privacy/">الخصوصية</a><a href="../../ar/support/" aria-current="page">الدعم</a><a href="../../ar/releases/">ما الجديد</a><a href="../../ar/downloads/">التنزيلات الرسمية</a><span data-feed><a href="../../ar/releases.xml" type="application/atom+xml">خلاصة الإصدارات (RSS)</a></span>
+    </footer>
   </div>
-</footer>
+</div>
 <script src="../../site.js" defer></script>
 </body>
 </html>

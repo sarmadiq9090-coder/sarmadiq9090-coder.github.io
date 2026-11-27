@@ -10,13 +10,15 @@
 <link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/support/">
 <link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/support/">
 <link rel="alternate" type="application/atom+xml" title="FastKiwi · What’s new" href="/releases.xml">
-<meta name="theme-color" content="#3f8a1c">
+<meta name="theme-color" content="#123B2A">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
-<link rel="stylesheet" href="../style.css">
+<link rel="preload" href="../fonts/lalezar-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/mada-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fk.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FastKiwi">
 <meta property="og:locale" content="en_US">
@@ -31,23 +33,22 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="kiwi" viewBox="-106 -106 239 212"><path fill="#123B2A" d="M127 0L78.74 -61.64A100 100 0 1 0 78.74 61.64Z"/><path fill="#B9F34A" d="M115.57 0L71.65 -56.1A91 91 0 1 0 71.65 56.1Z"/><path fill="#F7FAF2" d="M-27 0A27 17 0 1 0 27 0A27 17 0 1 0 -27 0Z"/><path fill="#123B2A" d="M56.57 56.57L32.17 52.68L28.28 28.28L52.68 32.17ZM-56.57 56.57L-52.68 32.17L-28.28 28.28L-32.17 52.68ZM-56.57 -56.57L-32.17 -52.68L-28.28 -28.28L-52.68 -32.17ZM56.57 -56.57L52.68 -32.17L28.28 -28.28L32.17 -52.68Z"/></symbol>
+</svg>
+<div class="page">
   <div class="wrap">
-    <a class="brand" href="../" aria-label="FastKiwi home"><img src="../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi</span></a>
-    <nav class="nav" aria-label="Main">
-      <a class="opt" href="#contact">Contact</a>
-      <a class="opt" href="#include">What to include</a>
-      <a class="opt" href="#github">GitHub</a>
+    <header class="nav">
+      <a class="brand" href="../"><svg aria-hidden="true" focusable="false"><use href="#kiwi"/></svg>FastKiwi</a>
       <a class="lang" href="../ar/support/" hreflang="ar" lang="ar">العربية</a>
-    </nav>
-  </div>
-</header>
-<main id="main">
-<section class="page pv sp"><div class="wrap">
+    </header>
+
+  <main id="main" class="fk-doc pv sp pg-support">
+    <a class="back" href="../">← Home</a>
 <p class="kicker">Support</p>
 <h1>Get help with a FastKiwi app</h1>
 <p class="lead">Found a problem, or have an idea? Tell us, in English or Arabic. You don’t need a GitHub account.</p>
-<p>Many answers are already in the <a href="../#faq">FAQ</a> and in each app’s <a href="../releases/">release notes</a>.</p>
+<p>Many answers are already in the <a href="#faq">FAQ</a> and in each app’s <a href="../releases/">release notes</a>.</p>
 
 <h2 id="contact">Contact us without GitHub</h2>
 <div class="sp-contact" data-support-contact>
@@ -96,18 +97,26 @@
   </div>
 </div>
 
+<h2 id="faq">Common questions</h2>
+<div class="faq">
+  <details id="faq-smartscreen"><summary>Windows says “Unknown publisher” or “Windows protected your PC”. Is it safe?</summary><div><p>The files are not code-signed yet, so Windows SmartScreen doesn’t recognise the publisher. Click “More info”, then “Run anyway”. Every release is built automatically, and the <a href="../downloads/#verify">official downloads page</a> shows how to check that your file is genuine with its SHA-256 fingerprint.</p></div></details>
+  <details id="faq-antivirus"><summary>My antivirus flagged the download. What should I do?</summary><div><p>New programs that aren’t code-signed are sometimes flagged by mistake (a “false positive”), especially small single-file apps. Download only from this site, check the file with a second scanner such as VirusTotal if you like, and <a href="#contact">tell us</a> so we can report it to the antivirus maker.</p></div></details>
+  <details id="faq-offline"><summary>Do the apps really work without the internet?</summary><div><p>Yes. Everything runs on your device. The internet is used only to check for updates, to download an AI model in Lemon (Lemon talks to Ollama, which runs on your own PC) and for InstaFind’s exchange rates. The <a href="../privacy/">privacy page</a> lists every connection.</p></div></details>
+  <details id="faq-uninstall"><summary>How do I uninstall an app?</summary><div><p>Apps that come with an installer, like Remember Me and InstaWords, are removed from Windows Settings › Apps › Installed apps, like any other program. Single-file apps such as InstaFind and Lemon don’t install anything: close the app and delete the .exe file. On Android, remove Scan Kiwi or Remember Me like any other app.</p></div></details>
+  <details id="faq-free"><summary>Are the apps really free?</summary><div><p>Yes. They are free, with no ads or subscriptions.</p></div></details>
+  <details id="faq-windows"><summary>Which Windows versions are supported?</summary><div><p>Windows 10 and 11. InstaFind also runs on ARM64 and 32-bit PCs, and InstaWords also works in any modern browser.</p></div></details>
+  <details id="faq-report"><summary>How do I report a problem or suggest a feature?</summary><div><p>Email us (see <a href="#contact">Contact us</a> above), or open an issue on the app’s GitHub page if you have an account (see <a href="#github">Open a GitHub issue</a>). Say what to include from the list above. Reports and ideas are welcome in English or Arabic.</p></div></details>
+</div>
+
 <h2 id="privacy">Your privacy</h2>
 <p>We only see what you choose to send us. No app sends reports, crash data or usage statistics on its own. The <a href="../privacy/">privacy policy</a> lists what each app stores and every network connection it makes.</p>
-<p><a class="back" href="../">← FastKiwi home</a></p>
-</div></section>
-</main>
-<footer class="site-footer">
-  <div class="wrap foot-bottom">
-    <p>© 2026 FastKiwi · Free Windows apps</p>
-    <ul class="foot-links"><li><a href="../">FastKiwi home</a></li><li><a href="../releases/">What’s new</a></li><li data-feed><a class="feed-link" href="../releases.xml" type="application/atom+xml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>Release feed (RSS)</a></li><li><a href="../downloads/">Official downloads</a></li><li><a href="./" aria-current="page">Support</a></li><li><a href="../privacy/">Privacy</a></li></ul>
-    <a class="lang-switch" href="../ar/support/" hreflang="ar" lang="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>العربية</a>
+  </main>
+    <footer>
+      <span>© 2026 FastKiwi — free, light apps that speak Arabic</span>
+      <a href="../privacy/">Privacy</a><a href="../support/" aria-current="page">Support</a><a href="../releases/">What’s new</a><a href="../downloads/">Official downloads</a><span data-feed><a href="../releases.xml" type="application/atom+xml">Release feed (RSS)</a></span>
+    </footer>
   </div>
-</footer>
+</div>
 <script src="../site.js" defer></script>
 </body>
 </html>

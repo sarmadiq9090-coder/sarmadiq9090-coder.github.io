@@ -47,8 +47,10 @@ served by GitHub Pages straight from `main` of this repo. Every project repo wit
 also appears at `https://fastkiwi.app/<repo>/` (e.g. `/arabic-file-search/`, `/Remember-Me/`).
 Pages here: home (`index.html`, `ar/`, `en/`; hero + three section stickers only), the "scrapbook" pages
 (`fk.css`, `fk.js`): `windows/`, `phone/`, `games/`, `apps/<id>/` and `game-localizations/` (each also under `ar/`), `lemon/`, `releases/` (What's new + Atom feeds),
-`privacy/`, `downloads/`, `store/` (Store, direct download and winget per app), `instawords/` (synced
-from tafket). Details: [README.md](README.md).
+`privacy/`, `support/` (contact, what to include, FAQ), `downloads/`, `store/` (Store, direct download and winget per app),
+`scan-kiwi/`, `remember-me-android/` (the long app pages that `apps/<id>/` link as "Full page") and `404.html`, all in the same
+look: the text pages and long app pages keep their own markup and ids inside `main.fk-doc` (styled at the end of `fk.css`).
+`instawords/` (synced from tafket) and `tools/` keep the old `style.css`. Details: [README.md](README.md).
 
 Site rule (README): visitors stay on fastkiwi.app for every action. The only links to github.com
 are explicit, labelled GitHub buttons (`data-github`, text containing "GitHub") and direct

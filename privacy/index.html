@@ -10,13 +10,15 @@
 <link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/privacy/">
 <link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/privacy/">
 <link rel="alternate" type="application/atom+xml" title="FastKiwi · What’s new" href="/releases.xml">
-<meta name="theme-color" content="#3f8a1c">
+<meta name="theme-color" content="#123B2A">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
-<link rel="stylesheet" href="../style.css">
+<link rel="preload" href="../fonts/lalezar-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/mada-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fk.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FastKiwi">
 <meta property="og:locale" content="en_US">
@@ -31,19 +33,18 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="kiwi" viewBox="-106 -106 239 212"><path fill="#123B2A" d="M127 0L78.74 -61.64A100 100 0 1 0 78.74 61.64Z"/><path fill="#B9F34A" d="M115.57 0L71.65 -56.1A91 91 0 1 0 71.65 56.1Z"/><path fill="#F7FAF2" d="M-27 0A27 17 0 1 0 27 0A27 17 0 1 0 -27 0Z"/><path fill="#123B2A" d="M56.57 56.57L32.17 52.68L28.28 28.28L52.68 32.17ZM-56.57 56.57L-52.68 32.17L-28.28 28.28L-32.17 52.68ZM-56.57 -56.57L-32.17 -52.68L-28.28 -28.28L-52.68 -32.17ZM56.57 -56.57L52.68 -32.17L28.28 -28.28L32.17 -52.68Z"/></symbol>
+</svg>
+<div class="page">
   <div class="wrap">
-    <a class="brand" href="../" aria-label="FastKiwi home"><img src="../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi</span></a>
-    <nav class="nav" aria-label="Main">
-      <a class="opt" href="#summary">Summary</a>
-      <a class="opt" href="#apps">Apps</a>
-      <a class="opt" href="#contact">Contact</a>
+    <header class="nav">
+      <a class="brand" href="../"><svg aria-hidden="true" focusable="false"><use href="#kiwi"/></svg>FastKiwi</a>
       <a class="lang" href="../ar/privacy/" hreflang="ar" lang="ar">العربية</a>
-    </nav>
-  </div>
-</header>
-<main id="main">
-<section class="page pv"><div class="wrap">
+    </header>
+
+  <main id="main" class="fk-doc pv pg-privacy">
+    <a class="back" href="../">← Home</a>
 <p class="kicker">Privacy policy</p>
 <h1>Privacy</h1>
 <p class="lead">FastKiwi apps have no accounts, ads, analytics or telemetry. Your data stays on your PC. This page lists every network connection each app makes, what it sends and when.</p>
@@ -53,7 +54,7 @@
 
 <h2 id="summary">Summary</h2>
 <div class="table-wrap" tabindex="0" role="region" aria-labelledby="summary">
-  <table class="cmp plain" role="table"><thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">App</th><th scope="col" role="columnheader">Network use</th><th scope="col" role="columnheader">Data that leaves your device</th></tr></thead><tbody role="rowgroup">
+  <table class="pv-table" role="table"><thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">App</th><th scope="col" role="columnheader">Network use</th><th scope="col" role="columnheader">Data that leaves your device</th></tr></thead><tbody role="rowgroup">
     <tr role="row"><th scope="row" role="rowheader"><a href="#instafind">InstaFind</a></th><td role="cell" data-label="Network use">Update check on GitHub (automatic, daily). Exchange rates from open.er-api.com (automatic, at most every 12 hours). Phone search on your home network (off by default).</td><td role="cell" data-label="Data that leaves your device">None of your files, names or searches go to the internet. Requests carry only the app name and version. With phone search on, file names you search go to your own phone over your home network.</td></tr>
     <tr role="row"><th scope="row" role="rowheader"><a href="#remember-me">Remember Me</a></th><td role="cell" data-label="Network use">Update check on GitHub, only after you allow it, or when you click Check now.</td><td role="cell" data-label="Data that leaves your device">None. A Google Drive backup is a copy in a folder you choose; Google’s own Drive app uploads it.</td></tr>
     <tr role="row"><th scope="row" role="rowheader"><a href="#lemon">Lemon</a></th><td role="cell" data-label="Network use">Ollama on your own PC (127.0.0.1). Update check on GitHub (on by default, every 6 hours; can be turned off). Model downloads by Ollama.</td><td role="cell" data-label="Data that leaves your device">None, unless you point Lemon at an Ollama server on another computer: then your chats go to that server.</td></tr>
@@ -174,22 +175,19 @@
 <p>When an app starts using the network in a new way, we update this page before that version is released and change the effective date above. Each app’s release notes on <a href="../releases/">What’s new</a> describe its changes.</p>
 
 <h2 id="contact">Contact</h2>
-<p>Questions about privacy, or something on this page that doesn’t match what an app does? See <a href="../#support">Support</a>, or open an issue on the app’s GitHub page, in English or Arabic. Issues are public, so please don’t include personal information.</p>
+<p>Questions about privacy, or something on this page that doesn’t match what an app does? See <a href="../support/">Support</a>, or open an issue on the app’s GitHub page, in English or Arabic. Issues are public, so please don’t include personal information.</p>
 <p class="sublinks pv-contact">
   <a href="https://github.com/sarmadiq9090-coder/arabic-file-search/issues/new" data-github>InstaFind: open an issue on GitHub</a>
   <a href="https://github.com/sarmadiq9090-coder/Remember-Me/issues/new" data-github>Remember Me: open an issue on GitHub</a>
   <a href="https://github.com/sarmadiq9090-coder/local-ai-chat/issues/new" data-github>Lemon: open an issue on GitHub</a>
   <a href="https://github.com/sarmadiq9090-coder/InstaWords/issues/new" data-github>InstaWords: open an issue on GitHub</a>
 </p>
-<p><a class="back" href="../">← FastKiwi home</a></p>
-</div></section>
-</main>
-<footer class="site-footer">
-  <div class="wrap foot-bottom">
-    <p>© 2026 FastKiwi · Free Windows apps</p>
-    <ul class="foot-links"><li><a href="../">FastKiwi home</a></li><li><a href="../releases/">What’s new</a></li><li data-feed><a class="feed-link" href="../releases.xml" type="application/atom+xml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>Release feed (RSS)</a></li><li><a href="../downloads/">Official downloads</a></li><li><a href="../support/">Support</a></li><li><a href="./" aria-current="page">Privacy</a></li></ul>
-    <a class="lang-switch" href="../ar/privacy/" hreflang="ar" lang="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>العربية</a>
+  </main>
+    <footer>
+      <span>© 2026 FastKiwi — free, light apps that speak Arabic</span>
+      <a href="../privacy/" aria-current="page">Privacy</a><a href="../support/">Support</a><a href="../releases/">What’s new</a><a href="../downloads/">Official downloads</a><span data-feed><a href="../releases.xml" type="application/atom+xml">Release feed (RSS)</a></span>
+    </footer>
   </div>
-</footer>
+</div>
 </body>
 </html>
