@@ -233,7 +233,7 @@ for (const w of WIDTHS) {
     ok(!r.violations.length, `404: axe-core WCAG 2.2 AA ${JSON.stringify(r.violations.map(x => x.id))}`);
   }
   /* phone pages and Android detail pages: the direct APKs, no other stores (Uptodown, APKPure, F-Droid not approved yet) */
-  const APK = { 'scan-kiwi': GH + 'scan-kiwi/releases/download/v2.0.3/ScanKiwi-2.0.3.apk', 'remember-me-android': GH + 'remember-me-android/releases/download/v1.0.6/RememberMe-1.0.6.apk' };
+  const APK = { 'scan-kiwi': GH + 'scan-kiwi/releases/download/v2.0.3/ScanKiwi-2.0.3.apk', 'remember-me-android': GH + 'remember-me-android/releases/download/v1.0.7/RememberMe-1.0.7.apk' };
   for (const url of ['/phone/', '/ar/phone/', '/apps/scan-kiwi/', '/ar/apps/scan-kiwi/', '/apps/remember-me-android/', '/ar/apps/remember-me-android/']) {
     await page.goto(BASE + url, { waitUntil: 'networkidle' });
     const A = await page.evaluate(() => ({ apk: [...document.querySelectorAll('a[href$=".apk"]')].map(a => a.href), text: document.body.innerText }));
@@ -1038,7 +1038,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
    the latest release (the APK name changes each version); the honest claims below are required, the old
    "no internet permission" claim is not allowed (the app checks GitHub for updates since 1.0.5). */
 {
-  const RMA_LATEST = 'https://github.com/sarmadiq9090-coder/remember-me-android/releases/download/v1.0.6/RememberMe-1.0.6.apk'; /* direct APK (owner, 2026-11-18) */
+  const RMA_LATEST = 'https://github.com/sarmadiq9090-coder/remember-me-android/releases/download/v1.0.7/RememberMe-1.0.7.apk'; /* direct APK (owner, 2026-11-18) */
   const CLAIMS = {
     en: ['Android 8.0 or later', 'not on Google Play', 'only to check for and download updates from GitHub', 'Apache-2.0', 'Remember Me for Windows is a separate app', 'allow installs'],
     ar: ['أندرويد 8.0', 'ليس على Google Play', 'فقط للتحقق من التحديثات وتنزيلها من', 'Apache-2.0', 'ذكرني لويندوز تطبيق منفصل', 'السماح بالتثبيت']
