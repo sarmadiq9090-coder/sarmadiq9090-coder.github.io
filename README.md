@@ -8,6 +8,7 @@ explicit, labelled GitHub buttons (`data-github`, text containing "GitHub") and 
 The one other off-site link is Microsoft's official Store badge (`data-store`, self-hosted `img/store/get-it-from-microsoft-en-us-dark.svg` / `-ar.svg`,
 copied unchanged from get.microsoft.com) to `https://apps.microsoft.com/detail/<id>`, only for an app that `data/apps.json` marks
 `store.live`, with only the badge's own parameters and a campaign ID (`?referrer=appbadge&cid=fastkiwi-site&mode=full`), nothing that tracks visitors. `store/` and `ar/store/` list each app's Store, direct-download and winget status.
+The one third-party request a page makes is the visitor's own submit on `games/requests/` and `ar/games/requests/`: a single POST to FastKiwi's Google Form, only when Send is pressed (nothing is loaded from Google on page load, and the page links nowhere off-site).
 
 ## Shared data (`data/`)
 
@@ -39,5 +40,6 @@ npm run test:live                           # checks the live site, with the rea
 
 - `site-qa.yml`: the QA suite on every push and pull request.
 - `live-check.yml`: weekly live check; opens (or updates) the issue "Live site check failed".
+- `game-requests.yml`: every 6 hours; `tools/sync-game-requests.mjs` reads the public CSV of the game-localization requests (a Google Form owned by FastKiwi) and, only if it changed, the bot commits `data/game-requests.json` to main (no secrets). Requests are public; to remove one, delete its row in the responses sheet.
 - `sync.yml`: daily; rebuilds `instawords/` from the InstaWords repo (formerly tafket), updates the static InstaWords download link,
   regenerates `releases.xml` and `ar/releases.xml` (`tools/sync-releases.mjs`), runs the QA and pushes if anything changed.

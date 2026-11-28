@@ -11,7 +11,7 @@
         "en": "Find any file on your PC as you type, in English or Arabic, even inside PDF and Word documents."
       },
       "url": { "ar": "https://fastkiwi.app/arabic-file-search/", "en": "https://fastkiwi.app/arabic-file-search/en/" },
-      "store": { "id": "9MTK4KMFQ657", "live": false },
+      "store": { "id": "9MTK4KMFQ657", "live": true },
       "winget": { "id": "Sarmad.InstaFind", "live": false },
       "icon": "img/instafind.svg"
     },
@@ -53,7 +53,7 @@
         "en": "Write any amount in words for cheques and invoices, in Arabic, English or French. In your browser or as a Windows app, even offline."
       },
       "url": { "ar": "https://fastkiwi.app/instawords/", "en": "https://fastkiwi.app/instawords/" },
-      "store": { "id": "9P62P4WQSQNK", "live": false },
+      "store": { "id": "9P62P4WQSQNK", "live": true },
       "winget": { "id": "Sarmad.InstaWords", "live": false },
       "icon": "img/instawords.svg"
     },
