@@ -432,8 +432,8 @@ for (const lang of ['en', 'ar']) {
     ok(L.faq >= 6, `${tag}: FAQ (${L.faq})`);
     ok(L.langLink === (lang === 'en' ? '../ar/lemon/' : '../../lemon/') && L.canonical === 'https://fastkiwi.app' + url, `${tag}: language switch + canonical`);
     ok(JSON.stringify(L.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/lemon/', 'en https://fastkiwi.app/lemon/', 'x-default https://fastkiwi.app/lemon/']), `${tag}: hreflang ${L.hreflang}`);
-    ok(L.ld.name === 'Lemon' && L.ld.url === 'https://fastkiwi.app' + url && /Ollama/.test(L.ld.softwareRequirements), `${tag}: JSON-LD`);
-    ok(/Ollama/.test(L.req) && /WebView2/.test(L.req) && /(64-bit|64 بت)/.test(L.req), `${tag}: requirements name Ollama, WebView2 and 64-bit Windows`);
+    ok(L.ld.name === 'Lemon' && L.ld.url === 'https://fastkiwi.app' + url && /WebView2/.test(L.ld.softwareRequirements) && !/Ollama/.test(L.ld.softwareRequirements) && L.ld.softwareVersion === '3.0.0', `${tag}: JSON-LD`);
+    ok(/Ollama/.test(L.req) && /WebView2/.test(L.req) && /(64-bit|64 بت)/.test(L.req), `${tag}: requirements name WebView2, 64-bit Windows and Ollama as optional`);
     ok(apiRepos.size === 1 && apiRepos.has('local-ai-chat'), `${tag}: only Lemon's releases asked from the API (${[...apiRepos]})`);
     const dlEvt = page.waitForEvent('download', { timeout: 3000 }).catch(() => null);
     await page.locator('a[data-dl]').first().click();

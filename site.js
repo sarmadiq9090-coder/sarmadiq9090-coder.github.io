@@ -36,7 +36,7 @@
     'Remember-Me': { slug: 'remember-me', icon: 'img/remember-me.webp', name: ar ? 'ذكرني · Remember Me' : 'Remember Me',
       req: ar ? 'ويندوز 10 أو 11' : 'Windows 10 or 11', fallback: null },
     'local-ai-chat': { slug: 'lemon', icon: 'img/lemon.webp', name: ar ? 'Lemon · الذكاء المحلي' : 'Lemon',
-      req: ar ? 'ويندوز 10 أو 11 · يحتاج Ollama لتشغيل النماذج' : 'Windows 10 or 11 · needs Ollama for the AI models',
+      req: ar ? 'ويندوز 10 أو 11 · المحرك مدمج، وOllama اختياري' : 'Windows 10 or 11 · built-in engine, Ollama optional',
       fallback: 'https://github.com/' + OWNER + '/local-ai-chat/releases/latest/download/local-ai-chat.exe' },
     'tafket': { slug: 'instawords', icon: 'img/instawords.svg', name: ar ? 'InstaWords · تفقيط' : 'InstaWords',
       req: ar ? 'ويندوز 10 أو 11 · تثبيت للمستخدم دون صلاحيات المدير' : 'Windows 10 or 11 · per-user install, no admin rights',
