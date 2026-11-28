@@ -10,15 +10,15 @@
 <link rel="alternate" hreflang="ar" href="https://fastkiwi.app/ar/scan-kiwi/">
 <link rel="alternate" hreflang="x-default" href="https://fastkiwi.app/scan-kiwi/">
 <link rel="alternate" type="application/atom+xml" title="FastKiwi · What’s new" href="/releases.xml">
-<meta name="theme-color" content="#3f8a1c">
+<meta name="theme-color" content="#123B2A">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
-<link rel="preload" href="../fonts/plex-arabic-latin-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../style.css">
-<script>document.documentElement.classList.add("js");addEventListener("load",function(){if(!window.FK)document.documentElement.classList.remove("js")})</script>
+<link rel="preload" href="../fonts/lalezar-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/mada-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fk.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FastKiwi">
 <meta property="og:locale" content="en_US">
@@ -36,24 +36,20 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="kiwi" viewBox="-106 -106 239 212"><path fill="#123B2A" d="M127 0L78.74 -61.64A100 100 0 1 0 78.74 61.64Z"/><path fill="#B9F34A" d="M115.57 0L71.65 -56.1A91 91 0 1 0 71.65 56.1Z"/><path fill="#F7FAF2" d="M-27 0A27 17 0 1 0 27 0A27 17 0 1 0 -27 0Z"/><path fill="#123B2A" d="M56.57 56.57L32.17 52.68L28.28 28.28L52.68 32.17ZM-56.57 56.57L-52.68 32.17L-28.28 28.28L-32.17 52.68ZM-56.57 -56.57L-32.17 -52.68L-28.28 -28.28L-52.68 -32.17ZM56.57 -56.57L52.68 -32.17L28.28 -28.28L32.17 -52.68Z"/></symbol>
+</svg>
+<div class="page">
   <div class="wrap">
-    <a class="brand" href="../" aria-label="FastKiwi home"><img src="../img/logo.svg" width="36" height="36" alt=""><span>FastKiwi</span></a>
-    <nav class="nav" aria-label="Main">
-      <a class="home" href="../#apps"><span aria-hidden="true">←</span> All apps</a>
-      <a class="opt" href="#features">Features</a>
-      <a class="opt" href="#install">Install</a>
-      <a class="opt" href="#updates">Updates</a>
-      <a class="opt" href="#faq">FAQ</a>
+    <header class="nav">
+      <a class="brand" href="../"><svg aria-hidden="true" focusable="false"><use href="#kiwi"/></svg>FastKiwi</a>
       <a class="lang" href="../ar/scan-kiwi/" hreflang="ar" lang="ar">العربية</a>
-    </nav>
-  </div>
-</header>
+    </header>
 
-<main id="main" class="app-page">
-
-<section class="hero ap-hero" aria-labelledby="sk-title">
-  <div class="wrap hero-grid">
+  <main id="main" class="fk-doc app-page pg-scan-kiwi">
+    <a class="back" href="../apps/scan-kiwi/">← Scan Kiwi at a glance</a>
+<section class="ap-hero" aria-labelledby="sk-title">
+  <div class="hero-grid">
     <div class="hero-copy">
       <p class="app-label"><img src="../img/scan-kiwi.svg" width="36" height="36" alt="">Scan Kiwi™ <span>· document scanner for Android</span></p>
       <h1 id="sk-title">Scan documents on your phone, <span class="hl">offline</span></h1>
@@ -65,9 +61,9 @@
         </a>
         <a class="btn btn-ghost" href="#install">How to install</a>
       </div>
-      <p class="fine ap-facts">Free · version 2.0.2 · Android 7.0 or later · Arabic and English · not on Google Play</p>
+      <p class="fine ap-facts">Free · version 2.0.3 · Android 7.0 or later · Arabic and English · not on Google Play</p>
     </div>
-    <figure class="shot ap-shot">
+    <figure class="ap-shot">
       <div class="phone"><img src="../img/scan-kiwi-en.webp" width="600" height="1290" fetchpriority="high" alt="Scan Kiwi in English: a three-page document shown as page thumbnails, with the Add pages and Export buttons at the bottom"></div>
       <figcaption>Scan Kiwi in English, with synthetic test pages (screenshot from version 1.2.0).</figcaption>
     </figure>
@@ -75,78 +71,78 @@
 </section>
 
 <section id="features" class="section" aria-labelledby="features-title">
-  <div class="wrap">
-    <div class="head reveal">
+  
+    <div class="head">
       <p class="kicker">Features</p>
       <h2 id="features-title">From paper to PDF in a few taps</h2>
       <p>Everything happens on your phone. Your documents stay in the app’s private storage until you share or save them.</p>
     </div>
     <div class="feat-grid">
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></span>Finds the page for you</h3>
         <p>Live edge detection outlines the page, also in dim light and on busy backgrounds, and auto-capture takes the photo when the outline holds steady. Quality warnings tell you about blur or a cut-off page and never block you. A manual shutter is always there too.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l14 3-3 11-12-2z"/><circle cx="5" cy="5" r="1.5"/><circle cx="19" cy="8" r="1.5"/><circle cx="16" cy="19" r="1.5"/><circle cx="4" cy="17" r="1.5"/></svg></span>Corners you can fix</h3>
         <p>Drag the corners and sides with a magnifier under your finger. The page is straightened and cropped, and you can re-crop it later.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M12 3a9 9 0 0 1 0 18"/></svg></span>Clean filters</h3>
         <p>Original, enhanced colour, grayscale, black and white, and shadow removal. Black-and-white pages are stored as 1-bit images for small files.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>PDFs that fit</h3>
         <p>A4, Letter, A5, Legal or fit to image, in three quality levels, with the expected size shown before you share, or an exact target size. Archival PDF/A and AES-256 password protection are options.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>Arabic text recognition</h3>
         <p>On-device text recognition makes searchable PDFs. Version 2.0 adds an “Accurate” mode for Arabic: character error of 9.0 % instead of 29.0 % on held-out test pages, measured on a computer, not on a phone. Results still depend on print quality and light. Tables come out as rows in reading order.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="9" cy="12" r="2"/><path d="M14 10h4M14 14h3"/></svg></span>ID cards and signatures</h3>
         <p>ID-card mode puts the front and back at true size on one A4 page. Draw your signature once and place it on any page.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>Search and organise</h3>
         <p>Search all your documents by name and text, with the word highlighted on the page. View and correct the recognised text, export it as TXT, and keep documents in folders and favourites.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>PDF tools</h3>
         <p>Merge, split, extract, reorder by dragging, rotate, add a blank page, extract the text, turn pages into JPG, add page numbers or a watermark, and set or remove an AES-256 password.</p>
       </article>
-      <article class="card reveal">
+      <article class="card">
         <h3><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2zM12 6v14"/></svg></span>Books and glare</h3>
         <p>Book mode splits a two-page spread at the spine. Glare removal combines two shots, and deskew and noise reduction clean up the page.</p>
       </article>
     </div>
-  </div>
+  
 </section>
 
 <section class="section band" aria-labelledby="private-title">
-  <div class="wrap">
-    <div class="head reveal">
+  
+    <div class="head">
       <p class="kicker">Privacy</p>
       <h2 id="private-title">Works offline, updates from GitHub</h2>
     </div>
-    <ul class="checks reveal">
+    <ul class="checks">
       <li><strong>Your documents never leave the phone.</strong> Scanning, text recognition, search and PDF tools all run on the phone. The only connection is to GitHub, to check for and download updates.</li>
       <li><strong>Four permissions.</strong> Camera (to scan); internet and network state (only to check for and download updates); install packages (to install an update after you confirm it). You can check this in Android’s app settings.</li>
       <li><strong>No account, ads or trackers.</strong> Cloud backup and device transfer of your documents are turned off.</li>
       <li><strong>Arabic first, English included.</strong> Full right-to-left layout, light and dark themes, and TalkBack labels.</li>
       <li><strong>Open source under Apache-2.0.</strong> Anyone can read the code and build it.</li>
     </ul>
-  </div>
+  
 </section>
 
 <section id="install" class="section" aria-labelledby="install-title">
-  <div class="wrap">
-    <div class="head reveal">
+  
+    <div class="head">
       <p class="kicker">Install</p>
       <h2 id="install-title">Install the APK in four steps</h2>
       <p>Scan Kiwi is not on Google Play, so you install the file yourself. Android asks you to allow installs from the app you download it with.</p>
     </div>
     <div class="req-grid">
-      <div class="card reveal">
+      <div class="card">
         <h3>Steps</h3>
         <ol class="steps">
           <li><strong>Download</strong> the latest APK on your phone with the button on this page. It opens the latest release on GitHub, where the file is <code>ScanKiwi-2.0.3.apk</code>.</li>
@@ -155,37 +151,37 @@
           <li><strong>Tap Install</strong>, then Open.</li>
         </ol>
       </div>
-      <div class="card reveal">
+      <div class="card">
         <h3>What you need</h3>
         <ul class="checks">
           <li><strong>Android 7.0 or later</strong>, on an ARM phone (arm64-v8a or armeabi-v7a).</li>
           <li><strong>A camera</strong> for scanning. Importing images and PDFs works without one.</li>
-          <li><strong>Already have Scan Kiwi 1.2.0?</strong> Version 2.0.2 installs over it and keeps your documents (same signing key). From 2.0 on, the app can fetch later updates itself.</li>
+          <li><strong>Already have Scan Kiwi 1.2.0?</strong> Version 2.0.3 installs over it and keeps your documents (same signing key). From 2.0 on, the app can fetch later updates itself.</li>
         </ul>
       </div>
     </div>
-  </div>
+  
 </section>
 
 <section id="updates" class="section band" aria-labelledby="updates-title">
-  <div class="wrap">
-    <div class="head reveal">
+  
+    <div class="head">
       <p class="kicker">Updates</p>
       <h2 id="updates-title">How to get new versions</h2>
     </div>
-    <div class="card reveal">
+    <div class="card">
       <p>Scan Kiwi connects to the internet only to check for and download updates from GitHub (weekly, can be turned off). You can check by hand in Settings ▸ Updates ▸ Check for updates, or the app checks automatically at most once every 7 days when you open it. Downloads use Wi-Fi only by default. An update is installed only if it matches the SHA256SUMS file published with the release and is signed with the same certificate as the installed app, and Android asks you to confirm the install. When the app or your browser contacts GitHub, GitHub sees your IP address, as with any website. You can also update by hand from the releases page.</p>
       <p>Turn the automatic check off in Settings ▸ Updates. Your documents, their images and their text are never sent anywhere.</p>
       <p class="sublinks">
         <a href="https://github.com/sarmadiq9090-coder/scan-kiwi/releases" data-github>Scan Kiwi releases on GitHub</a>
       </p>
     </div>
-  </div>
+  
 </section>
 
 <section id="download" class="section final" aria-labelledby="download-title">
-  <div class="wrap">
-    <div class="panel reveal">
+  
+    <div class="panel">
       <img src="../img/scan-kiwi.svg" width="72" height="72" alt="">
       <h2 id="download-title">Download Scan Kiwi</h2>
       <p>Free. The button opens the latest official release on GitHub, where you pick the APK file.</p>
@@ -206,15 +202,15 @@
         <a href="https://github.com/sarmadiq9090-coder/scan-kiwi/issues/new/choose" data-github><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Report a problem on GitHub</a>
       </p>
     </div>
-  </div>
+  
 </section>
 
 <section id="faq" class="section band" aria-labelledby="faq-title">
-  <div class="wrap faq-grid">
+  <div class="faq-grid">
     <div class="head">
       <p class="kicker">FAQ</p>
       <h2 id="faq-title">Questions about Scan Kiwi</h2>
-      <p>More answers in the <a href="../#faq">FastKiwi FAQ</a>.</p>
+      <p>More answers in the <a href="../support/#faq">FastKiwi FAQ</a>.</p>
     </div>
     <div class="faq">
       <details id="faq-internet"><summary>Does Scan Kiwi need the internet?</summary><div><p>Not to scan. Scanning, text recognition, search and PDF tools all work offline. The app connects to the internet only to check for and download updates from GitHub, once a week at most, over Wi-Fi by default, and you can turn it off.</p></div></details>
@@ -227,16 +223,13 @@
     </div>
   </div>
 </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="wrap foot-bottom">
-    <p>© 2026 FastKiwi · Free apps for Windows and Android</p>
-    <ul class="foot-links"><li><a href="../">FastKiwi home</a></li><li><a href="../releases/">What’s new</a></li><li data-feed><a class="feed-link" href="../releases.xml" type="application/atom+xml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>Release feed (RSS)</a></li><li><a href="../downloads/">Official downloads</a></li><li><a href="../support/">Support</a></li><li><a href="../privacy/">Privacy</a></li></ul>
-    <a class="lang-switch" href="../ar/scan-kiwi/" hreflang="ar" lang="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>العربية</a>
+  </main>
+    <footer>
+      <span>© 2026 FastKiwi — free, light apps that speak Arabic</span>
+      <a href="../privacy/">Privacy</a><a href="../support/">Support</a><a href="../releases/">What’s new</a><a href="../downloads/">Official downloads</a><span data-feed><a href="../releases.xml" type="application/atom+xml">Release feed (RSS)</a></span>
+    </footer>
   </div>
-</footer>
+</div>
 <script src="../site.js" defer></script>
 </body>
 </html>

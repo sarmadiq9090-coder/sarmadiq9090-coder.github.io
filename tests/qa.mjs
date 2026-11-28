@@ -26,7 +26,9 @@ PAGES.push(['remember-me-android-en', '/remember-me-android/'], ['remember-me-an
 const SECTIONS = ['windows', 'phone', 'games'];
 const DETAIL_IDS = ['instafind', 'remember-me', 'lemon', 'instawords', 'scan-kiwi', 'remember-me-android'];
 const WIN_REPO = { instafind: 'arabic-file-search', 'remember-me': 'Remember-Me', lemon: 'local-ai-chat', instawords: 'tafket' };
-const NEW_PAGES = [['/', '/ar/'], ...SECTIONS.map(s => [`/${s}/`, `/ar/${s}/`]), ...DETAIL_IDS.map(id => [`/apps/${id}/`, `/ar/apps/${id}/`]), ['/game-localizations/', '/ar/game-localizations/']];
+/* the text pages and the full app pages, restyled in the same look (2026-11-27): they get the same chrome checks (section 2) */
+const RESTYLED = ['privacy', 'support', 'releases', 'downloads', 'store', 'lemon', 'scan-kiwi', 'remember-me-android'];
+const NEW_PAGES = [...RESTYLED.map(p => [`/${p}/`, `/ar/${p}/`]), ['/', '/ar/'],...SECTIONS.map(s => [`/${s}/`, `/ar/${s}/`]), ...DETAIL_IDS.map(id => [`/apps/${id}/`, `/ar/apps/${id}/`]), ['/game-localizations/', '/ar/game-localizations/']];
 for (const s of SECTIONS) PAGES.push([`${s}-en`, `/${s}/`], [`${s}-ar`, `/ar/${s}/`]);
 for (const id of DETAIL_IDS) PAGES.push([`app-${id}-en`, `/apps/${id}/`], [`app-${id}-ar`, `/ar/apps/${id}/`]);
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
@@ -115,7 +117,7 @@ for (const w of WIDTHS) {
       lang: document.documentElement.lang, dir: document.documentElement.dir,
       dl: [...document.querySelectorAll('a[data-dl]')].map(a => [a.dataset.dl, a.getAttribute('href')]),
       h1: document.querySelectorAll('h1').length, alts: [...document.images].filter(i => !i.hasAttribute('alt')).length,
-      navOverflow: (() => { const n = document.querySelector('.site-header .wrap, header.nav'); return n ? n.scrollWidth > n.clientWidth + 1 : false; })()
+      navOverflow: (() => { const n = document.querySelector('header.nav'); return n ? n.scrollWidth > n.clientWidth + 1 : false; })()
     }));
     ok(m.sw <= m.cw, `${name}@${w}: horizontal scroll ${m.sw} > ${m.cw}`);
     ok(!m.wide.length, `${name}@${w}: elements outside the viewport ${m.wide}`);
@@ -144,7 +146,7 @@ for (const w of WIDTHS) {
   await ctx.close();
 }
 
-/* ---------- 2. the scrapbook pages (owner-approved redesign, 2026-11): home, the three section pages, the app detail pages and the game page ----------
+/* ---------- 2. the scrapbook pages (owner-approved redesign, 2026-11): home, the three section pages, the app detail pages, the game page, and (since 2026-11-27) the restyled text pages, full app pages and 404 ----------
    Replaces the old home's hero-stage, comparison-table and hero-capture checks (that home no longer exists by design).
    Checked on every new page: canonical, hreflang, language switch to its counterpart, header with only the logo and the language
    switch, footer links, JSON-LD names without ™, self-hosted fonts and no third-party request, axe-core WCAG 2.2 AA. */
@@ -204,13 +206,27 @@ for (const w of WIDTHS) {
     ok(P.vers.every(v => /^[0-9.]+$/.test(v)), `${tag}: version stamps use Western digits ${P.vers}`);
     /* the Store badge only for apps data/apps.json marks live, first, then the direct installer (store-first, D-052) */
     const storeOk = STORE_LIVE.includes('remember-me') && /\/(windows|apps\/remember-me)\/$/.test(url);
-    ok(storeOk ? P.store.length === 1 && P.opts.length === 1 && P.opts[0] === 'store,direct' : P.store.length === 0, `${tag}: Store badge only for live Store apps, before the installer ${JSON.stringify([P.store, P.opts])}`);
+    /* the Store page and the official downloads page list each app's Store status themselves (sections 9b and 11b check them) */
+    if (/\/(store|downloads)\/$/.test(url)) ok(P.store.length >= 1, `${tag}: Store badges (checked in sections 9b and 11b)`);
+    else ok(storeOk ? P.store.length === 1 && P.opts.length === 1 && P.opts[0] === 'store,direct' : P.store.length === 0, `${tag}: Store badge only for live Store apps, before the installer ${JSON.stringify([P.store, P.opts])}`);
     ok(['Lalezar', 'Mada'].every(f => P.fonts.includes(f)), `${tag}: self-hosted fonts loaded (${P.fonts})`);
     ok(offsite.length === 0, `${tag}: no third-party requests (${offsite})`);
     ok(!/fonts\.(googleapis|gstatic)\.com|<iframe|https?:\/\/[^"'\s]*\.js\b/.test(fs.readFileSync(path.join(ROOT, url, 'index.html'), 'utf8')), `${tag}: no Google Fonts, iframes or external scripts in the source`);
     const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     const v = r.violations.map(x => `${x.id} (${x.impact}): ${x.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ')}`);
     ok(!v.length, `${tag}: axe-core WCAG 2.2 AA, zero violations ${JSON.stringify(v)}`);
+  }
+  /* the 404 page (bilingual, noindex, absolute paths since it is served at any address): the same header, footer, fonts and axe */
+  {
+    offsite = [];
+    await page.goto(BASE + '/no-such-page/deep/', { waitUntil: 'networkidle' });
+    const N = await page.evaluate(() => ({ header: [...document.querySelectorAll('header.nav a')].map(a => [a.className, new URL(a.href).pathname]),
+      footer: [...document.querySelectorAll('footer a')].map(a => new URL(a.href).pathname), fonts: [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family),
+      robots: document.querySelector('meta[name=robots]')?.content, home: [...document.querySelectorAll('main a')].map(a => new URL(a.href).pathname) }));
+    ok(JSON.stringify(N.header) === JSON.stringify([['brand', '/'], ['lang', '/ar/']]) && ['/privacy/', '/support/', '/releases/', '/downloads/'].every(x => N.footer.includes(x)), `404: scrapbook header and footer, absolute links ${JSON.stringify(N)}`);
+    ok(N.robots === 'noindex' && JSON.stringify(N.home) === '["/","/ar/"]' && ['Lalezar', 'Mada'].every(f => N.fonts.includes(f)) && !offsite.length, `404: noindex, links to both homes, self-hosted fonts ${JSON.stringify(N)}`);
+    const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    ok(!r.violations.length, `404: axe-core WCAG 2.2 AA ${JSON.stringify(r.violations.map(x => x.id))}`);
   }
   /* phone pages and Android detail pages: the direct APKs, no other stores (Uptodown, APKPure, F-Droid not approved yet) */
   const APK = { 'scan-kiwi': GH + 'scan-kiwi/releases/download/v2.0.3/ScanKiwi-2.0.3.apk', 'remember-me-android': GH + 'remember-me-android/releases/download/v1.0.6/RememberMe-1.0.6.apk' };
@@ -393,7 +409,7 @@ for (const lang of ['en', 'ar']) {
       rel: document.querySelector('.rel[data-repo="local-ai-chat"]')?.textContent || '',
       relLinks: [...document.querySelectorAll('a[href*="releases/#lemon"]')].map(a => new URL(a.href).pathname + new URL(a.href).hash),
       gh: [...document.querySelectorAll('a[href*="github.com"]')].map(a => [a.textContent.trim(), a.href, a.hasAttribute('data-github'), a.hasAttribute('data-dl')]),
-      hero: (() => { const i = document.querySelector('.ap-hero .screen img'); return { src: i.currentSrc, ok: i.complete && i.naturalWidth > 0, fp: i.getAttribute('fetchpriority') }; })(),
+      hero: (() => { const i = document.querySelector('.ap-hero .ap-screen img'); return { src: i.currentSrc, ok: i.complete && i.naturalWidth > 0, fp: i.getAttribute('fetchpriority') }; })(),
       imgs: [...document.querySelectorAll('main img')].filter(i => !i.complete || !i.naturalWidth).length,
       faq: document.querySelectorAll('.faq details').length,
       langLink: document.querySelector('a.lang').getAttribute('href'), canonical: document.querySelector('link[rel=canonical]').href,
@@ -554,7 +570,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
         robots: [...document.querySelectorAll('meta[name=robots]')].map(m => m.content),
         draftNote: [...document.head.childNodes].some(n => n.nodeType === 8 && /remove this noindex/.test(n.textContent)),
         canonical: document.querySelector('link[rel=canonical]').href,
-        lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+        lang: [...document.querySelectorAll('a.lang')].map(a => new URL(a.href).pathname),
         scripts: [...document.scripts].map(s => s.src),
         storeLinks: [...document.querySelectorAll('a[href^="https://apps.microsoft.com/"]')].filter(shown).map(a => a.closest('.st-app')?.id),
         focusable: [...document.querySelectorAll('.st-app[data-accepted="no"] a, .st-app[data-accepted="no"] button, .st-app[data-accepted="no"] summary')].filter(e => { e.focus(); return document.activeElement === e && e.closest('.st-in-store'); }).length,
@@ -572,7 +588,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     });
     const tag = `store ${lang}@${w}`, T = TXT[lang];
     ok(STORE_DRAFT ? JSON.stringify(S.robots) === '["noindex"]' && S.draftNote : S.robots.length === 0, `${tag}: draft is noindex with a "remove on launch" comment (${S.robots})`);
-    ok(S.canonical === 'https://fastkiwi.app' + url && S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: canonical and language switch`);
+    ok(S.canonical === 'https://fastkiwi.app' + url && S.lang.length === 1 && S.lang.every(x => x === other), `${tag}: canonical and language switch`);
     ok(JSON.stringify(S.cards.map(c => c.id)) === JSON.stringify(ORDER), `${tag}: a card per app (${S.cards.map(c => c.id)})`);
     ok(JSON.stringify(S.cards.filter(c => c.sid).map(c => [c.id, c.sid])) === JSON.stringify(Object.entries(IDS)), `${tag}: the Store apps carry their Store IDs ${JSON.stringify(S.cards.map(c => c.sid))}`);
     ok(JSON.stringify([...new Set(S.storeLinks)]) === JSON.stringify(ACCEPTED), `${tag}: Store links shown only for accepted apps (${[...new Set(S.storeLinks)]})`);
@@ -662,13 +678,13 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const P = await page.evaluate(() => ({
       canonical: document.querySelector('link[rel=canonical]').href,
       hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
-      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      lang: [...document.querySelectorAll('a.lang')].map(a => new URL(a.href).pathname),
       date: document.querySelector('time[datetime]')?.getAttribute('datetime'),
       sections: [...document.querySelectorAll('section.pv-app[id]')].map(s => s.id),
       sectionText: Object.fromEntries([...document.querySelectorAll('section.pv-app[id]')].map(s => [s.id, s.textContent])),
       rows: [...document.querySelectorAll('#summary + .table-wrap tbody tr')].map(r => ({ to: r.querySelector('th a')?.getAttribute('href'), cells: r.querySelectorAll('td').length })),
       contact: [...document.querySelectorAll('#contact ~ .pv-contact a')].map(a => [a.href, a.hasAttribute('data-github'), /GitHub/.test(a.textContent)]),
-      support: !!document.querySelector('a[href="../#support"]'),
+      support: !!document.querySelector('a[href="../support/"]'),
       store: (() => { const h = document.getElementById('store'), b = h?.nextElementSibling; return h && b?.matches('.pv-store') ? { title: h.textContent, text: b.textContent, apps: [...b.querySelectorAll('li strong')].map(s => s.textContent),
         afterSummary: !!(document.getElementById('summary').compareDocumentPosition(h) & Node.DOCUMENT_POSITION_FOLLOWING), beforeApps: !!(h.compareDocumentPosition(document.getElementById('apps')) & Node.DOCUMENT_POSITION_FOLLOWING) } : null; })(),
       scripts: document.scripts.length
@@ -676,7 +692,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const tag = `privacy ${lang}`;
     ok(P.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${P.canonical}`);
     ok(JSON.stringify(P.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/privacy/', 'en https://fastkiwi.app/privacy/', 'x-default https://fastkiwi.app/privacy/']), `${tag}: hreflang ${P.hreflang}`);
-    ok(P.lang.length === 2 && P.lang.every(x => x === other), `${tag}: language switches go to ${other} (${P.lang})`);
+    ok(P.lang.length === 1 && P.lang.every(x => x === other), `${tag}: language switches go to ${other} (${P.lang})`);
     ok(P.date === '2026-11-06', `${tag}: effective date ${P.date}`);
     ok(JSON.stringify(P.sections) === JSON.stringify(APPS), `${tag}: one section per app and the site (${P.sections})`);
     ok(P.rows.length === 5 && P.rows.every((r, i) => r.to === '#' + APPS[i] && r.cells === 2), `${tag}: summary table, a row per app linking to its section ${JSON.stringify(P.rows)}`);
@@ -723,7 +739,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     return {
       canonical: document.querySelector('link[rel=canonical]').href,
       hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
-      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      lang: [...document.querySelectorAll('a.lang')].map(a => new URL(a.href).pathname),
       ids: ['contact', 'include', 'github', 'privacy'].filter(id => document.getElementById(id)),
       soon: vis(document.querySelector('[data-support-soon]')),
       contact: [...document.querySelectorAll('[data-support-contact] a[data-contact]')].filter(vis).map(a => [a.dataset.contact, a.getAttribute('href'), a.textContent.trim()]),
@@ -743,7 +759,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const S = await read(page), tag = `support ${lang}@${w}${js ? '' : ' (no JS)'}`;
     ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
     ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/support/', 'en https://fastkiwi.app/support/', 'x-default https://fastkiwi.app/support/']), `${tag}: hreflang ${S.hreflang}`);
-    ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
+    ok(S.lang.length === 1 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
     ok(S.ids.length === 4, `${tag}: contact, what-to-include, GitHub and privacy sections (${S.ids})`);
     /* support@fastkiwi.app is live: the email card is in the HTML (shown with or without JavaScript), and it matches site.js */
     ok(!S.soon && S.contact.length === 1 && S.contact[0][0] === 'email' && S.contact[0][1] === 'mailto:support@fastkiwi.app' && S.contact[0][1] === 'mailto:' + (cfg && cfg[1]), `${tag}: the support email (mailto:support@fastkiwi.app, same as SUPPORT_CONTACT) shows, no "coming soon" note ${JSON.stringify(S.contact)}`);
@@ -816,7 +832,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const D = await page.evaluate(() => ({
       canonical: document.querySelector('link[rel=canonical]').href,
       hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
-      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      lang: [...document.querySelectorAll('a.lang')].map(a => new URL(a.href).pathname),
       apps: [...document.querySelectorAll('.od-app[id]')].map(s => ({ id: s.id, title: s.querySelector('h3').textContent,
         rows: Object.fromEntries([...s.querySelectorAll('.od-src > div[data-src]')].map(d => [d.dataset.src, { text: d.querySelector('dd').textContent, links: [...d.querySelectorAll('a')].map(a => ({ href: a.href, gh: a.hasAttribute('data-github'), store: a.hasAttribute('data-store'), text: a.textContent })) }])),
         order: [...s.querySelectorAll('.od-src > div[data-src]')].map(d => d.dataset.src),
@@ -831,7 +847,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const tag = `downloads ${lang}`;
     ok(D.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${D.canonical}`);
     ok(JSON.stringify(D.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/downloads/', 'en https://fastkiwi.app/downloads/', 'x-default https://fastkiwi.app/downloads/']), `${tag}: hreflang ${D.hreflang}`);
-    ok(D.lang.length === 2 && D.lang.every(x => x === other), `${tag}: language switches go to ${other} (${D.lang})`);
+    ok(D.lang.length === 1 && D.lang.every(x => x === other), `${tag}: language switches go to ${other} (${D.lang})`);
     ok(JSON.stringify(D.apps.map(a => a.id)) === JSON.stringify(['instawords', 'instafind', 'remember-me', 'lemon', 'scan-kiwi', 'remember-me-android', 'instaconvert']), `${tag}: a card per app, InstaConvert last (${D.apps.map(a => a.id)})`);
     for (const a of D.apps) {
       ok(/™/.test(a.title), `${tag} ${a.id}: ™ in the heading (${a.title})`);
@@ -943,7 +959,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const S = await page.evaluate(() => ({
       canonical: document.querySelector('link[rel=canonical]').href,
       hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
-      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      lang: [...document.querySelectorAll('a.lang')].map(a => new URL(a.href).pathname),
       apk: [...document.querySelectorAll('a.btn-primary[data-github][href$="/ScanKiwi-2.0.3.apk"]')].map(a => [a.href, a.textContent.replace(/\s+/g, ' ').trim()]),
       dl: document.querySelectorAll('a[data-dl]').length,
       updates: document.querySelector('#updates .card p')?.textContent.replace(/\s+/g, ' ').trim(),
@@ -953,7 +969,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     }));
     ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
     ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/scan-kiwi/', 'en https://fastkiwi.app/scan-kiwi/', 'x-default https://fastkiwi.app/scan-kiwi/']), `${tag}: hreflang ${S.hreflang}`);
-    ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
+    ok(S.lang.length === 1 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
     ok(S.apk.length === 2 && S.apk.every(([h, t]) => h === SK_APK && /GitHub/.test(t) && (lang === 'en' ? /MB\)$/ : /ميغابايت\)$/).test(t)), `${tag}: two direct APK links whose text names the file, its type and size ${JSON.stringify(S.apk)}`);
     ok(S.dl === 0, `${tag}: no data-dl buttons (site.js resolves those through the releases API, which has no Scan Kiwi entry yet)`);
     ok(S.updates === UPDATE_TEXT[lang], `${tag}: D-077 update wording verbatim (${S.updates})`);
@@ -962,16 +978,16 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(!OLD_CLAIMS.test(S.text), `${tag}: the 1.2.0 "no internet" claim is gone (${S.text.match(OLD_CLAIMS)})`);
     ok(/Android 7\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === SK_APK && S.ld.softwareVersion === '2.0.3' && !/™/.test(S.ld.name + S.ld.alternateName) && S.verify, `${tag}: JSON-LD (Android, latest release, 2.0.3) and the #verify block`);
     /* 2.5.8 target size: buttons, nav, summaries and link rows (inline links inside sentences are exempt) */
-    const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, .lang-switch, .foot-links a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
+    const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, footer a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
     ok(!small.length, `${tag}: targets at least 24×24 px ${JSON.stringify(small)}`);
     /* 2.4.11 focus not obscured: tab through the page, every focused element below the sticky header (or inside it) */
     const hidden = [];
     for (let i = 0; i < 60; i++) {
       await page.keyboard.press('Tab'); await page.waitForTimeout(30);
-      const f = await page.evaluate(() => { const e = document.activeElement, h = document.querySelector('.site-header'); if (!e || e === document.body) return null; const r = e.getBoundingClientRect(), hb = h.getBoundingClientRect().bottom; return { t: e.textContent.trim().slice(0, 30), ok: h.contains(e) || r.top >= hb - 1 || e.classList.contains('skip'), vis: r.bottom > 0 && r.top < innerHeight }; });
+      const f = await page.evaluate(() => { const e = document.activeElement, h = document.querySelector('header.nav'); if (!e || e === document.body) return null; const r = e.getBoundingClientRect(), hb = h.getBoundingClientRect().bottom; return { t: e.textContent.trim().slice(0, 30), ok: h.contains(e) || r.top >= hb - 1 || e.classList.contains('skip'), vis: r.bottom > 0 && r.top < innerHeight }; });
       if (f && (!f.ok || !f.vis)) hidden.push(f.t);
     }
-    ok(!hidden.length, `${tag}: keyboard focus never hidden under the sticky header ${JSON.stringify(hidden)}`);
+    ok(!hidden.length, `${tag}: keyboard focus always in view, never under the header ${JSON.stringify(hidden)}`);
     const v = await axe(page);
     ok(!v.length, `${tag}: axe-core WCAG 2.2 AA, zero violations ${JSON.stringify(v)}`);
     await page.setViewportSize({ width: 320, height: 800 });
@@ -1027,7 +1043,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     const S = await page.evaluate(() => ({
       canonical: document.querySelector('link[rel=canonical]').href,
       hreflang: [...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => l.hreflang + ' ' + l.href).sort(),
-      lang: [...document.querySelectorAll('a.lang, a.lang-switch')].map(a => new URL(a.href).pathname),
+      lang: [...document.querySelectorAll('a.lang')].map(a => new URL(a.href).pathname),
       dlButtons: [...document.querySelectorAll('.cta a.btn-primary')].map(a => [a.href, a.hasAttribute('data-github'), a.textContent.replace(/\s+/g, ' ').trim()]),
       apk: document.querySelectorAll('a[data-apk], a[data-dl]').length,
       windows: [...document.querySelectorAll('a[href*="Remember-Me/"]')].map(a => new URL(a.href).pathname),
@@ -1037,7 +1053,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     }));
     ok(S.canonical === 'https://fastkiwi.app' + url, `${tag}: canonical ${S.canonical}`);
     ok(JSON.stringify(S.hreflang) === JSON.stringify(['ar https://fastkiwi.app/ar/remember-me-android/', 'en https://fastkiwi.app/remember-me-android/', 'x-default https://fastkiwi.app/remember-me-android/']), `${tag}: hreflang ${S.hreflang}`);
-    ok(S.lang.length === 2 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
+    ok(S.lang.length === 1 && S.lang.every(x => x === other), `${tag}: language switches go to ${other} (${S.lang})`);
     ok(S.dlButtons.length === 2 && S.dlButtons.every(([h, gh, t]) => h === RMA_LATEST && gh && /GitHub/.test(t) && /APK/.test(t)), `${tag}: two download buttons, labelled GitHub buttons to the latest release ${JSON.stringify(S.dlButtons)}`);
     ok(S.apk === 0, `${tag}: no data-apk or data-dl links (the APK name changes with each release)`);
     ok(S.windows.length >= 2 && S.windows.every(p => p === (lang === 'en' ? '/Remember-Me/' : '/Remember-Me/ar/')), `${tag}: links to the Windows app's own page (${S.windows})`);
@@ -1045,7 +1061,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
     ok(!BANNED.test(S.text), `${tag}: no unallowed claim (${S.text.match(BANNED)})`);
     ok(/Android 8\.0/.test(S.ld.operatingSystem) && S.ld.downloadUrl === RMA_LATEST && /apache\.org\/licenses\/LICENSE-2\.0/.test(S.ld.license) && !/™/.test(S.ld.name + S.ld.alternateName), `${tag}: JSON-LD (Android 8.0, latest release, Apache-2.0)`);
     ok(S.verify.includes('8d3b91dcacced148d11a51fb1333a509581ed2ce04ff362f2882c7cda6ae6e26') && S.verify.includes('SHA256SUMS.txt'), `${tag}: #verify with the signing certificate and SHA256SUMS.txt`);
-    const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, .lang-switch, .foot-links a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
+    const small = await page.evaluate(() => [...document.querySelectorAll('.btn, .nav a, summary, .sublinks a, footer a, .skip')].filter(e => e.getClientRects().length).map(e => { const r = e.getBoundingClientRect(); return [e.textContent.trim().slice(0, 30), Math.round(r.width), Math.round(r.height)]; }).filter(([, w, h]) => w < 24 || h < 24));
     ok(!small.length, `${tag}: targets at least 24×24 px ${JSON.stringify(small)}`);
     const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     const v = r.violations.map(x => `${x.id} (${x.impact}): ${x.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ')}`);
