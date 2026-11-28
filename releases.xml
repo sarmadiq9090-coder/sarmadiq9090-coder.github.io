@@ -5,10 +5,19 @@
   <id>https://fastkiwi.app/releases.xml</id>
   <link rel="self" type="application/atom+xml" href="https://fastkiwi.app/releases.xml"/>
   <link rel="alternate" type="text/html" hreflang="en" href="https://fastkiwi.app/releases/"/>
-  <updated>2026-11-18T13:45:54.000Z</updated>
+  <updated>2026-11-28T12:21:37.000Z</updated>
   <author><name>FastKiwi</name><uri>https://fastkiwi.app/</uri></author>
   <icon>https://fastkiwi.app/img/icon-192.png</icon>
   <rights>Free Windows apps</rights>
+  <entry>
+    <id>tag:fastkiwi.app,2026:local-ai-chat/v3.0.0</id>
+    <title>Lemon v3.0.0</title>
+    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#lemon"/>
+    <published>2026-11-28T12:21:37.000Z</published>
+    <updated>2026-11-28T12:21:37.000Z</updated>
+    <category term="lemon" label="Lemon"/>
+    <summary type="text">🍋 Built-in engine, no Ollama needed: Lemon ships llama.cpp (Vulkan) on the GPU or CPU; Ollama stays an option. The portable build downloads the engine (~40 MB) from &quot;Models&quot; on first run and verifies it. 🧠 New default model, Gemma 4 E2B, picked after testing seven models on…</summary>
+  </entry>
   <entry>
     <id>tag:fastkiwi.app,2026:Remember-Me/v1.8.0</id>
     <title>Remember Me v1.8.0</title>
@@ -89,14 +98,5 @@
     <updated>2026-11-06T05:35:48.000Z</updated>
     <category term="instawords" label="InstaWords"/>
     <summary type="text">A native Windows app that writes amounts in words for cheques and invoices, in Arabic, English and French, with 100+ currencies and units. Not a website in a window: a real Windows UI, fast and light, that works fully offline and needs nothing extra on Windows 10 and 11.…</summary>
-  </entry>
-  <entry>
-    <id>tag:fastkiwi.app,2026:Remember-Me/v1.6.2</id>
-    <title>Remember Me v1.6.2</title>
-    <link rel="alternate" type="text/html" href="https://fastkiwi.app/releases/#remember-me"/>
-    <published>2026-11-04T09:43:27.000Z</published>
-    <updated>2026-11-04T09:43:27.000Z</updated>
-    <category term="remember-me" label="Remember Me"/>
-    <summary type="text">Point Scoop and Chocolatey at v1.6.1 · Say &quot;Choose a time&quot; for out-of-range time fields · Installer build: exit non-zero on failure; set electron-winstaller build flag · Harden locale rendering and window navigation</summary>
   </entry>
 </feed>
