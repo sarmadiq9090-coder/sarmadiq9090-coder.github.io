@@ -1,0 +1,43 @@
+# Daily: check the app-store listings in data/listings.json (Uptodown, APKPure, F-Droid, IzzyOnDroid) and show each one's
+# button beside the direct APK download only while its page is live and names our package. Commits straight to main only when
+# a listing changed state (data/listings.json and the hidden attribute on the matching buttons; nothing else is touched).
+name: Sync store listings
+
+on:
+  schedule:
+    - cron: '41 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: store-listings
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Check the listings and update the buttons
+        run: node tools/sync-listings.mjs
+
+      - name: Commit and push if a listing changed
+        run: |
+          git add -A data/listings.json '*.html'
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git diff --cached --stat
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Update app-store listing buttons" -m "Automatic: tools/sync-listings.mjs found a listing that went live or was removed."
+          git pull --rebase origin main
+          git push origin HEAD:main

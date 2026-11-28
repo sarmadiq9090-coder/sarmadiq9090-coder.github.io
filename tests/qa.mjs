@@ -71,7 +71,7 @@ function exists(p) {
 }
 async function checkLinks(page, name, scope = 'body') {
   const links = await page.$$eval(scope + ' a[href]', as => as.map(a => ({ href: a.href, raw: a.getAttribute('href'), text: a.textContent.replace(/\s+/g, ' ').trim(), gh: a.hasAttribute('data-github'), store: a.hasAttribute('data-store') && !!a.querySelector('img[alt*="Microsoft Store"]'), dl: a.getAttribute('data-dl'),
-    feed: !!a.closest('[data-feed]'), shown: !a.closest('[hidden]') })));
+    feed: !!a.closest('[data-feed]'), chip: a.classList.contains('store-chip') && a.hasAttribute('data-listing'), shown: !a.closest('[hidden]') })));
   const ids = new Set(await page.$$eval('[id]', es => es.map(e => e.id)));
   const github = [];
   for (const l of links) {
@@ -88,6 +88,9 @@ async function checkLinks(page, name, scope = 'body') {
       ok(download || rmFallback || (l.gh && /GitHub/.test(l.text)), `${name}: github link not an explicit GitHub button: ${l.text} -> ${l.href}`);
     } else if (u.hostname === 'apps.microsoft.com') { // Microsoft Store links: the one allowed exception to staying on the site, always the labelled badge
       ok(l.store && /^\/detail\/9[A-Z0-9]{11}$/.test(u.pathname) && /^\?referrer=appbadge&cid=[a-z-]+&mode=full$/.test(u.search), `${name}: Microsoft Store link is a badge link with a campaign ID: ${l.href}`);
+    } else if (['scan-kiwi.en.uptodown.com', 'remember-me-reminders.en.uptodown.com', 'apkpure.com', 'f-droid.org', 'apt.izzysoft.de'].includes(u.hostname)) { // app-store listings: labelled chips, shown only while live (tools/sync-listings.mjs)
+      const L = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'listings.json'), 'utf8')).listings.find(x => x.url === l.href);
+      ok(l.chip && L && L.live === l.shown && l.text.includes(L.store), `${name}: store listing link is a labelled chip matching data/listings.json: ${l.href}`);
     } else if (u.protocol === 'mailto:') {
       ok(u.pathname === 'support@fastkiwi.app' && !u.search, `${name}: mailto only to support@fastkiwi.app: ${l.href}`);
     } else ok(false, `${name}: off-site link ${l.href}`);

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "note": "App-store listings beside the direct downloads. tools/sync-listings.mjs checks each page daily; a button is shown only while its page is live and names our package.",
+  "listings": [
+    { "id": "uptodown-scan-kiwi", "app": "scan-kiwi", "store": "Uptodown", "pkg": "com.fastkiwi.scan", "url": "https://scan-kiwi.en.uptodown.com/android", "live": false },
+    { "id": "apkpure-scan-kiwi", "app": "scan-kiwi", "store": "APKPure", "pkg": "com.fastkiwi.scan", "url": "https://apkpure.com/scan-kiwi/com.fastkiwi.scan", "live": false },
+    { "id": "fdroid-scan-kiwi", "app": "scan-kiwi", "store": "F-Droid", "pkg": "com.fastkiwi.scan", "url": "https://f-droid.org/packages/com.fastkiwi.scan/", "live": false },
+    { "id": "izzy-scan-kiwi", "app": "scan-kiwi", "store": "IzzyOnDroid", "pkg": "com.fastkiwi.scan", "url": "https://apt.izzysoft.de/packages/com.fastkiwi.scan", "live": false },
+    { "id": "uptodown-remember-me-android", "app": "remember-me-android", "store": "Uptodown", "pkg": "com.fastkiwi.rememberme", "url": "https://remember-me-reminders.en.uptodown.com/android", "live": false },
+    { "id": "apkpure-remember-me-android", "app": "remember-me-android", "store": "APKPure", "pkg": "com.fastkiwi.rememberme", "url": "https://apkpure.com/remember-me/com.fastkiwi.rememberme", "live": false },
+    { "id": "fdroid-remember-me-android", "app": "remember-me-android", "store": "F-Droid", "pkg": "com.fastkiwi.rememberme", "url": "https://f-droid.org/packages/com.fastkiwi.rememberme/", "live": false },
+    { "id": "izzy-remember-me-android", "app": "remember-me-android", "store": "IzzyOnDroid", "pkg": "com.fastkiwi.rememberme", "url": "https://apt.izzysoft.de/packages/com.fastkiwi.rememberme", "live": false }
+  ]
+}
