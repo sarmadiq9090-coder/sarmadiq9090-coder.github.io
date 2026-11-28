@@ -20,6 +20,7 @@ const PAGES = [['home-en', '/'], ['home-ar', '/ar/'], ['releases-en', '/releases
 PAGES.push(['support-en', '/support/'], ['support-ar', '/ar/support/']); // the Windows apps link to these exact paths
 PAGES.push(['downloads-en', '/downloads/'], ['downloads-ar', '/ar/downloads/']); // TRADEMARKS.md in the app repos links here
 PAGES.push(['game-localizations-en', '/game-localizations/'], ['game-localizations-ar', '/ar/game-localizations/']);
+PAGES.push(['game-requests-en', '/games/requests/'], ['game-requests-ar', '/ar/games/requests/']); // the requests form and list (section 15)
 PAGES.push(['scan-kiwi-en', '/scan-kiwi/'], ['scan-kiwi-ar', '/ar/scan-kiwi/']); // the Android app, open source (D-076); section 13
 PAGES.push(['remember-me-android-en', '/remember-me-android/'], ['remember-me-android-ar', '/ar/remember-me-android/']); // Remember Me for Android, open source (D-079); section 13b
 /* the scrapbook redesign (owner-approved 2026-11): home + three section pages + one detail page per app, each in en and ar (section 2) */
@@ -28,7 +29,7 @@ const DETAIL_IDS = ['instafind', 'remember-me', 'lemon', 'instawords', 'scan-kiw
 const WIN_REPO = { instafind: 'arabic-file-search', 'remember-me': 'Remember-Me', lemon: 'local-ai-chat', instawords: 'tafket' };
 /* the text pages and the full app pages, restyled in the same look (2026-11-27): they get the same chrome checks (section 2) */
 const RESTYLED = ['privacy', 'support', 'releases', 'downloads', 'store', 'lemon', 'scan-kiwi', 'remember-me-android'];
-const NEW_PAGES = [...RESTYLED.map(p => [`/${p}/`, `/ar/${p}/`]), ['/', '/ar/'],...SECTIONS.map(s => [`/${s}/`, `/ar/${s}/`]), ...DETAIL_IDS.map(id => [`/apps/${id}/`, `/ar/apps/${id}/`]), ['/game-localizations/', '/ar/game-localizations/']];
+const NEW_PAGES = [...RESTYLED.map(p => [`/${p}/`, `/ar/${p}/`]), ['/', '/ar/'],...SECTIONS.map(s => [`/${s}/`, `/ar/${s}/`]), ...DETAIL_IDS.map(id => [`/apps/${id}/`, `/ar/apps/${id}/`]), ['/game-localizations/', '/ar/game-localizations/'], ['/games/requests/', '/ar/games/requests/']];
 for (const s of SECTIONS) PAGES.push([`${s}-en`, `/${s}/`], [`${s}-ar`, `/ar/${s}/`]);
 for (const id of DETAIL_IDS) PAGES.push([`app-${id}-en`, `/apps/${id}/`], [`app-${id}-ar`, `/ar/apps/${id}/`]);
 /* the static download links (used until the API answers); InstaWords' version is kept in step by tools/sync-releases.mjs */
@@ -205,10 +206,10 @@ for (const w of WIDTHS) {
     ok(P.appHeads.every(h => h.includes('™')), `${tag}: ™ after the app names in their headings ${JSON.stringify(P.appHeads)}`);
     ok(P.vers.every(v => /^[0-9.]+$/.test(v)), `${tag}: version stamps use Western digits ${P.vers}`);
     /* the Store badge only for apps data/apps.json marks live, first, then the direct installer (store-first, D-052) */
-    const storeOk = STORE_LIVE.includes('remember-me') && /\/(windows|apps\/remember-me)\/$/.test(url);
+    const wantStore = /\/windows\/$/.test(url) ? Object.keys(WIN_REPO).filter(id => STORE_LIVE.includes(id)).length : (/\/apps\/([a-z-]+)\/$/.exec(url) && STORE_LIVE.includes(/\/apps\/([a-z-]+)\/$/.exec(url)[1]) ? 1 : 0);
     /* the Store page and the official downloads page list each app's Store status themselves (sections 9b and 11b check them) */
     if (/\/(store|downloads)\/$/.test(url)) ok(P.store.length >= 1, `${tag}: Store badges (checked in sections 9b and 11b)`);
-    else ok(storeOk ? P.store.length === 1 && P.opts.length === 1 && P.opts[0] === 'store,direct' : P.store.length === 0, `${tag}: Store badge only for live Store apps, before the installer ${JSON.stringify([P.store, P.opts])}`);
+    else ok(P.store.length === wantStore && P.opts.length === wantStore && P.opts.every(o => o === 'store,direct'), `${tag}: Store badge only for live Store apps, before the installer ${JSON.stringify([P.store, P.opts])}`);
     ok(['Lalezar', 'Mada'].every(f => P.fonts.includes(f)), `${tag}: self-hosted fonts loaded (${P.fonts})`);
     ok(offsite.length === 0, `${tag}: no third-party requests (${offsite})`);
     ok(!/fonts\.(googleapis|gstatic)\.com|<iframe|https?:\/\/[^"'\s]*\.js\b/.test(fs.readFileSync(path.join(ROOT, url, 'index.html'), 'utf8')), `${tag}: no Google Fonts, iframes or external scripts in the source`);
@@ -507,12 +508,19 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
 {
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
-  for (const [lang, url] of [['en', '/windows/'], ['ar', '/ar/windows/'], ['en', '/apps/remember-me/'], ['ar', '/ar/apps/remember-me/']]) {
+  /* the rule: an app shows the Store badge (first, then the direct installer) if and only if data/apps.json marks its Store listing live */
+  const LIVE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.filter(a => a.store?.live).map(a => a.id);
+  const WIN_IDS = Object.keys(WIN_REPO);
+  for (const [lang, url] of [['en', '/windows/'], ['ar', '/ar/windows/'], ...WIN_IDS.flatMap(id => [['en', `/apps/${id}/`], ['ar', `/ar/apps/${id}/`]])]) {
     await page.goto(BASE + url, { waitUntil: 'load' });
+    const id = /\/apps\/([a-z-]+)\/$/.exec(url)?.[1];
+    const want = id ? (LIVE.includes(id) ? 1 : 0) : WIN_IDS.filter(i => LIVE.includes(i)).length;
     const R = await page.evaluate(() => [...document.querySelectorAll('.dl-opts')].map(g => [...g.querySelectorAll('a.store-badge, a[data-dl]')].map(a => a.hasAttribute('data-store') ? 'store' : 'direct').join(',')));
-    ok(R.length === 1 && R.every(r => r === 'store,direct'), `${url}: Remember Me shows the Store badge first, then the direct installer (${R})`);
-    const others = await page.evaluate(() => [...document.querySelectorAll('a[data-store]')].length);
-    ok(others === 1, `${url}: only Remember Me has a Store badge (${others})`);
+    ok(R.length === want && R.every(r => r === 'store,direct'), `${url}: the Store badge comes first, then the direct installer, for each live Store app (${R})`);
+    const hrefs = await page.evaluate(() => [...document.querySelectorAll('a[data-store]')].map(a => a.getAttribute('href')));
+    const ids = id ? (LIVE.includes(id) ? [id] : []) : WIN_IDS.filter(i => LIVE.includes(i));
+    const sid = Object.fromEntries(JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'apps.json'), 'utf8')).apps.map(a => [a.id, a.store?.id]));
+    ok(JSON.stringify(hrefs.map(h => /detail\/([A-Z0-9]+)\?/.exec(h)?.[1]).sort()) === JSON.stringify(ids.map(i => sid[i]).sort()) && hrefs.every(h => /\?referrer=appbadge&cid=fastkiwi-site&mode=full$/.test(h)), `${url}: a Store badge iff the app's Store listing is live (${hrefs.length} of ${want})`);
   }
   for (const lang of ['en', 'ar']) for (const slug of ['instafind', 'remember-me', 'lemon', 'instawords']) {
     const url = (lang === 'ar' ? '/ar' : '') + `/apps/${slug}/`;
@@ -534,7 +542,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
    per app with a copy button (submissions pending), and no external scripts or third-party requests. */
 {
   const STORE_DRAFT = false;
-  const ACCEPTED = ['remember-me'];
+  const ACCEPTED = ['remember-me', 'instawords', 'instafind']; // = the apps data/apps.json marks store.live
   const IDS = { 'remember-me': '9NGB1F7T7JGN', instawords: '9P62P4WQSQNK', instafind: '9MTK4KMFQ657' };
   const ORDER = ['remember-me', 'instawords', 'instafind', 'lemon', 'instaconvert'];
   /* winget package IDs; every submission is still a pending PR in microsoft/winget-pkgs (RememberMe #461102, InstaFind #468100,
@@ -860,7 +868,7 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
       ok(R.github?.links.length === 1 && R.github.links[0].href === `${GH}${want.repo}/releases` && R.github.links[0].gh && /GitHub/.test(R.github.links[0].text), `${tag} ${a.id}: labelled GitHub releases link ${JSON.stringify(R.github)}`);
       if (want.sha) ok(R.sha256?.links.length === 1 && R.sha256.links[0].href === `${GH}${want.repo}/releases/latest/download/${want.sha}` && R.sha256.links[0].text === want.sha, `${tag} ${a.id}: direct link to the release's ${want.sha}`);
       else ok(R.sha256 && !R.sha256.links.some(l => /\/releases\/(latest\/)?download\//.test(l.href)) && R.sha256.links.some(l => new URL(l.href).hash === '#' + a.id), `${tag} ${a.id}: no checksum file, points to the SHA-256 shown on the site`);
-      if (want.store && a.id === 'remember-me') ok(R.store && R.store.links.length === 1 && R.store.links[0].href === `https://apps.microsoft.com/detail/${want.store}?referrer=appbadge&cid=fastkiwi-site&mode=full` && R.store.links[0].store && R.store.text.includes(want.store), `${tag} ${a.id}: live in Microsoft Store, the official badge links to its Store page`);
+      if (want.store && live) ok(R.store && R.store.links.length === 1 && R.store.links[0].href === `https://apps.microsoft.com/detail/${want.store}?referrer=appbadge&cid=fastkiwi-site&mode=full` && R.store.links[0].store && R.store.text.includes(want.store), `${tag} ${a.id}: live in Microsoft Store, the official badge links to its Store page`);
       else if (want.store) ok(R.store && R.store.links.length === 0 && R.store.text.includes(want.store) && (lang === 'en' ? /Coming to Microsoft Store/ : /قريباً في Microsoft Store/).test(R.store.text), `${tag} ${a.id}: "coming to Microsoft Store" with its Store ID, no link or badge yet`);
       else ok(!R.store, `${tag} ${a.id}: no Store row`);
       if (want.winget) ok(R.winget && R.winget.text.includes(`winget install ${want.winget}`) && (lang === 'en' ? /not accepted yet/ : /لم يُقبل بعد/).test(R.winget.text), `${tag} ${a.id}: winget ID ${want.winget}, marked as submitted, not accepted yet`);
@@ -1106,6 +1114,92 @@ for (const lang of ['en', 'ar']) for (const f of [`img/instafind-${lang}.webp`, 
   ok(fs.existsSync(path.join(ROOT, '.nojekyll')) && !fs.existsSync(path.join(ROOT, '_config.yml')), 'served: .nojekyll and no Jekyll config, so data/ is published');
   ok(!/^Disallow:\s*\/data\b/m.test(fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8')), 'robots.txt does not block /data/');
   ok(!fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8').includes('/data/'), 'sitemap: data/ is not listed');
+}
+
+/* ---------- 15. game requests (games/requests/, ar/games/requests/): our own form posts once to the FastKiwi Google Form (mocked here, Google is never
+   contacted), the list renders data/game-requests.json as text only (mocked with a hostile fixture), nothing third-party loads with the page ---------- */
+{
+  const FORM = 'https://docs.google.com/forms/d/e/1FAIpQLScE6PPBrCk_42sjPmX9vYK7bpqQAbBB9jLr2uaHspzhzkwnYg/formResponse';
+  const FIXTURE = { updated: '2026-11-27', requests: [
+    { name: 'Hades II <script>window.__pwned=1</script>', count: 3, latest: '2026-11-27', notes: ['<img src=x onerror="window.__pwned=1"> Steam', 'https://evil.example/ not a link'] },
+    { name: 'لعبة عربية', count: 1, latest: '2026-11-20', notes: [] }] };
+  const sdata = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'game-requests.json'), 'utf8'));
+  ok(Array.isArray(sdata.requests) && 'updated' in sdata, 'game requests: data/game-requests.json has {updated, requests[]}');
+  for (const [lang, url] of [['en', '/games/requests/'], ['ar', '/ar/games/requests/']]) for (const w of [1366, 390]) {
+    const tag = `requests ${lang}@${w}`, T = lang === 'en'
+      ? { thanks: /Got your request\. It will show in the list within a few hours/, need: /Please write the game’s name/, three: '3 people asked for it', empty: /No requests yet/ }
+      : { thanks: /وصل طلبك، سيظهر في القائمة خلال ساعات/, need: /اكتب اسم اللعبة/, three: 'طلبه 3 أشخاص', empty: /لا توجد طلبات بعد/ };
+    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
+    await offline(ctx);
+    let data = FIXTURE; const gReq = [], off = [];
+    await ctx.route('**/data/game-requests.json', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(data) }));
+    await ctx.route(FORM, r => { gReq.push(r.request()); r.fulfill({ status: 200, contentType: 'text/html', body: '' }); }); // never reaches Google
+    const page = await ctx.newPage(), errs = [];
+    page.on('pageerror', e => errs.push(e.message));
+    page.on('request', r => { if (!r.url().startsWith(BASE) && !r.url().startsWith('https://api.github.com/')) off.push(r.url()); });
+    await page.goto(BASE + url, { waitUntil: 'networkidle' });
+    ok(off.length === 0 && gReq.length === 0, `${tag}: nothing third-party is requested while the page loads (${off})`);
+    const L = await page.evaluate(() => ({
+      items: [...document.querySelectorAll('#rq-list > li')].map(li => ({ name: li.querySelector('h3').textContent, meta: li.querySelector('.rq-meta').textContent, notes: [...li.querySelectorAll('.rq-notes li')].map(n => n.textContent), tape: !!li.querySelector('.tape') })),
+      injected: document.querySelectorAll('#rq-list script, #rq-list img, #rq-list a, #rq-list [onerror]').length, pwned: window.__pwned,
+      links: [...document.querySelectorAll('a[href]')].map(a => new URL(a.href).origin), maxName: document.getElementById('rq-name').maxLength, maxNote: document.getElementById('rq-note').maxLength,
+      req: document.getElementById('rq-name').required, hp: !!document.querySelector('.rq-hp input[name=website][tabindex="-1"]'), emptyShown: !document.getElementById('rq-empty').hidden,
+      scroll: document.documentElement.scrollWidth <= innerWidth }));
+    ok(L.items.length === 2 && L.items[0].name === FIXTURE.requests[0].name && L.items[0].notes[0].includes('<img src=x onerror=') && L.items[0].notes[1].startsWith('https://evil.example/') && L.items.every(i => i.tape), `${tag}: the list shows each request as plain text on a taped card, most asked first ${JSON.stringify(L.items.map(i => i.name))}`);
+    ok(L.items[0].meta.startsWith(T.three) && /2026/.test(L.items[0].meta), `${tag}: count and latest date (${L.items[0].meta})`);
+    ok(L.injected === 0 && L.pwned === undefined, `${tag}: a request with HTML or a link in it renders as text only (no script, image, link or handler)`);
+    ok(L.links.every(o => o === BASE) && !L.emptyShown && L.scroll, `${tag}: the page links nowhere off-site, no empty note, no sideways scroll`);
+    ok(L.maxName === 80 && L.maxNote === 300 && L.req && L.hp, `${tag}: name required, 80 / 300 character limits, hidden honeypot field`);
+    /* empty name is blocked, no request */
+    await page.click('#rq-form button[type=submit]');
+    const v = await page.evaluate(() => ({ msg: document.getElementById('rq-msg').textContent, bad: document.getElementById('rq-name').getAttribute('aria-invalid'), focus: document.activeElement.id }));
+    ok(gReq.length === 0 && T.need.test(v.msg) && v.bad === 'true' && v.focus === 'rq-name', `${tag}: an empty name is refused, with a message and focus on the field (${v.msg})`);
+    await page.fill('#rq-name', '   '); await page.click('#rq-form button[type=submit]');
+    ok(gReq.length === 0, `${tag}: a blank name is refused`);
+    /* honeypot: looks sent, sends nothing */
+    await page.evaluate(() => { document.querySelector('input[name=website]').value = 'http://spam.example'; });
+    await page.fill('#rq-name', 'Bot Game'); await page.click('#rq-form button[type=submit]');
+    ok(gReq.length === 0 && T.thanks.test(await page.textContent('#rq-msg')), `${tag}: a filled honeypot sends nothing`);
+    await page.evaluate(() => { localStorage.clear(); }); await page.reload({ waitUntil: 'networkidle' });
+    ok(await page.evaluate(() => !document.querySelector('#rq-form button').disabled), `${tag}: a honeypot hit does not lock a real visitor out after reload`);
+    /* a real submit: exactly one POST to the Google Form, urlencoded, then thanks + 60 s lock */
+    await page.evaluate(() => { const n = document.getElementById('rq-name'); n.value = 'x'.repeat(200); document.getElementById('rq-note').value = 'n'.repeat(500); });
+    await page.click('#rq-form button[type=submit]'); await page.waitForTimeout(300);
+    const q = gReq[0], body = q ? new URLSearchParams(q.postData() || '') : null;
+    ok(gReq.length === 1 && q.method() === 'POST' && /^application\/x-www-form-urlencoded/.test(q.headers()['content-type'] || ''), `${tag}: exactly one urlencoded POST to the Google Form endpoint (${gReq.length})`);
+    ok(body && body.get('entry.1768988093').length === 80 && body.get('entry.731059280').length === 300 && [...body.keys()].length === 2, `${tag}: only the two form fields, trimmed to 80 and 300 characters`);
+    const a = await page.evaluate(() => ({ msg: document.getElementById('rq-msg').textContent, dis: document.querySelector('#rq-form button').disabled, val: document.getElementById('rq-name').value, nav: location.pathname }));
+    ok(T.thanks.test(a.msg) && a.dis && a.val === '' && a.nav === url, `${tag}: thank-you note, button locked, form cleared, no page navigation (${a.msg})`);
+    await page.evaluate(() => { document.getElementById('rq-name').value = 'Second'; document.getElementById('rq-form').requestSubmit(); }); await page.waitForTimeout(200);
+    ok(gReq.length === 1, `${tag}: a second send within 60 seconds is blocked`);
+    if (w === 1366) {
+      await page.reload({ waitUntil: 'networkidle' });
+      ok(await page.evaluate(() => document.querySelector('#rq-form button').disabled) && off.every(u => u === FORM), `${tag}: the 60 second lock survives a reload (the only third-party request so far is the one form POST)`);
+      await page.evaluate(() => localStorage.setItem('fk-rq-last', String(Date.now() - 61000))); await page.reload({ waitUntil: 'networkidle' });
+      ok(await page.evaluate(() => !document.querySelector('#rq-form button').disabled), `${tag}: the lock is gone after 60 seconds`);
+    }
+    ok(errs.length === 0, `${tag}: no script errors (${errs})`);
+    if (SHOTS) { await page.evaluate(() => localStorage.clear()); await page.reload({ waitUntil: 'networkidle' }); await page.screenshot({ path: `${OUT}requests-${lang}-${w}.png`, fullPage: true, animations: 'disabled' }); }
+    /* empty list */
+    data = { updated: null, requests: [] }; await page.reload({ waitUntil: 'networkidle' });
+    ok(await page.evaluate(() => document.querySelectorAll('#rq-list > li').length === 0 && !document.getElementById('rq-empty').hidden), `${tag}: empty state when there are no requests`);
+    ok(T.empty.test(await page.textContent('#rq-empty')), `${tag}: empty state text`);
+    await ctx.close();
+  }
+  /* the games pages open the requests page, never a mailto */
+  for (const [url, to] of [['/games/', '/games/requests/'], ['/ar/games/', '/ar/games/requests/']]) {
+    const ctx = await browser.newContext(); await offline(ctx); const page = await ctx.newPage();
+    await page.goto(BASE + url, { waitUntil: 'load' });
+    const h = await page.evaluate(() => ({ next: new URL(document.querySelector('.gnext').href).pathname, req: new URL(document.querySelector('.request a.get').href).pathname, mail: document.querySelectorAll('a[href^="mailto:"]').length }));
+    ok(h.next === to && h.req === to && h.mail === 0, `${url}: "next game" card and suggest button open ${to}, no mailto (${JSON.stringify(h)})`);
+    await ctx.close();
+  }
+  /* the shipped data file loads without a mock and the page stays quiet */
+  { const ctx = await browser.newContext(); await offline(ctx); const page = await ctx.newPage(), errs = [];
+    page.on('pageerror', e => errs.push(e.message)); page.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
+    await page.goto(BASE + '/games/requests/', { waitUntil: 'networkidle' });
+    ok(errs.filter(e => !/ERR_FAILED/.test(e)).length === 0, `requests: the real data file loads without errors (${errs})`);
+    await ctx.close(); }
 }
 
 await browser.close();

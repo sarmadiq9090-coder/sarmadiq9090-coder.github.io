@@ -56,6 +56,7 @@ Site rule (README): visitors stay on fastkiwi.app for every action. The only lin
 are explicit, labelled GitHub buttons (`data-github`, text containing "GitHub") and direct
 release-asset downloads. The one other off-site link is the official Microsoft Store badge
 (`data-store`) for an app that `data/apps.json` marks live in the Store.
+One exception to "no third-party requests": on `games/requests/` and `ar/games/requests/` the visitor's own submit POSTs once to FastKiwi's Google Form (never on load; the page links nowhere off-site); `game-requests.yml` rebuilds `data/game-requests.json` from the form's published CSV every 6 hours (bot commit to main, data only).
 
 ## Build and test
 

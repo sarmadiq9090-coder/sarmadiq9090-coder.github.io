@@ -616,3 +616,31 @@ dialog.dl .btn-primary { background: var(--forest); color: var(--lime); }
 footer [aria-current="page"] { font-weight: 700; }
 .fk-doc .kicker + h1, .fk-doc .kicker + h2 { margin-top: 0; }
 [dir="rtl"] .sp-addr { text-align: right; }
+
+/* game requests page (games/requests/, ar/games/requests/): the form card and the taped request cards */
+.rq-form { margin-block: 34px 10px; background: #fff; padding: 28px 26px 22px; position: relative; box-shadow: 0 10px 24px rgba(28,42,34,.12); transform: rotate(calc(-.4deg * var(--tilt))); max-width: 44rem; }
+.rq-form h2, .rq-list-head { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0 0 12px; line-height: 1.2; }
+.rq-form label { display: block; font-weight: 700; margin-top: 14px; }
+.rq-form .opt { font-weight: 400; color: var(--soft); }
+.rq-form input[type=text], .rq-form textarea { display: block; width: 100%; margin-top: 6px; font: inherit; font-size: 17px; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 12px; padding: 10px 14px; }
+.rq-form textarea { min-height: 96px; resize: vertical; }
+.rq-form input[aria-invalid=true] { border-color: var(--red); background: #fff1f3; }
+.rq-form input:focus-visible, .rq-form textarea:focus-visible { outline: 3px solid #1f63c2; outline-offset: 2px; }
+.rq-hint { font-size: 14px; color: var(--soft); margin: 4px 0 0; }
+.rq-hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); opacity: 0; pointer-events: none; }
+.rq-form button.get { border: 0; cursor: pointer; font-family: inherit; margin-top: 18px; }
+.rq-form button.get:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.rq-msg { min-height: 1.6em; margin: 12px 0 0; font-weight: 700; }
+.rq-msg.good { color: #0d5a34; } .rq-msg.bad { color: #a3243b; }
+.rq-privacy { margin: 8px 0 0; font-size: 15px; color: var(--soft); border-top: 2px dashed #cfcab8; padding-top: 12px; }
+.rq-list-head { margin-top: 54px; }
+.rq-list { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 28px; }
+.rq-item { background: #fff; padding: 22px 18px 16px; position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; box-shadow: 0 8px 18px rgba(28,42,34,.12); transform: rotate(calc(var(--r, 0deg) * var(--tilt))); }
+.rq-count { width: 54px; height: 54px; border-radius: 50%; background: var(--sun); display: grid; place-items: center; font-family: var(--display); font-size: 28px; line-height: 1; box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--ink); }
+.rq-item:nth-child(3n+2) .rq-count { background: var(--aqua); } .rq-item:nth-child(3n) .rq-count { background: var(--pink); }
+.rq-body h3 { font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1.25; margin: 0; overflow-wrap: anywhere; }
+.rq-meta { margin: 2px 0 0; font-size: 14px; color: var(--soft); }
+.rq-notes { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+.rq-notes li { font-family: var(--hand); font-size: 19px; line-height: 1.5; color: var(--red); overflow-wrap: anywhere; padding-inline-start: 12px; border-inline-start: 3px solid var(--margin); }
+.rq-empty { margin: 26px 0 0; font-family: var(--hand); color: var(--red); font-size: 22px; }
+@media (max-width: 760px) { .rq-list { grid-template-columns: minmax(0, 1fr); } .rq-form { padding-inline: 18px; } }
