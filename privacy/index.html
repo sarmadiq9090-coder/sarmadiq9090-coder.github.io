@@ -48,7 +48,7 @@
 <p class="kicker">Privacy policy</p>
 <h1>Privacy</h1>
 <p class="lead">FastKiwi apps have no accounts, ads, analytics or telemetry. Your data stays on your PC. This page lists every network connection each app makes, what it sends and when.</p>
-<p class="pv-date">Effective date: <time datetime="2026-11-06">November 6, 2026</time></p>
+<p class="pv-date">Effective date: <time datetime="2026-11-28">November 28, 2026</time></p>
 
 <p>This policy covers the Windows apps InstaFind, Remember Me, Lemon and InstaWords, the InstaWords web app and the fastkiwi.app website, all published by FastKiwi. Each app works offline; the sections below say exactly what, if anything, leaves your PC.</p>
 
@@ -57,7 +57,7 @@
   <table class="pv-table" role="table"><thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">App</th><th scope="col" role="columnheader">Network use</th><th scope="col" role="columnheader">Data that leaves your device</th></tr></thead><tbody role="rowgroup">
     <tr role="row"><th scope="row" role="rowheader"><a href="#instafind">InstaFind</a></th><td role="cell" data-label="Network use">Update check on GitHub (automatic, daily). Exchange rates from open.er-api.com (automatic, at most every 12 hours). Phone search on your home network (off by default).</td><td role="cell" data-label="Data that leaves your device">None of your files, names or searches go to the internet. Requests carry only the app name and version. With phone search on, file names you search go to your own phone over your home network.</td></tr>
     <tr role="row"><th scope="row" role="rowheader"><a href="#remember-me">Remember Me</a></th><td role="cell" data-label="Network use">Update check on GitHub, only after you allow it, or when you click Check now.</td><td role="cell" data-label="Data that leaves your device">None. A Google Drive backup is a copy in a folder you choose; Google’s own Drive app uploads it.</td></tr>
-    <tr role="row"><th scope="row" role="rowheader"><a href="#lemon">Lemon</a></th><td role="cell" data-label="Network use">Ollama on your own PC (127.0.0.1). Update check on GitHub (on by default, every 6 hours; can be turned off). Model downloads by Ollama.</td><td role="cell" data-label="Data that leaves your device">None, unless you point Lemon at an Ollama server on another computer: then your chats go to that server.</td></tr>
+    <tr role="row"><th scope="row" role="rowheader"><a href="#lemon">Lemon</a></th><td role="cell" data-label="Network use">huggingface.co for model downloads and github.com for the engine download and the update check (on by default, every 6 hours; can be turned off), only when you ask or when it checks for updates. Chats stay on your PC with the built-in engine.</td><td role="cell" data-label="Data that leaves your device">None with the built-in engine. If you use Ollama (optional) and point Lemon at a server on another computer, your chats go to that server. In Online mode, what you type goes to that site.</td></tr>
     <tr role="row"><th scope="row" role="rowheader"><a href="#instawords">InstaWords</a></th><td role="cell" data-label="Network use">Update check on GitHub (on by default, at most daily; can be turned off). The web app asks GitHub for the latest version.</td><td role="cell" data-label="Data that leaves your device">None. Amounts and history stay on your PC or in your browser.</td></tr>
     <tr role="row"><th scope="row" role="rowheader"><a href="#site">fastkiwi.app</a></th><td role="cell" data-label="Network use">Hosted on GitHub Pages. Some pages ask the GitHub API for the latest versions.</td><td role="cell" data-label="Data that leaves your device">Standard web requests (IP address, browser) to GitHub. No cookies, no analytics, no trackers.</td></tr>
   </tbody></table>
@@ -131,9 +131,13 @@
 </ul>
 <h4>Network connections</h4>
 <ul>
-<li><strong>Ollama:</strong> your messages, the conversation so far and the text of documents you give an assistant (to index them and to answer from them) go to the Ollama server Lemon is set to, <code>http://127.0.0.1:11434</code> on your own PC by default, which runs the AI model. If you change that address in Settings to another computer, this data goes to that computer.</li>
+<li><strong>Built-in engine:</strong> your messages, the conversation so far and the text of documents you give an assistant are processed by the engine inside Lemon on your own PC, and stay there.</li>
+<li><strong>Ollama (optional):</strong> if you choose to use Ollama, your messages, the conversation so far and the text of documents you give an assistant (to index them and to answer from them) go to the Ollama server Lemon is set to, <code>http://127.0.0.1:11434</code> on your own PC by default. If you change that address in Settings to another computer, this data goes to that computer.</li>
+<li><strong>Online mode:</strong> ChatGPT, Claude, DeepSeek and Copilot open inside Lemon, and Gemini opens in your browser. What you type goes directly to that site, under its own privacy policy and your own account. Each site keeps separate data in Lemon, which you can clear.</li>
+<li><strong>Kiwi tools (experimental):</strong> Lemon reads only the files you approve, step by step.</li>
+<li><strong>Reports:</strong> the Report button under an answer sends an email only when you choose to send it.</li>
 <li><strong>Lemon’s own server</strong> listens on <code>127.0.0.1</code> only, so other devices on your network can’t reach it.</li>
-<li><strong>Models:</strong> when you download a model, Ollama fetches it from its registry. That download is made by Ollama, under Ollama’s terms.</li>
+<li><strong>Engine and models:</strong> only when you ask, Lemon downloads the engine (about 40 MB) from github.com and models from huggingface.co. Nothing from your chats is included. Models downloaded this way are kept in <code>%LOCALAPPDATA%\LocalAiChat\models</code>.</li>
 <li><strong>Update check:</strong> on by default; at start and every 6 hours Lemon asks GitHub (<code>api.github.com</code>) for its latest release. No chats or files are included. A new version is downloaded from GitHub only when you click Update now. You can turn the automatic check off in Settings.</li>
 <li><strong>Code preview:</strong> when you click Run on a code block, it runs in an isolated frame. If that code loads scripts, images or data from the internet, the preview fetches them like a web page would.</li>
 <li>Lemon’s window is drawn by Microsoft Edge WebView2, a part of Windows. Microsoft’s own Windows privacy settings apply to it.</li>

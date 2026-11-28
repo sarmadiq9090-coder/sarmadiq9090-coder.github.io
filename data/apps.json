@@ -35,8 +35,8 @@
       "name": { "ar": "Lemon", "en": "Lemon" },
       "tagline": { "ar": "الذكاء الاصطناعي المحلي", "en": "Local AI chat" },
       "description": {
-        "ar": "محادثة وبرمجة مع نماذج الذكاء الاصطناعي على جهازك عبر Ollama، بلا إنترنت، مع مساعدين يجيبون من ملفاتك فقط.",
-        "en": "Chat and code with AI models on your own PC through Ollama, fully offline, with assistants that answer only from your files."
+        "ar": "محادثة وبرمجة مع الذكاء الاصطناعي على جهازك بمحرك مدمج دون حاجة إلى Ollama، مع مساعدين يجيبون من ملفاتك.",
+        "en": "Chat and code with AI on your own PC with a built-in engine, no Ollama needed, with assistants that answer from your files."
       },
       "url": { "ar": "https://fastkiwi.app/ar/lemon/", "en": "https://fastkiwi.app/lemon/" },
       "store": null,
